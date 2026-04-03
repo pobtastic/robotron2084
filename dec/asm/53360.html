@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 53360</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="50176.html">50176</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#53360">Map</a></td>
+<td class="next">
+Next: <a href="53374.html">53374</a>
+</td>
+</tr>
+</table>
+<div class="description">53360: Clear Screen Buffer</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routines at <a href="53374.html">53374</a>, <a href="62700.html">62700</a> and <a href="62880.html">62880</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">ClearScreenBuffer</td>
+<td class="address-2"><span id="53360"></span>53360</td>
+<td class="instruction">LD HL,16384</td>
+<td class="comment-1" rowspan="5">Clear 6144 bytes of data from <a href="16384.html">16384</a> to 23296.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53363"></span>53363</td>
+<td class="instruction">LD (HL),0</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53365"></span>53365</td>
+<td class="instruction">LD DE,16385</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53368"></span>53368</td>
+<td class="instruction">LD BC,6143</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53371"></span>53371</td>
+<td class="instruction">LDIR</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53373"></span>53373</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="50176.html">50176</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#53360">Map</a></td>
+<td class="next">
+Next: <a href="53374.html">53374</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 9.6.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/D070.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Game status buffer entry at 8FE6</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-g">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Game status buffer</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="8FD0.html">8FD0</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#8fe6">Map</a></td>
+<td class="next">
+Next: <a href="8FF2.html">8FF2</a>
+</td>
+</tr>
+</table>
+<div class="description">8FE6: Font Configuration Table</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Font configuration table, indexed by font number (00–03). Each eight-byte entry comprises six bytes of font metrics copied to 800C–8011 by the select font handler at <a href="8DE3.html#8ec7">PrintHandler_SelectFont</a>, followed by a two-byte little-endian pointer to the font bitmap data stored at 8008.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">FontConfig_Table</td>
+<td class="address-1"><span id="8fe6"></span>8FE6</td>
+<td class="instruction">DEFB $04,$04,$06,$02,$06,$05</td>
+<td class="comment-1" rowspan="1">Font 00: normal width, narrow width ("&#73;"), wide width ("&#77;"/ "&#87;"), space width, line height, and pixel row count.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8fec"></span>8FEC</td>
+<td class="instruction">DEFB $00,$80</td>
+<td class="comment-1" rowspan="1">Font 00: pointer to font bitmap data.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8fee"></span>8FEE</td>
+<td class="instruction">DEFB $06,$05,$06,$05</td>
+<td class="comment-1" rowspan="1">Font 01: normal width, narrow width, wide width, and space width.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="8FD0.html">8FD0</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#8fe6">Map</a></td>
+<td class="next">
+Next: <a href="8FF2.html">8FF2</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 9.6.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/36838.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

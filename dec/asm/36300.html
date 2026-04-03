@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 36300</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="36224.html">36224</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#36300">Map</a></td>
+<td class="next">
+Next: <a href="36323.html">36323</a>
+</td>
+</tr>
+</table>
+<div class="description">36300: Print Dispatch</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routines at <a href="36870.html">PrintMessaging</a>, <a href="50176.html">GameEntryPointAlias</a>, <a href="53374.html">53374</a> and <a href="61678.html">61678</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">PrintDispatch</td>
+<td class="address-2"><span id="36300"></span>36300</td>
+<td class="instruction">PUSH BC</td>
+<td class="comment-1" rowspan="1">Stash <span class="register">BC</span> on the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36301"></span>36301</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="1">Switch to the shadow registers.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36302"></span>36302</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="2">Stash <span class="register">HL</span> and <span class="register">IX</span> on the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36303"></span>36303</td>
+<td class="instruction">PUSH IX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36305"></span>36305</td>
+<td class="instruction">LD IX,32768</td>
+<td class="comment-1" rowspan="1"><span class="register">IX</span>=<a href="32768.html">PrintState_Y</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36309"></span>36309</td>
+<td class="instruction">LD HL,36317</td>
+<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="36300.html#36317">36317</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36312"></span>36312</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="1">Stash <span class="register">HL</span> on the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36313"></span>36313</td>
+<td class="instruction">LD HL,(32778)</td>
+<td class="comment-1" rowspan="1"><span class="register">HL</span>=*<a href="32778.html">PrintState_Handler</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36316"></span>36316</td>
+<td class="instruction">JP (HL)</td>
+<td class="comment-1" rowspan="1">Jump to *<span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36317"></span>36317</td>
+<td class="instruction">POP IX</td>
+<td class="comment-1" rowspan="2">Restore <span class="register">IX</span> and <span class="register">HL</span> from the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36319"></span>36319</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36320"></span>36320</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="1">Switch back to the normal registers.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36321"></span>36321</td>
+<td class="instruction">POP BC</td>
+<td class="comment-1" rowspan="1">Restore <span class="register">BC</span> from the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36322"></span>36322</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="36224.html">36224</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#36300">Map</a></td>
+<td class="next">
+Next: <a href="36323.html">36323</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 9.6.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/8DCC.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

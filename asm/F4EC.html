@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at F4EC</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="F0EE.html">F0EE</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#f4ec">Map</a></td>
+<td class="next">
+Next: <a href="F51D.html">F51D</a>
+</td>
+</tr>
+</table>
+<div class="description">F4EC: Routine at F4EC</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routines at <a href="EBBC.html">GameEntryPoint</a> and <a href="EBC8.html">EBC8</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="address-2"><span id="f4ec"></span>F4EC</td>
+<td class="instruction">CALL <a href="D070.html">ClearScreenBuffer</a></td>
+<td class="comment-1" rowspan="1">Call <a href="D070.html">ClearScreenBuffer</a>.</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f4ef"></span>F4EF</td>
+<td class="instruction">LD A,$46</td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=INK:
+YELLOW,
+PAPER:
+BLACK
+(BRIGHT)
+.</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f4f1"></span>F4F1</td>
+<td class="instruction">CALL <a href="D07E.html">$D07E</a></td>
+<td class="comment-1" rowspan="1">Call <a href="D07E.html">D07E</a>.</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f4f4"></span>F4F4</td>
+<td class="instruction">CALL <a href="F83C.html">$F83C</a></td>
+<td class="comment-1" rowspan="1">Call <a href="F83C.html">F83C</a>.</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f4f7"></span>F4F7</td>
+<td class="instruction">CALL <a href="F637.html">$F637</a></td>
+<td class="comment-1" rowspan="1">Call <a href="F637.html">F637</a>.</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f4fa"></span>F4FA</td>
+<td class="instruction">LD A,$32</td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=32.</td>
+</tr>
+<tr>
+<td class="address-2"><span id="f4fc"></span>F4FC</td>
+<td class="instruction">LD ($C4F8),A</td>
+<td class="comment-1" rowspan="1">Write <span class="register">A</span> to *<a href="C400.html#c4f8">C4F8</a>.</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f4ff"></span>F4FF</td>
+<td class="instruction">CALL <a href="ECE6.html">$ECE6</a></td>
+<td class="comment-1" rowspan="1">Call <a href="ECE6.html">ECE6</a>.</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f502"></span>F502</td>
+<td class="instruction">CALL <a href="ECFB.html">$ECFB</a></td>
+<td class="comment-1" rowspan="1">Call <a href="ECFB.html">ECFB</a>.</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f505"></span>F505</td>
+<td class="instruction">CALL <a href="ED10.html">$ED10</a></td>
+<td class="comment-1" rowspan="1">Call <a href="ED10.html">ED10</a>.</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f508"></span>F508</td>
+<td class="instruction">CALL <a href="ED71.html">$ED71</a></td>
+<td class="comment-1" rowspan="1">Call <a href="ED71.html">ED71</a>.</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f50b"></span>F50B</td>
+<td class="instruction">CALL <a href="F7EE.html">$F7EE</a></td>
+<td class="comment-1" rowspan="1">Call <a href="F7EE.html">F7EE</a>.</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f50e"></span>F50E</td>
+<td class="instruction">CALL <a href="F51D.html">$F51D</a></td>
+<td class="comment-1" rowspan="1">Call <a href="F51D.html">F51D</a>.</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f511"></span>F511</td>
+<td class="instruction">CALL <a href="F5A0.html">$F5A0</a></td>
+<td class="comment-1" rowspan="1">Call <a href="F5A0.html">F5A0</a>.</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f514"></span>F514</td>
+<td class="instruction">LD A,($C4F8)</td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=*<a href="C400.html#c4f8">C4F8</a>.</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f517"></span>F517</td>
+<td class="instruction">DEC A</td>
+<td class="comment-1" rowspan="1">Decrease <span class="register">A</span> by one.</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f518"></span>F518</td>
+<td class="instruction">JR NZ,<a href="F4EC.html#f4fc">$F4FC</a></td>
+<td class="comment-1" rowspan="1">Jump to <a href="F4EC.html#f4fc">F4FC</a> until <span class="register">A</span> is zero.</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f51a"></span>F51A</td>
+<td class="instruction">JP <a href="EBC8.html">$EBC8</a></td>
+<td class="comment-1" rowspan="1">Jump to <a href="EBC8.html">EBC8</a>.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="F0EE.html">F0EE</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#f4ec">Map</a></td>
+<td class="next">
+Next: <a href="F51D.html">F51D</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 9.6.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/62700.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

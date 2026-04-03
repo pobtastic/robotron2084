@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Game status buffer entry at 36816</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-g">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Game status buffer</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="36323.html">36323</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#36816">Map</a></td>
+<td class="next">
+Next: <a href="36838.html">36838</a>
+</td>
+</tr>
+</table>
+<div class="description">36816: Control Code Dispatch Table</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Two-byte handler address table for control codes 16–26 indexed by the control code zero-indexed from 16. Each entry is the address of the parameter handler installed into <a href="32778.html">PrintState_Handler</a> by <a href="36323.html">PrintHandler</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">ControlCode_DispatchTable</td>
+<td class="address-1"><span id="36816"></span>36816</td>
+<td class="instruction">DEFW <a href="36323.html#36398">PrintHandler_Ink</a></td>
+<td class="comment-1" rowspan="1">16: INK colour — parameter handler at <a href="36323.html#36398">PrintHandler_Ink</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36818"></span>36818</td>
+<td class="instruction">DEFW <a href="36323.html#36413">PrintHandler_Paper</a></td>
+<td class="comment-1" rowspan="1">17: PAPER colour — parameter handler at <a href="36323.html#36413">PrintHandler_Paper</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36820"></span>36820</td>
+<td class="instruction">DEFW <a href="36323.html#36434">PrintHandler_Flash</a></td>
+<td class="comment-1" rowspan="1">18: FLASH — parameter handler at <a href="36323.html#36434">PrintHandler_Flash</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36822"></span>36822</td>
+<td class="instruction">DEFW <a href="36323.html#36453">PrintHandler_Bright</a></td>
+<td class="comment-1" rowspan="1">19: BRIGHT — parameter handler at <a href="36323.html#36453">PrintHandler_Bright</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36824"></span>36824</td>
+<td class="instruction">DEFW <a href="36323.html#36387">PrintHandler_Unsupported</a></td>
+<td class="comment-1" rowspan="1">20: Unsupported — parameter consumed and discarded via <a href="36323.html#36387">PrintHandler_Unsupported</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36826"></span>36826</td>
+<td class="instruction">DEFW <a href="36323.html#36387">PrintHandler_Unsupported</a></td>
+<td class="comment-1" rowspan="1">21: Unsupported — parameter consumed and discarded via <a href="36323.html#36387">PrintHandler_Unsupported</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36828"></span>36828</td>
+<td class="instruction">DEFW <a href="36323.html#36472">PrintHandler_PrintAt_X</a></td>
+<td class="comment-1" rowspan="1">22: PRINT AT column — parameter handler at <a href="36323.html#36472">PrintHandler_PrintAt_X</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36830"></span>36830</td>
+<td class="instruction">DEFW <a href="36323.html#36498">PrintHandler_Tab</a></td>
+<td class="comment-1" rowspan="1">23: TAB — parameter handler at <a href="36323.html#36498">PrintHandler_Tab</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36832"></span>36832</td>
+<td class="instruction">DEFW <a href="36323.html#36522">PrintHandler_LeftMargin</a></td>
+<td class="comment-1" rowspan="1">24: Set left margin — parameter handler at <a href="36323.html#36522">PrintHandler_LeftMargin</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36834"></span>36834</td>
+<td class="instruction">DEFW <a href="36323.html#36531">PrintHandler_RightMargin</a></td>
+<td class="comment-1" rowspan="1">25: Set right margin — parameter handler at <a href="36323.html#36531">PrintHandler_RightMargin</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36836"></span>36836</td>
+<td class="instruction">DEFW <a href="36323.html#36551">PrintHandler_SelectFont</a></td>
+<td class="comment-1" rowspan="1">26: Select font — parameter handler at <a href="36323.html#36551">PrintHandler_SelectFont</a>.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="36323.html">36323</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#36816">Map</a></td>
+<td class="next">
+Next: <a href="36838.html">36838</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 9.6.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/8FD0.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

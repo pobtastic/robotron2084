@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at F83C</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="F7EE.html">F7EE</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#f83c">Map</a></td>
+<td class="next">
+Next: <a href="F854.html">F854</a>
+</td>
+</tr>
+</table>
+<div class="description">F83C: Routine at F83C</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="F4EC.html">F4EC</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="address-2"><span id="f83c"></span>F83C</td>
+<td class="instruction">LD B,$18</td>
+<td class="comment-1" rowspan="1"><span class="register">B</span>=18.</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f83e"></span>F83E</td>
+<td class="instruction">LD HL,$F558</td>
+<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="F51D.html#f558">F558</a>.</td>
+</tr>
+<tr>
+<td class="address-2"><span id="f841"></span>F841</td>
+<td class="instruction">LD A,(HL)</td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=*<span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f842"></span>F842</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="1">Switch to the shadow registers.</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f843"></span>F843</td>
+<td class="instruction">LD E,A</td>
+<td class="comment-1" rowspan="1"><span class="register">E</span>=<span class="register">A</span>.</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f844"></span>F844</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="1">Switch back to the normal registers.</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f845"></span>F845</td>
+<td class="instruction">PUSH BC</td>
+<td class="comment-1" rowspan="2">Stash <span class="register">BC</span> and <span class="register">HL</span> on the stack.</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f846"></span>F846</td>
+<td class="instruction">PUSH HL</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f847"></span>F847</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="2">Decrease <span class="register">HL</span> by two.</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f848"></span>F848</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f849"></span>F849</td>
+<td class="instruction">CALL <a href="F76F.html">$F76F</a></td>
+<td class="comment-1" rowspan="1">Call <a href="F76F.html">F76F</a>.</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f84c"></span>F84C</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="2">Restore <span class="register">HL</span> and <span class="register">BC</span> from the stack.</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f84d"></span>F84D</td>
+<td class="instruction">POP BC</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f84e"></span>F84E</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="3">Increment <span class="register">HL</span> by three.</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f84f"></span>F84F</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f850"></span>F850</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f851"></span>F851</td>
+<td class="instruction">DJNZ <a href="F83C.html#f841">$F841</a></td>
+<td class="comment-1" rowspan="1">Decrease counter by one and loop back to <a href="F83C.html#f841">F841</a> until counter is zero.</td>
+</tr>
+<tr>
+<td class="address-1"><span id="f853"></span>F853</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="F7EE.html">F7EE</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#f83c">Map</a></td>
+<td class="next">
+Next: <a href="F854.html">F854</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 9.6.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/63548.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>
