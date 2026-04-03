@@ -3,6 +3,7 @@
 ; Label naming is loosely based on Action_ActionName_SubAction e.g. Print_HighScore_Loop.
 
 > $4000 @org=$4000
+> $4000 @expand=#DEF(#POKE #LINK:Pokes)
 b $4000 Loading Screen
 D $4000 #UDGTABLE { =h Robotron: 2084 Loading Screen. } { #SCR$02(loading) } UDGTABLE#
 @ $4000 label=Loading
@@ -443,6 +444,20 @@ R $9006 HL Pointer to the messaging string
 
 c $9010
 
+t $9051 Messaging: Reset
+@ $9051 label=Messaging_Reset
+B $9051,$02 Set INK: #INK(#PEEK(#PC+$01)).
+B $9053,$02 Set PAPER: #INK(#PEEK(#PC+$01)).
+B $9055,$02 FLASH: #MAP(#PEEK(#PC+$01))(OFF,1:ON).
+B $9057,$02 BRIGHT: #MAP(#PEEK(#PC+$01))(OFF,1:ON).
+B $9059,$03 PRINT AT #N(#PEEK(#PC+$01)), #N(#PEEK(#PC+$02)).
+B $905C,$02 Set left margin: #N(#PEEK(#PC+$01)).
+B $905E,$02 Set right margin: #N(#PEEK(#PC+$01)).
+B $9060,$02 Select font: #N(#PEEK(#PC+$01)).
+B $9062,$01 Terminator.
+
+c $9063
+
 c $C400 Game Entry Point Alias
 @ $C400 label=GameEntryPointAlias
   $C400,$03 Jump to #R$EBBC.
@@ -453,6 +468,43 @@ c $D070 Clear Screen Buffer
   $D07D,$01 Return.
 
 c $D07E
+
+t $D0E6 Messaging: Wave
+@ $D0E6 label=Messaging_Wave
+B $D0E6,$02 Select font: #N(#PEEK(#PC+$01)).
+B $D0E8,$03 PRINT AT #N(#PEEK(#PC+$01)), #N(#PEEK(#PC+$02)).
+  $D0EB,$04
+B $D0EF,$01 Terminator.
+
+c $D0F0
+
+t $D347 Messaging: Player
+@ $D347 label=Messaging_Player
+B $D347,$02 Set INK: #INK(#PEEK(#PC+$01)).
+B $D349,$02 Set PAPER: #INK(#PEEK(#PC+$01)).
+B $D34B,$03 PRINT AT #N(#PEEK(#PC+$01)), #N(#PEEK(#PC+$02)).
+  $D34E,$07
+B $D355,$01 Terminator.
+
+t $D356 Messaging: Game Over
+@ $D356 label=Messaging_GameOver
+B $D356,$02 Set INK: #INK(#PEEK(#PC+$01)).
+B $D358,$02 Set PAPER: #INK(#PEEK(#PC+$01)).
+B $D35A,$03 PRINT AT #N(#PEEK(#PC+$01)), #N(#PEEK(#PC+$02)).
+  $D35D,$09
+B $D366,$01 Terminator.
+
+c $D367
+
+N $D38B See #POKE#infinite-lives(Infinite Lives (Final Version)).
+
+t $D481 Messaging: Reset Margins
+@ $D481 label=Messaging_ResetMargins
+B $D481,$02 Set left margin: #N(#PEEK(#PC+$01)).
+B $D483,$02 Set right margin: #N(#PEEK(#PC+$01)).
+B $D485,$01 Terminator.
+
+c $D486
 
 c $EBBC Game Entry Point
 @ $EBBC label=GameEntryPoint
@@ -638,6 +690,61 @@ c $F09D
 
 c $F0EE
 
+t $F165 Table: Robotron Heroes
+N $F165 Position: #N($01+(#PC-$F165)/$07).
+  $F165,$03 Name.
+B $F168,$04 Score.
+L $F165,$07,$0A
+
+t $F1AB Messaging: High Score Name
+@ $F1AB label=Messaging_HighScoreName
+  $F1AB,$14
+B $F1BF,$01 Terminator.
+
+t $F1C0
+B $F1C0,$01
+B $F1C1,$02
+
+t $F2D8 Messaging: Robotron Heroes
+@ $F2D8 label=Messaging_RobotronHeroes
+B $F2D8,$02 FLASH: #MAP(#PEEK(#PC+$01))(OFF,1:ON).
+B $F2DA,$02 BRIGHT: #MAP(#PEEK(#PC+$01))(OFF,1:ON).
+B $F2DC,$02 Select font: #N(#PEEK(#PC+$01)).
+B $F2DE,$03 PRINT AT #N(#PEEK(#PC+$01)), #N(#PEEK(#PC+$02)).
+B $F2E1,$02 Set INK: #INK(#PEEK(#PC+$01)).
+B $F2E3,$02 Set PAPER: #INK(#PEEK(#PC+$01)).
+  $F2E5,$0F
+B $F2F4,$02 BRIGHT: #MAP(#PEEK(#PC+$01))(OFF,1:ON).
+B $F2F6,$02 Set INK: #INK(#PEEK(#PC+$01)).
+B $F2F8,$01 Terminator.
+
+c $F2F9
+
+t $F38D Messaging: All Time Heroes
+@ $F38D label=Messaging_AllTimeHeroes
+B $F38D,$02 BRIGHT: #MAP(#PEEK(#PC+$01))(OFF,1:ON).
+B $F38F,$03 PRINT AT #N(#PEEK(#PC+$01)), #N(#PEEK(#PC+$02)).
+B $F392,$02 Set INK: #INK(#PEEK(#PC+$01)).
+  $F394,$0F
+B $F3A3,$03 PRINT AT #N(#PEEK(#PC+$01)), #N(#PEEK(#PC+$02)).
+B $F3A6,$02 Set INK: #INK(#PEEK(#PC+$01)).
+B $F3A8,$02 BRIGHT: #MAP(#PEEK(#PC+$01))(OFF,1:ON).
+  $F3AA,$03
+B $F3AD,$01 Terminator.
+
+c $F3AE
+
+t $F45A Messaging: Save / Load
+@ $F45A label=Messaging_SaveLoad
+B $F45A,$03 PRINT AT #N(#PEEK(#PC+$01)), #N(#PEEK(#PC+$02)).
+B $F45D,$02 Set INK: #INK(#PEEK(#PC+$01)).
+B $F45F,$02 BRIGHT: #MAP(#PEEK(#PC+$01))(OFF,1:ON).
+B $F461,$02 Select font: #N(#PEEK(#PC+$01)).
+  $F463,$24
+B $F487,$01 Terminator.
+
+c $F488
+
 c $F4EC
   $F4EC,$03 Call #R$D070.
   $F4EF,$02 #REGa=#COLOUR$46.
@@ -665,6 +772,22 @@ c $F5A0
 c $F606
 
 c $F637
+
+t $F670 Messaging: Credits
+@ $F670 label=Messaging_Credits
+B $F670,$02 Select font: #N(#PEEK(#PC+$01)).
+B $F672,$02 Set INK: #INK(#PEEK(#PC+$01)).
+B $F674,$02 Set PAPER: #INK(#PEEK(#PC+$01)).
+B $F676,$02 FLASH: #MAP(#PEEK(#PC+$01))(OFF,1:ON).
+B $F678,$02 BRIGHT: #MAP(#PEEK(#PC+$01))(OFF,1:ON).
+B $F67A,$03 PRINT AT #N(#PEEK(#PC+$01)), #N(#PEEK(#PC+$02)).
+  $F67D,$20
+B $F69D,$02 Set INK: #INK(#PEEK(#PC+$01)).
+B $F69F,$03 PRINT AT #N(#PEEK(#PC+$01)), #N(#PEEK(#PC+$02)).
+  $F6A2,$20
+B $F6C2,$01 Terminator.
+
+c $F6C3
 
 c $F76F
 
