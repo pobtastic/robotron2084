@@ -1,0 +1,13 @@
+; tap2sna.py file for Robotron: 2084. Run
+;
+;   $ tap2sna.py @robotron2084.t2s
+;
+; to create a Z80 snapshot.
+
+https://worldofspectrum.net/pub/sinclair/games/r/Robotron-2084.tzx.zip
+Robotron:2084.z80
+
+--tape-name "Robotron 2084.tzx"
+--tape-sum 1d2b41a5b2f792bbb43078c1e98c278f
+--start 0xC400
+--tape-stop 8

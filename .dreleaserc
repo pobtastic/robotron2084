@@ -1,0 +1,4 @@
+GAME=robotron2084
+SRCFILES=$(echo robotron2084.skool {robotron2084,analytics,bases,changelog,pokes}.ref {dark,wide}.css)
+SKOOL2BINOPTS="-i 23296"
+WAVCONVERT=""
