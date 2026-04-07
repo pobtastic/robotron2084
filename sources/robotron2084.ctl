@@ -3,12 +3,14 @@
 ; Label naming is loosely based on Action_ActionName_SubAction e.g. Print_HighScore_Loop.
 
 > $4000 @org=$4000
-> $4000 @expand=#DEF(#POKE #LINK:Pokes)
+> $4000 @expand=#DEF(#POKE()(a) #LINK(Pokes#$a))
 b $4000 Loading Screen
 D $4000 #UDGTABLE { =h Robotron: 2084 Loading Screen. } { #SCR$02(loading) } UDGTABLE#
 @ $4000 label=Loading
   $4000,$1800,$20 Pixels.
   $5800,$0300,$20 Attributes.
+
+g $6100
 
 g $8000 Print State: Y Position
 @ $8000 label=PrintState_Y
@@ -40,7 +42,7 @@ g $8006 Print State: Right Margin
 
 g $8007 Print State: Flags
 @ $8007 label=PrintState_Flags
-  $8007,$01 Flags; bit #N$00 = control code parameter was out of range.
+  $8007,$01 Flags; bit 0 = control code parameter was out of range.
 
 g $8008 Print State: Font Bitmap Pointer
 @ $8008 label=PrintState_FontPtr
@@ -182,27 +184,27 @@ N $8E3D Set PAPER colour parameter handler. Called on the byte immediately follo
   $8E51,$01 Return.
 @ $8E52 label=PrintHandler_Flash
 N $8E52 Set FLASH parameter handler. Called on the byte immediately following a #N$12
-. (FLASH) control code. Sets or clears bit #N$07 of the attribute byte at #R$8004.
+. (FLASH) control code. Sets or clears bit 7 of the attribute byte at #R$8004.
   $8E52,$02 #REGb=#N$02 (mask limit: parameter is #N$00 or #N$01).
   $8E54,$03 Call #R$8EE6 to reset #R$800A and mask #REGb to #N$00 or #N$01.
-  $8E57,$02 Test bit #N$00 of the masked parameter.
+  $8E57,$02 Test bit 0 of the masked parameter.
   $8E59,$02 If the parameter is #N$00, jump to #R$8E60 to clear FLASH.
-  $8E5B,$04 Set the FLASH bit (#N$07) of the attribute byte at #R$8004.
+  $8E5B,$04 Set the FLASH bit (7) of the attribute byte at #R$8004.
   $8E5F,$01 Return.
 @ $8E60 label=PrintHandler_Flash_Off
-  $8E60,$04 Clear the FLASH bit (#N$07) of the attribute byte at #N$8004.
+  $8E60,$04 Clear the FLASH bit (7) of the attribute byte at #N$8004.
   $8E64,$01 Return.
 @ $8E65 label=PrintHandler_Bright
 N $8E65 Set BRIGHT parameter handler. Called on the byte immediately following a #N$13
-. (BRIGHT) control code. Sets or clears bit #N$06 of the attribute byte at #N$8004.
+. (BRIGHT) control code. Sets or clears bit 6 of the attribute byte at #N$8004.
   $8E65,$02 #REGb=#N$02 (mask limit: parameter is #N$00 or #N$01).
   $8E67,$03 Call #R$8EE6 to reset #R$800A and mask #REGb to #N$00 or #N$01.
-  $8E6A,$02 Test bit #N$00 of the masked parameter.
+  $8E6A,$02 Test bit 0 of the masked parameter.
   $8E6C,$02 If the parameter is #N$00, jump to #R$8E73 to clear BRIGHT.
-  $8E6E,$04 Set the BRIGHT bit (#N$06) of the attribute byte at #N$8004.
+  $8E6E,$04 Set the BRIGHT bit (6) of the attribute byte at #N$8004.
   $8E72,$01 Return.
 @ $8E73 label=PrintHandler_Bright_Off
-  $8E73,$04 Clear the BRIGHT bit (#N$06) of the attribute byte at #N$8004.
+  $8E73,$04 Clear the BRIGHT bit (6) of the attribute byte at #N$8004.
   $8E77,$01 Return.
 @ $8E78 label=PrintHandler_PrintAt_X
 N $8E78 PRINT AT first parameter handler. Called on the byte immediately following a
@@ -251,7 +253,7 @@ N $8EB3 Right margin parameter handler. Called on the byte immediately following
 . before storing.
   $8EB3,$06 Reset #R$800A to #R$8DE3 (default handler).
   $8EB9,$04 If the parameter is #N$80 or higher, jump to #R$8EC3 to store it directly.
-  $8EBD,$04 Set the wrap flag (bit #N$00 of *#N$8007).
+  $8EBD,$04 Set the wrap flag (bit 0 of *#N$8007).
   $8EC1,$02,b$01 OR #N$80 into the parameter.
 @ $8EC3 label=PrintHandler_RightMargin_Store
   $8EC3,$03 Write the parameter to *#R$8006 (right margin X position).
@@ -284,7 +286,7 @@ N $8EE6 Parameter mask and validation utility. Called by control code parameter 
   $8EE6,$06 Reset #R$800A to #R$8DE3 (default handler).
   $8EEC,$01 Test whether the parameter (#REGa) is within the valid range (#REGb).
   $8EED,$02 If the parameter is within range, jump to #R$8EF3.
-  $8EEF,$04 Otherwise set the out-of-range flag (bit #N$00 of *#N$8007).
+  $8EEF,$04 Otherwise set the out-of-range flag (bit 0 of *#N$8007).
 @ $8EF3 label=PrintHandler_MaskParam_Mask
   $8EF3,$01 Decrement #REGb to form a bitmask (e.g. #N$08 → #N$07 = %00000111).
   $8EF4,$01 Mask #REGa to the valid range.
@@ -443,6 +445,13 @@ R $9006 HL Pointer to the messaging string
   $900E,$02 Jump back to #R$9006 to continue printing.
 
 c $9010
+D $9010 #SIM(start=$9010,stop=$903C)#SCR$02(test-01)
+
+c $9044 Reset Print State
+@ $9044 label=ResetPrintState
+  $9044,$06 Write #R$8DE3 to *#R$800A.
+  $904A,$06 Call #R$9006 using #R$9051.
+  $9050,$01 Return.
 
 t $9051 Messaging: Reset
 @ $9051 label=Messaging_Reset
@@ -462,12 +471,160 @@ c $C400 Game Entry Point Alias
 @ $C400 label=GameEntryPointAlias
   $C400,$03 Jump to #R$EBBC.
 
+g $C403 Player 1 State
+@ $C403 label=Player_1_State
+
+g $C408 Wave Number
+@ $C408 label=WaveNumber
+
+g $C409
+
+g $C415 Lives
+@ $C415 label=Lives
+B $C415,$01
+
+g $C416 Wave
+@ $C416 label=Wave
+B $C416,$01
+
+g $C417
+
+g $C418
+
+g $C41C
+B $C41C,$01
+
+g $C41D Wave Display X Pixel Position
+@ $C41D label=WaveDisplay_X_PixelPosition
+
+g $C41E Two-Player Session Flag
+@ $C41E label=TwoPlayerSessionFlag
+D $C41E Non-zero when both player slots take part in the current credit session; read
+. by #R$D367 after a lost life to decide whether to swap with #R$D08B again or loop
+. on the same player. Cleared when initialising state for a new game after the
+. maximum wave.
+B $C41E,$01
+
+g $C42E
+
+g $C447 Player 2 State
+@ $C447 label=Player_2_State
+
+g $C46E
+
+g $C48B
+
+g $C4F8
+
+g $C4FD
+g $C4FE
+
+g $C519 Wave Start Pointer
+@ $C519 label=WaveStartPointer
+D $C519 Little-endian pointer loaded from the word table at #R$D3E4 (indexed from
+. #R$D400) when staging a wave after tape load or max-wave reset; copied into
+. #R$C409 when clearing player state in #R$D367.
+W $C519,$02
+
+g $C532 Death Sequence Mode
+@ $C532 label=DeathSequenceMode
+D $C532 When #N$01, #R$D367 skips the intro HUD, "PLAYER" messaging and intro delay
+. before losing a life, and skips the extra "PLAYER" line in the game-over branch.
+. Set from the wave-table path together with the table variant in #REGb.
+B $C532,$01
+
+c $C544
+
+c $C713
+
+c $C794
+
+w $C7CF
+
+c $C84F
+
+c $C77D Poll H Key
+@ $C77D label=PollHKey
+D $C77D Reads keyboard port #N$BF bit 4 (the "H" key) on each pass of the inner
+. loop. Key bits are active-low (#N$00 = pressed); if "H" is not pressed, #REGd is
+. decremented, otherwise #REGe is decremented. Called from #R$C713 while handling the
+. attribute bar after the key has been detected.
+  $C77D,$02 Initialise #REGd to #N$15 (down-counter for "H" not pressed).
+  $C77F,$02 Initialise #REGe to #N$15 (down-counter for "H" pressed).
+  $C781,$02 Set an inner loop counter to #N$14 loops.
+@ $C783 label=PollHKey_Loop
+  $C783,$04 Read from the keyboard;
+. #TABLE(default,centre,centre,centre,centre,centre,centre)
+. { =h,r2 Port Number | =h,c5 Bit }
+. { =h 0 | =h 1 | =h 2 | =h 3 | =h 4 }
+. { #N$BF | ENTER | L | K | J | H }
+. TABLE#
+  $C787,$02,b$01 Keep only bit 4 ("H" key).
+  $C789,$03 If "H" is not pressed (bit 4 is 1), jump to #R$C790 to decrement #REGd.
+N $C78C "H" key was pressed.
+  $C78C,$01 Decrease #REGe by one.
+  $C78D,$03 Jump to #R$C791 (skip the #REGd decrement).
+@ $C790 label=PollHKey_NotPressed
+  $C790,$01 Decrease #REGd by one.
+@ $C791 label=PollHKey_Continue
+  $C791,$02 Decrease the inner loop counter and loop back to #R$C783 until it reaches zero.
+  $C793,$01 Return.
+
 c $D070 Clear Screen Buffer
 @ $D070 label=ClearScreenBuffer
   $D070,$0D Clear #N$1800 bytes of data from #R$4000(#N$4000) to #N$5B00.
   $D07D,$01 Return.
 
-c $D07E
+c $D07E Set Background Colour
+@ $D07E label=SetBackgroundColour
+R $D07E A Attribute byte to fill the entire attribute area with
+  $D07E,$0C Write #REGa to #N$02FF bytes of data from #N$5800 to #N$5AFF.
+  $D08A,$01 Return.
+
+c $D08B Swap Player State
+@ $D08B label=SwapPlayerState
+D $D08B Swaps the active and inactive player's #N$44-byte game state blocks
+. between the player 1 slot at #R$C403 and the player 2 slot at #R$C447,
+. using #R$C48B as a temporary buffer. Called each time the game switches
+. between the two players.
+  $D08B,$03 #REGhl=#R$C403 (player 1 state source).
+  $D08E,$03 #REGde=#R$C48B (temporary buffer destination).
+  $D091,$03 #REGbc=#N($0044,$04,$04) (#N$44 bytes = one player state block).
+  $D094,$02 Copy player 1 state to the temporary buffer; #REGhl advances to #R$C447 (player 2 state).
+  $D096,$03 #REGde=#R$C403 (player 1 slot destination).
+  $D099,$03 #REGbc=#N($0044,$04,$04).
+  $D09C,$02 Copy player 2 state (from #R$C447) into the player 1 slot.
+  $D09E,$03 #REGhl=#R$C48B (saved player 1 state source).
+  $D0A1,$03 #REGbc=#N($0044,$04,$04).
+  $D0A4,$02 Copy saved player 1 state into the player 2 slot (at #R$C447).
+  $D0A6,$01 Return.
+
+c $D0A7 Print Wave Number
+@ $D0A7 label=PrintWaveNumber
+D $D0A7 Prints the current wave number at pixel position X=*#R$C41D, Y=#N$BB
+. using the print dispatch system at #R$8DCC. The wave number is stored in
+. packed BCD at #R$C408: the high nibble holds the tens digit and the low
+. nibble holds the units digit; each is OR'd with #N$30 to convert it to
+. an ASCII decimal character before dispatch. Font #N$00 is selected for
+. rendering and font #N$01 is restored on return.
+  $D0A7,$05 Call #R$8DCC with #N$1A (Select Font control code).
+  $D0AC,$05 Call #R$8DCC with #N$00 (font #N$00).
+  $D0B1,$05 Call #R$8DCC with #N$16 (PRINT AT control code).
+  $D0B6,$03 #REGa=*#R$C41D (X pixel position for the wave number display).
+  $D0B9,$03 Call #R$8DCC; the PRINT AT X handler stores the X position and installs the Y handler.
+  $D0BC,$02 #REGa=#N$BB (Y pixel position).
+  $D0BE,$03 Call #R$8DCC; the PRINT AT Y handler stores the Y position and restores the default handler.
+  $D0C1,$03 #REGa=*#R$C408 (BCD wave number).
+  $D0C4,$08 Shift #REGa right four positions to isolate the tens digit (high nibble, #N$0–#N$9).
+  $D0CC,$02,b$01 Convert the tens digit to its ASCII character ("#CHR$30"–"#CHR$39").
+  $D0CE,$03 Call #R$8DCC to print the tens digit.
+  $D0D1,$03 #REGa=*#R$C408 (BCD wave number again).
+  $D0D4,$02,b$01 Isolate the units digit (low nibble, #N$0–#N$9).
+  $D0D6,$02,b$01 Convert the units digit to its ASCII character ("#CHR$30"–"#CHR$39").
+  $D0D8,$03 Call #R$8DCC to print the units digit.
+  $D0DB,$05 Call #R$8DCC with #N$1A (Select Font control code).
+  $D0E0,$05 Call #R$8DCC with #N$01 (restore font #N$01).
+  $D0E5,$01 Return.
 
 t $D0E6 Messaging: Wave
 @ $D0E6 label=Messaging_Wave
@@ -477,6 +634,41 @@ B $D0E8,$03 PRINT AT #N(#PEEK(#PC+$01)), #N(#PEEK(#PC+$02)).
 B $D0EF,$01 Terminator.
 
 c $D0F0
+
+c $D30C
+  $D30C,$03 Call #R$D070.
+  $D30F,$05 Call #R$D07E using #INK$07.
+  $D314,$03 Jump to #R$D325.
+
+c $D317 Render HUD
+@ $D317 label=RenderHUD
+D $D317 Clears the screen buffer, sets a white background, triggers the wave
+. indicator animation (#R$D570), and redraws the attribute bar (#R$C713)
+. before falling through to #R$D325. Scores (#R$C544) and lives (#R$C794)
+. are then rendered for each player in turn by swapping state with #R$D08B;
+. the "WAVE" label and wave number (#R$D0A7) are printed last for player 1.
+  $D317,$03 Call #R$D070.
+  $D31A,$05 Call #R$D07E using #INK$07.
+  $D31F,$03 Call #R$D570.
+  $D322,$03 Call #R$C713.
+@ $D325 label=RenderHUD_Draw
+N $D325 Shared entry point, also reached from #R$D30C via JP (which clears the
+. screen and sets the background but skips the wave animation and attribute
+. bar setup). Renders scores and lives for player 1, then swaps to player 2.
+  $D325,$03 Call #R$C544.
+  $D328,$03 Call #R$C794.
+N $D32B Swap to player 2 to render their score, lives and wave number.
+  $D32B,$03 Call #R$D08B.
+  $D32E,$03 Call #R$C544.
+  $D331,$03 Call #R$C794.
+  $D334,$03 Call #R$D0A7.
+N $D337 Swap back to player 1; print the "WAVE" label and player 1's wave number,
+. then redraw the attribute bar to complete the HUD.
+  $D337,$03 Call #R$D08B.
+  $D33A,$06 Call #R$9006 using #R$D0E6.
+  $D340,$03 Call #R$D0A7.
+  $D343,$03 Call #R$C713.
+  $D346,$01 Return.
 
 t $D347 Messaging: Player
 @ $D347 label=Messaging_Player
@@ -494,9 +686,140 @@ B $D35A,$03 PRINT AT #N(#PEEK(#PC+$01)), #N(#PEEK(#PC+$02)).
   $D35D,$09
 B $D366,$01 Terminator.
 
-c $D367
+c $D367 Player Death
+@ $D367 label=PlayerDeath
+D $D367 Handles a lost life and game-over flow: optional HUD and "PLAYER" messaging,
+. decrementing #R$C415, calling #R$D24C to re-stage the wave, swapping players with
+. #R$D08B, printing "GAME OVER" when no lives remain, and either returning to the
+. attract mode at #R$EBBC or looping. A lookup table at #R$D3E4 (read from #R$D400)
+. supplies a start pointer stored at #R$C519; #R$ECFB jumps to #R$D3F8 after a
+. successful tape load. Clears player state at #R$C403, wave and score fields, and
+. applies #R$D481 (reset margins) when starting a fresh game.
+  $D367,$03 #REGa=*#R$C532 (death-sequence mode; #N$01 = skip the intro HUD/delay).
+  $D36A,$02 Compare with #N$01.
+  $D36C,$02 If set, jump to #R$D38B to decrement #R$C415 immediately.
+N $D36E Full death sequence: redraw the HUD (#R$D317), print #R$D347 ("PLAYER") via
+. #R$9006, then print the current player digit from *#R$C41F as ASCII (#N$30–#N$39).
+  $D36E,$03 Call #R$D317.
+  $D371,$06 Call #R$9006 using #R$D347.
+  $D377,$03 #REGa=*#R$C41F (player index for the digit).
+  $D37A,$02,b$01 Convert to ASCII ("#CHR$30"–"#CHR$39").
+  $D37C,$03 Call #R$8DCC (print dispatch).
+  $D37F,$02 Inner delay loop count #N$20 (#REGb=#N$20).
+@ $D381 label=PlayerDeath_IntroDelay
+  $D381,$01 Stash #REGbc on the stack.
+  $D382,$03 Call #R$DAA3 (short delay).
+  $D385,$03 Call #R$C713 (attribute bar).
+  $D388,$01 Restore #REGbc from the stack.
+  $D389,$02 Decrease counter and loop back to #R$D381 until the intro delay finishes.
 
-N $D38B See #POKE#infinite-lives(Infinite Lives (Final Version)).
+N $D38B See #POKE(infinite-lives)(Infinite Lives (Final Version)).
+
+@ $D38B label=PlayerDeath_LoseLife
+  $D38B,$03 #REGhl=#R$C415 (lives counter).
+  $D38E,$01 Decrease *#REGhl (lose one life).
+  $D38F,$03 Call #R$D24C (re-stage the wave / death handling).
+  $D392,$06 Jump to #R$D3A7 if *#R$C415 shows no lives are left.
+N $D398 Lives remain: swap to the other player and continue if two-player mode.
+  $D398,$03 Call #R$D08B.
+N $D39B If not two-player, jump back to #R$D367 for the same player.
+  $D39B,$07 Jump back to #R$D367 if *#R$C41E is not set.
+  $D3A2,$03 Call #R$D08B (swap back).
+  $D3A5,$02 Jump back to #R$D367.
+
+@ $D3A7 label=PlayerDeath_GameOver
+N $D3A7 No lives left: redraw the HUD, then either the "PLAYER" line or straight to
+. "GAME OVER" depending on *#R$C532, with a longer delay loop.
+  $D3A7,$03 Call #R$D317.
+  $D3AA,$07 Jump to #R$D3BF if *#R$C532 is #N$01.
+  $D3B1,$06 Call #R$9006 using #R$D347.
+  $D3B7,$03 #REGa=*#R$C41F.
+  $D3BA,$02,b$01 Convert to ASCII.
+  $D3BC,$03 Call #R$8DCC.
+@ $D3BF label=PlayerDeath_GameOverDelay
+  $D3BF,$06 Call #R$9006 using #R$D356.
+  $D3C5,$02 Longer delay loop count #N$29 (#REGb=#N$29).
+@ $D3C7 label=PlayerDeath_GameOverDelayLoop
+  $D3C7,$01 Stash #REGbc on the stack.
+  $D3C8,$03 Call #R$DAA3.
+  $D3CB,$03 Call #R$C713.
+  $D3CE,$01 Restore #REGbc from the stack.
+  $D3CF,$02 Decrease counter and loop back to #R$D3C7.
+N $D3D1 Set *#R$C41E to #N$01, swap players with #R$D08B, then branch on the flag
+. read back from *#R$C41E.
+  $D3D1,$05 Write #N$01 to *#R$C41E.
+  $D3D6,$03 Call #R$D08B.
+  $D3D9,$08 Jump to #R$EBBC if *#R$C41E is #N$01 (attract mode).
+  $D3E1,$03 Jump back to #R$D367.
+
+g $D3E4
+B $D3E4,$14
+
+c $D3F8 Player Death: Tape Load Continue
+@ $D3F8 label=PlayerDeath_TapeLoadContinue
+R $D3F8 B Scratch (from the tape block header at *#R$C4FD).
+R $D3F8 E Scratch (from the tape block header at *#R$C4FE).
+N $D3F8 This routine is called after a successful tape load.
+  $D3F8,$03 Load #REGa with *#R$C4FE.
+  $D3FB,$01 Decrease #REGa by one.
+  $D3FC,$02 #REGe=#REGa multiplied by #N$02.
+  $D3FE,$02 #REGd=#N$00 (high byte of index).
+  $D400,$03 #REGhl=#R$D3E4 (base of the lookup table).
+  $D403,$01 Add #REGde into #REGhl (index into the table).
+  $D404,$01 #REGa=*(#REGhl) (low byte of the table word).
+  $D405,$01 Advance #REGhl.
+  $D406,$01 #REGh=*(#REGhl) (high byte of the table word).
+  $D407,$01 #REGl=#REGa (little-endian word in #REGhl).
+  $D408,$03 Write the pointer to *#R$C519.
+  $D40B,$04 Write #REGb (variant/ slot) to *#R$C532.
+  $D40F,$07 Jump to #R$D41B if *#R$C416 is at the maximum wave.
+  $D416,$01 Stash #REGbc on the stack.
+  $D417,$03 Call #R$D08B.
+  $D41A,$01 Restore #REGbc from the stack.
+N $D41B Set the starting lives.
+@ $D41B label=PlayerDeath_InitMaxWave
+  $D41B,$05 Write #N$03 to *#R$C415.
+  $D420,$04 Write #N$00 to *#R$C41E.
+  $D424,$08 Write #COLOUR$44 (#N$44) to; #LIST
+. { *#R$C42E }
+. { *#R$C46E }
+. LIST#
+  $D42C,$05 Jump to #R$D442 (margins + clear) if this is player #N$01.
+  $D431,$03 Call #R$D08B.
+  $D434,$05 Write #N$03 to *#R$C415.
+  $D439,$04 Write #N$00 to *#R$C41E.
+  $D43D,$05 Write #COLOUR$44 (#N$44) to *#R$C42E.
+
+@ $D442 label=PlayerDeath_NewGameSetup
+  $D442,$06 Call #R$9006 using #R$D481.
+  $D448,$01 #REGa=#N$00.
+  $D449,$02 Outer loop: two player slots (#REGb=#N$02).
+@ $D44B label=PlayerDeath_ClearPlayerSlot
+  $D44B,$03 #REGhl=#R$C403 (player 1 state block).
+  $D44E,$02 Clear #N$04 bytes per slot (#REGc=#N$04).
+@ $D450 label=PlayerDeath_ClearPlayerBytes
+  $D450,$01 Write #REGa to *#REGhl.
+  $D451,$01 Advance #REGhl.
+  $D452,$01 Decrease #REGc.
+  $D453,$02 Loop back to #R$D450 until the slot prefix is cleared.
+  $D455,$03 Write #REGa to *#R$C408.
+  $D458,$03 Write #REGa to *#R$C41C.
+  $D45B,$03 #REGhl=#R$C418.
+  $D45E,$01 Write #REGa to *#REGhl.
+  $D45F,$01 Advance #REGhl.
+  $D460,$02 Write #N$02 to *#REGhl.
+  $D462,$01 Advance #REGhl.
+  $D463,$01 Write #REGa to *#REGhl.
+  $D464,$01 Advance #REGhl.
+  $D465,$01 Write #REGa to *#REGhl.
+  $D466,$06 Write *#R$C519 to *#R$C409.
+  $D46C,$01 Stash #REGbc on the stack.
+  $D46D,$03 Call #R$D08B.
+  $D470,$01 Restore #REGbc from the stack.
+  $D471,$02 Decrease outer counter and loop back to #R$D44B for the second player.
+  $D473,$08 Jump back to #R$D367 if *#R$C416 is still at the maximum wave.
+  $D47B,$03 Call #R$D08B.
+  $D47E,$03 Jump back to #R$D367.
 
 t $D481 Messaging: Reset Margins
 @ $D481 label=Messaging_ResetMargins
@@ -505,6 +828,16 @@ B $D483,$02 Set right margin: #N(#PEEK(#PC+$01)).
 B $D485,$01 Terminator.
 
 c $D486
+
+c $D562
+
+c $D570
+
+c $D5B1
+
+b $D620
+
+c $D630
 
 c $EBBC Game Entry Point
 @ $EBBC label=GameEntryPoint
@@ -551,7 +884,36 @@ c $ECA4
 
 c $ECDE
 
-c $ECE6
+c $ECE6 Check BREAK Key
+@ $ECE6 label=CheckBreakKey
+D $ECE6 Checks whether the BREAK key combination (CAPS SHIFT + SPACE) is held
+. while *#N$FFFF equals #N$63. Called during the attract mode loop and option
+. screens. If both conditions are met, the ROM error handler is invoked via
+. RST #N$08 (parameter #N$14), which jumps via ERRSP (#N$5C3D) to reset the
+. machine.
+  $ECE6,$06 Return if *#N$FFFF is not equal to #N$63.
+N $ECEC Read both halves of the BREAK key combination. Keyboard bits are
+. active-low (#N$00 when pressed); OR-ing the two readings and masking to
+. bit 0 gives #N$00 only when both keys are held simultaneously.
+  $ECEC,$05 Read from the keyboard;
+. #TABLE(default,centre,centre,centre,centre,centre,centre)
+. { =h,r2 Port Number | =h,c5 Bit }
+. { =h 0 | =h 1 | =h 2 | =h 3 | =h 4 }
+. { #N$FE | CAPS SHIFT | Z | X | C | V }
+. TABLE#
+  $ECF1,$04 Read from the keyboard;
+. #TABLE(default,centre,centre,centre,centre,centre,centre)
+. { =h,r2 Port Number | =h,c5 Bit }
+. { =h 0 | =h 1 | =h 2 | =h 3 | =h 4 }
+. { #N$7F | SPACE | FULL-STOP | M | N | B }
+. TABLE#
+  $ECF5,$01 OR with the CAPS SHIFT reading; bit 0 is #N$00 only if both are pressed.
+  $ECF6,$02,b$01 Keep only bit 0.
+  $ECF8,$01 Return if CAPS SHIFT and SPACE are not both held (BREAK not detected).
+N $ECF9 Both conditions confirmed; trigger the ROM error handler which jumps via ERRSP (#N$5C3D) to reset the machine.
+  $ECF9,$01 #HTML(Run the ERROR_1 routine:
+. <a rel="noopener nofollow" href="https://skoolkit.ca/disassemblies/rom/hex/asm/0008.html">RST #N$08</a>.)
+B $ECFA,$01 Error code: #N$14 ("BREAK into program").
 
 c $ECFB
 
@@ -688,7 +1050,15 @@ c $F04D
 
 c $F09D
 
+c $F0AE
+
+g $F0DE
+W $F0DE,$02
+L $F0DE,$02,$08
+
 c $F0EE
+
+c $F107
 
 t $F165 Table: Robotron Heroes
 N $F165 Position: #N($01+(#PC-$F165)/$07).
@@ -747,8 +1117,7 @@ c $F488
 
 c $F4EC
   $F4EC,$03 Call #R$D070.
-  $F4EF,$02 #REGa=#COLOUR$46.
-  $F4F1,$03 Call #R$D07E.
+  $F4EF,$05 Call #R$D07E using #COLOUR$46.
   $F4F4,$03 Call #R$F83C.
   $F4F7,$03 Call #R$F637.
   $F4FA,$02 #REGa=#N$32.
@@ -789,23 +1158,169 @@ B $F6C2,$01 Terminator.
 
 c $F6C3
 
-c $F76F
+c $F76F XOR Blit Sprite
+@ $F76F label=XorBlitSprite
+D $F76F Takes the two-byte position entry at #REGhl (byte #N$00 = Y pixel row,
+. byte #N$01 = X byte column) and the attribute byte in #REGe (shadow;
+. bit 7 set = erase mode, bit 7 clear = draw mode). Computes each screen
+. pixel address by reading the row base from the screen row LUT at #N$8C00
+. (indexed by Y) and adding the X column byte offset stored in shadow #REGd.
+. XORs #N$04 bytes of the fixed bitmap at #N$6CFC into consecutive screen pixel
+. memory for each of #N$20 pixel rows (#N$04 attribute-cell rows of #N$08 pixel
+. rows each). After the first pixel row of each attribute-cell row, derives the
+. attribute memory high byte from the pixel address high byte and writes the
+. attribute byte to #N$04 consecutive attribute cells — suppressed in erase mode.
+R $F76F HL Pointer to the two-byte position entry (Y pixel row at +0, X byte column at +1)
+N $F76F Initialise the bitmap source (#REGhl=#N$6CFC via EX DE,HL) and compute #REGix
+. into the screen row LUT at #N$8C00, indexed by the Y pixel row. The row is
+. shifted left into the LUT index directly (#REGix=#N$8C00 + Y × #N$02). Store
+. the X column byte offset in shadow #REGd and set the outer loop count
+. (#REGc=#N$04, shadow, one iteration per attribute-cell row of #N$08 pixel rows).
+  $F76F,$03 #REGde=#N$6CFC (bitmap source base address; becomes #REGhl via EX DE,HL).
+  $F772,$02 #REGb=#N$46 (initial high byte; becomes #N$8C or #N$8D after RL #REGb).
+  $F774,$01 #REGc=Y pixel row (byte #N$00 of the position entry).
+  $F775,$01 Advance #REGhl to byte #N$01 (X byte column).
+  $F776,$02 SLA #REGc; carry = bit 7 of Y (selects high byte #N$8C or #N$8D).
+  $F778,$02 RL #REGb; #REGb=#N$8C (or #N$8D if carry set) — high byte of LUT pointer.
+  $F77A,$01 Stash #REGbc on the stack.
+  $F77B,$01 #REGa=X byte column (byte #N$01 of the position entry).
+  $F77C,$01 Switch to the shadow registers.
+  $F77D,$01 #REGd=X byte column offset (held in shadow across all loop iterations).
+  $F77E,$01 Switch back to the normal registers.
+  $F77F,$02 POP #REGix; #REGix=#N$8C00 + Y × #N$02 (pointer into the screen row LUT).
+  $F781,$01 #REGhl=#N$6CFC (bitmap source pointer); #REGde=old #REGhl (discarded).
+  $F782,$01 Switch to the shadow registers.
+  $F783,$02 #REGc=#N$04 (shadow, outer loop count: #N$04 attribute-cell rows).
+  $F785,$01 Switch back to the normal registers.
+@ $F786 label=XorBlitSprite_OuterLoop
+N $F786 Outer loop (#N$04 iterations, one per attribute-cell row of #N$08 pixel rows).
+. Compute the screen pixel address for the first row of this attribute cell:
+. read shadow #REGd (X column), add the LUT low byte from *(#REGix) to give
+. #REGe, then read the LUT high byte from *(#REGix+#N$01) into #REGd. Advance
+. #REGix by two to the next LUT entry.
+  $F786,$01 Switch to the shadow registers.
+  $F787,$01 #REGa=#REGd (X byte column offset).
+  $F788,$01 Switch back to the normal registers.
+  $F789,$03 #REGa += *(#REGix) (LUT low byte); low byte of screen pixel address.
+  $F78C,$02 Advance #REGix to the LUT high byte.
+  $F78E,$01 #REGe=#REGa (low byte of screen pixel address).
+  $F78F,$03 #REGd=*(#REGix) (high byte of screen pixel address from LUT).
+  $F792,$02 Advance #REGix to the next LUT entry.
+N $F794 XOR #N$04 consecutive bytes of the bitmap at (#REGhl)–(#REGhl+#N$03) into
+. screen pixel memory at (#REGde)–(#REGde+#N$03), advancing both pointers.
+  $F794,$05 *(#REGde) ^= *(#REGhl); advance #REGde and #REGhl.
+  $F799,$05 *(#REGde) ^= *(#REGhl); advance #REGde and #REGhl.
+  $F79E,$05 *(#REGde) ^= *(#REGhl); advance #REGde and #REGhl.
+  $F7A3,$04 *(#REGde) ^= *(#REGhl); advance #REGhl.
+N $F7A7 Derive the attribute memory address high byte from the current pixel address
+. high byte in #REGd. Three right-rotations expose the screen-third index in
+. bits #N$00–#N$01; OR with #N$58 gives the attribute area high byte (#N$58–#N$5B).
+  $F7A7,$09 #REGd = (RRCA × #N$03 of #REGd) AND #N$03 OR #N$58 (attribute address high byte).
+N $F7B0 Test the erase-mode flag (bit 7 of shadow #REGe). If set, skip writing
+. the attribute byte so that the background colour is preserved during erase.
+  $F7B0,$03 Switch to shadow; #REGa=#REGe (attribute byte); switch back.
+  $F7B3,$02 Test bit 7 of #REGa (erase-mode flag).
+  $F7B5,$02 If in erase mode, jump to #R$F7BE (skip attribute write).
+  $F7B7,$07 Write attribute byte to (#REGde), (#REGde−#N$01), (#REGde−#N$02) and (#REGde−#N$03).
+@ $F7BE label=XorBlitSprite_InnerSetup
+  $F7BE,$04 Switch to shadow; #REGb=#N$07 (remaining pixel rows in this attribute-cell row); switch back.
+@ $F7C2 label=XorBlitSprite_InnerLoop
+N $F7C2 Inner loop (#N$07 iterations, one per remaining pixel row in this attribute-cell
+. row). Compute the screen address from the LUT and XOR #N$04 bitmap bytes into
+. pixel memory. No attribute write.
+  $F7C2,$01 Switch to the shadow registers.
+  $F7C3,$01 #REGa=#REGd (X byte column offset).
+  $F7C4,$01 Switch back to the normal registers.
+  $F7C5,$03 #REGa += *(#REGix) (LUT low byte for this pixel row).
+  $F7C8,$02 Advance #REGix to the LUT high byte.
+  $F7CA,$01 #REGe=#REGa (low byte of screen pixel address).
+  $F7CB,$03 #REGd=*(#REGix) (high byte of screen pixel address from LUT).
+  $F7CE,$02 Advance #REGix to the next LUT entry.
+  $F7D0,$05 *(#REGde) ^= *(#REGhl); advance #REGde and #REGhl.
+  $F7D5,$05 *(#REGde) ^= *(#REGhl); advance #REGde and #REGhl.
+  $F7DA,$05 *(#REGde) ^= *(#REGhl); advance #REGde and #REGhl.
+  $F7DF,$04 *(#REGde) ^= *(#REGhl); advance #REGhl.
+  $F7E3,$03 Switch to shadow; decrement #REGb (inner pixel row counter); switch back.
+  $F7E6,$02 Loop back to #R$F7C2 until all #N$07 pixel rows are blitted.
+  $F7E8,$03 Switch to shadow; decrement #REGc (outer attribute-row counter); switch back.
+  $F7EB,$02 Loop back to #R$F786 until all #N$04 attribute-cell rows are blitted.
+  $F7ED,$01 Return.
 
-c $F7EE
+c $F7EE Animate Intro Sprites
+@ $F7EE label=AnimateIntroSprites
+D $F7EE Iterates over the #N$18 three-byte entries in the sprite table at #R$F558
+. (Y pixel row at +#N$00, X byte column at +#N$01, attribute byte at +#N$02) to
+. animate the border march effect on the intro screen. For each entry, erases
+. the sprite at its current position (calls #R$F76F with bit 7 of #REGe set
+. in shadow to suppress attribute writes), advances the position by one step
+. along a rectangular path (#N$08 pixel rows vertically or #N$01 byte column
+. horizontally: right across Y=#N$00, down the right side at X=#N$1C, left
+. across Y=#N$A0, up the left side at X=#N$00), then redraws the sprite at the
+. new position (calls #R$F76F with bit 7 clear to write the attribute).
+. Called once per frame by the attract mode loop at #R$F4EC.
+  $F7EE,$02 #REGb=#N$18 (loop counter: #N$24 sprite entries).
+  $F7F0,$03 #REGhl=#R$F558 (attribute byte position of the first entry).
+@ $F7F3 label=AnimateIntroSprites_Loop
+  $F7F3,$01 #REGa=attribute byte from the current entry.
+  $F7F4,$05 Switch to shadow; #REGe=attribute byte; SET bit 7 (erase-mode flag for #R$F76F); switch back.
+  $F7F9,$02 Back #REGhl two bytes to the Y pixel row (start of entry).
+  $F7FB,$02 Stash #REGhl (entry start) and #REGbc on the stack.
+  $F7FD,$03 Call #R$F76F to erase the sprite at its current position.
+  $F800,$02 Restore #REGbc and #REGhl (entry start).
+N $F802 Advance the sprite position by one step along the rectangular border path.
+. Y pixel row is at *(#REGhl), X byte column at *(#REGhl+#N$01). Steps are
+. #N$08 pixel rows vertically or #N$01 byte column horizontally. Wraps at
+. X=#N$1C (right boundary, drop down a row) and Y=#N$A0 (bottom boundary,
+. scroll left).
+  $F802,$01 #REGa=#N$00.
+  $F803,$03 If Y position (*#REGhl) = #N$00, jump to #R$F821 (top row: scroll X instead of Y).
+  $F806,$03 Read X position (*(#REGhl+#N$01)) and compare with #N$00; restore #REGhl.
+  $F809,$02 If X!=#N$00, jump to #R$F811.
+  $F80B,$06 Y −= #N$08 (on left side, scroll up); jump to #R$F829.
+@ $F811 label=AnimateIntroSprites_CheckBoundary
+  $F811,$03 #REGa=#N$A0; compare with Y position.
+  $F814,$02 If Y!=#N$A0, jump to #R$F81B (not at bottom boundary, scroll down).
+  $F816,$04 X−− (at bottom boundary, scroll left); jump to #R$F828.
+@ $F81A label=AnimateIntroSprites_DropRow
+  $F81A,$01 Back #REGhl to the Y byte.
+@ $F81B label=AnimateIntroSprites_ScrollDown
+  $F81B,$06 Y += #N$08 (scroll down); jump to #R$F829.
+@ $F821 label=AnimateIntroSprites_ScrollX
+N $F821 Top row (Y=#N$00): if X has reached the right boundary (#N$1C), drop a row
+. (Y+=#N$08); otherwise scroll right (X++).
+  $F821,$06 Read X (*(#REGhl+#N$01)); if X=#N$1C jump to #R$F81A (drop a row); otherwise X++.
+  $F827,$01 X++ (scroll right).
+@ $F828 label=AnimateIntroSprites_RestoreHL
+  $F828,$01 Restore #REGhl to the Y byte position.
+@ $F829 label=AnimateIntroSprites_Draw
+  $F829,$02 Stash #REGhl (entry start) and #REGbc on the stack.
+  $F82B,$04 Switch to shadow; RES bit 7 of #REGe (clear erase-mode flag for draw pass); switch back.
+  $F82F,$03 Call #R$F76F to draw the sprite at the updated position.
+  $F832,$02 Restore #REGbc and #REGhl (entry start).
+  $F834,$05 Advance #REGhl by #N$05 to the attribute byte of the next entry.
+  $F839,$02 Decrease counter and loop back to #R$F7F3.
+  $F83B,$01 Return.
 
-c $F83C
-  $F83C,$02 #REGb=#N$18.
-  $F83E,$03 #REGhl=#R$F558.
-  $F841,$01 #REGa=*#REGhl.
+c $F83C Draw Intro Sprites
+@ $F83C label=DrawIntroSprites
+D $F83C Iterates over the #N$18 three-byte entries in the sprite table at #R$F558
+. (Y pixel row at +#N$00, X byte column at +#N$01, attribute byte at +#N$02),
+. calling #R$F76F once per entry to draw each sprite in its initial position.
+. Called once during attract-mode setup at #R$F4EC before the animation loop
+. begins.
+  $F83C,$02 #REGb=#N$18 (loop counter: #N$24 sprite entries).
+  $F83E,$03 #REGhl=#R$F558 (attribute byte position of the first entry).
+@ $F841 label=DrawIntroSprites_Loop
+  $F841,$01 #REGa=attribute byte from the current entry.
   $F842,$01 Switch to the shadow registers.
-  $F843,$01 #REGe=#REGa.
+  $F843,$01 #REGe=attribute byte (passed to #R$F76F as the draw-mode attribute).
   $F844,$01 Switch back to the normal registers.
   $F845,$02 Stash #REGbc and #REGhl on the stack.
-  $F847,$02 Decrease #REGhl by two.
-  $F849,$03 Call #R$F76F.
+  $F847,$02 Back #REGhl two bytes to the Y pixel row (start of entry).
+  $F849,$03 Call #R$F76F to draw the sprite at the position held in the current entry.
   $F84C,$02 Restore #REGhl and #REGbc from the stack.
-  $F84E,$03 Increment #REGhl by three.
-  $F851,$02 Decrease counter by one and loop back to #R$F841 until counter is zero.
+  $F84E,$03 Advance #REGhl by three to the attribute byte of the next entry.
+  $F851,$02 Decrease counter and loop back to #R$F841.
   $F853,$01 Return.
 
 g $F854
