@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 53415</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="53387.html">53387</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#53415">Map</a></td>
+<td class="next">
+Next: <a href="53478.html">53478</a>
+</td>
+</tr>
+</table>
+<div class="description">53415: Print Wave Number</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="54039.html">RenderHUD</a>.
+</div>
+<div class="paragraph">
+Prints the current wave number at pixel position X=*<a href="50205.html">WaveDisplay_X_PixelPosition</a>, Y=187 using the print dispatch system at <a href="36300.html">PrintDispatch</a>. The wave number is stored in packed BCD at <a href="50184.html">WaveNumber</a>: the high nibble holds the tens digit and the low nibble holds the units digit; each is OR'd with 48 to convert it to an ASCII decimal character before dispatch. Font 0 is selected for rendering and font 1 is restored on return.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">PrintWaveNumber</td>
+<td class="address-2"><span id="53415"></span>53415</td>
+<td class="instruction">LD A,26</td>
+<td class="comment-1" rowspan="2">Call <a href="36300.html">PrintDispatch</a> with 26 (Select Font control code).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53417"></span>53417</td>
+<td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53420"></span>53420</td>
+<td class="instruction">LD A,0</td>
+<td class="comment-1" rowspan="2">Call <a href="36300.html">PrintDispatch</a> with 0 (font 0).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53422"></span>53422</td>
+<td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53425"></span>53425</td>
+<td class="instruction">LD A,22</td>
+<td class="comment-1" rowspan="2">Call <a href="36300.html">PrintDispatch</a> with 22 (PRINT AT control code).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53427"></span>53427</td>
+<td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53430"></span>53430</td>
+<td class="instruction">LD A,(50205)</td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=*<a href="50205.html">WaveDisplay_X_PixelPosition</a> (X pixel position for the wave number display).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53433"></span>53433</td>
+<td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
+<td class="comment-1" rowspan="1">Call <a href="36300.html">PrintDispatch</a>; the PRINT AT X handler stores the X position and installs the Y handler.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53436"></span>53436</td>
+<td class="instruction">LD A,187</td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=187 (Y pixel position).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53438"></span>53438</td>
+<td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
+<td class="comment-1" rowspan="1">Call <a href="36300.html">PrintDispatch</a>; the PRINT AT Y handler stores the Y position and restores the default handler.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53441"></span>53441</td>
+<td class="instruction">LD A,(50184)</td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=*<a href="50184.html">WaveNumber</a> (BCD wave number).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53444"></span>53444</td>
+<td class="instruction">SRL A</td>
+<td class="comment-1" rowspan="4">Shift <span class="register">A</span> right four positions to isolate the tens digit (high nibble, 0–9).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53446"></span>53446</td>
+<td class="instruction">SRL A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53448"></span>53448</td>
+<td class="instruction">SRL A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53450"></span>53450</td>
+<td class="instruction">SRL A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53452"></span>53452</td>
+<td class="instruction">OR %00110000</td>
+<td class="comment-1" rowspan="1">Convert the tens digit to its ASCII character ("&#48;"–"&#57;").</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53454"></span>53454</td>
+<td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
+<td class="comment-1" rowspan="1">Call <a href="36300.html">PrintDispatch</a> to print the tens digit.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53457"></span>53457</td>
+<td class="instruction">LD A,(50184)</td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=*<a href="50184.html">WaveNumber</a> (BCD wave number again).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53460"></span>53460</td>
+<td class="instruction">AND %00001111</td>
+<td class="comment-1" rowspan="1">Isolate the units digit (low nibble, 0–9).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53462"></span>53462</td>
+<td class="instruction">OR %00110000</td>
+<td class="comment-1" rowspan="1">Convert the units digit to its ASCII character ("&#48;"–"&#57;").</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53464"></span>53464</td>
+<td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
+<td class="comment-1" rowspan="1">Call <a href="36300.html">PrintDispatch</a> to print the units digit.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53467"></span>53467</td>
+<td class="instruction">LD A,26</td>
+<td class="comment-1" rowspan="2">Call <a href="36300.html">PrintDispatch</a> with 26 (Select Font control code).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53469"></span>53469</td>
+<td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53472"></span>53472</td>
+<td class="instruction">LD A,1</td>
+<td class="comment-1" rowspan="2">Call <a href="36300.html">PrintDispatch</a> with 1 (restore font 1).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53474"></span>53474</td>
+<td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53477"></span>53477</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="53387.html">53387</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#53415">Map</a></td>
+<td class="next">
+Next: <a href="53478.html">53478</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/D0A7.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

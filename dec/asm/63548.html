@@ -33,7 +33,7 @@ Next: <a href="63572.html">63572</a>
 </td>
 </tr>
 </table>
-<div class="description">63548: Routine at F83C</div>
+<div class="description">63548: Draw Intro Sprites</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
@@ -41,90 +41,111 @@ Next: <a href="63572.html">63572</a>
 <div class="paragraph">
 Used by the routine at <a href="62700.html">62700</a>.
 </div>
+<div class="paragraph">
+Iterates over the 24 three-byte entries in the sprite table at <a href="62749.html#62808">62808</a> (Y pixel row at +0 X byte column at +1 attribute byte at +2), calling <a href="63343.html">XorBlitSprite</a> once per entry to draw each sprite in its initial position. Called once during attract-mode setup at <a href="62700.html">62700</a> before the animation loop begins.
+</div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">DrawIntroSprites</td>
 <td class="address-2"><span id="63548"></span>63548</td>
 <td class="instruction">LD B,24</td>
-<td class="comment-1" rowspan="1"><span class="register">B</span>=24.</td>
+<td class="comment-1" rowspan="1"><span class="register">B</span>=24 (loop counter: 36 sprite entries).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63550"></span>63550</td>
 <td class="instruction">LD HL,62808</td>
-<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="62749.html#62808">62808</a>.</td>
+<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="62749.html#62808">62808</a> (attribute byte position of the first entry).</td>
 </tr>
 <tr>
+<td class="asm-label">DrawIntroSprites_Loop</td>
 <td class="address-2"><span id="63553"></span>63553</td>
 <td class="instruction">LD A,(HL)</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=*<span class="register">HL</span>.</td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=attribute byte from the current entry.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63554"></span>63554</td>
 <td class="instruction">EXX</td>
 <td class="comment-1" rowspan="1">Switch to the shadow registers.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63555"></span>63555</td>
 <td class="instruction">LD E,A</td>
-<td class="comment-1" rowspan="1"><span class="register">E</span>=<span class="register">A</span>.</td>
+<td class="comment-1" rowspan="1"><span class="register">E</span>=attribute byte (passed to <a href="63343.html">XorBlitSprite</a> as the draw-mode attribute).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63556"></span>63556</td>
 <td class="instruction">EXX</td>
 <td class="comment-1" rowspan="1">Switch back to the normal registers.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63557"></span>63557</td>
 <td class="instruction">PUSH BC</td>
 <td class="comment-1" rowspan="2">Stash <span class="register">BC</span> and <span class="register">HL</span> on the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63558"></span>63558</td>
 <td class="instruction">PUSH HL</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63559"></span>63559</td>
 <td class="instruction">DEC HL</td>
-<td class="comment-1" rowspan="2">Decrease <span class="register">HL</span> by two.</td>
+<td class="comment-1" rowspan="2">Back <span class="register">HL</span> two bytes to the Y pixel row (start of entry).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63560"></span>63560</td>
 <td class="instruction">DEC HL</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63561"></span>63561</td>
-<td class="instruction">CALL <a href="63343.html">63343</a></td>
-<td class="comment-1" rowspan="1">Call <a href="63343.html">63343</a>.</td>
+<td class="instruction">CALL <a href="63343.html">XorBlitSprite</a></td>
+<td class="comment-1" rowspan="1">Call <a href="63343.html">XorBlitSprite</a> to draw the sprite at the position held in the current entry.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63564"></span>63564</td>
 <td class="instruction">POP HL</td>
 <td class="comment-1" rowspan="2">Restore <span class="register">HL</span> and <span class="register">BC</span> from the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63565"></span>63565</td>
 <td class="instruction">POP BC</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63566"></span>63566</td>
 <td class="instruction">INC HL</td>
-<td class="comment-1" rowspan="3">Increment <span class="register">HL</span> by three.</td>
+<td class="comment-1" rowspan="3">Advance <span class="register">HL</span> by three to the attribute byte of the next entry.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63567"></span>63567</td>
 <td class="instruction">INC HL</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63568"></span>63568</td>
 <td class="instruction">INC HL</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63569"></span>63569</td>
-<td class="instruction">DJNZ <a href="63548.html#63553">63553</a></td>
-<td class="comment-1" rowspan="1">Decrease counter by one and loop back to <a href="63548.html#63553">63553</a> until counter is zero.</td>
+<td class="instruction">DJNZ <a href="63548.html#63553">DrawIntroSprites_Loop</a></td>
+<td class="comment-1" rowspan="1">Decrease counter and loop back to <a href="63548.html#63553">DrawIntroSprites_Loop</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63571"></span>63571</td>
 <td class="instruction">RET</td>
 <td class="comment-1" rowspan="1">Return.</td>
@@ -144,7 +165,7 @@ Next: <a href="63572.html">63572</a>
 <footer>
 <div class="release"></div>
 <div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
-<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 9.6.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
 <div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
 <div><a href="../../asm/F83C.html">Switch to hexadecimal</a>.</div>
 </footer>

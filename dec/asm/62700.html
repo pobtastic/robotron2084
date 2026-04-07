@@ -52,7 +52,7 @@ Used by the routines at <a href="60348.html">GameEntryPoint</a> and <a href="603
 <tr>
 <td class="address-1"><span id="62703"></span>62703</td>
 <td class="instruction">LD A,70</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=INK:
+<td class="comment-1" rowspan="2">Call <a href="53374.html">SetBackgroundColour</a> using INK:
 YELLOW,
 PAPER:
 BLACK
@@ -61,13 +61,12 @@ BLACK
 </tr>
 <tr>
 <td class="address-1"><span id="62705"></span>62705</td>
-<td class="instruction">CALL <a href="53374.html">53374</a></td>
-<td class="comment-1" rowspan="1">Call <a href="53374.html">53374</a>.</td>
+<td class="instruction">CALL <a href="53374.html">SetBackgroundColour</a></td>
 </tr>
 <tr>
 <td class="address-1"><span id="62708"></span>62708</td>
-<td class="instruction">CALL <a href="63548.html">63548</a></td>
-<td class="comment-1" rowspan="1">Call <a href="63548.html">63548</a>.</td>
+<td class="instruction">CALL <a href="63548.html">DrawIntroSprites</a></td>
+<td class="comment-1" rowspan="1">Call <a href="63548.html">DrawIntroSprites</a>.</td>
 </tr>
 <tr>
 <td class="address-1"><span id="62711"></span>62711</td>
@@ -82,12 +81,12 @@ BLACK
 <tr>
 <td class="address-2"><span id="62716"></span>62716</td>
 <td class="instruction">LD (50424),A</td>
-<td class="comment-1" rowspan="1">Write <span class="register">A</span> to *<a href="50176.html#50424">50424</a>.</td>
+<td class="comment-1" rowspan="1">Write <span class="register">A</span> to *<a href="50424.html">50424</a>.</td>
 </tr>
 <tr>
 <td class="address-1"><span id="62719"></span>62719</td>
-<td class="instruction">CALL <a href="60646.html">60646</a></td>
-<td class="comment-1" rowspan="1">Call <a href="60646.html">60646</a>.</td>
+<td class="instruction">CALL <a href="60646.html">CheckBreakKey</a></td>
+<td class="comment-1" rowspan="1">Call <a href="60646.html">CheckBreakKey</a>.</td>
 </tr>
 <tr>
 <td class="address-1"><span id="62722"></span>62722</td>
@@ -106,8 +105,8 @@ BLACK
 </tr>
 <tr>
 <td class="address-1"><span id="62731"></span>62731</td>
-<td class="instruction">CALL <a href="63470.html">63470</a></td>
-<td class="comment-1" rowspan="1">Call <a href="63470.html">63470</a>.</td>
+<td class="instruction">CALL <a href="63470.html">AnimateIntroSprites</a></td>
+<td class="comment-1" rowspan="1">Call <a href="63470.html">AnimateIntroSprites</a>.</td>
 </tr>
 <tr>
 <td class="address-1"><span id="62734"></span>62734</td>
@@ -122,7 +121,7 @@ BLACK
 <tr>
 <td class="address-1"><span id="62740"></span>62740</td>
 <td class="instruction">LD A,(50424)</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=*<a href="50176.html#50424">50424</a>.</td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=*<a href="50424.html">50424</a>.</td>
 </tr>
 <tr>
 <td class="address-1"><span id="62743"></span>62743</td>
@@ -154,7 +153,7 @@ Next: <a href="62749.html">62749</a>
 <footer>
 <div class="release"></div>
 <div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
-<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 9.6.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
 <div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
 <div><a href="../../asm/F4EC.html">Switch to hexadecimal</a>.</div>
 </footer>

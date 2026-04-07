@@ -29,255 +29,61 @@ Prev: <a href="53360.html">53360</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#53374">Map</a></td>
 <td class="next">
-Next: <a href="53478.html">53478</a>
+Next: <a href="53387.html">53387</a>
 </td>
 </tr>
 </table>
-<div class="description">53374: Routine at D07E</div>
+<div class="description">53374: Set Background Colour</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="53488.html">53488</a> and <a href="62700.html">62700</a>.
+Used by the routines at <a href="54028.html">54028</a>, <a href="54039.html">RenderHUD</a> and <a href="62700.html">62700</a>.
 </div>
 </div>
+<table class="input">
+<tr class="asm-input-header">
+<th colspan="2">Input</th>
+</tr>
+<tr>
+<td class="register">A</td>
+<td class="register-desc">Attribute byte to fill the entire attribute area with</td>
+</tr>
+</table>
 </td>
 </tr>
 <tr>
+<td class="asm-label">SetBackgroundColour</td>
 <td class="address-2"><span id="53374"></span>53374</td>
 <td class="instruction">LD HL,22528</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="5">Write <span class="register">A</span> to 767 bytes of data from 22528 to 23295.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="53377"></span>53377</td>
 <td class="instruction">LD (HL),A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="53378"></span>53378</td>
 <td class="instruction">LD DE,22529</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="53381"></span>53381</td>
 <td class="instruction">LD BC,767</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="53384"></span>53384</td>
 <td class="instruction">LDIR</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="53386"></span>53386</td>
 <td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="routine-comment" colspan="5">
-<span id="53387"></span>
-<div class="comments">
-<div class="paragraph">
-This entry point is used by the routines at <a href="53488.html">53488</a> and <a href="54119.html">54119</a>.
-</div>
-</div>
-</td>
-</tr>
-<tr>
-<td class="address-2"><span id="53387"></span>53387</td>
-<td class="instruction">LD HL,50179</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53390"></span>53390</td>
-<td class="instruction">LD DE,50315</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53393"></span>53393</td>
-<td class="instruction">LD BC,68</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53396"></span>53396</td>
-<td class="instruction">LDIR</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53398"></span>53398</td>
-<td class="instruction">LD DE,50179</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53401"></span>53401</td>
-<td class="instruction">LD BC,68</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53404"></span>53404</td>
-<td class="instruction">LDIR</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53406"></span>53406</td>
-<td class="instruction">LD HL,50315</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53409"></span>53409</td>
-<td class="instruction">LD BC,68</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53412"></span>53412</td>
-<td class="instruction">LDIR</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53414"></span>53414</td>
-<td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="routine-comment" colspan="5">
-<span id="53415"></span>
-<div class="comments">
-<div class="paragraph">
-This entry point is used by the routine at <a href="53488.html">53488</a>.
-</div>
-</div>
-</td>
-</tr>
-<tr>
-<td class="address-2"><span id="53415"></span>53415</td>
-<td class="instruction">LD A,26</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53417"></span>53417</td>
-<td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53420"></span>53420</td>
-<td class="instruction">LD A,0</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53422"></span>53422</td>
-<td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53425"></span>53425</td>
-<td class="instruction">LD A,22</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53427"></span>53427</td>
-<td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53430"></span>53430</td>
-<td class="instruction">LD A,(50205)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53433"></span>53433</td>
-<td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53436"></span>53436</td>
-<td class="instruction">LD A,187</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53438"></span>53438</td>
-<td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53441"></span>53441</td>
-<td class="instruction">LD A,(50184)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53444"></span>53444</td>
-<td class="instruction">SRL A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53446"></span>53446</td>
-<td class="instruction">SRL A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53448"></span>53448</td>
-<td class="instruction">SRL A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53450"></span>53450</td>
-<td class="instruction">SRL A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53452"></span>53452</td>
-<td class="instruction">OR 48</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53454"></span>53454</td>
-<td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53457"></span>53457</td>
-<td class="instruction">LD A,(50184)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53460"></span>53460</td>
-<td class="instruction">AND 15</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53462"></span>53462</td>
-<td class="instruction">OR 48</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53464"></span>53464</td>
-<td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53467"></span>53467</td>
-<td class="instruction">LD A,26</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53469"></span>53469</td>
-<td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53472"></span>53472</td>
-<td class="instruction">LD A,1</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53474"></span>53474</td>
-<td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="53477"></span>53477</td>
-<td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Return.</td>
 </tr>
 </table>
 <table class="asm-navigation">
@@ -287,14 +93,14 @@ Prev: <a href="53360.html">53360</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#53374">Map</a></td>
 <td class="next">
-Next: <a href="53478.html">53478</a>
+Next: <a href="53387.html">53387</a>
 </td>
 </tr>
 </table>
 <footer>
 <div class="release"></div>
 <div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
-<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 9.6.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
 <div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
 <div><a href="../../asm/D07E.html">Switch to hexadecimal</a>.</div>
 </footer>

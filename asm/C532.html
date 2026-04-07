@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Game status buffer entry at C532</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-g">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Game status buffer</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="C519.html">C519</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#c532">Map</a></td>
+<td class="next">
+Next: <a href="C544.html">C544</a>
+</td>
+</tr>
+</table>
+<div class="description">C532: Death Sequence Mode</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+When 01 <a href="D367.html">PlayerDeath</a> skips the intro HUD, "PLAYER" messaging and intro delay before losing a life, and skips the extra "PLAYER" line in the game-over branch. Set from the wave-table path together with the table variant in <span class="register">B</span>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">DeathSequenceMode</td>
+<td class="address-1"><span id="c532"></span>C532</td>
+<td class="instruction">DEFB $01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="c533"></span>C533</td>
+<td class="instruction">DEFB $16,$00,$00,$00,$52,$09,$49,$4E</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="c53b"></span>C53B</td>
+<td class="instruction">DEFB $09,$03,$44,$C4,$00,$00,$00,$00</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="c543"></span>C543</td>
+<td class="instruction">DEFB $00</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="C519.html">C519</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#c532">Map</a></td>
+<td class="next">
+Next: <a href="C544.html">C544</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/50482.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

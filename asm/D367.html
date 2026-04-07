@@ -29,92 +29,122 @@ Prev: <a href="D356.html">D356</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#d367">Map</a></td>
 <td class="next">
-Next: <a href="D481.html">D481</a>
+Next: <a href="D3E4.html">D3E4</a>
 </td>
 </tr>
 </table>
-<div class="description">D367: Routine at D367</div>
+<div class="description">D367: Player Death</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
+<div class="paragraph">
+Used by the routine at <a href="D3F8.html">PlayerDeath_TapeLoadContinue</a>.
+</div>
+<div class="paragraph">
+Handles a lost life and game-over flow: optional HUD and "PLAYER" messaging, decrementing <a href="C415.html">Lives</a>, calling <a href="D0F0.html#d24c">D24C</a> to re-stage the wave, swapping players with <a href="D08B.html">SwapPlayerState</a>, printing "GAME OVER" when no lives remain, and either returning to the attract mode at <a href="EBBC.html">GameEntryPoint</a> or looping. A lookup table at <a href="D3E4.html">D3E4</a> (read from <a href="D3F8.html#d400">D400</a>) supplies a start pointer stored at <a href="C519.html">WaveStartPointer</a>; <a href="ECFB.html">ECFB</a> jumps to <a href="D3F8.html">PlayerDeath_TapeLoadContinue</a> after a successful tape load. Clears player state at <a href="C403.html">Player_1_State</a>, wave and score fields, and applies <a href="D481.html">Messaging_ResetMargins</a> (reset margins) when starting a fresh game.
+</div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">PlayerDeath</td>
 <td class="address-2"><span id="d367"></span>D367</td>
 <td class="instruction">LD A,($C532)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=*<a href="C532.html">DeathSequenceMode</a> (death-sequence mode; 01 = skip the intro HUD/delay).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d36a"></span>D36A</td>
 <td class="instruction">CP $01</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Compare with 01.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d36c"></span>D36C</td>
-<td class="instruction">JR Z,<a href="D367.html#d38b">$D38B</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR Z,<a href="D367.html#d38b">PlayerDeath_LoseLife</a></td>
+<td class="comment-1" rowspan="1">If set, jump to <a href="D367.html#d38b">PlayerDeath_LoseLife</a> to decrement <a href="C415.html">Lives</a> immediately.</td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="d36e"></span>
+<div class="comments">
+<div class="paragraph">
+Full death sequence: redraw the HUD (<a href="D317.html">RenderHUD</a>), print <a href="D347.html">Messaging_Player</a> ("PLAYER") via <a href="9006.html">PrintMessaging</a>, then print the current player digit from *<a href="C41E.html#c41f">C41F</a> as ASCII (30–39).
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d36e"></span>D36E</td>
-<td class="instruction">CALL <a href="D0F0.html#d317">$D317</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="D317.html">RenderHUD</a></td>
+<td class="comment-1" rowspan="1">Call <a href="D317.html">RenderHUD</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d371"></span>D371</td>
 <td class="instruction">LD HL,$D347</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Call <a href="9006.html">PrintMessaging</a> using <a href="D347.html">Messaging_Player</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d374"></span>D374</td>
 <td class="instruction">CALL <a href="9006.html">PrintMessaging</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d377"></span>D377</td>
 <td class="instruction">LD A,($C41F)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=*<a href="C41E.html#c41f">C41F</a> (player index for the digit).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d37a"></span>D37A</td>
-<td class="instruction">ADD A,$30</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">ADD A,%00110000</td>
+<td class="comment-1" rowspan="1">Convert to ASCII ("&#48;"–"&#57;").</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d37c"></span>D37C</td>
 <td class="instruction">CALL <a href="8DCC.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Call <a href="8DCC.html">PrintDispatch</a> (print dispatch).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d37f"></span>D37F</td>
 <td class="instruction">LD B,$20</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Inner delay loop count 20 (<span class="register">B</span>=20).</td>
 </tr>
 <tr>
+<td class="asm-label">PlayerDeath_IntroDelay</td>
 <td class="address-2"><span id="d381"></span>D381</td>
 <td class="instruction">PUSH BC</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Stash <span class="register">BC</span> on the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d382"></span>D382</td>
-<td class="instruction">CALL <a href="D486.html#daa3">$DAA3</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="D630.html#daa3">$DAA3</a></td>
+<td class="comment-1" rowspan="1">Call <a href="D630.html#daa3">DAA3</a> (short delay).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d385"></span>D385</td>
-<td class="instruction">CALL <a href="C400.html#c713">GameEntryPointAlias_34</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="C713.html">$C713</a></td>
+<td class="comment-1" rowspan="1">Call <a href="C713.html">C713</a> (attribute bar).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d388"></span>D388</td>
 <td class="instruction">POP BC</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Restore <span class="register">BC</span> from the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d389"></span>D389</td>
-<td class="instruction">DJNZ <a href="D367.html#d381">$D381</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">DJNZ <a href="D367.html#d381">PlayerDeath_IntroDelay</a></td>
+<td class="comment-1" rowspan="1">Decrease counter and loop back to <a href="D367.html#d381">PlayerDeath_IntroDelay</a> until the intro delay finishes.</td>
 </tr>
 <tr>
 <td class="routine-comment" colspan="5">
@@ -127,584 +157,249 @@ See <a href="../reference/pokes.html#infinite-lives">Infinite Lives (Final Versi
 </td>
 </tr>
 <tr>
+<td class="asm-label">PlayerDeath_LoseLife</td>
 <td class="address-2"><span id="d38b"></span>D38B</td>
 <td class="instruction">LD HL,$C415</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="C415.html">Lives</a> (lives counter).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d38e"></span>D38E</td>
 <td class="instruction">DEC (HL)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Decrease *<span class="register">HL</span> (lose one life).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d38f"></span>D38F</td>
 <td class="instruction">CALL <a href="D0F0.html#d24c">$D24C</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Call <a href="D0F0.html#d24c">D24C</a> (re-stage the wave / death handling).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d392"></span>D392</td>
 <td class="instruction">LD A,($C415)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Jump to <a href="D367.html#d3a7">PlayerDeath_GameOver</a> if *<a href="C415.html">Lives</a> shows no lives are left.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d395"></span>D395</td>
 <td class="instruction">AND A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d396"></span>D396</td>
-<td class="instruction">JR Z,<a href="D367.html#d3a7">$D3A7</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR Z,<a href="D367.html#d3a7">PlayerDeath_GameOver</a></td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="d398"></span>
+<div class="comments">
+<div class="paragraph">
+Lives remain: swap to the other player and continue if two-player mode.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d398"></span>D398</td>
-<td class="instruction">CALL <a href="D07E.html#d08b">$D08B</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="D08B.html">SwapPlayerState</a></td>
+<td class="comment-1" rowspan="1">Call <a href="D08B.html">SwapPlayerState</a>.</td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="d39b"></span>
+<div class="comments">
+<div class="paragraph">
+If not two-player, jump back to <a href="D367.html">PlayerDeath</a> for the same player.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d39b"></span>D39B</td>
 <td class="instruction">LD A,($C41E)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Jump back to <a href="D367.html">PlayerDeath</a> if *<a href="C41E.html">TwoPlayerSessionFlag</a> is not set.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d39e"></span>D39E</td>
 <td class="instruction">CP $01</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d3a0"></span>D3A0</td>
-<td class="instruction">JR NZ,<a href="D367.html#d367">$D367</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR NZ,<a href="D367.html#d367">PlayerDeath</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d3a2"></span>D3A2</td>
-<td class="instruction">CALL <a href="D07E.html#d08b">$D08B</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="D08B.html">SwapPlayerState</a></td>
+<td class="comment-1" rowspan="1">Call <a href="D08B.html">SwapPlayerState</a> (swap back).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d3a5"></span>D3A5</td>
-<td class="instruction">JR <a href="D367.html#d367">$D367</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR <a href="D367.html#d367">PlayerDeath</a></td>
+<td class="comment-1" rowspan="1">Jump back to <a href="D367.html">PlayerDeath</a>.</td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="d3a7"></span>
+<div class="comments">
+<div class="paragraph">
+No lives left: redraw the HUD, then either the "PLAYER" line or straight to "GAME OVER" depending on *<a href="C532.html">DeathSequenceMode</a>, with a longer delay loop.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">PlayerDeath_GameOver</td>
 <td class="address-2"><span id="d3a7"></span>D3A7</td>
-<td class="instruction">CALL <a href="D0F0.html#d317">$D317</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="D317.html">RenderHUD</a></td>
+<td class="comment-1" rowspan="1">Call <a href="D317.html">RenderHUD</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d3aa"></span>D3AA</td>
 <td class="instruction">LD A,($C532)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Jump to <a href="D367.html#d3bf">PlayerDeath_GameOverDelay</a> if *<a href="C532.html">DeathSequenceMode</a> is 01.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d3ad"></span>D3AD</td>
 <td class="instruction">CP $01</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d3af"></span>D3AF</td>
-<td class="instruction">JR Z,<a href="D367.html#d3bf">$D3BF</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR Z,<a href="D367.html#d3bf">PlayerDeath_GameOverDelay</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d3b1"></span>D3B1</td>
 <td class="instruction">LD HL,$D347</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Call <a href="9006.html">PrintMessaging</a> using <a href="D347.html">Messaging_Player</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d3b4"></span>D3B4</td>
 <td class="instruction">CALL <a href="9006.html">PrintMessaging</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d3b7"></span>D3B7</td>
 <td class="instruction">LD A,($C41F)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=*<a href="C41E.html#c41f">C41F</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d3ba"></span>D3BA</td>
-<td class="instruction">ADD A,$30</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">ADD A,%00110000</td>
+<td class="comment-1" rowspan="1">Convert to ASCII.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d3bc"></span>D3BC</td>
 <td class="instruction">CALL <a href="8DCC.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Call <a href="8DCC.html">PrintDispatch</a>.</td>
 </tr>
 <tr>
+<td class="asm-label">PlayerDeath_GameOverDelay</td>
 <td class="address-2"><span id="d3bf"></span>D3BF</td>
 <td class="instruction">LD HL,$D356</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Call <a href="9006.html">PrintMessaging</a> using <a href="D356.html">Messaging_GameOver</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d3c2"></span>D3C2</td>
 <td class="instruction">CALL <a href="9006.html">PrintMessaging</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d3c5"></span>D3C5</td>
 <td class="instruction">LD B,$29</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Longer delay loop count 29 (<span class="register">B</span>=29).</td>
 </tr>
 <tr>
+<td class="asm-label">PlayerDeath_GameOverDelayLoop</td>
 <td class="address-2"><span id="d3c7"></span>D3C7</td>
 <td class="instruction">PUSH BC</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Stash <span class="register">BC</span> on the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d3c8"></span>D3C8</td>
-<td class="instruction">CALL <a href="D486.html#daa3">$DAA3</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="D630.html#daa3">$DAA3</a></td>
+<td class="comment-1" rowspan="1">Call <a href="D630.html#daa3">DAA3</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d3cb"></span>D3CB</td>
-<td class="instruction">CALL <a href="C400.html#c713">GameEntryPointAlias_34</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="C713.html">$C713</a></td>
+<td class="comment-1" rowspan="1">Call <a href="C713.html">C713</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d3ce"></span>D3CE</td>
 <td class="instruction">POP BC</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Restore <span class="register">BC</span> from the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d3cf"></span>D3CF</td>
-<td class="instruction">DJNZ <a href="D367.html#d3c7">$D3C7</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">DJNZ <a href="D367.html#d3c7">PlayerDeath_GameOverDelayLoop</a></td>
+<td class="comment-1" rowspan="1">Decrease counter and loop back to <a href="D367.html#d3c7">PlayerDeath_GameOverDelayLoop</a>.</td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="d3d1"></span>
+<div class="comments">
+<div class="paragraph">
+Set *<a href="C41E.html">TwoPlayerSessionFlag</a> to 01 swap players with <a href="D08B.html">SwapPlayerState</a>, then branch on the flag read back from *<a href="C41E.html">TwoPlayerSessionFlag</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d3d1"></span>D3D1</td>
 <td class="instruction">LD A,$01</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Write 01 to *<a href="C41E.html">TwoPlayerSessionFlag</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d3d3"></span>D3D3</td>
 <td class="instruction">LD ($C41E),A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d3d6"></span>D3D6</td>
-<td class="instruction">CALL <a href="D07E.html#d08b">$D08B</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="D08B.html">SwapPlayerState</a></td>
+<td class="comment-1" rowspan="1">Call <a href="D08B.html">SwapPlayerState</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d3d9"></span>D3D9</td>
 <td class="instruction">LD A,($C41E)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Jump to <a href="EBBC.html">GameEntryPoint</a> if *<a href="C41E.html">TwoPlayerSessionFlag</a> is 01 (attract mode).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d3dc"></span>D3DC</td>
 <td class="instruction">CP $01</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d3de"></span>D3DE</td>
 <td class="instruction">JP Z,<a href="EBBC.html">GameEntryPoint</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d3e1"></span>D3E1</td>
-<td class="instruction">JP <a href="D367.html#d367">$D367</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d3e4"></span>D3E4</td>
-<td class="instruction">LD SP,HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d3e5"></span>D3E5</td>
-<td class="instruction">DEFB $DD</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d3e6"></span>D3E6</td>
-<td class="instruction">DEC C</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d3e7"></span>D3E7</td>
-<td class="instruction">SBC A,$27</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d3e9"></span>D3E9</td>
-<td class="instruction">SBC A,$41</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d3eb"></span>D3EB</td>
-<td class="instruction">SBC A,$5B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d3ed"></span>D3ED</td>
-<td class="instruction">SBC A,$75</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d3ef"></span>D3EF</td>
-<td class="instruction">SBC A,$8F</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d3f1"></span>D3F1</td>
-<td class="instruction">SBC A,$A6</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d3f3"></span>D3F3</td>
-<td class="instruction">SBC A,$C0</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d3f5"></span>D3F5</td>
-<td class="instruction">SBC A,$DA</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d3f7"></span>D3F7</td>
-<td class="instruction">SBC A,$3A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d3f9"></span>D3F9</td>
-<td class="instruction">CP $C4</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d3fb"></span>D3FB</td>
-<td class="instruction">DEC A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d3fc"></span>D3FC</td>
-<td class="instruction">ADD A,A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d3fd"></span>D3FD</td>
-<td class="instruction">LD E,A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d3fe"></span>D3FE</td>
-<td class="instruction">LD D,$00</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d400"></span>D400</td>
-<td class="instruction">LD HL,$D3E4</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d403"></span>D403</td>
-<td class="instruction">ADD HL,DE</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d404"></span>D404</td>
-<td class="instruction">LD A,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d405"></span>D405</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d406"></span>D406</td>
-<td class="instruction">LD H,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d407"></span>D407</td>
-<td class="instruction">LD L,A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d408"></span>D408</td>
-<td class="instruction">LD ($C519),HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d40b"></span>D40B</td>
-<td class="instruction">LD A,B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d40c"></span>D40C</td>
-<td class="instruction">LD ($C532),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d40f"></span>D40F</td>
-<td class="instruction">LD A,($C416)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d412"></span>D412</td>
-<td class="instruction">CP $3C</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d414"></span>D414</td>
-<td class="instruction">JR Z,<a href="D367.html#d41b">$D41B</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d416"></span>D416</td>
-<td class="instruction">PUSH BC</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d417"></span>D417</td>
-<td class="instruction">CALL <a href="D07E.html#d08b">$D08B</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d41a"></span>D41A</td>
-<td class="instruction">POP BC</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-2"><span id="d41b"></span>D41B</td>
-<td class="instruction">LD A,$03</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d41d"></span>D41D</td>
-<td class="instruction">LD ($C415),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d420"></span>D420</td>
-<td class="instruction">XOR A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d421"></span>D421</td>
-<td class="instruction">LD ($C41E),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d424"></span>D424</td>
-<td class="instruction">LD A,$44</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d426"></span>D426</td>
-<td class="instruction">LD ($C42E),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d429"></span>D429</td>
-<td class="instruction">LD ($C46E),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d42c"></span>D42C</td>
-<td class="instruction">LD A,B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d42d"></span>D42D</td>
-<td class="instruction">CP $01</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d42f"></span>D42F</td>
-<td class="instruction">JR Z,<a href="D367.html#d442">$D442</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d431"></span>D431</td>
-<td class="instruction">CALL <a href="D07E.html#d08b">$D08B</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d434"></span>D434</td>
-<td class="instruction">LD A,$03</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d436"></span>D436</td>
-<td class="instruction">LD ($C415),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d439"></span>D439</td>
-<td class="instruction">XOR A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d43a"></span>D43A</td>
-<td class="instruction">LD ($C41E),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d43d"></span>D43D</td>
-<td class="instruction">LD A,$44</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d43f"></span>D43F</td>
-<td class="instruction">LD ($C42E),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-2"><span id="d442"></span>D442</td>
-<td class="instruction">LD HL,$D481</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d445"></span>D445</td>
-<td class="instruction">CALL <a href="9006.html">PrintMessaging</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d448"></span>D448</td>
-<td class="instruction">XOR A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d449"></span>D449</td>
-<td class="instruction">LD B,$02</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-2"><span id="d44b"></span>D44B</td>
-<td class="instruction">LD HL,$C403</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d44e"></span>D44E</td>
-<td class="instruction">LD C,$04</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-2"><span id="d450"></span>D450</td>
-<td class="instruction">LD (HL),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d451"></span>D451</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d452"></span>D452</td>
-<td class="instruction">DEC C</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d453"></span>D453</td>
-<td class="instruction">JR NZ,<a href="D367.html#d450">$D450</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d455"></span>D455</td>
-<td class="instruction">LD ($C408),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d458"></span>D458</td>
-<td class="instruction">LD ($C41C),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d45b"></span>D45B</td>
-<td class="instruction">LD HL,$C418</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d45e"></span>D45E</td>
-<td class="instruction">LD (HL),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d45f"></span>D45F</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d460"></span>D460</td>
-<td class="instruction">LD (HL),$02</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d462"></span>D462</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d463"></span>D463</td>
-<td class="instruction">LD (HL),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d464"></span>D464</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d465"></span>D465</td>
-<td class="instruction">LD (HL),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d466"></span>D466</td>
-<td class="instruction">LD HL,($C519)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d469"></span>D469</td>
-<td class="instruction">LD ($C409),HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d46c"></span>D46C</td>
-<td class="instruction">PUSH BC</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d46d"></span>D46D</td>
-<td class="instruction">CALL <a href="D07E.html#d08b">$D08B</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d470"></span>D470</td>
-<td class="instruction">POP BC</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d471"></span>D471</td>
-<td class="instruction">DJNZ <a href="D367.html#d44b">$D44B</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d473"></span>D473</td>
-<td class="instruction">LD A,($C416)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d476"></span>D476</td>
-<td class="instruction">CP $3C</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d478"></span>D478</td>
-<td class="instruction">JP Z,<a href="D367.html#d367">$D367</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d47b"></span>D47B</td>
-<td class="instruction">CALL <a href="D07E.html#d08b">$D08B</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d47e"></span>D47E</td>
-<td class="instruction">JP <a href="D367.html#d367">$D367</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JP <a href="D367.html#d367">PlayerDeath</a></td>
+<td class="comment-1" rowspan="1">Jump back to <a href="D367.html">PlayerDeath</a>.</td>
 </tr>
 </table>
 <table class="asm-navigation">
@@ -714,14 +409,14 @@ Prev: <a href="D356.html">D356</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#d367">Map</a></td>
 <td class="next">
-Next: <a href="D481.html">D481</a>
+Next: <a href="D3E4.html">D3E4</a>
 </td>
 </tr>
 </table>
 <footer>
 <div class="release"></div>
 <div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
-<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 9.6.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
 <div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
 <div><a href="../dec/asm/54119.html">Switch to decimal</a>.</div>
 </footer>

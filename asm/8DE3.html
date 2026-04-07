@@ -462,7 +462,7 @@ Set PAPER colour parameter handler. Called on the byte immediately following a 1
 <span id="8e52"></span>
 <div class="comments">
 <div class="paragraph">
-Set FLASH parameter handler. Called on the byte immediately following a 12 (FLASH) control code. Sets or clears bit 07 of the attribute byte at <a href="8004.html">PrintState_Attr</a>.
+Set FLASH parameter handler. Called on the byte immediately following a 12 (FLASH) control code. Sets or clears bit 7 of the attribute byte at <a href="8004.html">PrintState_Attr</a>.
 </div>
 </div>
 </td>
@@ -483,7 +483,7 @@ Set FLASH parameter handler. Called on the byte immediately following a 12 (FLAS
 <td class="asm-label"></td>
 <td class="address-1"><span id="8e57"></span>8E57</td>
 <td class="instruction">BIT 0,B</td>
-<td class="comment-1" rowspan="1">Test bit 00 of the masked parameter.</td>
+<td class="comment-1" rowspan="1">Test bit 0 of the masked parameter.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -495,7 +495,7 @@ Set FLASH parameter handler. Called on the byte immediately following a 12 (FLAS
 <td class="asm-label"></td>
 <td class="address-1"><span id="8e5b"></span>8E5B</td>
 <td class="instruction">SET 7,(IX+$04)</td>
-<td class="comment-1" rowspan="1">Set the FLASH bit (07) of the attribute byte at <a href="8004.html">PrintState_Attr</a>.</td>
+<td class="comment-1" rowspan="1">Set the FLASH bit (7) of the attribute byte at <a href="8004.html">PrintState_Attr</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -507,7 +507,7 @@ Set FLASH parameter handler. Called on the byte immediately following a 12 (FLAS
 <td class="asm-label">PrintHandler_Flash_Off</td>
 <td class="address-2"><span id="8e60"></span>8E60</td>
 <td class="instruction">RES 7,(IX+$04)</td>
-<td class="comment-1" rowspan="1">Clear the FLASH bit (07) of the attribute byte at 8004.</td>
+<td class="comment-1" rowspan="1">Clear the FLASH bit (7) of the attribute byte at 8004.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -520,7 +520,7 @@ Set FLASH parameter handler. Called on the byte immediately following a 12 (FLAS
 <span id="8e65"></span>
 <div class="comments">
 <div class="paragraph">
-Set BRIGHT parameter handler. Called on the byte immediately following a 13 (BRIGHT) control code. Sets or clears bit 06 of the attribute byte at 8004.
+Set BRIGHT parameter handler. Called on the byte immediately following a 13 (BRIGHT) control code. Sets or clears bit 6 of the attribute byte at 8004.
 </div>
 </div>
 </td>
@@ -541,7 +541,7 @@ Set BRIGHT parameter handler. Called on the byte immediately following a 13 (BRI
 <td class="asm-label"></td>
 <td class="address-1"><span id="8e6a"></span>8E6A</td>
 <td class="instruction">BIT 0,B</td>
-<td class="comment-1" rowspan="1">Test bit 00 of the masked parameter.</td>
+<td class="comment-1" rowspan="1">Test bit 0 of the masked parameter.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -553,7 +553,7 @@ Set BRIGHT parameter handler. Called on the byte immediately following a 13 (BRI
 <td class="asm-label"></td>
 <td class="address-1"><span id="8e6e"></span>8E6E</td>
 <td class="instruction">SET 6,(IX+$04)</td>
-<td class="comment-1" rowspan="1">Set the BRIGHT bit (06) of the attribute byte at 8004.</td>
+<td class="comment-1" rowspan="1">Set the BRIGHT bit (6) of the attribute byte at 8004.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -565,7 +565,7 @@ Set BRIGHT parameter handler. Called on the byte immediately following a 13 (BRI
 <td class="asm-label">PrintHandler_Bright_Off</td>
 <td class="address-2"><span id="8e73"></span>8E73</td>
 <td class="instruction">RES 6,(IX+$04)</td>
-<td class="comment-1" rowspan="1">Clear the BRIGHT bit (06) of the attribute byte at 8004.</td>
+<td class="comment-1" rowspan="1">Clear the BRIGHT bit (6) of the attribute byte at 8004.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -806,7 +806,7 @@ Right margin parameter handler. Called on the byte immediately following a 19 co
 <td class="asm-label"></td>
 <td class="address-1"><span id="8ebd"></span>8EBD</td>
 <td class="instruction">SET 0,(IX+$07)</td>
-<td class="comment-1" rowspan="1">Set the wrap flag (bit 00 of *8007).</td>
+<td class="comment-1" rowspan="1">Set the wrap flag (bit 0 of *8007).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -981,7 +981,7 @@ Parameter mask and validation utility. Called by control code parameter handlers
 <td class="asm-label"></td>
 <td class="address-1"><span id="8eef"></span>8EEF</td>
 <td class="instruction">SET 0,(IX+$07)</td>
-<td class="comment-1" rowspan="1">Otherwise set the out-of-range flag (bit 00 of *8007).</td>
+<td class="comment-1" rowspan="1">Otherwise set the out-of-range flag (bit 0 of *8007).</td>
 </tr>
 <tr>
 <td class="asm-label">PrintHandler_MaskParam_Mask</td>
@@ -1866,7 +1866,7 @@ Next: <a href="8FD0.html">8FD0</a>
 <footer>
 <div class="release"></div>
 <div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
-<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 9.6.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
 <div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
 <div><a href="../dec/asm/36323.html">Switch to decimal</a>.</div>
 </footer>

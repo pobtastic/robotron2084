@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 54264</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="54244.html">54244</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#54264">Map</a></td>
+<td class="next">
+Next: <a href="54401.html">54401</a>
+</td>
+</tr>
+</table>
+<div class="description">54264: Player Death: Tape Load Continue</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="60667.html">60667</a>.
+</div>
+</div>
+<table class="input">
+<tr class="asm-input-header">
+<th colspan="2">Input</th>
+</tr>
+<tr>
+<td class="register">B</td>
+<td class="register-desc">Scratch (from the tape block header at *<a href="50429.html">50429</a>).</td>
+</tr>
+<tr>
+<td class="register">E</td>
+<td class="register-desc">Scratch (from the tape block header at *<a href="50430.html">50430</a>).</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="54264"></span>
+<div class="comments">
+<div class="paragraph">
+This routine is called after a successful tape load.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">PlayerDeath_TapeLoadContinue</td>
+<td class="address-2"><span id="54264"></span>54264</td>
+<td class="instruction">LD A,(50430)</td>
+<td class="comment-1" rowspan="1">Load <span class="register">A</span> with *<a href="50430.html">50430</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54267"></span>54267</td>
+<td class="instruction">DEC A</td>
+<td class="comment-1" rowspan="1">Decrease <span class="register">A</span> by one.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54268"></span>54268</td>
+<td class="instruction">ADD A,A</td>
+<td class="comment-1" rowspan="2"><span class="register">E</span>=<span class="register">A</span> multiplied by 2.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54269"></span>54269</td>
+<td class="instruction">LD E,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54270"></span>54270</td>
+<td class="instruction">LD D,0</td>
+<td class="comment-1" rowspan="1"><span class="register">D</span>=0 (high byte of index).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54272"></span>54272</td>
+<td class="instruction">LD HL,54244</td>
+<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="54244.html">54244</a> (base of the lookup table).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54275"></span>54275</td>
+<td class="instruction">ADD HL,DE</td>
+<td class="comment-1" rowspan="1">Add <span class="register">DE</span> into <span class="register">HL</span> (index into the table).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54276"></span>54276</td>
+<td class="instruction">LD A,(HL)</td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=*(<span class="register">HL</span>) (low byte of the table word).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54277"></span>54277</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Advance <span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54278"></span>54278</td>
+<td class="instruction">LD H,(HL)</td>
+<td class="comment-1" rowspan="1"><span class="register">H</span>=*(<span class="register">HL</span>) (high byte of the table word).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54279"></span>54279</td>
+<td class="instruction">LD L,A</td>
+<td class="comment-1" rowspan="1"><span class="register">L</span>=<span class="register">A</span> (little-endian word in <span class="register">HL</span>).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54280"></span>54280</td>
+<td class="instruction">LD (50457),HL</td>
+<td class="comment-1" rowspan="1">Write the pointer to *<a href="50457.html">WaveStartPointer</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54283"></span>54283</td>
+<td class="instruction">LD A,B</td>
+<td class="comment-1" rowspan="2">Write <span class="register">B</span> (variant/ slot) to *<a href="50482.html">DeathSequenceMode</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54284"></span>54284</td>
+<td class="instruction">LD (50482),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54287"></span>54287</td>
+<td class="instruction">LD A,(50198)</td>
+<td class="comment-1" rowspan="3">Jump to <a href="54264.html#54299">PlayerDeath_InitMaxWave</a> if *<a href="50198.html">Wave</a> is at the maximum wave.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54290"></span>54290</td>
+<td class="instruction">CP 60</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54292"></span>54292</td>
+<td class="instruction">JR Z,<a href="54264.html#54299">PlayerDeath_InitMaxWave</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54294"></span>54294</td>
+<td class="instruction">PUSH BC</td>
+<td class="comment-1" rowspan="1">Stash <span class="register">BC</span> on the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54295"></span>54295</td>
+<td class="instruction">CALL <a href="53387.html">SwapPlayerState</a></td>
+<td class="comment-1" rowspan="1">Call <a href="53387.html">SwapPlayerState</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54298"></span>54298</td>
+<td class="instruction">POP BC</td>
+<td class="comment-1" rowspan="1">Restore <span class="register">BC</span> from the stack.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="54299"></span>
+<div class="comments">
+<div class="paragraph">
+Set the starting lives.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">PlayerDeath_InitMaxWave</td>
+<td class="address-2"><span id="54299"></span>54299</td>
+<td class="instruction">LD A,3</td>
+<td class="comment-1" rowspan="2">Write 3 to *<a href="50197.html">Lives</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54301"></span>54301</td>
+<td class="instruction">LD (50197),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54304"></span>54304</td>
+<td class="instruction">XOR A</td>
+<td class="comment-1" rowspan="2">Write 0 to *<a href="50206.html">TwoPlayerSessionFlag</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54305"></span>54305</td>
+<td class="instruction">LD (50206),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54308"></span>54308</td>
+<td class="instruction">LD A,68</td>
+<td class="comment-1" rowspan="3">Write INK:
+GREEN,
+PAPER:
+BLACK
+(BRIGHT)
+ (68) to; <ul class="">
+<li>*<a href="50222.html">50222</a></li>
+<li>*<a href="50286.html">50286</a></li>
+</ul></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54310"></span>54310</td>
+<td class="instruction">LD (50222),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54313"></span>54313</td>
+<td class="instruction">LD (50286),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54316"></span>54316</td>
+<td class="instruction">LD A,B</td>
+<td class="comment-1" rowspan="3">Jump to <a href="54264.html#54338">PlayerDeath_NewGameSetup</a> (margins + clear) if this is player 1.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54317"></span>54317</td>
+<td class="instruction">CP 1</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54319"></span>54319</td>
+<td class="instruction">JR Z,<a href="54264.html#54338">PlayerDeath_NewGameSetup</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54321"></span>54321</td>
+<td class="instruction">CALL <a href="53387.html">SwapPlayerState</a></td>
+<td class="comment-1" rowspan="1">Call <a href="53387.html">SwapPlayerState</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54324"></span>54324</td>
+<td class="instruction">LD A,3</td>
+<td class="comment-1" rowspan="2">Write 3 to *<a href="50197.html">Lives</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54326"></span>54326</td>
+<td class="instruction">LD (50197),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54329"></span>54329</td>
+<td class="instruction">XOR A</td>
+<td class="comment-1" rowspan="2">Write 0 to *<a href="50206.html">TwoPlayerSessionFlag</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54330"></span>54330</td>
+<td class="instruction">LD (50206),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54333"></span>54333</td>
+<td class="instruction">LD A,68</td>
+<td class="comment-1" rowspan="2">Write INK:
+GREEN,
+PAPER:
+BLACK
+(BRIGHT)
+ (68) to *<a href="50222.html">50222</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54335"></span>54335</td>
+<td class="instruction">LD (50222),A</td>
+</tr>
+<tr>
+<td class="asm-label">PlayerDeath_NewGameSetup</td>
+<td class="address-2"><span id="54338"></span>54338</td>
+<td class="instruction">LD HL,54401</td>
+<td class="comment-1" rowspan="2">Call <a href="36870.html">PrintMessaging</a> using <a href="54401.html">Messaging_ResetMargins</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54341"></span>54341</td>
+<td class="instruction">CALL <a href="36870.html">PrintMessaging</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54344"></span>54344</td>
+<td class="instruction">XOR A</td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=0.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54345"></span>54345</td>
+<td class="instruction">LD B,2</td>
+<td class="comment-1" rowspan="1">Outer loop: two player slots (<span class="register">B</span>=2).</td>
+</tr>
+<tr>
+<td class="asm-label">PlayerDeath_ClearPlayerSlot</td>
+<td class="address-2"><span id="54347"></span>54347</td>
+<td class="instruction">LD HL,50179</td>
+<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="50179.html">Player_1_State</a> (player 1 state block).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54350"></span>54350</td>
+<td class="instruction">LD C,4</td>
+<td class="comment-1" rowspan="1">Clear 4 bytes per slot (<span class="register">C</span>=4).</td>
+</tr>
+<tr>
+<td class="asm-label">PlayerDeath_ClearPlayerBytes</td>
+<td class="address-2"><span id="54352"></span>54352</td>
+<td class="instruction">LD (HL),A</td>
+<td class="comment-1" rowspan="1">Write <span class="register">A</span> to *<span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54353"></span>54353</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Advance <span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54354"></span>54354</td>
+<td class="instruction">DEC C</td>
+<td class="comment-1" rowspan="1">Decrease <span class="register">C</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54355"></span>54355</td>
+<td class="instruction">JR NZ,<a href="54264.html#54352">PlayerDeath_ClearPlayerBytes</a></td>
+<td class="comment-1" rowspan="1">Loop back to <a href="54264.html#54352">PlayerDeath_ClearPlayerBytes</a> until the slot prefix is cleared.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54357"></span>54357</td>
+<td class="instruction">LD (50184),A</td>
+<td class="comment-1" rowspan="1">Write <span class="register">A</span> to *<a href="50184.html">WaveNumber</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54360"></span>54360</td>
+<td class="instruction">LD (50204),A</td>
+<td class="comment-1" rowspan="1">Write <span class="register">A</span> to *<a href="50204.html">50204</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54363"></span>54363</td>
+<td class="instruction">LD HL,50200</td>
+<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="50200.html">50200</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54366"></span>54366</td>
+<td class="instruction">LD (HL),A</td>
+<td class="comment-1" rowspan="1">Write <span class="register">A</span> to *<span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54367"></span>54367</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Advance <span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54368"></span>54368</td>
+<td class="instruction">LD (HL),2</td>
+<td class="comment-1" rowspan="1">Write 2 to *<span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54370"></span>54370</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Advance <span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54371"></span>54371</td>
+<td class="instruction">LD (HL),A</td>
+<td class="comment-1" rowspan="1">Write <span class="register">A</span> to *<span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54372"></span>54372</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Advance <span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54373"></span>54373</td>
+<td class="instruction">LD (HL),A</td>
+<td class="comment-1" rowspan="1">Write <span class="register">A</span> to *<span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54374"></span>54374</td>
+<td class="instruction">LD HL,(50457)</td>
+<td class="comment-1" rowspan="2">Write *<a href="50457.html">WaveStartPointer</a> to *<a href="50185.html">50185</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54377"></span>54377</td>
+<td class="instruction">LD (50185),HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54380"></span>54380</td>
+<td class="instruction">PUSH BC</td>
+<td class="comment-1" rowspan="1">Stash <span class="register">BC</span> on the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54381"></span>54381</td>
+<td class="instruction">CALL <a href="53387.html">SwapPlayerState</a></td>
+<td class="comment-1" rowspan="1">Call <a href="53387.html">SwapPlayerState</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54384"></span>54384</td>
+<td class="instruction">POP BC</td>
+<td class="comment-1" rowspan="1">Restore <span class="register">BC</span> from the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54385"></span>54385</td>
+<td class="instruction">DJNZ <a href="54264.html#54347">PlayerDeath_ClearPlayerSlot</a></td>
+<td class="comment-1" rowspan="1">Decrease outer counter and loop back to <a href="54264.html#54347">PlayerDeath_ClearPlayerSlot</a> for the second player.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54387"></span>54387</td>
+<td class="instruction">LD A,(50198)</td>
+<td class="comment-1" rowspan="3">Jump back to <a href="54119.html">PlayerDeath</a> if *<a href="50198.html">Wave</a> is still at the maximum wave.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54390"></span>54390</td>
+<td class="instruction">CP 60</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54392"></span>54392</td>
+<td class="instruction">JP Z,<a href="54119.html">PlayerDeath</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54395"></span>54395</td>
+<td class="instruction">CALL <a href="53387.html">SwapPlayerState</a></td>
+<td class="comment-1" rowspan="1">Call <a href="53387.html">SwapPlayerState</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="54398"></span>54398</td>
+<td class="instruction">JP <a href="54119.html">PlayerDeath</a></td>
+<td class="comment-1" rowspan="1">Jump back to <a href="54119.html">PlayerDeath</a>.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="54244.html">54244</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#54264">Map</a></td>
+<td class="next">
+Next: <a href="54401.html">54401</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/D3F8.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

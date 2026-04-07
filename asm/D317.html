@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at D317</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="D30C.html">D30C</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#d317">Map</a></td>
+<td class="next">
+Next: <a href="D347.html">D347</a>
+</td>
+</tr>
+</table>
+<div class="description">D317: Render HUD</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routines at <a href="D0F0.html">D0F0</a> and <a href="D367.html">PlayerDeath</a>.
+</div>
+<div class="paragraph">
+Clears the screen buffer, sets a white background, triggers the wave indicator animation (<a href="D570.html">D570</a>), and redraws the attribute bar (<a href="C713.html">C713</a>) before falling through to <a href="D317.html#d325">RenderHUD_Draw</a>. Scores (<a href="C544.html">C544</a>) and lives (<a href="C794.html">C794</a>) are then rendered for each player in turn by swapping state with <a href="D08B.html">SwapPlayerState</a>; the "WAVE" label and wave number (<a href="D0A7.html">PrintWaveNumber</a>) are printed last for player 1.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">RenderHUD</td>
+<td class="address-2"><span id="d317"></span>D317</td>
+<td class="instruction">CALL <a href="D070.html">ClearScreenBuffer</a></td>
+<td class="comment-1" rowspan="1">Call <a href="D070.html">ClearScreenBuffer</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d31a"></span>D31A</td>
+<td class="instruction">LD A,$07</td>
+<td class="comment-1" rowspan="2">Call <a href="D07E.html">SetBackgroundColour</a> using 
+
+
+WHITE.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d31c"></span>D31C</td>
+<td class="instruction">CALL <a href="D07E.html">SetBackgroundColour</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d31f"></span>D31F</td>
+<td class="instruction">CALL <a href="D570.html">$D570</a></td>
+<td class="comment-1" rowspan="1">Call <a href="D570.html">D570</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d322"></span>D322</td>
+<td class="instruction">CALL <a href="C713.html">$C713</a></td>
+<td class="comment-1" rowspan="1">Call <a href="C713.html">C713</a>.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="d325"></span>
+<div class="comments">
+<div class="paragraph">
+This entry point is used by the routine at <a href="D30C.html">D30C</a>.
+</div>
+<div class="paragraph">
+Shared entry point, also reached from <a href="D30C.html">D30C</a> via JP (which clears the screen and sets the background but skips the wave animation and attribute bar setup). Renders scores and lives for player 1, then swaps to player 2.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">RenderHUD_Draw</td>
+<td class="address-2"><span id="d325"></span>D325</td>
+<td class="instruction">CALL <a href="C544.html">$C544</a></td>
+<td class="comment-1" rowspan="1">Call <a href="C544.html">C544</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d328"></span>D328</td>
+<td class="instruction">CALL <a href="C794.html">$C794</a></td>
+<td class="comment-1" rowspan="1">Call <a href="C794.html">C794</a>.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="d32b"></span>
+<div class="comments">
+<div class="paragraph">
+Swap to player 2 to render their score, lives and wave number.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d32b"></span>D32B</td>
+<td class="instruction">CALL <a href="D08B.html">SwapPlayerState</a></td>
+<td class="comment-1" rowspan="1">Call <a href="D08B.html">SwapPlayerState</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d32e"></span>D32E</td>
+<td class="instruction">CALL <a href="C544.html">$C544</a></td>
+<td class="comment-1" rowspan="1">Call <a href="C544.html">C544</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d331"></span>D331</td>
+<td class="instruction">CALL <a href="C794.html">$C794</a></td>
+<td class="comment-1" rowspan="1">Call <a href="C794.html">C794</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d334"></span>D334</td>
+<td class="instruction">CALL <a href="D0A7.html">PrintWaveNumber</a></td>
+<td class="comment-1" rowspan="1">Call <a href="D0A7.html">PrintWaveNumber</a>.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="d337"></span>
+<div class="comments">
+<div class="paragraph">
+Swap back to player 1; print the "WAVE" label and player 1's wave number, then redraw the attribute bar to complete the HUD.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d337"></span>D337</td>
+<td class="instruction">CALL <a href="D08B.html">SwapPlayerState</a></td>
+<td class="comment-1" rowspan="1">Call <a href="D08B.html">SwapPlayerState</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d33a"></span>D33A</td>
+<td class="instruction">LD HL,$D0E6</td>
+<td class="comment-1" rowspan="2">Call <a href="9006.html">PrintMessaging</a> using <a href="D0E6.html">Messaging_Wave</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d33d"></span>D33D</td>
+<td class="instruction">CALL <a href="9006.html">PrintMessaging</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d340"></span>D340</td>
+<td class="instruction">CALL <a href="D0A7.html">PrintWaveNumber</a></td>
+<td class="comment-1" rowspan="1">Call <a href="D0A7.html">PrintWaveNumber</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d343"></span>D343</td>
+<td class="instruction">CALL <a href="C713.html">$C713</a></td>
+<td class="comment-1" rowspan="1">Call <a href="C713.html">C713</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d346"></span>D346</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="D30C.html">D30C</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#d317">Map</a></td>
+<td class="next">
+Next: <a href="D347.html">D347</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/54039.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

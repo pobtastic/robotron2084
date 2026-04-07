@@ -33,7 +33,7 @@ Next: <a href="63548.html">63548</a>
 </td>
 </tr>
 </table>
-<div class="description">63470: Routine at F7EE</div>
+<div class="description">63470: Animate Intro Sprites</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
@@ -41,293 +41,344 @@ Next: <a href="63548.html">63548</a>
 <div class="paragraph">
 Used by the routine at <a href="62700.html">62700</a>.
 </div>
+<div class="paragraph">
+Iterates over the 24 three-byte entries in the sprite table at <a href="62749.html#62808">62808</a> (Y pixel row at +0 X byte column at +1 attribute byte at +2) to animate the border march effect on the intro screen. For each entry, erases the sprite at its current position (calls <a href="63343.html">XorBlitSprite</a> with bit 7 of <span class="register">E</span> set in shadow to suppress attribute writes), advances the position by one step along a rectangular path (8 pixel rows vertically or 1 byte column horizontally: right across Y=0 down the right side at X=28 left across Y=160 up the left side at X=0), then redraws the sprite at the new position (calls <a href="63343.html">XorBlitSprite</a> with bit 7 clear to write the attribute). Called once per frame by the attract mode loop at <a href="62700.html">62700</a>.
+</div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">AnimateIntroSprites</td>
 <td class="address-2"><span id="63470"></span>63470</td>
 <td class="instruction">LD B,24</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">B</span>=24 (loop counter: 36 sprite entries).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63472"></span>63472</td>
 <td class="instruction">LD HL,62808</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="62749.html#62808">62808</a> (attribute byte position of the first entry).</td>
 </tr>
 <tr>
+<td class="asm-label">AnimateIntroSprites_Loop</td>
 <td class="address-2"><span id="63475"></span>63475</td>
 <td class="instruction">LD A,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=attribute byte from the current entry.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63476"></span>63476</td>
 <td class="instruction">EXX</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="4">Switch to shadow; <span class="register">E</span>=attribute byte; SET bit 7 (erase-mode flag for <a href="63343.html">XorBlitSprite</a>); switch back.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63477"></span>63477</td>
 <td class="instruction">LD E,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63478"></span>63478</td>
 <td class="instruction">SET 7,E</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63480"></span>63480</td>
 <td class="instruction">EXX</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63481"></span>63481</td>
 <td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Back <span class="register">HL</span> two bytes to the Y pixel row (start of entry).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63482"></span>63482</td>
 <td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63483"></span>63483</td>
 <td class="instruction">PUSH HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Stash <span class="register">HL</span> (entry start) and <span class="register">BC</span> on the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63484"></span>63484</td>
 <td class="instruction">PUSH BC</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63485"></span>63485</td>
-<td class="instruction">CALL <a href="63343.html">63343</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="63343.html">XorBlitSprite</a></td>
+<td class="comment-1" rowspan="1">Call <a href="63343.html">XorBlitSprite</a> to erase the sprite at its current position.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63488"></span>63488</td>
 <td class="instruction">POP BC</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Restore <span class="register">BC</span> and <span class="register">HL</span> (entry start).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63489"></span>63489</td>
 <td class="instruction">POP HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="63490"></span>
+<div class="comments">
+<div class="paragraph">
+Advance the sprite position by one step along the rectangular border path. Y pixel row is at *(<span class="register">HL</span>), X byte column at *(<span class="register">HL</span>+1). Steps are 8 pixel rows vertically or 1 byte column horizontally. Wraps at X=28 (right boundary, drop down a row) and Y=160 (bottom boundary, scroll left).
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63490"></span>63490</td>
 <td class="instruction">XOR A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=0.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63491"></span>63491</td>
 <td class="instruction">CP (HL)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">If Y position (*<span class="register">HL</span>) = 0 jump to <a href="63470.html#63521">AnimateIntroSprites_ScrollX</a> (top row: scroll X instead of Y).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63492"></span>63492</td>
-<td class="instruction">JR Z,<a href="63470.html#63521">63521</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR Z,<a href="63470.html#63521">AnimateIntroSprites_ScrollX</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63494"></span>63494</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Read X position (*(<span class="register">HL</span>+1)) and compare with 0; restore <span class="register">HL</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63495"></span>63495</td>
 <td class="instruction">CP (HL)</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63496"></span>63496</td>
 <td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63497"></span>63497</td>
-<td class="instruction">JR NZ,<a href="63470.html#63505">63505</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR NZ,<a href="63470.html#63505">AnimateIntroSprites_CheckBoundary</a></td>
+<td class="comment-1" rowspan="1">If X!=0 jump to <a href="63470.html#63505">AnimateIntroSprites_CheckBoundary</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63499"></span>63499</td>
 <td class="instruction">LD A,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="4">Y −= 8 (on left side, scroll up); jump to <a href="63470.html#63529">AnimateIntroSprites_Draw</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63500"></span>63500</td>
 <td class="instruction">SUB 8</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63502"></span>63502</td>
 <td class="instruction">LD (HL),A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63503"></span>63503</td>
-<td class="instruction">JR <a href="63470.html#63529">63529</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR <a href="63470.html#63529">AnimateIntroSprites_Draw</a></td>
 </tr>
 <tr>
+<td class="asm-label">AnimateIntroSprites_CheckBoundary</td>
 <td class="address-2"><span id="63505"></span>63505</td>
 <td class="instruction">LD A,160</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2"><span class="register">A</span>=160; compare with Y position.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63507"></span>63507</td>
 <td class="instruction">CP (HL)</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63508"></span>63508</td>
-<td class="instruction">JR NZ,<a href="63470.html#63515">63515</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR NZ,<a href="63470.html#63515">AnimateIntroSprites_ScrollDown</a></td>
+<td class="comment-1" rowspan="1">If Y!=160 jump to <a href="63470.html#63515">AnimateIntroSprites_ScrollDown</a> (not at bottom boundary, scroll down).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63510"></span>63510</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">X−− (at bottom boundary, scroll left); jump to <a href="63470.html#63528">AnimateIntroSprites_RestoreHL</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63511"></span>63511</td>
 <td class="instruction">DEC (HL)</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63512"></span>63512</td>
-<td class="instruction">JR <a href="63470.html#63528">63528</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR <a href="63470.html#63528">AnimateIntroSprites_RestoreHL</a></td>
 </tr>
 <tr>
+<td class="asm-label">AnimateIntroSprites_DropRow</td>
 <td class="address-2"><span id="63514"></span>63514</td>
 <td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Back <span class="register">HL</span> to the Y byte.</td>
 </tr>
 <tr>
+<td class="asm-label">AnimateIntroSprites_ScrollDown</td>
 <td class="address-2"><span id="63515"></span>63515</td>
 <td class="instruction">LD A,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="4">Y += 8 (scroll down); jump to <a href="63470.html#63529">AnimateIntroSprites_Draw</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63516"></span>63516</td>
 <td class="instruction">ADD A,8</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63518"></span>63518</td>
 <td class="instruction">LD (HL),A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63519"></span>63519</td>
-<td class="instruction">JR <a href="63470.html#63529">63529</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR <a href="63470.html#63529">AnimateIntroSprites_Draw</a></td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="63521"></span>
+<div class="comments">
+<div class="paragraph">
+Top row (Y=0): if X has reached the right boundary (28), drop a row (Y+=8); otherwise scroll right (X++).
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">AnimateIntroSprites_ScrollX</td>
 <td class="address-2"><span id="63521"></span>63521</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="4">Read X (*(<span class="register">HL</span>+1)); if X=28 jump to <a href="63470.html#63514">AnimateIntroSprites_DropRow</a> (drop a row); otherwise X++.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63522"></span>63522</td>
 <td class="instruction">LD A,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63523"></span>63523</td>
 <td class="instruction">CP 28</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63525"></span>63525</td>
-<td class="instruction">JR Z,<a href="63470.html#63514">63514</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR Z,<a href="63470.html#63514">AnimateIntroSprites_DropRow</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63527"></span>63527</td>
 <td class="instruction">INC (HL)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">X++ (scroll right).</td>
 </tr>
 <tr>
+<td class="asm-label">AnimateIntroSprites_RestoreHL</td>
 <td class="address-2"><span id="63528"></span>63528</td>
 <td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Restore <span class="register">HL</span> to the Y byte position.</td>
 </tr>
 <tr>
+<td class="asm-label">AnimateIntroSprites_Draw</td>
 <td class="address-2"><span id="63529"></span>63529</td>
 <td class="instruction">PUSH HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Stash <span class="register">HL</span> (entry start) and <span class="register">BC</span> on the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63530"></span>63530</td>
 <td class="instruction">PUSH BC</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63531"></span>63531</td>
 <td class="instruction">EXX</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Switch to shadow; RES bit 7 of <span class="register">E</span> (clear erase-mode flag for draw pass); switch back.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63532"></span>63532</td>
 <td class="instruction">RES 7,E</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63534"></span>63534</td>
 <td class="instruction">EXX</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63535"></span>63535</td>
-<td class="instruction">CALL <a href="63343.html">63343</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="63343.html">XorBlitSprite</a></td>
+<td class="comment-1" rowspan="1">Call <a href="63343.html">XorBlitSprite</a> to draw the sprite at the updated position.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63538"></span>63538</td>
 <td class="instruction">POP BC</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Restore <span class="register">BC</span> and <span class="register">HL</span> (entry start).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63539"></span>63539</td>
 <td class="instruction">POP HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63540"></span>63540</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="5">Advance <span class="register">HL</span> by 5 to the attribute byte of the next entry.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63541"></span>63541</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63542"></span>63542</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63543"></span>63543</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63544"></span>63544</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63545"></span>63545</td>
-<td class="instruction">DJNZ <a href="63470.html#63475">63475</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">DJNZ <a href="63470.html#63475">AnimateIntroSprites_Loop</a></td>
+<td class="comment-1" rowspan="1">Decrease counter and loop back to <a href="63470.html#63475">AnimateIntroSprites_Loop</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="63547"></span>63547</td>
 <td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Return.</td>
 </tr>
 </table>
 <table class="asm-navigation">
@@ -344,7 +395,7 @@ Next: <a href="63548.html">63548</a>
 <footer>
 <div class="release"></div>
 <div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
-<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 9.6.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
 <div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
 <div><a href="../../asm/F7EE.html">Switch to hexadecimal</a>.</div>
 </footer>

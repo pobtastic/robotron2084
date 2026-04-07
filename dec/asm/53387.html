@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 53387</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="53374.html">53374</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#53387">Map</a></td>
+<td class="next">
+Next: <a href="53415.html">53415</a>
+</td>
+</tr>
+</table>
+<div class="description">53387: Swap Player State</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routines at <a href="54039.html">RenderHUD</a>, <a href="54119.html">PlayerDeath</a> and <a href="54264.html">PlayerDeath_TapeLoadContinue</a>.
+</div>
+<div class="paragraph">
+Swaps the active and inactive player's 68-byte game state blocks between the player 1 slot at <a href="50179.html">Player_1_State</a> and the player 2 slot at <a href="50247.html">Player_2_State</a>, using <a href="50315.html">50315</a> as a temporary buffer. Called each time the game switches between the two players.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">SwapPlayerState</td>
+<td class="address-2"><span id="53387"></span>53387</td>
+<td class="instruction">LD HL,50179</td>
+<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="50179.html">Player_1_State</a> (player 1 state source).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53390"></span>53390</td>
+<td class="instruction">LD DE,50315</td>
+<td class="comment-1" rowspan="1"><span class="register">DE</span>=<a href="50315.html">50315</a> (temporary buffer destination).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53393"></span>53393</td>
+<td class="instruction">LD BC,68</td>
+<td class="comment-1" rowspan="1"><span class="register">BC</span>=0068 (68 bytes = one player state block).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53396"></span>53396</td>
+<td class="instruction">LDIR</td>
+<td class="comment-1" rowspan="1">Copy player 1 state to the temporary buffer; <span class="register">HL</span> advances to <a href="50247.html">Player_2_State</a> (player 2 state).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53398"></span>53398</td>
+<td class="instruction">LD DE,50179</td>
+<td class="comment-1" rowspan="1"><span class="register">DE</span>=<a href="50179.html">Player_1_State</a> (player 1 slot destination).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53401"></span>53401</td>
+<td class="instruction">LD BC,68</td>
+<td class="comment-1" rowspan="1"><span class="register">BC</span>=0068.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53404"></span>53404</td>
+<td class="instruction">LDIR</td>
+<td class="comment-1" rowspan="1">Copy player 2 state (from <a href="50247.html">Player_2_State</a>) into the player 1 slot.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53406"></span>53406</td>
+<td class="instruction">LD HL,50315</td>
+<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="50315.html">50315</a> (saved player 1 state source).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53409"></span>53409</td>
+<td class="instruction">LD BC,68</td>
+<td class="comment-1" rowspan="1"><span class="register">BC</span>=0068.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53412"></span>53412</td>
+<td class="instruction">LDIR</td>
+<td class="comment-1" rowspan="1">Copy saved player 1 state into the player 2 slot (at <a href="50247.html">Player_2_State</a>).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53414"></span>53414</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="53374.html">53374</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#53387">Map</a></td>
+<td class="next">
+Next: <a href="53415.html">53415</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/D08B.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>
