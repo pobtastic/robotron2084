@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Game status buffer entry at 50425</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-g">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Game status buffer</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="50424.html">50424</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#50425">Map</a></td>
+<td class="next">
+Next: <a href="50429.html">50429</a>
+</td>
+</tr>
+</table>
+<div class="description">50425: Title Strip Blit Parameters</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Four bytes read by <a href="62982.html">BlitTitleStrips</a>: *<a href="50425.html">TitleBlit_Params</a> and *<a href="50425.html#50428">50428</a> bound the strip loop, *<a href="50425.html#50426">50426</a> selects the screen row / band, *<a href="50425.html#50427">50427</a> is the run length (LDIR) per strip. Filled by <a href="63031.html">DrawAttractTitle</a> before each <a href="62982.html">BlitTitleStrips</a> call.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">TitleBlit_Params</td>
+<td class="address-1"><span id="50425"></span>50425</td>
+<td class="instruction">DEFB 0</td>
+<td class="comment-1" rowspan="1">Strip loop initial index.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50426"></span>50426</td>
+<td class="instruction">DEFB 0</td>
+<td class="comment-1" rowspan="1">Row / band parameter for the screen row address lookup table.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50427"></span>50427</td>
+<td class="instruction">DEFB 0</td>
+<td class="comment-1" rowspan="1">Bytes per strip (LDIR count).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50428"></span>50428</td>
+<td class="instruction">DEFB 0</td>
+<td class="comment-1" rowspan="1">Strip loop terminal index (stop when <span class="register">B</span> reaches this value).</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="50424.html">50424</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#50425">Map</a></td>
+<td class="next">
+Next: <a href="50429.html">50429</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/C4F9.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Game status buffer entry at C521</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-g">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Game status buffer</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="C51B.html">C51B</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#c521">Map</a></td>
+<td class="next">
+Next: <a href="C52F.html">C52F</a>
+</td>
+</tr>
+</table>
+<div class="description">C521: Entity State Pointer</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Two-byte pointer written by <a href="D9C4.html">Initialise_Entity_State</a> from the entity state table at <a href="D9EA.html">Entity_State_Table</a>. Read by <a href="D9E0.html">Dispatch_Entity_State_Handler</a> and executed via JP (HL) to dispatch the current entity state handler.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Entity_State_Pointer</td>
+<td class="address-1"><span id="c521"></span>C521</td>
+<td class="instruction">DEFW <a href="CD34.html#ceb8">$CEB8</a></td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="c523"></span>C523</td>
+<td class="instruction">DEFB $00,$00,$00,$00,$00,$00,$00,$00</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="c52b"></span>C52B</td>
+<td class="instruction">DEFB $00,$00,$00,$00</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="C51B.html">C51B</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#c521">Map</a></td>
+<td class="next">
+Next: <a href="C52F.html">C52F</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/50465.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

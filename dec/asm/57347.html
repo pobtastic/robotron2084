@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 57347</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="56825.html">56825</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#57347">Map</a></td>
+<td class="next">
+Next: <a href="57634.html">57634</a>
+</td>
+</tr>
+</table>
+<div class="description">57347: Process Entity Record</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Processes one entity slot in the wave entity list. If the slot is active, the enemy's animation colours are updated on screen via <a href="52532.html#53156">Clear_Colour_Bar_Column_26</a> and its animation counter decremented. If the counter expires the enemy is erased and the slot retired. If the slot holds spawn data (<a href="57347.html#57393">Process_Entity_Record_Inactive</a>), a new enemy position is found and the enemy is placed in the play area.
+</div>
+</div>
+<table class="input">
+<tr class="asm-input-header">
+<th colspan="2">Input</th>
+</tr>
+<tr>
+<td class="register">HL</td>
+<td class="register-desc">Pointer to the entity type/state byte</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Entity_Record_Fast</td>
+<td class="address-2"><span id="57347"></span>57347</td>
+<td class="instruction">LD A,(HL)</td>
+<td class="comment-1" rowspan="1">Read the entity's animation counter.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57348"></span>57348</td>
+<td class="instruction">JP <a href="57347.html#57356">Process_Entity_Record_Tick</a></td>
+<td class="comment-1" rowspan="1">Jump to <a href="57347.html#57356">Process_Entity_Record_Tick</a>.</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Entity_Record</td>
+<td class="address-1"><span id="57351"></span>57351</td>
+<td class="instruction">LD A,(HL)</td>
+<td class="comment-1" rowspan="1">Read the entity's animation counter.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57352"></span>57352</td>
+<td class="instruction">AND A</td>
+<td class="comment-1" rowspan="2">Jump to <a href="57347.html#57393">Process_Entity_Record_Inactive</a> if the entity slot is inactive.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57353"></span>57353</td>
+<td class="instruction">JP Z,<a href="57347.html#57393">Process_Entity_Record_Inactive</a></td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="57356"></span>
+<div class="comments">
+<div class="paragraph">
+Update the enemy's on-screen colour then advance its animation counter. If the counter expires the enemy is erased.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Entity_Record_Tick</td>
+<td class="address-2"><span id="57356"></span>57356</td>
+<td class="instruction">AND %00000111</td>
+<td class="comment-1" rowspan="1">Extract the three-bit animation frame number.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57358"></span>57358</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Move past the animation counter byte.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57359"></span>57359</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="1">Stash the entity data pointer on the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57360"></span>57360</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="3">Pass the animation frame number to the colouring routine.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57361"></span>57361</td>
+<td class="instruction">LD B,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57362"></span>57362</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57363"></span>57363</td>
+<td class="instruction">CALL <a href="52532.html#53156">Clear_Colour_Bar_Column_26</a></td>
+<td class="comment-1" rowspan="1">Call <a href="52532.html#53156">Clear_Colour_Bar_Column_26</a> to colour the entity on screen.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57366"></span>57366</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="1">Restore the entity data pointer from the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57367"></span>57367</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="1">Step back to the animation counter byte.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57368"></span>57368</td>
+<td class="instruction">DEC (HL)</td>
+<td class="comment-1" rowspan="2">Advance the animation frame and jump to <a href="57347.html#57388">Process_Entity_Record_Next7</a> if not yet expired.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57369"></span>57369</td>
+<td class="instruction">JP NZ,<a href="57347.html#57388">Process_Entity_Record_Next7</a></td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="57372"></span>
+<div class="comments">
+<div class="paragraph">
+The animation counter has run down to zero: remove the enemy from the screen.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57372"></span>57372</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Move past the animation counter byte.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57373"></span>57373</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="1">Stash the entity data pointer on the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57374"></span>57374</td>
+<td class="instruction">CALL <a href="54832.html">Erase_Entity_Sprite</a></td>
+<td class="comment-1" rowspan="1">Call <a href="54832.html">Erase_Entity_Sprite</a> to erase the enemy sprite from the screen.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57377"></span>57377</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="1">Restore the entity data pointer from the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57378"></span>57378</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="3">Step back to the entity handler address field.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57379"></span>57379</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57380"></span>57380</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57381"></span>57381</td>
+<td class="instruction">LD DE,57388</td>
+<td class="comment-1" rowspan="1">Load <a href="57347.html#57388">Process_Entity_Record_Next7</a> as the replacement entity handler.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57384"></span>57384</td>
+<td class="instruction">LD (HL),E</td>
+<td class="comment-1" rowspan="4">Write <a href="57347.html#57388">Process_Entity_Record_Next7</a> into the entity handler address field.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57385"></span>57385</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57386"></span>57386</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57387"></span>57387</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="57388"></span>
+<div class="comments">
+<div class="paragraph">
+This entry point is used by the routines at <a href="52532.html">Clear_Colour_Bar_Column</a> and <a href="59852.html">Animate_Wall_Bouncing_Enemy_Death</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Entity_Record_Next7</td>
+<td class="address-2"><span id="57388"></span>57388</td>
+<td class="instruction">LD DE,7</td>
+<td class="comment-1" rowspan="3">Skip to the next entity record and return.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57391"></span>57391</td>
+<td class="instruction">ADD HL,DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57392"></span>57392</td>
+<td class="instruction">RET</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="57393"></span>
+<div class="comments">
+<div class="paragraph">
+This slot holds spawn data for a new enemy. Erase any ghost at the target position, check it falls within the play area, then try to place the enemy.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Entity_Record_Inactive</td>
+<td class="address-2"><span id="57393"></span>57393</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Move past the animation counter byte.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57394"></span>57394</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="1">Stash the entity data pointer on the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57395"></span>57395</td>
+<td class="instruction">CALL <a href="51529.html">Erase_Wide_Entity_Sprite</a></td>
+<td class="comment-1" rowspan="1">Call <a href="51529.html">Erase_Wide_Entity_Sprite</a> to erase any residual sprite at the spawn position.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57398"></span>57398</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="1">Restore the entity data pointer from the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57399"></span>57399</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Move to the entity's Y position.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57400"></span>57400</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="3">Set the play area boundary data address for the bounds check.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57401"></span>57401</td>
+<td class="instruction">LD HL,50388</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57404"></span>57404</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57405"></span>57405</td>
+<td class="instruction">CALL <a href="50906.html">HitTestBounds8AtHL</a></td>
+<td class="comment-1" rowspan="1">Call <a href="50906.html">HitTestBounds8AtHL</a> to test if the spawn position is within the play area.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57408"></span>57408</td>
+<td class="instruction">JP NC,<a href="57347.html#57527">Process_Entity_Record_Kill</a></td>
+<td class="comment-1" rowspan="1">Jump to <a href="57347.html#57527">Process_Entity_Record_Kill</a> if the position is outside the play area.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57411"></span>57411</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="3">Step back to the entity type state byte.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57412"></span>57412</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57413"></span>57413</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57414"></span>57414</td>
+<td class="instruction">CALL <a href="53695.html">Generate_Random_Byte</a></td>
+<td class="comment-1" rowspan="1">Call <a href="53695.html">Generate_Random_Byte</a> to determine whether the enemy should change type.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57417"></span>57417</td>
+<td class="instruction">CP 240</td>
+<td class="comment-1" rowspan="2">Stay with the current enemy type if the random roll is below 240.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57419"></span>57419</td>
+<td class="instruction">JP C,<a href="57347.html#57432">Process_Entity_Record_Keep_Type</a></td>
+</tr>
+<tr>
+<td class="asm-label">Process_Entity_Record_Cycle_Type</td>
+<td class="address-2"><span id="57422"></span>57422</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="1">Step back to the entity type state byte.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57423"></span>57423</td>
+<td class="instruction">LD A,(HL)</td>
+<td class="comment-1" rowspan="1">Read the entity type state.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57424"></span>57424</td>
+<td class="instruction">INC A</td>
+<td class="comment-1" rowspan="1">Advance to the next animation variant.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57425"></span>57425</td>
+<td class="instruction">AND %00110011</td>
+<td class="comment-1" rowspan="1">Wrap within the valid entity type range (51).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57427"></span>57427</td>
+<td class="instruction">LD (HL),A</td>
+<td class="comment-1" rowspan="1">Save the new entity type state.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57428"></span>57428</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Move to the entity's animation frame data.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57429"></span>57429</td>
+<td class="instruction">JP <a href="57347.html#57435">Process_Entity_Record_Apply_Delta</a></td>
+<td class="comment-1" rowspan="1">Jump to <a href="57347.html#57435">Process_Entity_Record_Apply_Delta</a>.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="57432"></span>
+<div class="comments">
+<div class="paragraph">
+The random roll was below 240 so the enemy keeps its current type. Load the unchanged type state and fall through to apply a movement step.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Entity_Record_Keep_Type</td>
+<td class="address-2"><span id="57432"></span>57432</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="1">Step back to the entity type state byte.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57433"></span>57433</td>
+<td class="instruction">LD A,(HL)</td>
+<td class="comment-1" rowspan="1">Read the entity type state.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57434"></span>57434</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Move to the entity's animation frame data.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="57435"></span>
+<div class="comments">
+<div class="paragraph">
+Apply a one-step movement from the direction table at <a href="57347.html#57626">Direction_Delta_Table</a>. The direction is derived from the low two bits of the entity type state.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Entity_Record_Apply_Delta</td>
+<td class="address-2"><span id="57435"></span>57435</td>
+<td class="instruction">EX DE,HL</td>
+<td class="comment-1" rowspan="1">Preserve the entity data pointer in <span class="register">DE</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57436"></span>57436</td>
+<td class="instruction">AND %00000011</td>
+<td class="comment-1" rowspan="1">Isolate the movement direction (two bits).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57438"></span>57438</td>
+<td class="instruction">SLA A</td>
+<td class="comment-1" rowspan="5">Index into the direction delta table at <a href="57347.html#57626">Direction_Delta_Table</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57440"></span>57440</td>
+<td class="instruction">LD C,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57441"></span>57441</td>
+<td class="instruction">LD B,0</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57443"></span>57443</td>
+<td class="instruction">LD HL,57626</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57446"></span>57446</td>
+<td class="instruction">ADD HL,BC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57447"></span>57447</td>
+<td class="instruction">EX DE,HL</td>
+<td class="comment-1" rowspan="1">Restore <span class="register">HL</span> to the entity data and <span class="register">DE</span> to the delta entry.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57448"></span>57448</td>
+<td class="instruction">LD A,(DE)</td>
+<td class="comment-1" rowspan="2">Apply the Y movement delta to the enemy's current Y position.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57449"></span>57449</td>
+<td class="instruction">ADD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57450"></span>57450</td>
+<td class="instruction">CP 171</td>
+<td class="comment-1" rowspan="2">Retry with a new type if the enemy moves below the play area.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57452"></span>57452</td>
+<td class="instruction">JP NC,<a href="57347.html#57422">Process_Entity_Record_Cycle_Type</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57455"></span>57455</td>
+<td class="instruction">CP 16</td>
+<td class="comment-1" rowspan="2">Retry with a new type if the enemy moves above the play area.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57457"></span>57457</td>
+<td class="instruction">JP C,<a href="57347.html#57422">Process_Entity_Record_Cycle_Type</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57460"></span>57460</td>
+<td class="instruction">LD C,A</td>
+<td class="comment-1" rowspan="1">Save the validated Y position.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57461"></span>57461</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="2">Advance to the enemy's X position and the X delta.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57462"></span>57462</td>
+<td class="instruction">INC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57463"></span>57463</td>
+<td class="instruction">LD A,(DE)</td>
+<td class="comment-1" rowspan="2">Apply the X movement delta to the enemy's current X position.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57464"></span>57464</td>
+<td class="instruction">ADD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57465"></span>57465</td>
+<td class="instruction">CP 241</td>
+<td class="comment-1" rowspan="2">Jump to <a href="57347.html#57475">Process_Entity_Record_Retry</a> if the new X overshoots the right edge.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57467"></span>57467</td>
+<td class="instruction">JP NC,<a href="57347.html#57475">Process_Entity_Record_Retry</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57470"></span>57470</td>
+<td class="instruction">CP 8</td>
+<td class="comment-1" rowspan="2">Accept the position if it is within the play area's left boundary.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57472"></span>57472</td>
+<td class="instruction">JP NC,<a href="57347.html#57479">Process_Entity_Record_Register</a></td>
+</tr>
+<tr>
+<td class="asm-label">Process_Entity_Record_Retry</td>
+<td class="address-2"><span id="57475"></span>57475</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="1">Step back to the Y delta entry.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57476"></span>57476</td>
+<td class="instruction">JP <a href="57347.html#57422">Process_Entity_Record_Cycle_Type</a></td>
+<td class="comment-1" rowspan="1">Retry with a new enemy type.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="57479"></span>
+<div class="comments">
+<div class="paragraph">
+The enemy's new position is inside the play area. Write it to the record and draw the enemy on screen.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Entity_Record_Register</td>
+<td class="address-2"><span id="57479"></span>57479</td>
+<td class="instruction">LD (HL),A</td>
+<td class="comment-1" rowspan="4">Write the new screen position into the entity record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57480"></span>57480</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57481"></span>57481</td>
+<td class="instruction">LD (HL),C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57482"></span>57482</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57483"></span>57483</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="1">Stash the entity record pointer on the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57484"></span>57484</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="3">Set the spawn display attribute (INK:
+WHITE,
+PAPER:
+BLACK
+(BRIGHT)
+) in the shadow register.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57485"></span>57485</td>
+<td class="instruction">LD B,71</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57487"></span>57487</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57488"></span>57488</td>
+<td class="instruction">CALL <a href="51536.html">Draw_Wide_Entity_Sprite</a></td>
+<td class="comment-1" rowspan="1">Call <a href="51536.html">Draw_Wide_Entity_Sprite</a> to spawn the enemy and draw it on screen.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57491"></span>57491</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="1">Restore the entity record pointer from the stack.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="57492"></span>
+<div class="comments">
+<div class="paragraph">
+This entry point is used by the routines at <a href="52532.html">Clear_Colour_Bar_Column</a>, <a href="57782.html">Handle_Horizontal_Enemy_Entity</a>, <a href="59852.html">Animate_Wall_Bouncing_Enemy_Death</a>, <a href="60014.html">Process_Replacement_Enemy_Entity</a> and <a href="60167.html">Process_Final_Phase_Enemy_Entity</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Entity_Record_Next6</td>
+<td class="address-2"><span id="57492"></span>57492</td>
+<td class="instruction">LD DE,6</td>
+<td class="comment-1" rowspan="3">Skip to the next entity record and return.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57495"></span>57495</td>
+<td class="instruction">ADD HL,DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57496"></span>57496</td>
+<td class="instruction">RET</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="57497"></span>
+<div class="comments">
+<div class="paragraph">
+This entry point is used by the routine at <a href="57782.html">Handle_Horizontal_Enemy_Entity</a>.
+</div>
+<div class="paragraph">
+The enemy was placed successfully. Increment the scroll position counter before advancing to the next record.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Entity_Record_Counter_Up_Next6</td>
+<td class="address-2"><span id="57497"></span>57497</td>
+<td class="instruction">EX DE,HL</td>
+<td class="comment-1" rowspan="1">Preserve the entity list pointer in <span class="register">DE</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57498"></span>57498</td>
+<td class="instruction">LD HL,(50485)</td>
+<td class="comment-1" rowspan="4">Add 64 to *50485.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57501"></span>57501</td>
+<td class="instruction">LD BC,64</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57504"></span>57504</td>
+<td class="instruction">ADD HL,BC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57505"></span>57505</td>
+<td class="instruction">LD (50485),HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57508"></span>57508</td>
+<td class="instruction">EX DE,HL</td>
+<td class="comment-1" rowspan="1">Restore the entity list pointer.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57509"></span>57509</td>
+<td class="instruction">JP <a href="57347.html#57492">Process_Entity_Record_Next6</a></td>
+<td class="comment-1" rowspan="1">Jump to <a href="57347.html#57492">Process_Entity_Record_Next6</a>.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="57512"></span>
+<div class="comments">
+<div class="paragraph">
+This entry point is used by the routine at <a href="52532.html">Clear_Colour_Bar_Column</a>.
+</div>
+<div class="paragraph">
+Same as <a href="57347.html#57497">Process_Entity_Record_Counter_Up_Next6</a> but steps over a seven-byte record.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Entity_Record_Counter_Up_Next7</td>
+<td class="address-2"><span id="57512"></span>57512</td>
+<td class="instruction">EX DE,HL</td>
+<td class="comment-1" rowspan="1">Preserve the entity list pointer in <span class="register">DE</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57513"></span>57513</td>
+<td class="instruction">LD HL,(50485)</td>
+<td class="comment-1" rowspan="4">Add 64 to *50485.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57516"></span>57516</td>
+<td class="instruction">LD BC,64</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57519"></span>57519</td>
+<td class="instruction">ADD HL,BC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57520"></span>57520</td>
+<td class="instruction">LD (50485),HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57523"></span>57523</td>
+<td class="instruction">EX DE,HL</td>
+<td class="comment-1" rowspan="1">Restore the entity list pointer.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57524"></span>57524</td>
+<td class="instruction">JP <a href="57347.html#57388">Process_Entity_Record_Next7</a></td>
+<td class="comment-1" rowspan="1">Jump to <a href="57347.html#57388">Process_Entity_Record_Next7</a>.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="57527"></span>
+<div class="comments">
+<div class="paragraph">
+The enemy has left the play area. Flash it with its death sprite then add a kill bonus to the player's score.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Entity_Record_Kill</td>
+<td class="address-2"><span id="57527"></span>57527</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="5">Rewind to the entity handler address field.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57528"></span>57528</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57529"></span>57529</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57530"></span>57530</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57531"></span>57531</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57532"></span>57532</td>
+<td class="instruction">LD (HL),50</td>
+<td class="comment-1" rowspan="1">Switch the entity to the kill sequence handler.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57534"></span>57534</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Move to the entity colour attribute byte.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57535"></span>57535</td>
+<td class="instruction">LD A,(HL)</td>
+<td class="comment-1" rowspan="1">Read the entity colour attribute.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57536"></span>57536</td>
+<td class="instruction">PUSH AF</td>
+<td class="comment-1" rowspan="1">Stash the entity colour attribute on the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57537"></span>57537</td>
+<td class="instruction">LD A,(50398)</td>
+<td class="comment-1" rowspan="3">Set the entity's death colour from the current kill tally.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57540"></span>57540</td>
+<td class="instruction">ADD A,19</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57542"></span>57542</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57543"></span>57543</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="1">Stash the attribute pointer on the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57544"></span>57544</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="3">Set the death flash attribute (
+
+
+WHITE) in the shadow register.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57545"></span>57545</td>
+<td class="instruction">LD B,7</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57547"></span>57547</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57548"></span>57548</td>
+<td class="instruction">CALL <a href="54839.html">Draw_Entity_Sprite</a></td>
+<td class="comment-1" rowspan="1">Call <a href="54839.html">Draw_Entity_Sprite</a> to draw the entity's death animation sprite.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57551"></span>57551</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="1">Restore the attribute pointer from the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57552"></span>57552</td>
+<td class="instruction">LD A,(50398)</td>
+<td class="comment-1" rowspan="1">Read the enemy kill value from the wave counter.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57555"></span>57555</td>
+<td class="instruction">SLA A</td>
+<td class="comment-1" rowspan="4">Multiply by 16 for the score contribution.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57557"></span>57557</td>
+<td class="instruction">SLA A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57559"></span>57559</td>
+<td class="instruction">SLA A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57561"></span>57561</td>
+<td class="instruction">SLA A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57563"></span>57563</td>
+<td class="instruction">EX DE,HL</td>
+<td class="comment-1" rowspan="1">Save the entity pointer while accessing the score.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57564"></span>57564</td>
+<td class="instruction">LD HL,50181</td>
+<td class="comment-1" rowspan="1">Point <span class="register">HL</span> at the player's score.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57567"></span>57567</td>
+<td class="instruction">ADD A,(HL)</td>
+<td class="comment-1" rowspan="3">Add the kill score to the ones digit of the player's score (BCD).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57568"></span>57568</td>
+<td class="instruction">DAA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57569"></span>57569</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57570"></span>57570</td>
+<td class="instruction">JP NC,<a href="57347.html#57588">Process_Entity_Record_Wave_Count</a></td>
+<td class="comment-1" rowspan="1">Jump to <a href="57347.html#57588">Process_Entity_Record_Wave_Count</a> if the ones digit did not overflow.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57573"></span>57573</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="1">Move to the tens digit.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57574"></span>57574</td>
+<td class="instruction">LD A,1</td>
+<td class="comment-1" rowspan="4">Carry one into the tens digit of the player's score (BCD).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57576"></span>57576</td>
+<td class="instruction">ADD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57577"></span>57577</td>
+<td class="instruction">DAA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57578"></span>57578</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57579"></span>57579</td>
+<td class="instruction">JP NC,<a href="57347.html#57588">Process_Entity_Record_Wave_Count</a></td>
+<td class="comment-1" rowspan="1">Jump to <a href="57347.html#57588">Process_Entity_Record_Wave_Count</a> if the tens digit did not overflow.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57582"></span>57582</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="1">Move to the hundreds digit.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57583"></span>57583</td>
+<td class="instruction">LD A,1</td>
+<td class="comment-1" rowspan="4">Carry one into the hundreds digit of the player's score (BCD).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57585"></span>57585</td>
+<td class="instruction">ADD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57586"></span>57586</td>
+<td class="instruction">DAA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57587"></span>57587</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Entity_Record_Wave_Count</td>
+<td class="address-2"><span id="57588"></span>57588</td>
+<td class="instruction">LD A,(50398)</td>
+<td class="comment-1" rowspan="3">Jump to <a href="57347.html#57600">Process_Entity_Record_Decrement_Count</a> if the maximum kill count for this wave is reached.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57591"></span>57591</td>
+<td class="instruction">CP 5</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57593"></span>57593</td>
+<td class="instruction">JP Z,<a href="57347.html#57600">Process_Entity_Record_Decrement_Count</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57596"></span>57596</td>
+<td class="instruction">INC A</td>
+<td class="comment-1" rowspan="2">Increment the wave kill counter.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57597"></span>57597</td>
+<td class="instruction">LD (50398),A</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Entity_Record_Decrement_Count</td>
+<td class="address-2"><span id="57600"></span>57600</td>
+<td class="instruction">POP AF</td>
+<td class="comment-1" rowspan="1">Restore the entity colour attribute from the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57601"></span>57601</td>
+<td class="instruction">SRL A</td>
+<td class="comment-1" rowspan="5">Extract the entity type to use as a count table index.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57603"></span>57603</td>
+<td class="instruction">SRL A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57605"></span>57605</td>
+<td class="instruction">SRL A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57607"></span>57607</td>
+<td class="instruction">SRL A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57609"></span>57609</td>
+<td class="instruction">LD C,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57610"></span>57610</td>
+<td class="instruction">LD B,0</td>
+<td class="comment-1" rowspan="3">Form a pointer to the entity count entry for this type.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57612"></span>57612</td>
+<td class="instruction">LD HL,50215</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57615"></span>57615</td>
+<td class="instruction">ADD HL,BC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57616"></span>57616</td>
+<td class="instruction">DEC (HL)</td>
+<td class="comment-1" rowspan="1">Decrement the on-screen enemy count for this type.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57617"></span>57617</td>
+<td class="instruction">EX DE,HL</td>
+<td class="comment-1" rowspan="1">Restore the entity list pointer.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57618"></span>57618</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="1">Stash the entity list pointer on the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57619"></span>57619</td>
+<td class="instruction">CALL <a href="52532.html">Clear_Colour_Bar_Column</a></td>
+<td class="comment-1" rowspan="1">Call <a href="52532.html">Clear_Colour_Bar_Column</a> to update the score and wave display.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57622"></span>57622</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="1">Restore the entity list pointer from the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57623"></span>57623</td>
+<td class="instruction">JP <a href="57347.html#57492">Process_Entity_Record_Next6</a></td>
+<td class="comment-1" rowspan="1">Jump to <a href="57347.html#57492">Process_Entity_Record_Next6</a>.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="57626"></span>
+<div class="comments">
+<div class="paragraph">
+Movement delta table: one two-byte entry (Y delta, X delta) per cardinal direction, indexed by the low two bits of the entity type state. Order: up, right, down, left.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Direction_Delta_Table</td>
+<td class="address-1"><span id="57626"></span>57626</td>
+<td class="instruction">DEFB 255,0</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57628"></span>57628</td>
+<td class="instruction">DEFB 0,1</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57630"></span>57630</td>
+<td class="instruction">DEFB 1,0</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57632"></span>57632</td>
+<td class="instruction">DEFB 0,255</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="56825.html">56825</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#57347">Map</a></td>
+<td class="next">
+Next: <a href="57634.html">57634</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/E003.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

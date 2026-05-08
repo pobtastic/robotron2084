@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 50906</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="50894.html">50894</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#50906">Map</a></td>
+<td class="next">
+Next: <a href="50946.html">50946</a>
+</td>
+</tr>
+</table>
+<div class="description">50906: Hit Test: 8-Byte Bounds Pair</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routines at <a href="52430.html">Primary_Enemy_Entity_Handler</a>, <a href="52504.html">Find_Colliding_Entity</a>, <a href="52532.html">Clear_Colour_Bar_Column</a>, <a href="53488.html">Spawn_Primary_Wave_Enemies</a>, <a href="53695.html">Generate_Random_Byte</a>, <a href="57347.html">Process_Entity_Record_Fast</a>, <a href="57782.html">Handle_Horizontal_Enemy_Entity</a>, <a href="57954.html">Find_Colliding_Wave_Enemy</a>, <a href="58056.html">Pick_Random_Spawn_Position_Y</a>, <a href="58208.html">Process_Tracked_Enemy_Entity</a>, <a href="58656.html">Process_Cluster_Entity</a>, <a href="59127.html">Process_Player_Tracking_Enemy</a>, <a href="59521.html">Process_Wall_Bouncing_Enemy</a> and <a href="60167.html">Process_Final_Phase_Enemy_Entity</a>.
+</div>
+<div class="paragraph">
+Reads four little-endian words at <span class="register">HL</span> (8 bytes). The first two load into main <span class="register">BC</span> and <span class="register">DE</span>; EXX swaps to the shadow set so the next two words load into shadow <span class="register">BC</span> and <span class="register">DE</span> while <span class="register">HL</span> walks the same block. After swapping back, four ADD/SUB pairs (with further EXX) each end in RET C if the subtraction borrows (no hit). If none borrow, falls through to RET with carry clear (hit). <span class="register">HL</span> ends just past the eighth byte. Used throughout the gameplay object loop for collisions (among others <a href="52430.html#52442">52442</a>, <a href="52504.html#52517">52517</a>, <a href="53488.html#53577">53577</a>, <a href="53695.html#53805">53805</a>, <a href="57347.html#57405">57405</a>, <a href="60167.html#60188">60188</a>).
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">HitTestBounds8AtHL</td>
+<td class="address-2"><span id="50906"></span>50906</td>
+<td class="instruction">LD B,(HL)</td>
+<td class="comment-1" rowspan="1"><span class="register">B</span>=*<span class="register">HL</span> (first word, low byte).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50907"></span>50907</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Advance <span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50908"></span>50908</td>
+<td class="instruction">LD C,(HL)</td>
+<td class="comment-1" rowspan="1"><span class="register">C</span>=*<span class="register">HL</span> (first word, high byte).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50909"></span>50909</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Advance <span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50910"></span>50910</td>
+<td class="instruction">LD D,(HL)</td>
+<td class="comment-1" rowspan="1"><span class="register">D</span>=*<span class="register">HL</span> (second word, low byte).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50911"></span>50911</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Advance <span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50912"></span>50912</td>
+<td class="instruction">LD E,(HL)</td>
+<td class="comment-1" rowspan="1"><span class="register">E</span>=*<span class="register">HL</span> (second word, high byte).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50913"></span>50913</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="1">EXX (shadow <span class="register">HL</span> continues the load; shadow <span class="register">BC</span>/<span class="register">DE</span> hold first pair).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50914"></span>50914</td>
+<td class="instruction">LD B,(HL)</td>
+<td class="comment-1" rowspan="1"><span class="register">B</span>=*<span class="register">HL</span> (third word, low byte).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50915"></span>50915</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Advance <span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50916"></span>50916</td>
+<td class="instruction">LD C,(HL)</td>
+<td class="comment-1" rowspan="1"><span class="register">C</span>=*<span class="register">HL</span> (third word, high byte).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50917"></span>50917</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Advance <span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50918"></span>50918</td>
+<td class="instruction">LD D,(HL)</td>
+<td class="comment-1" rowspan="1"><span class="register">D</span>=*<span class="register">HL</span> (fourth word, low byte).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50919"></span>50919</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Advance <span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50920"></span>50920</td>
+<td class="instruction">LD E,(HL)</td>
+<td class="comment-1" rowspan="1"><span class="register">E</span>=*<span class="register">HL</span> (fourth word, high byte).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50921"></span>50921</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="1">EXX (main holds first pair; shadow second pair; <span class="register">HL</span> past all 8 bytes).</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="50922"></span>
+<div class="comments">
+<div class="paragraph">
+Each test adds two bytes from one pair, switches to the shadow pair, subtracts a byte from the other rectangle, and RET C on borrow (no overlap on that check).
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50922"></span>50922</td>
+<td class="instruction">LD A,B</td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=<span class="register">B</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50923"></span>50923</td>
+<td class="instruction">ADD A,D</td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>+=<span class="register">D</span> (high bytes from main <span class="register">BC</span>/<span class="register">DE</span>).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50924"></span>50924</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="1">EXX.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50925"></span>50925</td>
+<td class="instruction">SUB B</td>
+<td class="comment-1" rowspan="1">Subtract shadow <span class="register">B</span> from <span class="register">A</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50926"></span>50926</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="1">EXX.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50927"></span>50927</td>
+<td class="instruction">RET C</td>
+<td class="comment-1" rowspan="1">RET C if no hit (carry from SUB).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50928"></span>50928</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="1">EXX.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50929"></span>50929</td>
+<td class="instruction">LD A,B</td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=<span class="register">B</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50930"></span>50930</td>
+<td class="instruction">ADD A,D</td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>+=<span class="register">D</span> (second high-byte sum).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50931"></span>50931</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="1">EXX.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50932"></span>50932</td>
+<td class="instruction">SUB B</td>
+<td class="comment-1" rowspan="1">Subtract shadow <span class="register">B</span> from <span class="register">A</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50933"></span>50933</td>
+<td class="instruction">RET C</td>
+<td class="comment-1" rowspan="1">RET C if no hit.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50934"></span>50934</td>
+<td class="instruction">LD A,C</td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=<span class="register">C</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50935"></span>50935</td>
+<td class="instruction">ADD A,E</td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>+=<span class="register">E</span> (low-byte sum).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50936"></span>50936</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="1">EXX.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50937"></span>50937</td>
+<td class="instruction">SUB C</td>
+<td class="comment-1" rowspan="1">Subtract shadow <span class="register">C</span> from <span class="register">A</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50938"></span>50938</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="1">EXX.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50939"></span>50939</td>
+<td class="instruction">RET C</td>
+<td class="comment-1" rowspan="1">RET C if no hit.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50940"></span>50940</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="1">EXX.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50941"></span>50941</td>
+<td class="instruction">LD A,C</td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=<span class="register">C</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50942"></span>50942</td>
+<td class="instruction">ADD A,E</td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>+=<span class="register">E</span> (final low-byte sum).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50943"></span>50943</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="1">EXX.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50944"></span>50944</td>
+<td class="instruction">SUB C</td>
+<td class="comment-1" rowspan="1">Subtract shadow <span class="register">C</span> from <span class="register">A</span> (last test).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50945"></span>50945</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">RET (carry clear if overlapping).</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="50894.html">50894</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#50906">Map</a></td>
+<td class="next">
+Next: <a href="50946.html">50946</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/C6DA.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

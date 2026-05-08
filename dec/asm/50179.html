@@ -38,13 +38,40 @@ Next: <a href="50184.html">50184</a>
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
+<div class="paragraph">
+Root of the active player state block (see <a href="53387.html">Swap_Player_State</a> / <a href="54264.html#54347">PlayerDeath_ClearPlayerSlot</a>). Leading bytes hold the packed score for <a href="50500.html">PrintPlayerScore</a> and the prefix compared in <a href="50625.html">CheckScoreAwardLife</a>.
+</div>
 </div>
 </td>
 </tr>
 <tr>
 <td class="asm-label">Player_1_State</td>
 <td class="address-1"><span id="50179"></span>50179</td>
-<td class="instruction">DEFB 0,0,0,0,255</td>
+<td class="instruction">DEFB 0</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50180"></span>50180</td>
+<td class="instruction">DEFB 0</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50181"></span>50181</td>
+<td class="instruction">DEFB 0</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50182"></span>50182</td>
+<td class="instruction">DEFB 0</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50183"></span>50183</td>
+<td class="instruction">DEFB 255</td>
 <td class="comment-0" rowspan="1"></td>
 </tr>
 </table>

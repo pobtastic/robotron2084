@@ -39,10 +39,10 @@ Next: <a href="54087.html">54087</a>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="53488.html">53488</a> and <a href="54119.html">PlayerDeath</a>.
+Used by the routines at <a href="53836.html">Stage_Next_Wave</a> and <a href="54119.html">PlayerDeath</a>.
 </div>
 <div class="paragraph">
-Clears the screen buffer, sets a white background, triggers the wave indicator animation (<a href="54640.html">54640</a>), and redraws the attribute bar (<a href="50963.html">50963</a>) before falling through to <a href="54039.html#54053">RenderHUD_Draw</a>. Scores (<a href="50500.html">50500</a>) and lives (<a href="51092.html">51092</a>) are then rendered for each player in turn by swapping state with <a href="53387.html">SwapPlayerState</a>; the "WAVE" label and wave number (<a href="53415.html">PrintWaveNumber</a>) are printed last for player 1.
+Clears the screen buffer, sets a white background, draws the playfield border (<a href="54640.html">DrawPlayfieldBorder</a>), and redraws the attribute bar (<a href="50963.html">UpdateAttributeBar</a>) before falling through to <a href="54039.html#54053">RenderHUD_Draw</a>. Scores (<a href="50500.html">PrintPlayerScore</a>) and lives (<a href="51092.html">DrawLivesDisplay</a>) are then rendered for each player in turn by swapping state with <a href="53387.html">Swap_Player_State</a>; the "WAVE" label and wave number (<a href="53415.html">PrintWaveNumber</a>) are printed last for player 1.
 </div>
 </div>
 </td>
@@ -70,24 +70,24 @@ WHITE.</td>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="54047"></span>54047</td>
-<td class="instruction">CALL <a href="54640.html">54640</a></td>
-<td class="comment-1" rowspan="1">Call <a href="54640.html">54640</a>.</td>
+<td class="instruction">CALL <a href="54640.html">DrawPlayfieldBorder</a></td>
+<td class="comment-1" rowspan="1">Call <a href="54640.html">DrawPlayfieldBorder</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="54050"></span>54050</td>
-<td class="instruction">CALL <a href="50963.html">50963</a></td>
-<td class="comment-1" rowspan="1">Call <a href="50963.html">50963</a>.</td>
+<td class="instruction">CALL <a href="50963.html">UpdateAttributeBar</a></td>
+<td class="comment-1" rowspan="1">Call <a href="50963.html">UpdateAttributeBar</a>.</td>
 </tr>
 <tr>
 <td class="routine-comment" colspan="5">
 <span id="54053"></span>
 <div class="comments">
 <div class="paragraph">
-This entry point is used by the routine at <a href="54028.html">54028</a>.
+This entry point is used by the routine at <a href="54028.html">Clear_Screen_And_Render_HUD</a>.
 </div>
 <div class="paragraph">
-Shared entry point, also reached from <a href="54028.html">54028</a> via JP (which clears the screen and sets the background but skips the wave animation and attribute bar setup). Renders scores and lives for player 1, then swaps to player 2.
+Shared entry point, also reached from <a href="54028.html">Clear_Screen_And_Render_HUD</a> via JP (which clears the screen and sets the background but skips the wave animation and attribute bar setup). Renders scores and lives for player 1, then swaps to player 2.
 </div>
 </div>
 </td>
@@ -95,14 +95,14 @@ Shared entry point, also reached from <a href="54028.html">54028</a> via JP (whi
 <tr>
 <td class="asm-label">RenderHUD_Draw</td>
 <td class="address-2"><span id="54053"></span>54053</td>
-<td class="instruction">CALL <a href="50500.html">50500</a></td>
-<td class="comment-1" rowspan="1">Call <a href="50500.html">50500</a>.</td>
+<td class="instruction">CALL <a href="50500.html">PrintPlayerScore</a></td>
+<td class="comment-1" rowspan="1">Call <a href="50500.html">PrintPlayerScore</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="54056"></span>54056</td>
-<td class="instruction">CALL <a href="51092.html">51092</a></td>
-<td class="comment-1" rowspan="1">Call <a href="51092.html">51092</a>.</td>
+<td class="instruction">CALL <a href="51092.html">DrawLivesDisplay</a></td>
+<td class="comment-1" rowspan="1">Call <a href="51092.html">DrawLivesDisplay</a>.</td>
 </tr>
 <tr>
 <td class="routine-comment" colspan="5">
@@ -117,20 +117,20 @@ Swap to player 2 to render their score, lives and wave number.
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="54059"></span>54059</td>
-<td class="instruction">CALL <a href="53387.html">SwapPlayerState</a></td>
-<td class="comment-1" rowspan="1">Call <a href="53387.html">SwapPlayerState</a>.</td>
+<td class="instruction">CALL <a href="53387.html">Swap_Player_State</a></td>
+<td class="comment-1" rowspan="1">Call <a href="53387.html">Swap_Player_State</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="54062"></span>54062</td>
-<td class="instruction">CALL <a href="50500.html">50500</a></td>
-<td class="comment-1" rowspan="1">Call <a href="50500.html">50500</a>.</td>
+<td class="instruction">CALL <a href="50500.html">PrintPlayerScore</a></td>
+<td class="comment-1" rowspan="1">Call <a href="50500.html">PrintPlayerScore</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="54065"></span>54065</td>
-<td class="instruction">CALL <a href="51092.html">51092</a></td>
-<td class="comment-1" rowspan="1">Call <a href="51092.html">51092</a>.</td>
+<td class="instruction">CALL <a href="51092.html">DrawLivesDisplay</a></td>
+<td class="comment-1" rowspan="1">Call <a href="51092.html">DrawLivesDisplay</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -151,8 +151,8 @@ Swap back to player 1; print the "WAVE" label and player 1's wave number, then r
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="54071"></span>54071</td>
-<td class="instruction">CALL <a href="53387.html">SwapPlayerState</a></td>
-<td class="comment-1" rowspan="1">Call <a href="53387.html">SwapPlayerState</a>.</td>
+<td class="instruction">CALL <a href="53387.html">Swap_Player_State</a></td>
+<td class="comment-1" rowspan="1">Call <a href="53387.html">Swap_Player_State</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -174,8 +174,8 @@ Swap back to player 1; print the "WAVE" label and player 1's wave number, then r
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="54083"></span>54083</td>
-<td class="instruction">CALL <a href="50963.html">50963</a></td>
-<td class="comment-1" rowspan="1">Call <a href="50963.html">50963</a>.</td>
+<td class="instruction">CALL <a href="50963.html">UpdateAttributeBar</a></td>
+<td class="comment-1" rowspan="1">Call <a href="50963.html">UpdateAttributeBar</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>

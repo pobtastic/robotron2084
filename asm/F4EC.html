@@ -33,23 +33,33 @@ Next: <a href="F51D.html">F51D</a>
 </td>
 </tr>
 </table>
-<div class="description">F4EC: Routine at F4EC</div>
+<div class="description">F4EC: Attract Mode Loop</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="EBBC.html">GameEntryPoint</a> and <a href="EBC8.html">EBC8</a>.
+Used by the routines at <a href="EBBC.html">GameEntryPoint</a> and <a href="EBC8.html">Display_High_Score_Entry_Screen</a>.
+</div>
+<div class="paragraph">
+Clears the playfield, sets the background colour to INK:
+YELLOW,
+PAPER:
+BLACK
+(BRIGHT)
+, draws the title screen layout, and loads the strip blit parameters, then counts down 32 frames. Each frame checks for BREAK, S key and tape key presses, advances the title animation and colour cycle, then jumps to the high score entry screen at <a href="EBC8.html">Display_High_Score_Entry_Screen</a> when the counter reaches zero.
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Attract_Mode_Loop</td>
 <td class="address-2"><span id="f4ec"></span>F4EC</td>
 <td class="instruction">CALL <a href="D070.html">ClearScreenBuffer</a></td>
-<td class="comment-1" rowspan="1">Call <a href="D070.html">ClearScreenBuffer</a>.</td>
+<td class="comment-1" rowspan="1">Clear the playfield and reset sprite state via <a href="D070.html">ClearScreenBuffer</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f4ef"></span>F4EF</td>
 <td class="instruction">LD A,$46</td>
 <td class="comment-1" rowspan="2">Call <a href="D07E.html">SetBackgroundColour</a> using INK:
@@ -60,83 +70,99 @@ BLACK
 .</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f4f1"></span>F4F1</td>
 <td class="instruction">CALL <a href="D07E.html">SetBackgroundColour</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f4f4"></span>F4F4</td>
 <td class="instruction">CALL <a href="F83C.html">DrawIntroSprites</a></td>
-<td class="comment-1" rowspan="1">Call <a href="F83C.html">DrawIntroSprites</a>.</td>
+<td class="comment-1" rowspan="1">Draw the title screen layout via <a href="F83C.html">DrawIntroSprites</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f4f7"></span>F4F7</td>
-<td class="instruction">CALL <a href="F637.html">$F637</a></td>
-<td class="comment-1" rowspan="1">Call <a href="F637.html">F637</a>.</td>
+<td class="instruction">CALL <a href="F637.html">DrawAttractTitle</a></td>
+<td class="comment-1" rowspan="1">Load the title strip blit parameters via <a href="F637.html">DrawAttractTitle</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f4fa"></span>F4FA</td>
 <td class="instruction">LD A,$32</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=32.</td>
+<td class="comment-1" rowspan="1">Initialise the attract mode frame counter to 32.</td>
 </tr>
 <tr>
+<td class="asm-label">Attract_Mode_Frame_Loop</td>
 <td class="address-2"><span id="f4fc"></span>F4FC</td>
 <td class="instruction">LD ($C4F8),A</td>
-<td class="comment-1" rowspan="1">Write <span class="register">A</span> to *<a href="C4F8.html">C4F8</a>.</td>
+<td class="comment-1" rowspan="1">Write the frame counter to *<a href="C4F8.html">Attract_Frame_Counter</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f4ff"></span>F4FF</td>
 <td class="instruction">CALL <a href="ECE6.html">CheckBreakKey</a></td>
-<td class="comment-1" rowspan="1">Call <a href="ECE6.html">CheckBreakKey</a>.</td>
+<td class="comment-1" rowspan="1">Check for the BREAK key combination via <a href="ECE6.html">CheckBreakKey</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f502"></span>F502</td>
-<td class="instruction">CALL <a href="ECFB.html">$ECFB</a></td>
-<td class="comment-1" rowspan="1">Call <a href="ECFB.html">ECFB</a>.</td>
+<td class="instruction">CALL <a href="ECFB.html">Check_S_Key_During_Display</a></td>
+<td class="comment-1" rowspan="1">Check for the S key via <a href="ECFB.html">Check_S_Key_During_Display</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f505"></span>F505</td>
-<td class="instruction">CALL <a href="ED10.html">$ED10</a></td>
-<td class="comment-1" rowspan="1">Call <a href="ED10.html">ED10</a>.</td>
+<td class="instruction">CALL <a href="ED10.html">Save_Or_Load_High_Scores</a></td>
+<td class="comment-1" rowspan="1">Check for tape save/load keys (J/L) via <a href="ED10.html">Save_Or_Load_High_Scores</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f508"></span>F508</td>
-<td class="instruction">CALL <a href="ED71.html">$ED71</a></td>
-<td class="comment-1" rowspan="1">Call <a href="ED71.html">ED71</a>.</td>
+<td class="instruction">CALL <a href="ED71.html">Check_Any_Key_During_Display</a></td>
+<td class="comment-1" rowspan="1">Restart the high score display if any key is held via <a href="ED71.html">Check_Any_Key_During_Display</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f50b"></span>F50B</td>
 <td class="instruction">CALL <a href="F7EE.html">AnimateIntroSprites</a></td>
-<td class="comment-1" rowspan="1">Call <a href="F7EE.html">AnimateIntroSprites</a>.</td>
+<td class="comment-1" rowspan="1">Advance the title screen animation frame via <a href="F7EE.html">AnimateIntroSprites</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f50e"></span>F50E</td>
-<td class="instruction">CALL <a href="F51D.html">$F51D</a></td>
-<td class="comment-1" rowspan="1">Call <a href="F51D.html">F51D</a>.</td>
+<td class="instruction">CALL <a href="F51D.html">Advance_Colour_Cycle</a></td>
+<td class="comment-1" rowspan="1">Advance the title screen colour cycle via <a href="F51D.html">Advance_Colour_Cycle</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f511"></span>F511</td>
-<td class="instruction">CALL <a href="F5A0.html">$F5A0</a></td>
-<td class="comment-1" rowspan="1">Call <a href="F5A0.html">F5A0</a>.</td>
+<td class="instruction">CALL <a href="F5A0.html">Advance_Intro_Colour_Cycle</a></td>
+<td class="comment-1" rowspan="1">Step the attribute colour ring via <a href="F5A0.html">Advance_Intro_Colour_Cycle</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f514"></span>F514</td>
 <td class="instruction">LD A,($C4F8)</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=*<a href="C4F8.html">C4F8</a>.</td>
+<td class="comment-1" rowspan="1">Load the attract mode frame counter from *<a href="C4F8.html">Attract_Frame_Counter</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f517"></span>F517</td>
 <td class="instruction">DEC A</td>
-<td class="comment-1" rowspan="1">Decrease <span class="register">A</span> by one.</td>
+<td class="comment-1" rowspan="1">Decrement the attract mode frame counter.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f518"></span>F518</td>
-<td class="instruction">JR NZ,<a href="F4EC.html#f4fc">$F4FC</a></td>
-<td class="comment-1" rowspan="1">Jump to <a href="F4EC.html#f4fc">F4FC</a> until <span class="register">A</span> is zero.</td>
+<td class="instruction">JR NZ,<a href="F4EC.html#f4fc">Attract_Mode_Frame_Loop</a></td>
+<td class="comment-1" rowspan="1">Loop back to <a href="F4EC.html#f4fc">Attract_Mode_Frame_Loop</a> until the counter reaches zero.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f51a"></span>F51A</td>
-<td class="instruction">JP <a href="EBC8.html">$EBC8</a></td>
-<td class="comment-1" rowspan="1">Jump to <a href="EBC8.html">EBC8</a>.</td>
+<td class="instruction">JP <a href="EBC8.html">Display_High_Score_Entry_Screen</a></td>
+<td class="comment-1" rowspan="1">Jump to the high score entry screen at <a href="EBC8.html">Display_High_Score_Entry_Screen</a>.</td>
 </tr>
 </table>
 <table class="asm-navigation">

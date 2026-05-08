@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Data at 8A00</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-b">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Data</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="8700.html">8700</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#8a00">Map</a></td>
+<td class="next">
+Next: <a href="8C00.html">8C00</a>
+</td>
+</tr>
+</table>
+<div class="description">8A00: Column Pixel Lookup Table</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+0100 two-byte entries built by <a href="9010.html">InitialisePrintTables</a>: each pair is the byte offset within the scan line and the bit mask for pixel columns 00-FF.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Column_Pixel_Lookup_Table</td>
+<td class="address-1"><span id="8a00"></span>8A00</td>
+<td class="instruction">DEFB $00,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a02"></span>8A02</td>
+<td class="instruction">DEFB $00,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a04"></span>8A04</td>
+<td class="instruction">DEFB $00,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a06"></span>8A06</td>
+<td class="instruction">DEFB $00,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a08"></span>8A08</td>
+<td class="instruction">DEFB $00,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a0a"></span>8A0A</td>
+<td class="instruction">DEFB $00,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a0c"></span>8A0C</td>
+<td class="instruction">DEFB $00,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a0e"></span>8A0E</td>
+<td class="instruction">DEFB $00,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a10"></span>8A10</td>
+<td class="instruction">DEFB $01,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a12"></span>8A12</td>
+<td class="instruction">DEFB $01,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a14"></span>8A14</td>
+<td class="instruction">DEFB $01,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a16"></span>8A16</td>
+<td class="instruction">DEFB $01,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a18"></span>8A18</td>
+<td class="instruction">DEFB $01,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a1a"></span>8A1A</td>
+<td class="instruction">DEFB $01,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a1c"></span>8A1C</td>
+<td class="instruction">DEFB $01,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a1e"></span>8A1E</td>
+<td class="instruction">DEFB $01,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a20"></span>8A20</td>
+<td class="instruction">DEFB $02,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a22"></span>8A22</td>
+<td class="instruction">DEFB $02,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a24"></span>8A24</td>
+<td class="instruction">DEFB $02,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a26"></span>8A26</td>
+<td class="instruction">DEFB $02,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a28"></span>8A28</td>
+<td class="instruction">DEFB $02,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a2a"></span>8A2A</td>
+<td class="instruction">DEFB $02,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a2c"></span>8A2C</td>
+<td class="instruction">DEFB $02,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a2e"></span>8A2E</td>
+<td class="instruction">DEFB $02,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a30"></span>8A30</td>
+<td class="instruction">DEFB $03,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a32"></span>8A32</td>
+<td class="instruction">DEFB $03,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a34"></span>8A34</td>
+<td class="instruction">DEFB $03,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a36"></span>8A36</td>
+<td class="instruction">DEFB $03,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a38"></span>8A38</td>
+<td class="instruction">DEFB $03,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a3a"></span>8A3A</td>
+<td class="instruction">DEFB $03,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a3c"></span>8A3C</td>
+<td class="instruction">DEFB $03,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a3e"></span>8A3E</td>
+<td class="instruction">DEFB $03,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a40"></span>8A40</td>
+<td class="instruction">DEFB $04,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a42"></span>8A42</td>
+<td class="instruction">DEFB $04,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a44"></span>8A44</td>
+<td class="instruction">DEFB $04,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a46"></span>8A46</td>
+<td class="instruction">DEFB $04,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a48"></span>8A48</td>
+<td class="instruction">DEFB $04,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a4a"></span>8A4A</td>
+<td class="instruction">DEFB $04,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a4c"></span>8A4C</td>
+<td class="instruction">DEFB $04,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a4e"></span>8A4E</td>
+<td class="instruction">DEFB $04,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a50"></span>8A50</td>
+<td class="instruction">DEFB $05,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a52"></span>8A52</td>
+<td class="instruction">DEFB $05,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a54"></span>8A54</td>
+<td class="instruction">DEFB $05,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a56"></span>8A56</td>
+<td class="instruction">DEFB $05,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a58"></span>8A58</td>
+<td class="instruction">DEFB $05,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a5a"></span>8A5A</td>
+<td class="instruction">DEFB $05,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a5c"></span>8A5C</td>
+<td class="instruction">DEFB $05,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a5e"></span>8A5E</td>
+<td class="instruction">DEFB $05,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a60"></span>8A60</td>
+<td class="instruction">DEFB $06,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a62"></span>8A62</td>
+<td class="instruction">DEFB $06,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a64"></span>8A64</td>
+<td class="instruction">DEFB $06,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a66"></span>8A66</td>
+<td class="instruction">DEFB $06,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a68"></span>8A68</td>
+<td class="instruction">DEFB $06,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a6a"></span>8A6A</td>
+<td class="instruction">DEFB $06,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a6c"></span>8A6C</td>
+<td class="instruction">DEFB $06,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a6e"></span>8A6E</td>
+<td class="instruction">DEFB $06,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a70"></span>8A70</td>
+<td class="instruction">DEFB $07,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a72"></span>8A72</td>
+<td class="instruction">DEFB $07,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a74"></span>8A74</td>
+<td class="instruction">DEFB $07,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a76"></span>8A76</td>
+<td class="instruction">DEFB $07,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a78"></span>8A78</td>
+<td class="instruction">DEFB $07,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a7a"></span>8A7A</td>
+<td class="instruction">DEFB $07,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a7c"></span>8A7C</td>
+<td class="instruction">DEFB $07,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a7e"></span>8A7E</td>
+<td class="instruction">DEFB $07,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a80"></span>8A80</td>
+<td class="instruction">DEFB $08,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a82"></span>8A82</td>
+<td class="instruction">DEFB $08,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a84"></span>8A84</td>
+<td class="instruction">DEFB $08,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a86"></span>8A86</td>
+<td class="instruction">DEFB $08,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a88"></span>8A88</td>
+<td class="instruction">DEFB $08,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a8a"></span>8A8A</td>
+<td class="instruction">DEFB $08,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a8c"></span>8A8C</td>
+<td class="instruction">DEFB $08,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a8e"></span>8A8E</td>
+<td class="instruction">DEFB $08,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a90"></span>8A90</td>
+<td class="instruction">DEFB $09,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a92"></span>8A92</td>
+<td class="instruction">DEFB $09,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a94"></span>8A94</td>
+<td class="instruction">DEFB $09,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a96"></span>8A96</td>
+<td class="instruction">DEFB $09,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a98"></span>8A98</td>
+<td class="instruction">DEFB $09,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a9a"></span>8A9A</td>
+<td class="instruction">DEFB $09,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a9c"></span>8A9C</td>
+<td class="instruction">DEFB $09,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8a9e"></span>8A9E</td>
+<td class="instruction">DEFB $09,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8aa0"></span>8AA0</td>
+<td class="instruction">DEFB $0A,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8aa2"></span>8AA2</td>
+<td class="instruction">DEFB $0A,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8aa4"></span>8AA4</td>
+<td class="instruction">DEFB $0A,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8aa6"></span>8AA6</td>
+<td class="instruction">DEFB $0A,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8aa8"></span>8AA8</td>
+<td class="instruction">DEFB $0A,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8aaa"></span>8AAA</td>
+<td class="instruction">DEFB $0A,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8aac"></span>8AAC</td>
+<td class="instruction">DEFB $0A,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8aae"></span>8AAE</td>
+<td class="instruction">DEFB $0A,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ab0"></span>8AB0</td>
+<td class="instruction">DEFB $0B,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ab2"></span>8AB2</td>
+<td class="instruction">DEFB $0B,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ab4"></span>8AB4</td>
+<td class="instruction">DEFB $0B,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ab6"></span>8AB6</td>
+<td class="instruction">DEFB $0B,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ab8"></span>8AB8</td>
+<td class="instruction">DEFB $0B,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8aba"></span>8ABA</td>
+<td class="instruction">DEFB $0B,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8abc"></span>8ABC</td>
+<td class="instruction">DEFB $0B,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8abe"></span>8ABE</td>
+<td class="instruction">DEFB $0B,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ac0"></span>8AC0</td>
+<td class="instruction">DEFB $0C,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ac2"></span>8AC2</td>
+<td class="instruction">DEFB $0C,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ac4"></span>8AC4</td>
+<td class="instruction">DEFB $0C,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ac6"></span>8AC6</td>
+<td class="instruction">DEFB $0C,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ac8"></span>8AC8</td>
+<td class="instruction">DEFB $0C,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8aca"></span>8ACA</td>
+<td class="instruction">DEFB $0C,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8acc"></span>8ACC</td>
+<td class="instruction">DEFB $0C,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ace"></span>8ACE</td>
+<td class="instruction">DEFB $0C,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ad0"></span>8AD0</td>
+<td class="instruction">DEFB $0D,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ad2"></span>8AD2</td>
+<td class="instruction">DEFB $0D,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ad4"></span>8AD4</td>
+<td class="instruction">DEFB $0D,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ad6"></span>8AD6</td>
+<td class="instruction">DEFB $0D,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ad8"></span>8AD8</td>
+<td class="instruction">DEFB $0D,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ada"></span>8ADA</td>
+<td class="instruction">DEFB $0D,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8adc"></span>8ADC</td>
+<td class="instruction">DEFB $0D,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ade"></span>8ADE</td>
+<td class="instruction">DEFB $0D,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ae0"></span>8AE0</td>
+<td class="instruction">DEFB $0E,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ae2"></span>8AE2</td>
+<td class="instruction">DEFB $0E,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ae4"></span>8AE4</td>
+<td class="instruction">DEFB $0E,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ae6"></span>8AE6</td>
+<td class="instruction">DEFB $0E,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ae8"></span>8AE8</td>
+<td class="instruction">DEFB $0E,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8aea"></span>8AEA</td>
+<td class="instruction">DEFB $0E,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8aec"></span>8AEC</td>
+<td class="instruction">DEFB $0E,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8aee"></span>8AEE</td>
+<td class="instruction">DEFB $0E,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8af0"></span>8AF0</td>
+<td class="instruction">DEFB $0F,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8af2"></span>8AF2</td>
+<td class="instruction">DEFB $0F,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8af4"></span>8AF4</td>
+<td class="instruction">DEFB $0F,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8af6"></span>8AF6</td>
+<td class="instruction">DEFB $0F,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8af8"></span>8AF8</td>
+<td class="instruction">DEFB $0F,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8afa"></span>8AFA</td>
+<td class="instruction">DEFB $0F,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8afc"></span>8AFC</td>
+<td class="instruction">DEFB $0F,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8afe"></span>8AFE</td>
+<td class="instruction">DEFB $0F,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b00"></span>8B00</td>
+<td class="instruction">DEFB $10,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b02"></span>8B02</td>
+<td class="instruction">DEFB $10,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b04"></span>8B04</td>
+<td class="instruction">DEFB $10,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b06"></span>8B06</td>
+<td class="instruction">DEFB $10,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b08"></span>8B08</td>
+<td class="instruction">DEFB $10,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b0a"></span>8B0A</td>
+<td class="instruction">DEFB $10,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b0c"></span>8B0C</td>
+<td class="instruction">DEFB $10,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b0e"></span>8B0E</td>
+<td class="instruction">DEFB $10,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b10"></span>8B10</td>
+<td class="instruction">DEFB $11,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b12"></span>8B12</td>
+<td class="instruction">DEFB $11,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b14"></span>8B14</td>
+<td class="instruction">DEFB $11,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b16"></span>8B16</td>
+<td class="instruction">DEFB $11,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b18"></span>8B18</td>
+<td class="instruction">DEFB $11,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b1a"></span>8B1A</td>
+<td class="instruction">DEFB $11,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b1c"></span>8B1C</td>
+<td class="instruction">DEFB $11,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b1e"></span>8B1E</td>
+<td class="instruction">DEFB $11,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b20"></span>8B20</td>
+<td class="instruction">DEFB $12,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b22"></span>8B22</td>
+<td class="instruction">DEFB $12,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b24"></span>8B24</td>
+<td class="instruction">DEFB $12,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b26"></span>8B26</td>
+<td class="instruction">DEFB $12,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b28"></span>8B28</td>
+<td class="instruction">DEFB $12,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b2a"></span>8B2A</td>
+<td class="instruction">DEFB $12,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b2c"></span>8B2C</td>
+<td class="instruction">DEFB $12,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b2e"></span>8B2E</td>
+<td class="instruction">DEFB $12,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b30"></span>8B30</td>
+<td class="instruction">DEFB $13,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b32"></span>8B32</td>
+<td class="instruction">DEFB $13,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b34"></span>8B34</td>
+<td class="instruction">DEFB $13,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b36"></span>8B36</td>
+<td class="instruction">DEFB $13,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b38"></span>8B38</td>
+<td class="instruction">DEFB $13,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b3a"></span>8B3A</td>
+<td class="instruction">DEFB $13,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b3c"></span>8B3C</td>
+<td class="instruction">DEFB $13,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b3e"></span>8B3E</td>
+<td class="instruction">DEFB $13,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b40"></span>8B40</td>
+<td class="instruction">DEFB $14,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b42"></span>8B42</td>
+<td class="instruction">DEFB $14,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b44"></span>8B44</td>
+<td class="instruction">DEFB $14,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b46"></span>8B46</td>
+<td class="instruction">DEFB $14,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b48"></span>8B48</td>
+<td class="instruction">DEFB $14,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b4a"></span>8B4A</td>
+<td class="instruction">DEFB $14,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b4c"></span>8B4C</td>
+<td class="instruction">DEFB $14,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b4e"></span>8B4E</td>
+<td class="instruction">DEFB $14,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b50"></span>8B50</td>
+<td class="instruction">DEFB $15,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b52"></span>8B52</td>
+<td class="instruction">DEFB $15,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b54"></span>8B54</td>
+<td class="instruction">DEFB $15,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b56"></span>8B56</td>
+<td class="instruction">DEFB $15,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b58"></span>8B58</td>
+<td class="instruction">DEFB $15,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b5a"></span>8B5A</td>
+<td class="instruction">DEFB $15,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b5c"></span>8B5C</td>
+<td class="instruction">DEFB $15,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b5e"></span>8B5E</td>
+<td class="instruction">DEFB $15,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b60"></span>8B60</td>
+<td class="instruction">DEFB $16,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b62"></span>8B62</td>
+<td class="instruction">DEFB $16,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b64"></span>8B64</td>
+<td class="instruction">DEFB $16,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b66"></span>8B66</td>
+<td class="instruction">DEFB $16,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b68"></span>8B68</td>
+<td class="instruction">DEFB $16,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b6a"></span>8B6A</td>
+<td class="instruction">DEFB $16,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b6c"></span>8B6C</td>
+<td class="instruction">DEFB $16,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b6e"></span>8B6E</td>
+<td class="instruction">DEFB $16,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b70"></span>8B70</td>
+<td class="instruction">DEFB $17,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b72"></span>8B72</td>
+<td class="instruction">DEFB $17,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b74"></span>8B74</td>
+<td class="instruction">DEFB $17,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b76"></span>8B76</td>
+<td class="instruction">DEFB $17,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b78"></span>8B78</td>
+<td class="instruction">DEFB $17,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b7a"></span>8B7A</td>
+<td class="instruction">DEFB $17,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b7c"></span>8B7C</td>
+<td class="instruction">DEFB $17,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b7e"></span>8B7E</td>
+<td class="instruction">DEFB $17,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b80"></span>8B80</td>
+<td class="instruction">DEFB $18,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b82"></span>8B82</td>
+<td class="instruction">DEFB $18,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b84"></span>8B84</td>
+<td class="instruction">DEFB $18,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b86"></span>8B86</td>
+<td class="instruction">DEFB $18,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b88"></span>8B88</td>
+<td class="instruction">DEFB $18,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b8a"></span>8B8A</td>
+<td class="instruction">DEFB $18,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b8c"></span>8B8C</td>
+<td class="instruction">DEFB $18,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b8e"></span>8B8E</td>
+<td class="instruction">DEFB $18,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b90"></span>8B90</td>
+<td class="instruction">DEFB $19,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b92"></span>8B92</td>
+<td class="instruction">DEFB $19,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b94"></span>8B94</td>
+<td class="instruction">DEFB $19,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b96"></span>8B96</td>
+<td class="instruction">DEFB $19,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b98"></span>8B98</td>
+<td class="instruction">DEFB $19,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b9a"></span>8B9A</td>
+<td class="instruction">DEFB $19,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b9c"></span>8B9C</td>
+<td class="instruction">DEFB $19,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8b9e"></span>8B9E</td>
+<td class="instruction">DEFB $19,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ba0"></span>8BA0</td>
+<td class="instruction">DEFB $1A,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ba2"></span>8BA2</td>
+<td class="instruction">DEFB $1A,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ba4"></span>8BA4</td>
+<td class="instruction">DEFB $1A,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ba6"></span>8BA6</td>
+<td class="instruction">DEFB $1A,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8ba8"></span>8BA8</td>
+<td class="instruction">DEFB $1A,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8baa"></span>8BAA</td>
+<td class="instruction">DEFB $1A,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bac"></span>8BAC</td>
+<td class="instruction">DEFB $1A,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bae"></span>8BAE</td>
+<td class="instruction">DEFB $1A,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bb0"></span>8BB0</td>
+<td class="instruction">DEFB $1B,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bb2"></span>8BB2</td>
+<td class="instruction">DEFB $1B,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bb4"></span>8BB4</td>
+<td class="instruction">DEFB $1B,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bb6"></span>8BB6</td>
+<td class="instruction">DEFB $1B,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bb8"></span>8BB8</td>
+<td class="instruction">DEFB $1B,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bba"></span>8BBA</td>
+<td class="instruction">DEFB $1B,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bbc"></span>8BBC</td>
+<td class="instruction">DEFB $1B,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bbe"></span>8BBE</td>
+<td class="instruction">DEFB $1B,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bc0"></span>8BC0</td>
+<td class="instruction">DEFB $1C,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bc2"></span>8BC2</td>
+<td class="instruction">DEFB $1C,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bc4"></span>8BC4</td>
+<td class="instruction">DEFB $1C,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bc6"></span>8BC6</td>
+<td class="instruction">DEFB $1C,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bc8"></span>8BC8</td>
+<td class="instruction">DEFB $1C,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bca"></span>8BCA</td>
+<td class="instruction">DEFB $1C,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bcc"></span>8BCC</td>
+<td class="instruction">DEFB $1C,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bce"></span>8BCE</td>
+<td class="instruction">DEFB $1C,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bd0"></span>8BD0</td>
+<td class="instruction">DEFB $1D,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bd2"></span>8BD2</td>
+<td class="instruction">DEFB $1D,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bd4"></span>8BD4</td>
+<td class="instruction">DEFB $1D,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bd6"></span>8BD6</td>
+<td class="instruction">DEFB $1D,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bd8"></span>8BD8</td>
+<td class="instruction">DEFB $1D,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bda"></span>8BDA</td>
+<td class="instruction">DEFB $1D,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bdc"></span>8BDC</td>
+<td class="instruction">DEFB $1D,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bde"></span>8BDE</td>
+<td class="instruction">DEFB $1D,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8be0"></span>8BE0</td>
+<td class="instruction">DEFB $1E,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8be2"></span>8BE2</td>
+<td class="instruction">DEFB $1E,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8be4"></span>8BE4</td>
+<td class="instruction">DEFB $1E,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8be6"></span>8BE6</td>
+<td class="instruction">DEFB $1E,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8be8"></span>8BE8</td>
+<td class="instruction">DEFB $1E,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bea"></span>8BEA</td>
+<td class="instruction">DEFB $1E,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bec"></span>8BEC</td>
+<td class="instruction">DEFB $1E,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bee"></span>8BEE</td>
+<td class="instruction">DEFB $1E,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bf0"></span>8BF0</td>
+<td class="instruction">DEFB $1F,$80</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bf2"></span>8BF2</td>
+<td class="instruction">DEFB $1F,$40</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bf4"></span>8BF4</td>
+<td class="instruction">DEFB $1F,$20</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bf6"></span>8BF6</td>
+<td class="instruction">DEFB $1F,$10</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bf8"></span>8BF8</td>
+<td class="instruction">DEFB $1F,$08</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bfa"></span>8BFA</td>
+<td class="instruction">DEFB $1F,$04</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bfc"></span>8BFC</td>
+<td class="instruction">DEFB $1F,$02</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8bfe"></span>8BFE</td>
+<td class="instruction">DEFB $1F,$01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="8700.html">8700</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#8a00">Map</a></td>
+<td class="next">
+Next: <a href="8C00.html">8C00</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/35328.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

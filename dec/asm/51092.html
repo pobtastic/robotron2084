@@ -33,196 +33,253 @@ Next: <a href="51151.html">51151</a>
 </td>
 </tr>
 </table>
-<div class="description">51092: Routine at C794</div>
+<div class="description">51092: Draw Lives Display</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="50500.html">50500</a> and <a href="54039.html">RenderHUD</a>.
+Used by the routines at <a href="50625.html">CheckScoreAwardLife</a> and <a href="54039.html">RenderHUD</a>.
+</div>
+<div class="paragraph">
+Refreshes the on-screen life icons. Runs 7 passes of <a href="54459.html">Erase_Life_Icon_Cells</a> (masked clear) with glyph code 27 vertical seed *<a href="50198.html">Wave</a> and step *<a href="50199.html">Lives_Display_Vertical_Step</a>. If *<a href="50197.html">Lives</a> is zero, returns; else <span class="register">D</span> is the lives count capped at 7 the vertical seed is reloaded from *<a href="50198.html">Wave</a>, and that many OR-blits run via <a href="54406.html">Draw_Life_Icon_Cells</a> with the same glyph and stride. Called from <a href="54039.html">RenderHUD</a> and <a href="50625.html">CheckScoreAwardLife</a>.
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">DrawLivesDisplay</td>
 <td class="address-2"><span id="51092"></span>51092</td>
 <td class="instruction">LD D,7</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">D</span>=7 (fixed passes for the clear / background phase).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51094"></span>51094</td>
 <td class="instruction">LD A,(50198)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2"><span class="register">E</span>=*<a href="50198.html">Wave</a> (initial vertical parameter for the first phase).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51097"></span>51097</td>
 <td class="instruction">LD E,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="51098"></span>
+<div class="comments">
+<div class="paragraph">
+Seven stacked clears using <a href="54459.html">Erase_Life_Icon_Cells</a> (CPL and AND into the display file).
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">DrawLivesDisplay_ClearLoop</td>
 <td class="address-2"><span id="51098"></span>51098</td>
 <td class="instruction">PUSH DE</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Stash <span class="register">DE</span> on the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51099"></span>51099</td>
 <td class="instruction">LD A,27</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=27 (life-icon character / glyph selector).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51101"></span>51101</td>
 <td class="instruction">LD B,E</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">B</span>=<span class="register">E</span> (vertical argument for the blit helper).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51102"></span>51102</td>
 <td class="instruction">LD C,0</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">C</span>=0.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51104"></span>51104</td>
-<td class="instruction">CALL <a href="54406.html#54459">54459</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="54459.html">Erase_Life_Icon_Cells</a></td>
+<td class="comment-1" rowspan="1">Call <a href="54459.html">Erase_Life_Icon_Cells</a> (masked clear at this cell).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51107"></span>51107</td>
 <td class="instruction">POP DE</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Restore <span class="register">DE</span> from the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51108"></span>51108</td>
 <td class="instruction">LD A,(50199)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=*<a href="50199.html">Lives_Display_Vertical_Step</a> (vertical spacing between stacked slots).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51111"></span>51111</td>
 <td class="instruction">ADD A,E</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Add <span class="register">E</span> to <span class="register">A</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51112"></span>51112</td>
 <td class="instruction">LD E,A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">E</span>=<span class="register">A</span> (advance the vertical parameter).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51113"></span>51113</td>
 <td class="instruction">DEC D</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Decrement <span class="register">D</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51114"></span>51114</td>
-<td class="instruction">JP NZ,<a href="51092.html#51098">51098</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JP NZ,<a href="51092.html#51098">DrawLivesDisplay_ClearLoop</a></td>
+<td class="comment-1" rowspan="1">Loop back to <a href="51092.html#51098">DrawLivesDisplay_ClearLoop</a> until all 7 clear passes finish.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51117"></span>51117</td>
 <td class="instruction">LD HL,50197</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="50197.html">Lives</a> (lives counter).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51120"></span>51120</td>
 <td class="instruction">LD A,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=*<span class="register">HL</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51121"></span>51121</td>
 <td class="instruction">AND A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Return if there are no lives to draw.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51122"></span>51122</td>
 <td class="instruction">RET Z</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51123"></span>51123</td>
 <td class="instruction">CP 8</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Compare with 8.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51125"></span>51125</td>
-<td class="instruction">JR C,<a href="51092.html#51129">51129</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR C,<a href="51092.html#51129">DrawLivesDisplay_CountReady</a></td>
+<td class="comment-1" rowspan="1">Jump to <a href="51092.html#51129">DrawLivesDisplay_CountReady</a> if the count is below 8 (use it as-is).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51127"></span>51127</td>
 <td class="instruction">LD A,7</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=7 (cap at seven visible life icons).</td>
 </tr>
 <tr>
+<td class="asm-label">DrawLivesDisplay_CountReady</td>
 <td class="address-2"><span id="51129"></span>51129</td>
 <td class="instruction">LD D,A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">D</span>=<span class="register">A</span> (number of OR-blits to perform).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51130"></span>51130</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Advance <span class="register">HL</span> to <a href="50198.html">Wave</a> (vertical seed for the draw phase).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51131"></span>51131</td>
 <td class="instruction">LD E,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">E</span>=*<span class="register">HL</span>.</td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="51132"></span>
+<div class="comments">
+<div class="paragraph">
+Each iteration OR-merges a life glyph via <a href="54406.html">Draw_Life_Icon_Cells</a> (see <a href="54406.html">Draw_Life_Icon_Cells</a>).
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">DrawLivesDisplay_DrawLoop</td>
 <td class="address-2"><span id="51132"></span>51132</td>
 <td class="instruction">PUSH DE</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Stash <span class="register">DE</span> on the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51133"></span>51133</td>
 <td class="instruction">LD A,27</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=27.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51135"></span>51135</td>
 <td class="instruction">LD B,E</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">B</span>=<span class="register">E</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51136"></span>51136</td>
 <td class="instruction">LD C,0</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">C</span>=0.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51138"></span>51138</td>
-<td class="instruction">CALL <a href="54406.html">54406</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="54406.html">Draw_Life_Icon_Cells</a></td>
+<td class="comment-1" rowspan="1">Call <a href="54406.html">Draw_Life_Icon_Cells</a> (OR-blit at this cell).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51141"></span>51141</td>
 <td class="instruction">POP DE</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Restore <span class="register">DE</span> from the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51142"></span>51142</td>
 <td class="instruction">LD A,(50199)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=*<a href="50199.html">Lives_Display_Vertical_Step</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51145"></span>51145</td>
 <td class="instruction">ADD A,E</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Add <span class="register">E</span> to <span class="register">A</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51146"></span>51146</td>
 <td class="instruction">LD E,A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">E</span>=<span class="register">A</span> (advance the vertical parameter).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51147"></span>51147</td>
 <td class="instruction">DEC D</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Decrement <span class="register">D</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51148"></span>51148</td>
-<td class="instruction">JR NZ,<a href="51092.html#51132">51132</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR NZ,<a href="51092.html#51132">DrawLivesDisplay_DrawLoop</a></td>
+<td class="comment-1" rowspan="1">Loop back to <a href="51092.html#51132">DrawLivesDisplay_DrawLoop</a> while more icons remain.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51150"></span>51150</td>
 <td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Return.</td>
 </tr>
 </table>
 <table class="asm-navigation">

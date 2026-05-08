@@ -33,20 +33,25 @@ Next: <a href="54832.html">54832</a>
 </td>
 </tr>
 </table>
-<div class="description">54816: Data block at D620</div>
+<div class="description">54816: Sprite Frame Table</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
+<div class="paragraph">
+Sixteen sprite frame indices (one per movement direction) used by <a href="52047.html">Main_Game_Loop</a> to select the correct player sprite for the current direction.
+</div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Sprite_Frame_Table</td>
 <td class="address-1"><span id="54816"></span>54816</td>
 <td class="instruction">DEFB 0,0,0,0,0,1,1,1</td>
 <td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54824"></span>54824</td>
 <td class="instruction">DEFB 0,2,2,2,0,3,0,0</td>
 <td class="comment-0" rowspan="1"></td>

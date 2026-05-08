@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at E290</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="E262.html">E262</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#e290">Map</a></td>
+<td class="next">
+Next: <a href="E2C8.html">E2C8</a>
+</td>
+</tr>
+</table>
+<div class="description">E290: Spawn Horizontal Wave Enemies</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="D24C.html">Stage_Next_Wave</a>.
+</div>
+<div class="paragraph">
+Entry point called from <a href="D24C.html">Stage_Next_Wave</a>. Reads the horizontal enemy spawn count from *<span class="register">HL</span> and stores it at C42B; if zero, returns immediately. Otherwise loops <span class="register">B</span> times, writing a full entity record into the entity list: the <a href="CD34.html#cf52">CF52</a> handler address, a random entity type in the range 34-37 a valid random screen position via <a href="E2C8.html">Pick_Random_Spawn_Position_Y</a>, and trailing bytes 0E 0D FF. Saves the updated entity list pointer to *<a href="C509.html">Entity_List_Write_Pointer</a> and writes the D1A4 list terminator.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Spawn_Horizontal_Wave_Enemies</td>
+<td class="address-2"><span id="e290"></span>E290</td>
+<td class="instruction">LD A,(HL)</td>
+<td class="comment-1" rowspan="2">Load the horizontal enemy count from *<span class="register">HL</span> and store it at C42B.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e291"></span>E291</td>
+<td class="instruction">LD ($C42B),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e294"></span>E294</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="3">Return if the spawn count is zero.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e295"></span>E295</td>
+<td class="instruction">AND A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e296"></span>E296</td>
+<td class="instruction">RET Z</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e297"></span>E297</td>
+<td class="instruction">LD B,A</td>
+<td class="comment-1" rowspan="2">Set the spawn loop counter in <span class="register">B</span> and stash the source pointer.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e298"></span>E298</td>
+<td class="instruction">PUSH HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e299"></span>E299</td>
+<td class="instruction">LD HL,($C509)</td>
+<td class="comment-1" rowspan="1">Load the entity list write pointer from *<a href="C509.html">Entity_List_Write_Pointer</a>.</td>
+</tr>
+<tr>
+<td class="asm-label">Spawn_Horizontal_Wave_Enemies_Record</td>
+<td class="address-2"><span id="e29c"></span>E29C</td>
+<td class="instruction">LD DE,$CF52</td>
+<td class="comment-1" rowspan="4">Write the <a href="CD34.html#cf52">CF52</a> entity handler as a little-endian word.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e29f"></span>E29F</td>
+<td class="instruction">LD (HL),E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2a0"></span>E2A0</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2a1"></span>E2A1</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2a2"></span>E2A2</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Advance past the handler word.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2a3"></span>E2A3</td>
+<td class="instruction">CALL <a href="D1BF.html">Generate_Random_Byte</a></td>
+<td class="comment-1" rowspan="1">Generate a random byte via <a href="D1BF.html">Generate_Random_Byte</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2a6"></span>E2A6</td>
+<td class="instruction">AND %00000011</td>
+<td class="comment-1" rowspan="1">Mask to the low 2 bits for the entity type offset.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2a8"></span>E2A8</td>
+<td class="instruction">ADD A,$34</td>
+<td class="comment-1" rowspan="3">Add 34 write the entity type, and advance.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2aa"></span>E2AA</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2ab"></span>E2AB</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2ac"></span>E2AC</td>
+<td class="instruction">PUSH BC</td>
+<td class="comment-1" rowspan="3">Stash <span class="register">BC</span> and call <a href="E2C8.html">Pick_Random_Spawn_Position_Y</a> to place the entity at a valid random screen position.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2ad"></span>E2AD</td>
+<td class="instruction">CALL <a href="E2C8.html">Pick_Random_Spawn_Position_Y</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2b0"></span>E2B0</td>
+<td class="instruction">POP BC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2b1"></span>E2B1</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="2">Restore <span class="register">BC</span> and step back one byte.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2b2"></span>E2B2</td>
+<td class="instruction">LD (HL),$0E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2b4"></span>E2B4</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="4">Write trailing record bytes 0E 0D and FF.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2b5"></span>E2B5</td>
+<td class="instruction">LD (HL),$0D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2b7"></span>E2B7</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2b8"></span>E2B8</td>
+<td class="instruction">LD (HL),$FF</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2ba"></span>E2BA</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="2">Advance <span class="register">HL</span> and loop back to <a href="E290.html#e29c">Spawn_Horizontal_Wave_Enemies_Record</a> for the next entity.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2bb"></span>E2BB</td>
+<td class="instruction">DJNZ <a href="E290.html#e29c">Spawn_Horizontal_Wave_Enemies_Record</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2bd"></span>E2BD</td>
+<td class="instruction">LD ($C509),HL</td>
+<td class="comment-1" rowspan="4">Save the updated entity list pointer to *<a href="C509.html">Entity_List_Write_Pointer</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2c0"></span>E2C0</td>
+<td class="instruction">LD DE,$D1A4</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2c3"></span>E2C3</td>
+<td class="instruction">LD (HL),E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2c4"></span>E2C4</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2c5"></span>E2C5</td>
+<td class="instruction">LD (HL),D</td>
+<td class="comment-1" rowspan="2">Write the list terminator D1A4 to *<span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2c6"></span>E2C6</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2c7"></span>E2C7</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="E262.html">E262</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#e290">Map</a></td>
+<td class="next">
+Next: <a href="E2C8.html">E2C8</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/58000.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

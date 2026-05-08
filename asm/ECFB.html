@@ -33,71 +33,101 @@ Next: <a href="ED10.html">ED10</a>
 </td>
 </tr>
 </table>
-<div class="description">ECFB: Routine at ECFB</div>
+<div class="description">ECFB: Check S Key During Display</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="EBC8.html">EBC8</a> and <a href="F4EC.html">F4EC</a>.
+Used by the routines at <a href="EBC8.html">Display_High_Score_Entry_Screen</a> and <a href="F4EC.html">Attract_Mode_Loop</a>.
+</div>
+<div class="paragraph">
+Reads keyboard row FD (A-S-D-F-G) during the high score display loops. Forces the upper three bits high and checks for the S key alone. If S is the only key held, discards the caller's return address and jumps to the tape load continuation handler at <a href="D3F8.html">PlayerDeath_TapeLoadContinue</a> with the header parameters from <a href="C4FD.html">C4FD</a> and <a href="C4FE.html">C4FE</a>. Returns normally if no matching key is detected.
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Check_S_Key_During_Display</td>
 <td class="address-2"><span id="ecfb"></span>ECFB</td>
 <td class="instruction">LD A,$FD</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Read from the keyboard; <table class="default">
+<tr>
+<th colspan="1" rowspan="2">Port Number</th>
+<th colspan="5" rowspan="1">Bit</th>
 </tr>
 <tr>
+<th colspan="1" rowspan="1">0</th>
+<th colspan="1" rowspan="1">1</th>
+<th colspan="1" rowspan="1">2</th>
+<th colspan="1" rowspan="1">3</th>
+<th colspan="1" rowspan="1">4</th>
+</tr>
+<tr>
+<td class="centre" colspan="1" rowspan="1">FD</td>
+<td class="centre" colspan="1" rowspan="1">A</td>
+<td class="centre" colspan="1" rowspan="1">S</td>
+<td class="centre" colspan="1" rowspan="1">D</td>
+<td class="centre" colspan="1" rowspan="1">F</td>
+<td class="centre" colspan="1" rowspan="1">G</td>
+</tr>
+</table></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ecfd"></span>ECFD</td>
 <td class="instruction">IN A,($FE)</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ecff"></span>ECFF</td>
-<td class="instruction">OR $E0</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">OR %11100000</td>
+<td class="comment-1" rowspan="1">Force bits 5-7 high.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed01"></span>ED01</td>
 <td class="instruction">CP $FD</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Return if the S key is not the only key pressed.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed03"></span>ED03</td>
 <td class="instruction">RET NZ</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed04"></span>ED04</td>
 <td class="instruction">POP HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Discard the caller's return address from the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed05"></span>ED05</td>
 <td class="instruction">LD A,($C4FD)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Load the tape header byte from <a href="C4FD.html">C4FD</a> into <span class="register">B</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed08"></span>ED08</td>
 <td class="instruction">LD B,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed09"></span>ED09</td>
 <td class="instruction">LD A,($C4FE)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Load the tape header byte from <a href="C4FE.html">C4FE</a> into <span class="register">E</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed0c"></span>ED0C</td>
 <td class="instruction">LD E,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed0d"></span>ED0D</td>
 <td class="instruction">JP <a href="D3F8.html">PlayerDeath_TapeLoadContinue</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Jump to the tape load continuation at <a href="D3F8.html">PlayerDeath_TapeLoadContinue</a>.</td>
 </tr>
 </table>
 <table class="asm-navigation">

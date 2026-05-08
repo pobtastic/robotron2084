@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 58553</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="58535.html">58535</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#58553">Map</a></td>
+<td class="next">
+Next: <a href="58656.html">58656</a>
+</td>
+</tr>
+</table>
+<div class="description">58553: Kill Tracked Enemy Entity</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="58208.html">Process_Tracked_Enemy_Entity</a>.
+</div>
+<div class="paragraph">
+Kill path reached when no collision-free slot is available for a tracked enemy. Steps back six bytes to the entity position fields, erases the sprite via <a href="51279.html">Erase_Narrow_Entity_Sprite</a>, removes the entity record from the list via <a href="54705.html#54708">Remove_Entity_From_List_Step</a>, and erases the spawn buffer via <a href="51529.html">Erase_Wide_Entity_Sprite</a>. Decrements the active entity count at 50220 and the total wave enemy count at <a href="50204.html">Active_Enemy_Count</a>. Initialises a dying-state colour timer via <a href="55748.html">Initialise_Entity_State</a>, writes a replacement <a href="58514.html">Tick_Entity_Colour_Timer</a> entity record at the same position, and scores 16 BCD points. Refreshes the colour bar via <a href="52532.html">Clear_Colour_Bar_Column</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Kill_Tracked_Enemy_Entity</td>
+<td class="address-2"><span id="58553"></span>58553</td>
+<td class="instruction">LD DE,6</td>
+<td class="comment-1" rowspan="5">Step back six bytes to the entity position, erase the sprite via <a href="51279.html">Erase_Narrow_Entity_Sprite</a>, and restore <span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58556"></span>58556</td>
+<td class="instruction">AND A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58557"></span>58557</td>
+<td class="instruction">SBC HL,DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58559"></span>58559</td>
+<td class="instruction">PUSH HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58560"></span>58560</td>
+<td class="instruction">CALL <a href="51279.html">Erase_Narrow_Entity_Sprite</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58563"></span>58563</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="2">Remove the entity from the list via <a href="54705.html#54708">Remove_Entity_From_List_Step</a> and erase the spawn buffer via <a href="51529.html">Erase_Wide_Entity_Sprite</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58564"></span>58564</td>
+<td class="instruction">CALL <a href="54705.html#54708">Remove_Entity_From_List_Step</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58567"></span>58567</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="3">Decrement the active count at 50220 and the wave enemy count at <a href="50204.html">Active_Enemy_Count</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58568"></span>58568</td>
+<td class="instruction">LD HL,50449</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58571"></span>58571</td>
+<td class="instruction">CALL <a href="51529.html">Erase_Wide_Entity_Sprite</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58574"></span>58574</td>
+<td class="instruction">LD HL,50220</td>
+<td class="comment-1" rowspan="3">Initialise a dying entity state via <a href="55748.html">Initialise_Entity_State</a> with code 2.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58577"></span>58577</td>
+<td class="instruction">DEC (HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58578"></span>58578</td>
+<td class="instruction">LD HL,50204</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58581"></span>58581</td>
+<td class="instruction">DEC (HL)</td>
+<td class="comment-1" rowspan="5">Write handler <a href="58514.html">Tick_Entity_Colour_Timer</a> at <a href="50447.html">Entity_Pointer_Stash</a> and set the entity timer to 50 frames.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58582"></span>58582</td>
+<td class="instruction">LD E,2</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58584"></span>58584</td>
+<td class="instruction">CALL <a href="55748.html">Initialise_Entity_State</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58587"></span>58587</td>
+<td class="instruction">LD DE,58514</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58590"></span>58590</td>
+<td class="instruction">LD HL,(50447)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58593"></span>58593</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="8">Copy the entity Y and X position data and set the colour timer initial value.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58594"></span>58594</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58595"></span>58595</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58596"></span>58596</td>
+<td class="instruction">LD (HL),E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58597"></span>58597</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58598"></span>58598</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58599"></span>58599</td>
+<td class="instruction">LD (HL),50</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58601"></span>58601</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58602"></span>58602</td>
+<td class="instruction">LD (HL),20</td>
+<td class="comment-1" rowspan="18">Point <span class="register">HL</span> back to the Y position, set colour INK:
+WHITE,
+PAPER:
+BLACK
+(BRIGHT)
+ in <span class="register">B'</span>, and draw via <a href="54839.html">Draw_Entity_Sprite</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58604"></span>58604</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58605"></span>58605</td>
+<td class="instruction">LD D,H</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58606"></span>58606</td>
+<td class="instruction">LD E,L</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58607"></span>58607</td>
+<td class="instruction">INC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58608"></span>58608</td>
+<td class="instruction">LD A,(DE)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58609"></span>58609</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58610"></span>58610</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58611"></span>58611</td>
+<td class="instruction">INC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58612"></span>58612</td>
+<td class="instruction">INC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58613"></span>58613</td>
+<td class="instruction">LD A,(DE)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58614"></span>58614</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58615"></span>58615</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58616"></span>58616</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58617"></span>58617</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58618"></span>58618</td>
+<td class="instruction">LD B,71</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58620"></span>58620</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58621"></span>58621</td>
+<td class="instruction">CALL <a href="54839.html">Draw_Entity_Sprite</a></td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="58624"></span>
+<div class="comments">
+<div class="paragraph">
+Update the player's BCD score by 16 points and propagate any carry through the higher-order score digits.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58624"></span>58624</td>
+<td class="instruction">LD HL,50181</td>
+<td class="comment-1" rowspan="8">Add 16 BCD to the units score at 50181 and propagate carry through two further score digits.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58627"></span>58627</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58628"></span>58628</td>
+<td class="instruction">ADD A,16</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58630"></span>58630</td>
+<td class="instruction">DAA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58631"></span>58631</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58632"></span>58632</td>
+<td class="instruction">JP NC,<a href="58553.html#58650">Kill_Tracked_Enemy_Score_Bar</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58635"></span>58635</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58636"></span>58636</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58637"></span>58637</td>
+<td class="instruction">ADD A,1</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58639"></span>58639</td>
+<td class="instruction">DAA</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58640"></span>58640</td>
+<td class="instruction">LD (HL),A</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58641"></span>58641</td>
+<td class="instruction">JP NC,<a href="58553.html#58650">Kill_Tracked_Enemy_Score_Bar</a></td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58644"></span>58644</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58645"></span>58645</td>
+<td class="instruction">LD A,(HL)</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58646"></span>58646</td>
+<td class="instruction">ADD A,1</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58648"></span>58648</td>
+<td class="instruction">DAA</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58649"></span>58649</td>
+<td class="instruction">LD (HL),A</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label">Kill_Tracked_Enemy_Score_Bar</td>
+<td class="address-2"><span id="58650"></span>58650</td>
+<td class="instruction">CALL <a href="52532.html">Clear_Colour_Bar_Column</a></td>
+<td class="comment-1" rowspan="2">Refresh the colour bar via <a href="52532.html">Clear_Colour_Bar_Column</a> and advance via <a href="58208.html#58393">Process_Tracked_Enemy_Entity_Reload</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58653"></span>58653</td>
+<td class="instruction">JP <a href="58208.html#58393">Process_Tracked_Enemy_Entity_Reload</a></td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="58535.html">58535</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#58553">Map</a></td>
+<td class="next">
+Next: <a href="58656.html">58656</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/E4B9.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

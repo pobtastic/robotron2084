@@ -39,10 +39,10 @@ Next: <a href="F854.html">F854</a>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routine at <a href="F4EC.html">F4EC</a>.
+Used by the routine at <a href="F4EC.html">Attract_Mode_Loop</a>.
 </div>
 <div class="paragraph">
-Iterates over the 18 three-byte entries in the sprite table at <a href="F51D.html#f558">F558</a> (Y pixel row at +00 X byte column at +01 attribute byte at +02), calling <a href="F76F.html">XorBlitSprite</a> once per entry to draw each sprite in its initial position. Called once during attract-mode setup at <a href="F4EC.html">F4EC</a> before the animation loop begins.
+Iterates over the 18 three-byte entries in the sprite table at <a href="F558.html">Intro_Sprite_Table</a> (Y pixel row at +00 X byte column at +01 attribute byte at +02), calling <a href="F76F.html">XorBlitSprite</a> once per entry to draw each sprite in its initial position. Called once during attract-mode setup at <a href="F4EC.html">Attract_Mode_Loop</a> before the animation loop begins.
 </div>
 </div>
 </td>
@@ -57,7 +57,7 @@ Iterates over the 18 three-byte entries in the sprite table at <a href="F51D.htm
 <td class="asm-label"></td>
 <td class="address-1"><span id="f83e"></span>F83E</td>
 <td class="instruction">LD HL,$F558</td>
-<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="F51D.html#f558">F558</a> (attribute byte position of the first entry).</td>
+<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="F558.html">Intro_Sprite_Table</a> (attribute byte position of the first entry).</td>
 </tr>
 <tr>
 <td class="asm-label">DrawIntroSprites_Loop</td>

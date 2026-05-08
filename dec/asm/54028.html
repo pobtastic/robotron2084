@@ -25,7 +25,7 @@ gtag('config', 'G-75RERFCHBG');
 <table class="asm-navigation">
 <tr>
 <td class="prev">
-Prev: <a href="53488.html">53488</a>
+Prev: <a href="53948.html">53948</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#54028">Map</a></td>
 <td class="next">
@@ -33,23 +33,28 @@ Next: <a href="54039.html">54039</a>
 </td>
 </tr>
 </table>
-<div class="description">54028: Routine at D30C</div>
+<div class="description">54028: Clear Screen and Render HUD</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routine at <a href="53488.html">53488</a>.
+Used by the routine at <a href="53836.html">Stage_Next_Wave</a>.
+</div>
+<div class="paragraph">
+Clears the screen buffer via <a href="53360.html">ClearScreenBuffer</a>, sets a white background via <a href="53374.html">SetBackgroundColour</a>, then jumps directly to <a href="54039.html#54053">RenderHUD_Draw</a> to render scores and lives for both players. Called by <a href="53836.html">Stage_Next_Wave</a> at the start of each new wave. Unlike <a href="54039.html">RenderHUD</a> this skips redrawing the playfield border and attribute bar.
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Clear_Screen_And_Render_HUD</td>
 <td class="address-2"><span id="54028"></span>54028</td>
 <td class="instruction">CALL <a href="53360.html">ClearScreenBuffer</a></td>
-<td class="comment-1" rowspan="1">Call <a href="53360.html">ClearScreenBuffer</a>.</td>
+<td class="comment-1" rowspan="1">Clear the screen buffer via <a href="53360.html">ClearScreenBuffer</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54031"></span>54031</td>
 <td class="instruction">LD A,7</td>
 <td class="comment-1" rowspan="2">Call <a href="53374.html">SetBackgroundColour</a> using 
@@ -58,19 +63,21 @@ Used by the routine at <a href="53488.html">53488</a>.
 WHITE.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54033"></span>54033</td>
 <td class="instruction">CALL <a href="53374.html">SetBackgroundColour</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54036"></span>54036</td>
 <td class="instruction">JP <a href="54039.html#54053">RenderHUD_Draw</a></td>
-<td class="comment-1" rowspan="1">Jump to <a href="54039.html#54053">RenderHUD_Draw</a>.</td>
+<td class="comment-1" rowspan="1">Jump to <a href="54039.html#54053">RenderHUD_Draw</a> to render the scores and lives.</td>
 </tr>
 </table>
 <table class="asm-navigation">
 <tr>
 <td class="prev">
-Prev: <a href="53488.html">53488</a>
+Prev: <a href="53948.html">53948</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#54028">Map</a></td>
 <td class="next">

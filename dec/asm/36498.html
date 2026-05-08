@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 36498</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="36482.html">36482</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#36498">Map</a></td>
+<td class="next">
+Next: <a href="36522.html">36522</a>
+</td>
+</tr>
+</table>
+<div class="description">36498: Print Handler: Tab</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+TAB parameter handler. Called on the byte immediately following a 23 (TAB) control code. Sets the X position (32769) to the parameter value. If the parameter is less than the current X position (i.e., the cursor would move left), the Y position advances to the next row.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">PrintHandler_Tab</td>
+<td class="address-2"><span id="36498"></span>36498</td>
+<td class="instruction">LD HL,36323</td>
+<td class="comment-1" rowspan="2">Reset <a href="32778.html">PrintState_Handler</a> to <a href="36323.html">PrintHandler</a> (default handler).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36501"></span>36501</td>
+<td class="instruction">LD (32778),HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36504"></span>36504</td>
+<td class="instruction">LD C,A</td>
+<td class="comment-1" rowspan="1"><span class="register">C</span>=target X position (the TAB parameter).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36505"></span>36505</td>
+<td class="instruction">LD A,(32769)</td>
+<td class="comment-1" rowspan="2"><span class="register">B</span>=*<a href="32769.html">PrintState_X</a> (current X position).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36508"></span>36508</td>
+<td class="instruction">LD B,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36509"></span>36509</td>
+<td class="instruction">LD A,C</td>
+<td class="comment-1" rowspan="2"><span class="register">A</span>=target X; write target X to *<a href="32769.html">PrintState_X</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36510"></span>36510</td>
+<td class="instruction">LD (32769),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36513"></span>36513</td>
+<td class="instruction">SUB B</td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=target X − current X.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36514"></span>36514</td>
+<td class="instruction">RET NC</td>
+<td class="comment-1" rowspan="1">Return if the cursor moved right or stayed (no row advance needed).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36515"></span>36515</td>
+<td class="instruction">LD HL,32768</td>
+<td class="comment-1" rowspan="1"><span class="register">HL</span>=32768 (Y position pointer).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36518"></span>36518</td>
+<td class="instruction">CALL <a href="36367.html#36375">PrintHandler_AdvanceRow</a></td>
+<td class="comment-1" rowspan="1">Call <a href="36367.html#36375">PrintHandler_AdvanceRow</a> to advance the Y position by one line.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36521"></span>36521</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="36482.html">36482</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#36498">Map</a></td>
+<td class="next">
+Next: <a href="36522.html">36522</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/8E92.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

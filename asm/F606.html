@@ -25,7 +25,7 @@ gtag('config', 'G-75RERFCHBG');
 <table class="asm-navigation">
 <tr>
 <td class="prev">
-Prev: <a href="F5A0.html">F5A0</a>
+Prev: <a href="F5DA.html">F5DA</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#f606">Map</a></td>
 <td class="next">
@@ -33,182 +33,231 @@ Next: <a href="F637.html">F637</a>
 </td>
 </tr>
 </table>
-<div class="description">F606: Routine at F606</div>
+<div class="description">F606: OR Blit Title Strips</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routine at <a href="F637.html">F637</a>.
+Used by the routine at <a href="F637.html">DrawAttractTitle</a>.
+</div>
+<div class="paragraph">
+OR-blits horizontal strips of bitmap data from the source pointer in <span class="register">HL</span> into the screen buffer, using the four-byte parameter block at <a href="C4F9.html">TitleBlit_Params</a>–<a href="C4F9.html#c4fc">C4FC</a>. *<a href="C4F9.html">TitleBlit_Params</a> seeds the outer strip counter in <span class="register">B</span>; *<a href="C4F9.html#c4fa">C4FA</a> drives the screen row lookup (with 8C00 / 8D style indexing); *<a href="C4F9.html#c4fb">C4FB</a> is the byte count per strip (LDIR length); the loop runs until <span class="register">B</span> reaches *<a href="C4F9.html#c4fc">C4FC</a> after each pass. Called from <a href="F637.html">DrawAttractTitle</a> with <span class="register">HL</span> pointing at ROM graphics (<a href="6D7D.html">6D7D</a> and <a href="6D7D.html#7005">7005</a>).
+</div>
+</div>
+<table class="input">
+<tr class="asm-input-header">
+<th colspan="2">Input</th>
+</tr>
+<tr>
+<td class="register">HL</td>
+<td class="register-desc">Pointer to source bitmap data in ROM</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td class="asm-label">BlitTitleStrips</td>
+<td class="address-2"><span id="f606"></span>F606</td>
+<td class="instruction">LD A,($C4F9)</td>
+<td class="comment-1" rowspan="2"><span class="register">B</span>=*<a href="C4F9.html">TitleBlit_Params</a> (initial strip index for <span class="register">B</span>).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="f609"></span>F609</td>
+<td class="instruction">LD B,A</td>
+</tr>
+<tr>
+<td class="asm-label">BlitTitleStrips_Strip</td>
+<td class="address-2"><span id="f60a"></span>F60A</td>
+<td class="instruction">PUSH BC</td>
+<td class="comment-1" rowspan="1">Stash <span class="register">BC</span> on the stack (strip index and loop state).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="f60b"></span>F60B</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="1">Stash <span class="register">HL</span> on the stack (source pointer for this strip).</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="f60c"></span>
+<div class="comments">
+<div class="paragraph">
+Derive a screen destination from *<a href="C4F9.html#c4fa">C4FA</a> and the screen row address lookup table; combine with the next source byte and OR into the low byte of the destination address.
 </div>
 </div>
 </td>
 </tr>
 <tr>
-<td class="address-2"><span id="f606"></span>F606</td>
-<td class="instruction">LD A,($C4F9)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="f609"></span>F609</td>
-<td class="instruction">LD B,A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-2"><span id="f60a"></span>F60A</td>
-<td class="instruction">PUSH BC</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="f60b"></span>F60B</td>
-<td class="instruction">PUSH HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f60c"></span>F60C</td>
 <td class="instruction">LD L,B</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">L</span>=<span class="register">B</span> (strip index into the row term).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f60d"></span>F60D</td>
 <td class="instruction">LD B,$45</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">B</span>=45 (row address table high-byte base, rotated with *<a href="C4F9.html#c4fa">C4FA</a>).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f60f"></span>F60F</td>
 <td class="instruction">LD A,($C4FA)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2"><span class="register">C</span>=*<a href="C4F9.html#c4fa">C4FA</a> (row / band parameter).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f612"></span>F612</td>
 <td class="instruction">LD C,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f613"></span>F613</td>
 <td class="instruction">SLA C</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Shift <span class="register">C</span> left; rotate into <span class="register">B</span> (table pointer high byte 8C / 8D).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f615"></span>F615</td>
 <td class="instruction">RL B</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f617"></span>F617</td>
 <td class="instruction">LD H,$46</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">H</span>=46 (row address table base high byte).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f619"></span>F619</td>
 <td class="instruction">SLA L</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Shift <span class="register">L</span> left through <span class="register">H</span> (index into the row address table).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f61b"></span>F61B</td>
 <td class="instruction">RL H</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f61d"></span>F61D</td>
 <td class="instruction">LD A,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=*(<span class="register">HL</span>) (low byte of the screen row base address).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f61e"></span>F61E</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Advance <span class="register">HL</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f61f"></span>F61F</td>
 <td class="instruction">LD H,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">H</span>=*(<span class="register">HL</span>) (high byte of the screen row base address).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f620"></span>F620</td>
 <td class="instruction">LD L,A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">L</span>=<span class="register">A</span> (full row base address in <span class="register">HL</span>).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f621"></span>F621</td>
 <td class="instruction">LD A,(BC)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=*(<span class="register">BC</span>) (source bitmap byte).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f622"></span>F622</td>
 <td class="instruction">OR L</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">OR with <span class="register">L</span> (low byte of the screen address).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f623"></span>F623</td>
 <td class="instruction">LD L,A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Write merged low byte back to <span class="register">L</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f624"></span>F624</td>
 <td class="instruction">POP DE</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Restore destination pointer into <span class="register">DE</span> from the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f625"></span>F625</td>
 <td class="instruction">EX DE,HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Swap <span class="register">DE</span> and <span class="register">HL</span> (destination now in <span class="register">HL</span>).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f626"></span>F626</td>
 <td class="instruction">LD B,$00</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Clear <span class="register">B</span> (high byte of LDIR length).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f628"></span>F628</td>
 <td class="instruction">LD A,($C4FB)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2"><span class="register">C</span>=*<a href="C4F9.html#c4fb">C4FB</a> (bytes to OR along this strip).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f62b"></span>F62B</td>
 <td class="instruction">LD C,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f62c"></span>F62C</td>
 <td class="instruction">LDIR</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">LDIR copies <span class="register">BC</span> bytes from the source bitmap (<span class="register">HL</span>) into the strip at <span class="register">DE</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f62e"></span>F62E</td>
 <td class="instruction">POP BC</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Restore <span class="register">BC</span> from the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f62f"></span>F62F</td>
 <td class="instruction">INC B</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Advance the strip index <span class="register">B</span> by one.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f630"></span>F630</td>
 <td class="instruction">LD A,($C4FC)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=*<a href="C4F9.html#c4fc">C4FC</a> (terminal strip index).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f633"></span>F633</td>
 <td class="instruction">CP B</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Compare <span class="register">A</span> with <span class="register">B</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f634"></span>F634</td>
-<td class="instruction">JR NZ,<a href="F606.html#f60a">$F60A</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR NZ,<a href="F606.html#f60a">BlitTitleStrips_Strip</a></td>
+<td class="comment-1" rowspan="1">Loop back to <a href="F606.html#f60a">BlitTitleStrips_Strip</a> until all strips for this bitmap are done.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f636"></span>F636</td>
 <td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Return.</td>
 </tr>
 </table>
 <table class="asm-navigation">
 <tr>
 <td class="prev">
-Prev: <a href="F5A0.html">F5A0</a>
+Prev: <a href="F5DA.html">F5DA</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#f606">Map</a></td>
 <td class="next">

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 8E2E</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="8E23.html">8E23</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#8e2e">Map</a></td>
+<td class="next">
+Next: <a href="8E3D.html">8E3D</a>
+</td>
+</tr>
+</table>
+<div class="description">8E2E: Print Handler: Ink</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Sets the INK colour parameter handler. Called on the byte immediately following a 10 (INK) control code. Masks the parameter to the lower three bits (colour 00–07) and writes it into the INK bits (0–2) of the attribute byte at <a href="8004.html">PrintState_Attr</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">PrintHandler_Ink</td>
+<td class="address-2"><span id="8e2e"></span>8E2E</td>
+<td class="instruction">LD B,$08</td>
+<td class="comment-1" rowspan="1"><span class="register">B</span>=08 (mask limit for INK colour range 00–07).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8e30"></span>8E30</td>
+<td class="instruction">CALL <a href="8EE6.html">PrintHandler_MaskParam</a></td>
+<td class="comment-1" rowspan="1">Call <a href="8EE6.html">PrintHandler_MaskParam</a> to reset <a href="800A.html">PrintState_Handler</a> and mask <span class="register">B</span> to the colour value.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8e33"></span>8E33</td>
+<td class="instruction">LD A,($8004)</td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=*<a href="8004.html">PrintState_Attr</a> (current attribute byte).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8e36"></span>8E36</td>
+<td class="instruction">AND %11111000</td>
+<td class="comment-1" rowspan="1">Clear the INK bits (F8 = keep PAPER, BRIGHT, FLASH).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8e38"></span>8E38</td>
+<td class="instruction">OR B</td>
+<td class="comment-1" rowspan="1">Write the new INK colour into bits 0–2.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8e39"></span>8E39</td>
+<td class="instruction">LD ($8004),A</td>
+<td class="comment-1" rowspan="1">Write the updated attribute byte back to *<a href="8004.html">PrintState_Attr</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8e3c"></span>8E3C</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="8E23.html">8E23</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#8e2e">Map</a></td>
+<td class="next">
+Next: <a href="8E3D.html">8E3D</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/36398.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

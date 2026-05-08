@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 36434</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="36413.html">36413</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#36434">Map</a></td>
+<td class="next">
+Next: <a href="36453.html">36453</a>
+</td>
+</tr>
+</table>
+<div class="description">36434: Print Handler: Flash</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Set FLASH parameter handler. Called on the byte immediately following a 18 (FLASH) control code. Sets or clears bit 7 of the attribute byte at <a href="32772.html">PrintState_Attr</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">PrintHandler_Flash</td>
+<td class="address-2"><span id="36434"></span>36434</td>
+<td class="instruction">LD B,2</td>
+<td class="comment-1" rowspan="1"><span class="register">B</span>=2 (mask limit: parameter is 0 or 1).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36436"></span>36436</td>
+<td class="instruction">CALL <a href="36582.html">PrintHandler_MaskParam</a></td>
+<td class="comment-1" rowspan="1">Call <a href="36582.html">PrintHandler_MaskParam</a> to reset <a href="32778.html">PrintState_Handler</a> and mask <span class="register">B</span> to 0 or 1.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36439"></span>36439</td>
+<td class="instruction">BIT 0,B</td>
+<td class="comment-1" rowspan="1">Test bit 0 of the masked parameter.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36441"></span>36441</td>
+<td class="instruction">JR Z,<a href="36434.html#36448">PrintHandler_Flash_Off</a></td>
+<td class="comment-1" rowspan="1">If the parameter is 0 jump to <a href="36434.html#36448">PrintHandler_Flash_Off</a> to clear FLASH.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36443"></span>36443</td>
+<td class="instruction">SET 7,(IX+4)</td>
+<td class="comment-1" rowspan="1">Set the FLASH bit (7) of the attribute byte at <a href="32772.html">PrintState_Attr</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36447"></span>36447</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="36448"></span>
+<div class="comments">
+<div class="paragraph">
+Handle turning FLASH off.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">PrintHandler_Flash_Off</td>
+<td class="address-2"><span id="36448"></span>36448</td>
+<td class="instruction">RES 7,(IX+4)</td>
+<td class="comment-1" rowspan="1">Clear the FLASH bit (7) of the attribute byte at 32772.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36452"></span>36452</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="36413.html">36413</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#36434">Map</a></td>
+<td class="next">
+Next: <a href="36453.html">36453</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/8E52.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 59060</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="58656.html">58656</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#59060">Map</a></td>
+<td class="next">
+Next: <a href="59076.html">59076</a>
+</td>
+</tr>
+</table>
+<div class="description">59060: Retire Cluster Entity</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="58656.html">Process_Cluster_Entity</a>.
+</div>
+<div class="paragraph">
+Reached when the cluster entity's secondary animation timer has expired and the entity handler address has wrapped. Steps back seven bytes, writes the <a href="58535.html#58548">Retire_Expired_Entity_Advance</a> handler to the entity record, and advances via <a href="58535.html#58548">Retire_Expired_Entity_Advance</a>. Transitions the entity out of the homing phase into the final retire countdown.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Retire_Cluster_Entity</td>
+<td class="address-2"><span id="59060"></span>59060</td>
+<td class="instruction">LD DE,7</td>
+<td class="comment-1" rowspan="3">Step back seven bytes and write the <a href="58535.html#58548">Retire_Expired_Entity_Advance</a> handler.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59063"></span>59063</td>
+<td class="instruction">AND A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59064"></span>59064</td>
+<td class="instruction">SBC HL,DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59066"></span>59066</td>
+<td class="instruction">LD DE,58548</td>
+<td class="comment-1" rowspan="6">Advance the entity pointer and fall through to <a href="58535.html#58548">Retire_Expired_Entity_Advance</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59069"></span>59069</td>
+<td class="instruction">LD (HL),E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59070"></span>59070</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59071"></span>59071</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59072"></span>59072</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59073"></span>59073</td>
+<td class="instruction">JP <a href="58535.html#58548">Retire_Expired_Entity_Advance</a></td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="58656.html">58656</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#59060">Map</a></td>
+<td class="next">
+Next: <a href="59076.html">59076</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/E6B4.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

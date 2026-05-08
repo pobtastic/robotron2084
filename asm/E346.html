@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at E346</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="E31C.html">E31C</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#e346">Map</a></td>
+<td class="next">
+Next: <a href="E360.html">E360</a>
+</td>
+</tr>
+</table>
+<div class="description">E346: Apply Direction Delta</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="E7CF.html">Spawn_Tracked_Enemy_Entities</a>.
+</div>
+<div class="paragraph">
+Reads the direction byte from (<span class="register">DE</span>), and uses it as an index into the direction animation table at <a href="E7AF.html">Direction_Animation_Offset_Table</a> (direction × 4). Adds the Y delta at table[index] to the byte at (<span class="register">DE</span>+1) and the X delta at table[index+1] to the byte at (<span class="register">DE</span>+2), writing the updated coordinates back in place. Called from <a href="E7CF.html#e7eb">Spawn_Tracked_Enemy_Entities_Record</a> when building entity records.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Apply_Direction_Delta</td>
+<td class="address-2"><span id="e346"></span>E346</td>
+<td class="instruction">EX DE,HL</td>
+<td class="comment-1" rowspan="3">Exchange <span class="register">DE</span> and <span class="register">HL</span> and load the direction table base at <a href="E7AF.html">Direction_Animation_Offset_Table</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e347"></span>E347</td>
+<td class="instruction">LD HL,$E7AF</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e34a"></span>E34A</td>
+<td class="instruction">LD A,(DE)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e34b"></span>E34B</td>
+<td class="instruction">AND %00000111</td>
+<td class="comment-1" rowspan="1">Mask the direction byte to 3 bits.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e34d"></span>E34D</td>
+<td class="instruction">RLA</td>
+<td class="comment-1" rowspan="5">Double the index (two left shifts) and form the zero-extended byte offset in <span class="register">BC</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e34e"></span>E34E</td>
+<td class="instruction">RLA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e34f"></span>E34F</td>
+<td class="instruction">LD C,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e350"></span>E350</td>
+<td class="instruction">LD B,$00</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e352"></span>E352</td>
+<td class="instruction">ADD HL,BC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e353"></span>E353</td>
+<td class="instruction">INC DE</td>
+<td class="comment-1" rowspan="11">Apply the Y delta to (<span class="register">DE</span>+1) and the X delta to (<span class="register">DE</span>+2) and write both coordinates back in place.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e354"></span>E354</td>
+<td class="instruction">LD A,(DE)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e355"></span>E355</td>
+<td class="instruction">ADD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e356"></span>E356</td>
+<td class="instruction">LD (DE),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e357"></span>E357</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e358"></span>E358</td>
+<td class="instruction">INC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e359"></span>E359</td>
+<td class="instruction">LD A,(DE)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e35a"></span>E35A</td>
+<td class="instruction">ADD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e35b"></span>E35B</td>
+<td class="instruction">LD (DE),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e35c"></span>E35C</td>
+<td class="instruction">DEC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e35d"></span>E35D</td>
+<td class="instruction">DEC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e35e"></span>E35E</td>
+<td class="instruction">EX DE,HL</td>
+<td class="comment-1" rowspan="2">Exchange <span class="register">DE</span> and <span class="register">HL</span> to restore the entity pointer and return.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e35f"></span>E35F</td>
+<td class="instruction">RET</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="E31C.html">E31C</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#e346">Map</a></td>
+<td class="next">
+Next: <a href="E360.html">E360</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/58182.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

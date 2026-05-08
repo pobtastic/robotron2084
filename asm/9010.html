@@ -33,166 +33,203 @@ Next: <a href="9044.html">9044</a>
 </td>
 </tr>
 </table>
-<div class="description">9010: Routine at 9010</div>
+<div class="description">9010: Initialise Print Tables</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-<img alt="test-01" src="../images/scr/test-01.png" />
+Builds two lookup tables used by the print engine: the column pixel table at <a href="8A00.html">Column_Pixel_Lookup_Table</a> (0100 two-byte entries mapping each pixel column to a scan-line byte offset and bit mask) and the row address table at 8C00 (60 entries mapping pixel rows to scan-line base screen addresses).
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">InitialisePrintTables</td>
 <td class="address-2"><span id="9010"></span>9010</td>
 <td class="instruction">LD HL,$8A00</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="8A00.html">Column_Pixel_Lookup_Table</a> (start of the column lookup table).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="9013"></span>9013</td>
 <td class="instruction">LD C,$80</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">C</span>=80 (bit mask seed).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="9015"></span>9015</td>
 <td class="instruction">XOR A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=00 (initial byte offset).</td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="9016"></span>
+<div class="comments">
+<div class="paragraph">
+Each entry is two bytes: the byte offset within the scan line, and the bit mask for that pixel column. Indices 00-FF written to <a href="8A00.html">Column_Pixel_Lookup_Table</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">InitialisePrintTables_ColLookupLoop</td>
 <td class="address-2"><span id="9016"></span>9016</td>
 <td class="instruction">LD (HL),A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="4">Write the column lookup table entry: byte offset (<span class="register">A</span>) and bit mask (<span class="register">C</span>).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="9017"></span>9017</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="9018"></span>9018</td>
 <td class="instruction">LD (HL),C</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="9019"></span>9019</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="901a"></span>901A</td>
 <td class="instruction">RRC C</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Rotate the bit mask right (<span class="register">C</span>) with carry advancing the byte offset (<span class="register">A</span>).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="901c"></span>901C</td>
 <td class="instruction">ADC A,$00</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="901e"></span>901E</td>
 <td class="instruction">CP $20</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Loop back to <a href="9010.html#9016">InitialisePrintTables_ColLookupLoop</a> until all 0100 column lookup table entries are built.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="9020"></span>9020</td>
-<td class="instruction">JR NZ,<a href="9010.html#9016">$9016</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR NZ,<a href="9010.html#9016">InitialisePrintTables_ColLookupLoop</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="9022"></span>9022</td>
 <td class="instruction">LD A,$40</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=40 (initial screen row high byte).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="9024"></span>9024</td>
 <td class="instruction">LD BC,$2000</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">BC</span>=2000 (<span class="register">B</span>=20 row stride, <span class="register">C</span>=20 initial low byte).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="9027"></span>9027</td>
 <td class="instruction">LD DE,$4048</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">DE</span>=4048 (<span class="register">D</span>=40 base, <span class="register">E</span>=48 inner loop endpoint).</td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="902a"></span>
+<div class="comments">
+<div class="paragraph">
+Scan-line base addresses, low byte then high byte, written to 8C00. The loop sweeps 60 entries covering the full screen height.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">InitialisePrintTables_RowLookupLoop</td>
 <td class="address-2"><span id="902a"></span>902A</td>
 <td class="instruction">LD (HL),C</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="4">Write the row lookup table entry (low byte <span class="register">C</span>, high byte <span class="register">A</span>).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="902b"></span>902B</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="902c"></span>902C</td>
 <td class="instruction">LD (HL),A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="902d"></span>902D</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="902e"></span>902E</td>
 <td class="instruction">INC A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Increment the high byte and loop back to <a href="9010.html#902a">InitialisePrintTables_RowLookupLoop</a> while less than <span class="register">E</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="902f"></span>902F</td>
 <td class="instruction">CP E</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="9030"></span>9030</td>
-<td class="instruction">JR NZ,<a href="9010.html#902a">$902A</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR NZ,<a href="9010.html#902a">InitialisePrintTables_RowLookupLoop</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="9032"></span>9032</td>
 <td class="instruction">LD A,C</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Advance the row low byte by the stride.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="9033"></span>9033</td>
 <td class="instruction">ADD A,B</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="9034"></span>9034</td>
 <td class="instruction">LD C,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="9035"></span>9035</td>
 <td class="instruction">LD A,D</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=<span class="register">D</span> (reload the high-byte base for the next inner pass).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="9036"></span>9036</td>
-<td class="instruction">JR NZ,<a href="9010.html#902a">$902A</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR NZ,<a href="9010.html#902a">InitialisePrintTables_RowLookupLoop</a></td>
+<td class="comment-1" rowspan="1">Loop back to <a href="9010.html#902a">InitialisePrintTables_RowLookupLoop</a> while the row low byte is non-zero.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="9038"></span>9038</td>
 <td class="instruction">LD D,E</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">D</span>=<span class="register">E</span> (save the current row endpoint).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="9039"></span>9039</td>
 <td class="instruction">LD A,E</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Compute the next endpoint as <span class="register">E</span> + 08 into <span class="register">A</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="903a"></span>903A</td>
 <td class="instruction">ADD A,$08</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="903c"></span>903C</td>
 <td class="instruction">CP $60</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Compare the endpoint with 60.</td>
 </tr>
 <tr>
 <td class="routine-comment" colspan="5">
@@ -205,24 +242,28 @@ This entry point is used by the routine at <a href="9063.html">9063</a>.
 </td>
 </tr>
 <tr>
+<td class="asm-label">InitialisePrintTables_RowLookupDone</td>
 <td class="address-2"><span id="903e"></span>903E</td>
 <td class="instruction">JR Z,<a href="9044.html">ResetPrintState</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Jump to <a href="9044.html">ResetPrintState</a> if all rows are built.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="9040"></span>9040</td>
 <td class="instruction">LD E,A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">E</span>=<span class="register">A</span> (update the inner loop endpoint).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="9041"></span>9041</td>
 <td class="instruction">LD A,D</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=<span class="register">D</span> (reload the high-byte base for the inner loop).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="9042"></span>9042</td>
-<td class="instruction">JR <a href="9010.html#902a">$902A</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR <a href="9010.html#902a">InitialisePrintTables_RowLookupLoop</a></td>
+<td class="comment-1" rowspan="1">Jump back to <a href="9010.html#902a">InitialisePrintTables_RowLookupLoop</a>.</td>
 </tr>
 </table>
 <table class="asm-navigation">

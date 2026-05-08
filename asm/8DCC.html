@@ -29,7 +29,7 @@ Prev: <a href="8D80.html">8D80</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#8dcc">Map</a></td>
 <td class="next">
-Next: <a href="8DE3.html">8DE3</a>
+Next: <a href="8DDD.html">8DDD</a>
 </td>
 </tr>
 </table>
@@ -39,7 +39,10 @@ Next: <a href="8DE3.html">8DE3</a>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="9006.html">PrintMessaging</a>, <a href="C544.html">C544</a>, <a href="D0A7.html">PrintWaveNumber</a>, <a href="D367.html">PlayerDeath</a>, <a href="F107.html">F107</a>, <a href="F2F9.html">F2F9</a> and <a href="F3AE.html">F3AE</a>.
+Used by the routines at <a href="9006.html">PrintMessaging</a>, <a href="C544.html">PrintPlayerScore</a>, <a href="D0A7.html">PrintWaveNumber</a>, <a href="D367.html">PlayerDeath</a>, <a href="F107.html">Print_BCD_Score</a>, <a href="F2F9.html">Draw_Score_Entry</a> and <a href="F3AE.html">Display_High_Score_Screen</a>.
+</div>
+<div class="paragraph">
+Calls the active print handler stored at <a href="800A.html">PrintState_Handler</a> to process one character or control code, preserving caller context across the call.
 </div>
 </div>
 </td>
@@ -71,60 +74,30 @@ Used by the routines at <a href="9006.html">PrintMessaging</a>, <a href="C544.ht
 <td class="asm-label"></td>
 <td class="address-1"><span id="8dd1"></span>8DD1</td>
 <td class="instruction">LD IX,$8000</td>
-<td class="comment-1" rowspan="1"><span class="register">IX</span>=<a href="8000.html">PrintState_Y</a>.</td>
+<td class="comment-1" rowspan="1">Set <span class="register">IX</span> to the print state base at <a href="8000.html">PrintState_Y</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="8dd5"></span>8DD5</td>
 <td class="instruction">LD HL,$8DDD</td>
-<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="8DCC.html#8ddd">8DDD</a>.</td>
+<td class="comment-1" rowspan="2">Push <a href="8DDD.html">Print_Dispatch_Return</a> as the handler return address.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="8dd8"></span>8DD8</td>
 <td class="instruction">PUSH HL</td>
-<td class="comment-1" rowspan="1">Stash <span class="register">HL</span> on the stack.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="8dd9"></span>8DD9</td>
 <td class="instruction">LD HL,($800A)</td>
-<td class="comment-1" rowspan="1"><span class="register">HL</span>=*<a href="800A.html">PrintState_Handler</a>.</td>
+<td class="comment-1" rowspan="1">Read the current print handler address from <a href="800A.html">PrintState_Handler</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="8ddc"></span>8DDC</td>
 <td class="instruction">JP (HL)</td>
-<td class="comment-1" rowspan="1">Jump to *<span class="register">HL</span>.</td>
-</tr>
-<tr>
-<td class="asm-label"></td>
-<td class="address-1"><span id="8ddd"></span>8DDD</td>
-<td class="instruction">POP IX</td>
-<td class="comment-1" rowspan="2">Restore <span class="register">IX</span> and <span class="register">HL</span> from the stack.</td>
-</tr>
-<tr>
-<td class="asm-label"></td>
-<td class="address-1"><span id="8ddf"></span>8DDF</td>
-<td class="instruction">POP HL</td>
-</tr>
-<tr>
-<td class="asm-label"></td>
-<td class="address-1"><span id="8de0"></span>8DE0</td>
-<td class="instruction">EXX</td>
-<td class="comment-1" rowspan="1">Switch back to the normal registers.</td>
-</tr>
-<tr>
-<td class="asm-label"></td>
-<td class="address-1"><span id="8de1"></span>8DE1</td>
-<td class="instruction">POP BC</td>
-<td class="comment-1" rowspan="1">Restore <span class="register">BC</span> from the stack.</td>
-</tr>
-<tr>
-<td class="asm-label"></td>
-<td class="address-1"><span id="8de2"></span>8DE2</td>
-<td class="instruction">RET</td>
-<td class="comment-1" rowspan="1">Return.</td>
+<td class="comment-1" rowspan="1">Jump to the print handler.</td>
 </tr>
 </table>
 <table class="asm-navigation">
@@ -134,7 +107,7 @@ Prev: <a href="8D80.html">8D80</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#8dcc">Map</a></td>
 <td class="next">
-Next: <a href="8DE3.html">8DE3</a>
+Next: <a href="8DDD.html">8DDD</a>
 </td>
 </tr>
 </table>

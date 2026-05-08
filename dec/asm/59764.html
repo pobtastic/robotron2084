@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 59764</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="59692.html">59692</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#59764">Map</a></td>
+<td class="next">
+Next: <a href="59852.html">59852</a>
+</td>
+</tr>
+</table>
+<div class="description">59764: Kill Wall Bouncing Enemy</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="59521.html">Process_Wall_Bouncing_Enemy</a>.
+</div>
+<div class="paragraph">
+Reached when a wall-bouncing enemy makes contact with the player. Saves the entity position in <a href="50394.html">Entity_Record_Pointer</a>, erases the sprite via <a href="51279.html">Erase_Narrow_Entity_Sprite</a>, and removes the entity from the list via <a href="54705.html">Remove_Entity_From_List</a>. Decrements the wave enemy total at <a href="50204.html">Active_Enemy_Count</a> and the bouncing enemy count at <a href="50223.html">Bouncing_Enemy_Count</a>. Triggers the border colour effect via <a href="55748.html">Initialise_Entity_State</a> and awards 5 BCD points. Refreshes the colour bar, double-erases the sprite via <a href="51529.html">Erase_Wide_Entity_Sprite</a> and <a href="55983.html">Draw_Wide_Entity_Sprite_Pixels_Only</a>, writes the dying handler <a href="59852.html">Animate_Wall_Bouncing_Enemy_Death</a> into the record, and returns.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="59764"></span>
+<div class="comments">
+<div class="paragraph">
+Save the entity position and remove the bouncer from the enemy list.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Kill_Wall_Bouncing_Enemy</td>
+<td class="address-2"><span id="59764"></span>59764</td>
+<td class="instruction">LD DE,6</td>
+<td class="comment-1" rowspan="2">Step back six bytes to the entity position.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59767"></span>59767</td>
+<td class="instruction">SBC HL,DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59769"></span>59769</td>
+<td class="instruction">LD (50394),HL</td>
+<td class="comment-1" rowspan="1">Save the entity position in <a href="50394.html">Entity_Record_Pointer</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59772"></span>59772</td>
+<td class="instruction">CALL <a href="51279.html">Erase_Narrow_Entity_Sprite</a></td>
+<td class="comment-1" rowspan="1">Call <a href="51279.html">Erase_Narrow_Entity_Sprite</a> to erase the bouncer sprite.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59775"></span>59775</td>
+<td class="instruction">CALL <a href="54705.html">Remove_Entity_From_List</a></td>
+<td class="comment-1" rowspan="1">Call <a href="54705.html">Remove_Entity_From_List</a> to remove the bouncer from the entity list.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="59778"></span>
+<div class="comments">
+<div class="paragraph">
+Decrement the wave enemy and bouncing enemy counts.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59778"></span>59778</td>
+<td class="instruction">LD HL,50204</td>
+<td class="comment-1" rowspan="2">Decrement the wave enemy total at <a href="50204.html">Active_Enemy_Count</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59781"></span>59781</td>
+<td class="instruction">DEC (HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59782"></span>59782</td>
+<td class="instruction">LD HL,50223</td>
+<td class="comment-1" rowspan="2">Decrement the bouncing enemy count at <a href="50223.html">Bouncing_Enemy_Count</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59785"></span>59785</td>
+<td class="instruction">DEC (HL)</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="59786"></span>
+<div class="comments">
+<div class="paragraph">
+Trigger the border colour flash and award five BCD points for the kill.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59786"></span>59786</td>
+<td class="instruction">LD E,0</td>
+<td class="comment-1" rowspan="2">Call <a href="55748.html">Initialise_Entity_State</a> to trigger the border colour effect.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59788"></span>59788</td>
+<td class="instruction">CALL <a href="55748.html">Initialise_Entity_State</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59791"></span>59791</td>
+<td class="instruction">LD HL,50181</td>
+<td class="comment-1" rowspan="6">Add 5 BCD points to the units score digit at <a href="50179.html">50181</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59794"></span>59794</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59795"></span>59795</td>
+<td class="instruction">ADD A,5</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59797"></span>59797</td>
+<td class="instruction">DAA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59798"></span>59798</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59799"></span>59799</td>
+<td class="instruction">JR NC,<a href="59764.html#59815">Kill_Wall_Bouncing_Enemy_Spawn</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59801"></span>59801</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="11">Propagate the BCD carry through the tens and hundreds score digits.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59802"></span>59802</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59803"></span>59803</td>
+<td class="instruction">ADD A,1</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59805"></span>59805</td>
+<td class="instruction">DAA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59806"></span>59806</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59807"></span>59807</td>
+<td class="instruction">JR NC,<a href="59764.html#59815">Kill_Wall_Bouncing_Enemy_Spawn</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59809"></span>59809</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59810"></span>59810</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59811"></span>59811</td>
+<td class="instruction">ADD A,1</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59813"></span>59813</td>
+<td class="instruction">DAA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59814"></span>59814</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="59815"></span>
+<div class="comments">
+<div class="paragraph">
+Refresh the colour bar and set up the dying animation handler.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Kill_Wall_Bouncing_Enemy_Spawn</td>
+<td class="address-2"><span id="59815"></span>59815</td>
+<td class="instruction">CALL <a href="52532.html">Clear_Colour_Bar_Column</a></td>
+<td class="comment-1" rowspan="1">Call <a href="52532.html">Clear_Colour_Bar_Column</a> to refresh the colour bar.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59818"></span>59818</td>
+<td class="instruction">LD B,2</td>
+<td class="comment-1" rowspan="1">Load 
+
+
+RED into <span class="register">B</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59820"></span>59820</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="1">Switch to alternate registers.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59821"></span>59821</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="1">Step back to the entity position field.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59822"></span>59822</td>
+<td class="instruction">LD (50447),HL</td>
+<td class="comment-1" rowspan="1">Save the position pointer at <a href="50447.html">Entity_Pointer_Stash</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59825"></span>59825</td>
+<td class="instruction">CALL <a href="51529.html">Erase_Wide_Entity_Sprite</a></td>
+<td class="comment-1" rowspan="1">Call <a href="51529.html">Erase_Wide_Entity_Sprite</a> to erase the sprite.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59828"></span>59828</td>
+<td class="instruction">LD HL,(50447)</td>
+<td class="comment-1" rowspan="1">Reload the position pointer from <a href="50447.html">Entity_Pointer_Stash</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59831"></span>59831</td>
+<td class="instruction">CALL <a href="55983.html">Draw_Wide_Entity_Sprite_Pixels_Only</a></td>
+<td class="comment-1" rowspan="1">Call <a href="55983.html">Draw_Wide_Entity_Sprite_Pixels_Only</a> to XOR-erase the sprite.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59834"></span>59834</td>
+<td class="instruction">LD HL,(50447)</td>
+<td class="comment-1" rowspan="1">Reload the position pointer from <a href="50447.html">Entity_Pointer_Stash</a>.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="59837"></span>
+<div class="comments">
+<div class="paragraph">
+Install the dying animation handler and advance past the entity record.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59837"></span>59837</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="2">Step back and set the death timer to 2.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59838"></span>59838</td>
+<td class="instruction">LD (HL),2</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59840"></span>59840</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="5">Write the dying handler address <a href="59852.html">Animate_Wall_Bouncing_Enemy_Death</a> into the entity record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59841"></span>59841</td>
+<td class="instruction">LD DE,59852</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59844"></span>59844</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59845"></span>59845</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59846"></span>59846</td>
+<td class="instruction">LD (HL),E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59847"></span>59847</td>
+<td class="instruction">LD DE,9</td>
+<td class="comment-1" rowspan="2">Step nine bytes forward to the next entity slot.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59850"></span>59850</td>
+<td class="instruction">ADD HL,DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59851"></span>59851</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="59692.html">59692</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#59764">Map</a></td>
+<td class="next">
+Next: <a href="59852.html">59852</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/E974.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

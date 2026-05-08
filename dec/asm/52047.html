@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 52047</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="51536.html">51536</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#52047">Map</a></td>
+<td class="next">
+Next: <a href="52353.html">52353</a>
+</td>
+</tr>
+</table>
+<div class="description">52047: Main Game Loop</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="53836.html">Stage_Next_Wave</a>.
+</div>
+<div class="paragraph">
+Wave-active game loop entry, called from <a href="53836.html">Stage_Next_Wave</a> once the entity list and playfield are ready. Initialises the player's starting screen position and frame counters, copies the sprite template via <a href="54553.html">Animate_Intro_Screen_Sprites</a>, then falls into the per-frame control poll at <a href="52047.html#52071">Main_Loop_Poll</a>. Each frame: reads the controller via <a href="63171.html">Read_Control_Input</a>, moves and redraws the player sprite, spawns one new entity every three frames adjacent to the player, dispatches all active entity handlers via <a href="50946.html">DispatchWordFromHL</a>, updates the colour bar and protection checks, then loops back to <a href="52047.html#52071">Main_Loop_Poll</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="52047"></span>
+<div class="comments">
+<div class="paragraph">
+Initialise the player's screen position and frame counters for the start of the wave.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Main_Game_Loop</td>
+<td class="address-2"><span id="52047"></span>52047</td>
+<td class="instruction">LD HL,50388</td>
+<td class="comment-1" rowspan="3">Point <span class="register">HL</span> at <a href="50388.html">Player_Y_Position</a> and set the starting screen row to 92.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52050"></span>52050</td>
+<td class="instruction">LD (HL),92</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52052"></span>52052</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52053"></span>52053</td>
+<td class="instruction">LD (HL),125</td>
+<td class="comment-1" rowspan="3">Set the starting screen column to 125 and reset the wave-start delay counter at <a href="50483.html">Wave_Start_Delay</a> to 26.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52055"></span>52055</td>
+<td class="instruction">LD A,26</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52057"></span>52057</td>
+<td class="instruction">LD (50483),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52060"></span>52060</td>
+<td class="instruction">LD A,15</td>
+<td class="comment-1" rowspan="4">Set the animation frame counters at <a href="50484.html">Animation_Frame_Counter_One</a> and <a href="50486.html">Animation_Frame_Counter_Two</a> to 15 and copy the sprite template via <a href="54553.html">Animate_Intro_Screen_Sprites</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52062"></span>52062</td>
+<td class="instruction">LD (50484),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52065"></span>52065</td>
+<td class="instruction">LD (50486),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52068"></span>52068</td>
+<td class="instruction">CALL <a href="54553.html">Animate_Intro_Screen_Sprites</a></td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="52071"></span>
+<div class="comments">
+<div class="paragraph">
+This entry point is used by the routine at <a href="52532.html">Clear_Colour_Bar_Column</a>.
+</div>
+<div class="paragraph">
+Per-frame start: check whether the wave is still active before processing input.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Main_Loop_Poll</td>
+<td class="address-2"><span id="52071"></span>52071</td>
+<td class="instruction">LD A,(50483)</td>
+<td class="comment-1" rowspan="3">If the wave-start delay counter at <a href="50483.html">Wave_Start_Delay</a> is non-zero, jump to <a href="52532.html#53043">Clear_Colour_Bar_Column_21</a> (wave-end / game-over handling).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52074"></span>52074</td>
+<td class="instruction">AND A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52075"></span>52075</td>
+<td class="instruction">JP NZ,<a href="52532.html#53043">Clear_Colour_Bar_Column_21</a></td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="52078"></span>
+<div class="comments">
+<div class="paragraph">
+This entry point is used by the routine at <a href="52532.html">Clear_Colour_Bar_Column</a>.
+</div>
+<div class="paragraph">
+Read the controller and map the input to player movement directions.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Main_Loop_Frame</td>
+<td class="address-2"><span id="52078"></span>52078</td>
+<td class="instruction">CALL <a href="63171.html">Read_Control_Input</a></td>
+<td class="comment-1" rowspan="1">Read the controller state via <a href="63171.html">Read_Control_Input</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52081"></span>52081</td>
+<td class="instruction">LD A,C</td>
+<td class="comment-1" rowspan="3">Apply vertical input processing via <a href="52532.html#52893">Clear_Colour_Bar_Column_14</a> and store the result in <span class="register">C</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52082"></span>52082</td>
+<td class="instruction">CALL <a href="52532.html#52893">Clear_Colour_Bar_Column_14</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52085"></span>52085</td>
+<td class="instruction">LD C,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52086"></span>52086</td>
+<td class="instruction">LD A,B</td>
+<td class="comment-1" rowspan="3">Apply horizontal input processing via <a href="52532.html#52850">Clear_Colour_Bar_Column_13</a> and store the result in <span class="register">B</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52087"></span>52087</td>
+<td class="instruction">CALL <a href="52532.html#52850">Clear_Colour_Bar_Column_13</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52090"></span>52090</td>
+<td class="instruction">LD B,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52091"></span>52091</td>
+<td class="instruction">CP 15</td>
+<td class="comment-1" rowspan="2">If the direction is neutral (15), skip to <a href="52047.html#52098">Main_Loop_Update_Y</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52093"></span>52093</td>
+<td class="instruction">JR Z,<a href="52047.html#52098">Main_Loop_Update_Y</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52095"></span>52095</td>
+<td class="instruction">LD (50456),A</td>
+<td class="comment-1" rowspan="1">Store the updated X direction at <a href="50456.html">Player_X_Direction</a>.</td>
+</tr>
+<tr>
+<td class="asm-label">Main_Loop_Update_Y</td>
+<td class="address-2"><span id="52098"></span>52098</td>
+<td class="instruction">LD A,C</td>
+<td class="comment-1" rowspan="4">If the vertical direction changed, store it at <a href="50455.html">Player_Y_Direction</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52099"></span>52099</td>
+<td class="instruction">CP 15</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52101"></span>52101</td>
+<td class="instruction">JR Z,<a href="52047.html#52106">Main_Loop_Move_Player</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52103"></span>52103</td>
+<td class="instruction">LD (50455),A</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="52106"></span>
+<div class="comments">
+<div class="paragraph">
+Move the player sprite if a direction was input. Neutral direction (15) means no movement — skip directly to entity spawning.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Main_Loop_Move_Player</td>
+<td class="address-2"><span id="52106"></span>52106</td>
+<td class="instruction">LD A,B</td>
+<td class="comment-1" rowspan="3">If no horizontal direction, skip to <a href="52047.html#52179">Main_Loop_Entity_Spawn</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52107"></span>52107</td>
+<td class="instruction">CP 15</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52109"></span>52109</td>
+<td class="instruction">JR Z,<a href="52047.html#52179">Main_Loop_Entity_Spawn</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52111"></span>52111</td>
+<td class="instruction">LD E,A</td>
+<td class="comment-1" rowspan="5">Build the sprite frame word offset from the X direction and stash it; point <span class="register">HL</span> at <a href="50387.html">Intro_Closing_Sprite</a> and erase the current player sprite via <a href="54832.html">Erase_Entity_Sprite</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52112"></span>52112</td>
+<td class="instruction">SLA E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52114"></span>52114</td>
+<td class="instruction">LD D,0</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52116"></span>52116</td>
+<td class="instruction">PUSH DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52117"></span>52117</td>
+<td class="instruction">LD HL,50387</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52120"></span>52120</td>
+<td class="instruction">CALL <a href="54832.html">Erase_Entity_Sprite</a></td>
+<td class="comment-1" rowspan="1">Erase the current player sprite via <a href="54832.html">Erase_Entity_Sprite</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52123"></span>52123</td>
+<td class="instruction">POP DE</td>
+<td class="comment-1" rowspan="9">Look up the movement delta for the current direction in the table at <a href="50862.html">Movement_Delta_Table</a>; add the Y delta to <a href="50388.html">Player_Y_Position</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52124"></span>52124</td>
+<td class="instruction">LD HL,50862</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52127"></span>52127</td>
+<td class="instruction">ADD HL,DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52128"></span>52128</td>
+<td class="instruction">EX DE,HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52129"></span>52129</td>
+<td class="instruction">LD HL,50388</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52132"></span>52132</td>
+<td class="instruction">LD A,(DE)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52133"></span>52133</td>
+<td class="instruction">ADD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52134"></span>52134</td>
+<td class="instruction">CP 16</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52136"></span>52136</td>
+<td class="instruction">JR C,<a href="52047.html#52143">Main_Loop_Clamp_X</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52138"></span>52138</td>
+<td class="instruction">CP 173</td>
+<td class="comment-1" rowspan="2">Reject the Y move if the new position is above the playfield top or below the bottom edge.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52140"></span>52140</td>
+<td class="instruction">JR NC,<a href="52047.html#52143">Main_Loop_Clamp_X</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52142"></span>52142</td>
+<td class="instruction">LD (HL),A</td>
+<td class="comment-1" rowspan="1">Write the updated Y position.</td>
+</tr>
+<tr>
+<td class="asm-label">Main_Loop_Clamp_X</td>
+<td class="address-2"><span id="52143"></span>52143</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="5">Add the X delta to <a href="50389.html">Player_X_Position</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52144"></span>52144</td>
+<td class="instruction">INC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52145"></span>52145</td>
+<td class="instruction">LD A,(DE)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52146"></span>52146</td>
+<td class="instruction">ADD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52147"></span>52147</td>
+<td class="instruction">CP 8</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52149"></span>52149</td>
+<td class="instruction">JR C,<a href="52047.html#52156">Main_Loop_Update_Sprite</a></td>
+<td class="comment-1" rowspan="2">Reject the X move if the new position is past the left edge.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52151"></span>52151</td>
+<td class="instruction">CP 242</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52153"></span>52153</td>
+<td class="instruction">JR NC,<a href="52047.html#52156">Main_Loop_Update_Sprite</a></td>
+<td class="comment-1" rowspan="1">Reject the X move if past the right edge.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52155"></span>52155</td>
+<td class="instruction">LD (HL),A</td>
+<td class="comment-1" rowspan="1">Write the updated X position.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="52156"></span>
+<div class="comments">
+<div class="paragraph">
+Select the sprite frame for the new direction and redraw the player.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Main_Loop_Update_Sprite</td>
+<td class="address-2"><span id="52156"></span>52156</td>
+<td class="instruction">LD A,(50456)</td>
+<td class="comment-1" rowspan="9">Look up the sprite frame index for the current X direction in <a href="54816.html">Sprite_Frame_Table</a>; write it to <a href="50387.html">Intro_Closing_Sprite</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52159"></span>52159</td>
+<td class="instruction">LD E,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52160"></span>52160</td>
+<td class="instruction">LD D,0</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52162"></span>52162</td>
+<td class="instruction">LD HL,54816</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52165"></span>52165</td>
+<td class="instruction">ADD HL,DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52166"></span>52166</td>
+<td class="instruction">EX DE,HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52167"></span>52167</td>
+<td class="instruction">LD A,(DE)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52168"></span>52168</td>
+<td class="instruction">LD HL,50387</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52171"></span>52171</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52172"></span>52172</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="4">Set the player colour to INK:
+WHITE,
+PAPER:
+BLACK
+(BRIGHT)
+ in <span class="register">B'</span> and redraw the player sprite via <a href="54839.html">Draw_Entity_Sprite</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52173"></span>52173</td>
+<td class="instruction">LD B,71</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52175"></span>52175</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52176"></span>52176</td>
+<td class="instruction">CALL <a href="54839.html">Draw_Entity_Sprite</a></td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="52179"></span>
+<div class="comments">
+<div class="paragraph">
+Every three frames spawn one new entity adjacent to the player.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Main_Loop_Entity_Spawn</td>
+<td class="address-2"><span id="52179"></span>52179</td>
+<td class="instruction">LD HL,50383</td>
+<td class="comment-1" rowspan="2">Decrement the entity spawn timer at <a href="50383.html">Entity_Spawn_Timer</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52182"></span>52182</td>
+<td class="instruction">DEC (HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52183"></span>52183</td>
+<td class="instruction">JP NZ,<a href="52047.html#52316">Main_Loop_Entity_Update</a></td>
+<td class="comment-1" rowspan="1">If the timer has not reached zero, skip to <a href="52047.html#52316">Main_Loop_Entity_Update</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52186"></span>52186</td>
+<td class="instruction">LD (HL),3</td>
+<td class="comment-1" rowspan="1">Reset the spawn timer to 3.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52188"></span>52188</td>
+<td class="instruction">LD HL,(50385)</td>
+<td class="comment-1" rowspan="2">Load the entity list end pointer from <a href="50385.html">Playfield_Entity_List_Pointer</a> and write the movement handler address <a href="54705.html#54749">Move_And_Redraw_Entity</a> to the entity list.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52191"></span>52191</td>
+<td class="instruction">LD DE,54749</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52194"></span>52194</td>
+<td class="instruction">LD (HL),E</td>
+<td class="comment-1" rowspan="4">Advance past the handler address word in the entity list.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52195"></span>52195</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52196"></span>52196</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52197"></span>52197</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52198"></span>52198</td>
+<td class="instruction">LD (50394),HL</td>
+<td class="comment-1" rowspan="1">Save the entity record write pointer to <a href="50394.html">Entity_Record_Pointer</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52201"></span>52201</td>
+<td class="instruction">LD A,(50455)</td>
+<td class="comment-1" rowspan="1">Load the Y direction index from <a href="50455.html">Player_Y_Direction</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52204"></span>52204</td>
+<td class="instruction">EX DE,HL</td>
+<td class="comment-1" rowspan="8">Index the entity type table at <a href="54513.html">Entity_Type_By_Direction_Table</a> by Y direction and write the entity type to the entity record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52205"></span>52205</td>
+<td class="instruction">LD C,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52206"></span>52206</td>
+<td class="instruction">LD B,0</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52208"></span>52208</td>
+<td class="instruction">LD HL,54513</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52211"></span>52211</td>
+<td class="instruction">ADD HL,BC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52212"></span>52212</td>
+<td class="instruction">EX DE,HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52213"></span>52213</td>
+<td class="instruction">LD A,(DE)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52214"></span>52214</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52215"></span>52215</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Advance to the next entity record field.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52216"></span>52216</td>
+<td class="instruction">LD A,(50455)</td>
+<td class="comment-1" rowspan="5">Load the Y direction again, scale it to a byte offset (×8), and look up the sprite pixel offsets in <a href="51151.html">Narrow_Entity_Sprite_Data</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52219"></span>52219</td>
+<td class="instruction">LD C,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52220"></span>52220</td>
+<td class="instruction">SLA C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52222"></span>52222</td>
+<td class="instruction">SLA C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52224"></span>52224</td>
+<td class="instruction">SLA C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52226"></span>52226</td>
+<td class="instruction">LD B,0</td>
+<td class="comment-1" rowspan="3">Clear the high byte of the offset and index into <a href="51151.html">Narrow_Entity_Sprite_Data</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52228"></span>52228</td>
+<td class="instruction">EX DE,HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52229"></span>52229</td>
+<td class="instruction">LD HL,51151</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52232"></span>52232</td>
+<td class="instruction">ADD HL,BC</td>
+<td class="comment-1" rowspan="1">Add the direction offset to the sprite data base address.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52233"></span>52233</td>
+<td class="instruction">LD A,(50388)</td>
+<td class="comment-1" rowspan="6">Compute the entity's initial Y position from <a href="50388.html">Player_Y_Position</a> plus the sprite Y offset; write both bytes to the entity record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52236"></span>52236</td>
+<td class="instruction">ADD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52237"></span>52237</td>
+<td class="instruction">LD (DE),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52238"></span>52238</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52239"></span>52239</td>
+<td class="instruction">INC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52240"></span>52240</td>
+<td class="instruction">LD A,(50389)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52243"></span>52243</td>
+<td class="instruction">ADD A,(HL)</td>
+<td class="comment-1" rowspan="4">Write the X position bytes derived from <a href="50389.html">Player_X_Position</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52244"></span>52244</td>
+<td class="instruction">LD (DE),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52245"></span>52245</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52246"></span>52246</td>
+<td class="instruction">INC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52247"></span>52247</td>
+<td class="instruction">LD A,(50388)</td>
+<td class="comment-1" rowspan="3">Add the sprite Y check offset to the player Y position and reject the spawn if the result is above the playfield top edge.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52250"></span>52250</td>
+<td class="instruction">ADD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52251"></span>52251</td>
+<td class="instruction">CP 16</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52253"></span>52253</td>
+<td class="instruction">JR C,<a href="52047.html#52348">Main_Loop_Abort_Spawn</a></td>
+<td class="comment-1" rowspan="2">Reject the spawn if the Y position is below the playfield bottom edge (184).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52255"></span>52255</td>
+<td class="instruction">CP 184</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52257"></span>52257</td>
+<td class="instruction">JR NC,<a href="52047.html#52348">Main_Loop_Abort_Spawn</a></td>
+<td class="comment-1" rowspan="1">Reject if below the bottom edge.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52259"></span>52259</td>
+<td class="instruction">LD (DE),A</td>
+<td class="comment-1" rowspan="3">Write the validated Y position field to the entity record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52260"></span>52260</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52261"></span>52261</td>
+<td class="instruction">INC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52262"></span>52262</td>
+<td class="instruction">LD A,(50389)</td>
+<td class="comment-1" rowspan="3">Check the X position is within the playfield horizontal bounds (8–247).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52265"></span>52265</td>
+<td class="instruction">ADD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52266"></span>52266</td>
+<td class="instruction">CP 8</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52268"></span>52268</td>
+<td class="instruction">JR C,<a href="52047.html#52348">Main_Loop_Abort_Spawn</a></td>
+<td class="comment-1" rowspan="2">Reject the spawn if the X position is past the left edge.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52270"></span>52270</td>
+<td class="instruction">CP 248</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52272"></span>52272</td>
+<td class="instruction">JR NC,<a href="52047.html#52348">Main_Loop_Abort_Spawn</a></td>
+<td class="comment-1" rowspan="1">Reject if past the right edge.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52274"></span>52274</td>
+<td class="instruction">LD (DE),A</td>
+<td class="comment-1" rowspan="3">Write the validated X position field to the entity record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52275"></span>52275</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52276"></span>52276</td>
+<td class="instruction">INC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52277"></span>52277</td>
+<td class="instruction">LD BC,4</td>
+<td class="comment-1" rowspan="2">Copy the remaining four entity record bytes via LDIR.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52280"></span>52280</td>
+<td class="instruction">LDIR</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52282"></span>52282</td>
+<td class="instruction">EX DE,HL</td>
+<td class="comment-1" rowspan="4">Mark the end of the entity record and update the entity list end pointer at <a href="50385.html">Playfield_Entity_List_Pointer</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52283"></span>52283</td>
+<td class="instruction">LD (HL),255</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52285"></span>52285</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52286"></span>52286</td>
+<td class="instruction">LD (50385),HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52289"></span>52289</td>
+<td class="instruction">LD E,1</td>
+<td class="comment-1" rowspan="2">Initialise the entity via <a href="55748.html">Initialise_Entity_State</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52291"></span>52291</td>
+<td class="instruction">CALL <a href="55748.html">Initialise_Entity_State</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52294"></span>52294</td>
+<td class="instruction">LD HL,(50394)</td>
+<td class="comment-1" rowspan="4">Reload the entity record pointer from <a href="50394.html">Entity_Record_Pointer</a> and set the entity colour to INK:
+WHITE,
+PAPER:
+BLACK
+(BRIGHT)
+ in <span class="register">B'</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52297"></span>52297</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52298"></span>52298</td>
+<td class="instruction">LD B,71</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52300"></span>52300</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52301"></span>52301</td>
+<td class="instruction">CALL <a href="51286.html">Draw_Narrow_Entity_Sprite</a></td>
+<td class="comment-1" rowspan="1">Draw the spawned entity sprite via <a href="51286.html">Draw_Narrow_Entity_Sprite</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52304"></span>52304</td>
+<td class="instruction">LD HL,(50385)</td>
+<td class="comment-1" rowspan="1">Reload the entity list end pointer from <a href="50385.html">Playfield_Entity_List_Pointer</a>.</td>
+</tr>
+<tr>
+<td class="asm-label">Main_Loop_Write_Terminator</td>
+<td class="address-2"><span id="52307"></span>52307</td>
+<td class="instruction">LD DE,52834</td>
+<td class="comment-1" rowspan="6">Write the playfield entity handler 52834 and the 255 sentinel as the entity list terminator.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52310"></span>52310</td>
+<td class="instruction">LD (HL),E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52311"></span>52311</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52312"></span>52312</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52313"></span>52313</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52314"></span>52314</td>
+<td class="instruction">LD (HL),255</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="52316"></span>
+<div class="comments">
+<div class="paragraph">
+Dispatch all active entity handlers, update animation and colour bar.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Main_Loop_Entity_Update</td>
+<td class="address-2"><span id="52316"></span>52316</td>
+<td class="instruction">LD HL,24832</td>
+<td class="comment-1" rowspan="1">Set <span class="register">HL</span> to the start of the entity list at <a href="24832.html">Entity_List_Base</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52319"></span>52319</td>
+<td class="instruction">CALL <a href="50946.html">DispatchWordFromHL</a></td>
+<td class="comment-1" rowspan="1">Dispatch all entity handlers in the list via <a href="50946.html">DispatchWordFromHL</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52322"></span>52322</td>
+<td class="instruction">LD HL,(50459)</td>
+<td class="comment-1" rowspan="6">Decrement the animation counter at <a href="50459.html">Animation_Frame_Pair</a> if it is non-zero.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52325"></span>52325</td>
+<td class="instruction">LD A,H</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52326"></span>52326</td>
+<td class="instruction">OR L</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52327"></span>52327</td>
+<td class="instruction">JR Z,<a href="52047.html#52333">Main_Loop_Colour_Bar_Update</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52329"></span>52329</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52330"></span>52330</td>
+<td class="instruction">LD (50459),HL</td>
+</tr>
+<tr>
+<td class="asm-label">Main_Loop_Colour_Bar_Update</td>
+<td class="address-2"><span id="52333"></span>52333</td>
+<td class="instruction">CALL <a href="50963.html">UpdateAttributeBar</a></td>
+<td class="comment-1" rowspan="3">Update the colour bar via <a href="50963.html">UpdateAttributeBar</a>, run the protection check via <a href="50625.html">CheckScoreAwardLife</a>, and call the game state update via <a href="55776.html">Dispatch_Entity_State_Handler</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52336"></span>52336</td>
+<td class="instruction">CALL <a href="50625.html">CheckScoreAwardLife</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52339"></span>52339</td>
+<td class="instruction">CALL <a href="55776.html">Dispatch_Entity_State_Handler</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52342"></span>52342</td>
+<td class="instruction">CALL <a href="50625.html#50671">CheckScoreAwardLife_SessionGate</a></td>
+<td class="comment-1" rowspan="2">Run the copy protection gate via <a href="50625.html#50671">CheckScoreAwardLife_SessionGate</a> and loop back to <a href="52047.html#52071">Main_Loop_Poll</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52345"></span>52345</td>
+<td class="instruction">JP <a href="52047.html#52071">Main_Loop_Poll</a></td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="52348"></span>
+<div class="comments">
+<div class="paragraph">
+Out-of-bounds abort: the new entity would fall outside the playfield. Skip the spawn but still write the entity list terminator.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Main_Loop_Abort_Spawn</td>
+<td class="address-2"><span id="52348"></span>52348</td>
+<td class="instruction">LD HL,(50385)</td>
+<td class="comment-1" rowspan="2">Reload the entity list end pointer from <a href="50385.html">Playfield_Entity_List_Pointer</a> and jump to <a href="52047.html#52307">Main_Loop_Write_Terminator</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52351"></span>52351</td>
+<td class="instruction">JR <a href="52047.html#52307">Main_Loop_Write_Terminator</a></td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="51536.html">51536</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#52047">Map</a></td>
+<td class="next">
+Next: <a href="52353.html">52353</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/CB4F.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

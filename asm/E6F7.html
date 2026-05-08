@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at E6F7</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="E6C4.html">E6C4</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#e6f7">Map</a></td>
+<td class="next">
+Next: <a href="E7AF.html">E7AF</a>
+</td>
+</tr>
+</table>
+<div class="description">E6F7: Process Player Tracking Enemy</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="E520.html">Process_Cluster_Entity</a>.
+</div>
+<div class="paragraph">
+Per-frame entity handler for the slow player-tracking enemy. Tests player contact via <a href="C6DA.html">HitTestBounds8AtHL</a>; triggers death via <a href="D2BC.html">Strip_Attributes_And_Fade</a> if touching. Computes the signed Y and X distance from the player at C4D4 and C4D5 halves it five times to derive a velocity nudge, and negates if the enemy is above or to the left of the player. Reads the entity facing byte; on a random 1-in-8192 chance sets it to 1A (freeze state). If the facing is 1A flips both velocity components and tests for a 1-in-256 chance to clear the freeze. Applies the computed Y and X nudge to the entity position, clamping to the play area, and draws the entity via <a href="D637.html">Draw_Entity_Sprite</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Player_Tracking_Enemy</td>
+<td class="address-2"><span id="e6f7"></span>E6F7</td>
+<td class="instruction">LD HL,$C4D4</td>
+<td class="comment-1" rowspan="3">Set the player Y address in alternate <span class="register">HL</span> and test player contact via <a href="C6DA.html">HitTestBounds8AtHL</a>; trigger death via <a href="D2BC.html">Strip_Attributes_And_Fade</a> if touching.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e6fa"></span>E6FA</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e6fb"></span>E6FB</td>
+<td class="instruction">CALL <a href="C6DA.html">HitTestBounds8AtHL</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e6fe"></span>E6FE</td>
+<td class="instruction">JP NC,<a href="D2BC.html">Strip_Attributes_And_Fade</a></td>
+<td class="comment-1" rowspan="6">Step back three bytes to the entity Y position and load the player Y coordinate at C4D4.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e701"></span>E701</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e702"></span>E702</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e703"></span>E703</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e704"></span>E704</td>
+<td class="instruction">LD C,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e705"></span>E705</td>
+<td class="instruction">EX DE,HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e706"></span>E706</td>
+<td class="instruction">LD A,($C4D4)</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e709"></span>E709</td>
+<td class="instruction">LD L,A</td>
+<td class="comment-1" rowspan="9">Compute the signed Y nudge: subtract the entity Y from the player Y, halve five times, and negate if the entity is above the player.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e70a"></span>E70A</td>
+<td class="instruction">LD H,$00</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e70c"></span>E70C</td>
+<td class="instruction">LD B,$00</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e70e"></span>E70E</td>
+<td class="instruction">AND A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e70f"></span>E70F</td>
+<td class="instruction">SBC HL,BC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e711"></span>E711</td>
+<td class="instruction">BIT 0,H</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e713"></span>E713</td>
+<td class="instruction">LD A,L</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e714"></span>E714</td>
+<td class="instruction">JP Z,<a href="E6F7.html#e719">Process_Player_Tracking_Enemy_Nudge_Y</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e717"></span>E717</td>
+<td class="instruction">NEG</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Player_Tracking_Enemy_Nudge_Y</td>
+<td class="address-2"><span id="e719"></span>E719</td>
+<td class="instruction">SRL A</td>
+<td class="comment-1" rowspan="8">Scale the Y nudge and restore its sign.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e71b"></span>E71B</td>
+<td class="instruction">SRL A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e71d"></span>E71D</td>
+<td class="instruction">SRL A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e71f"></span>E71F</td>
+<td class="instruction">SRL A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e721"></span>E721</td>
+<td class="instruction">SRL A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e723"></span>E723</td>
+<td class="instruction">BIT 0,H</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e725"></span>E725</td>
+<td class="instruction">JP Z,<a href="E6F7.html#e72a">Process_Player_Tracking_Enemy_Nudge_X</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e728"></span>E728</td>
+<td class="instruction">NEG</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Player_Tracking_Enemy_Nudge_X</td>
+<td class="address-2"><span id="e72a"></span>E72A</td>
+<td class="instruction">EX AF,AF'</td>
+<td class="comment-1" rowspan="22">Compute the signed X nudge from the player X coordinate at C4D5 in the same way.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e72b"></span>E72B</td>
+<td class="instruction">LD A,($C4D5)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e72e"></span>E72E</td>
+<td class="instruction">LD L,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e72f"></span>E72F</td>
+<td class="instruction">LD H,$00</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e731"></span>E731</td>
+<td class="instruction">INC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e732"></span>E732</td>
+<td class="instruction">LD A,(DE)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e733"></span>E733</td>
+<td class="instruction">LD C,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e734"></span>E734</td>
+<td class="instruction">LD B,$00</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e736"></span>E736</td>
+<td class="instruction">AND A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e737"></span>E737</td>
+<td class="instruction">SBC HL,BC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e739"></span>E739</td>
+<td class="instruction">BIT 0,H</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e73b"></span>E73B</td>
+<td class="instruction">LD A,L</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e73c"></span>E73C</td>
+<td class="instruction">JP Z,<a href="E6F7.html#e741">Process_Player_Tracking_Enemy_0</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e73f"></span>E73F</td>
+<td class="instruction">NEG</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Player_Tracking_Enemy_0</td>
+<td class="address-2"><span id="e741"></span>E741</td>
+<td class="instruction">SRL A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e743"></span>E743</td>
+<td class="instruction">SRL A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e745"></span>E745</td>
+<td class="instruction">SRL A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e747"></span>E747</td>
+<td class="instruction">SRL A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e749"></span>E749</td>
+<td class="instruction">SRL A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e74b"></span>E74B</td>
+<td class="instruction">BIT 0,H</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e74d"></span>E74D</td>
+<td class="instruction">JP Z,<a href="E6F7.html#e752">Process_Player_Tracking_Enemy_Face</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e750"></span>E750</td>
+<td class="instruction">NEG</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Player_Tracking_Enemy_Face</td>
+<td class="address-2"><span id="e752"></span>E752</td>
+<td class="instruction">LD B,A</td>
+<td class="comment-1" rowspan="8">Store the scaled Y nudge in <span class="register">B</span> and X nudge in <span class="register">C</span>; step back to the entity facing byte.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e753"></span>E753</td>
+<td class="instruction">EX AF,AF'</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e754"></span>E754</td>
+<td class="instruction">LD C,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e755"></span>E755</td>
+<td class="instruction">EX DE,HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e756"></span>E756</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e757"></span>E757</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e758"></span>E758</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e759"></span>E759</td>
+<td class="instruction">CP $1A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e75b"></span>E75B</td>
+<td class="instruction">JP Z,<a href="E6F7.html#e773">Process_Player_Tracking_Enemy_Freeze</a></td>
+<td class="comment-1" rowspan="9">Read the facing byte; if 1A jump to <a href="E6F7.html#e773">Process_Player_Tracking_Enemy_Freeze</a>; otherwise test a 1-in-8192 random chance (<a href="D1BF.html">Generate_Random_Byte</a> twice, masked to 1F and 3F) to set the facing to 1A (freeze).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e75e"></span>E75E</td>
+<td class="instruction">CALL <a href="D1BF.html">Generate_Random_Byte</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e761"></span>E761</td>
+<td class="instruction">AND $1F</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e763"></span>E763</td>
+<td class="instruction">JP NZ,<a href="E6F7.html#e785">Process_Player_Tracking_Enemy_Move</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e766"></span>E766</td>
+<td class="instruction">CALL <a href="D1BF.html">Generate_Random_Byte</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e769"></span>E769</td>
+<td class="instruction">AND $3F</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e76b"></span>E76B</td>
+<td class="instruction">JP NZ,<a href="E6F7.html#e785">Process_Player_Tracking_Enemy_Move</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e76e"></span>E76E</td>
+<td class="instruction">LD (HL),$1A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e770"></span>E770</td>
+<td class="instruction">JP <a href="E6F7.html#e785">Process_Player_Tracking_Enemy_Move</a></td>
+</tr>
+<tr>
+<td class="asm-label">Process_Player_Tracking_Enemy_Freeze</td>
+<td class="address-2"><span id="e773"></span>E773</td>
+<td class="instruction">LD A,B</td>
+<td class="comment-1" rowspan="10">Facing is 1A (frozen): negate both velocity components; test a 1-in-256 chance to promote the facing to 1F (thaw).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e774"></span>E774</td>
+<td class="instruction">NEG</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e776"></span>E776</td>
+<td class="instruction">LD B,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e777"></span>E777</td>
+<td class="instruction">LD A,C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e778"></span>E778</td>
+<td class="instruction">NEG</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e77a"></span>E77A</td>
+<td class="instruction">LD C,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e77b"></span>E77B</td>
+<td class="instruction">CALL <a href="D1BF.html">Generate_Random_Byte</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e77e"></span>E77E</td>
+<td class="instruction">CP $F0</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e780"></span>E780</td>
+<td class="instruction">JP NZ,<a href="E6F7.html#e785">Process_Player_Tracking_Enemy_Move</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e783"></span>E783</td>
+<td class="instruction">LD (HL),$1F</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Player_Tracking_Enemy_Move</td>
+<td class="address-2"><span id="e785"></span>E785</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="8">Apply the Y nudge to the entity Y position; clamp to 10-AD and write back.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e786"></span>E786</td>
+<td class="instruction">LD A,C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e787"></span>E787</td>
+<td class="instruction">ADD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e788"></span>E788</td>
+<td class="instruction">CP $10</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e78a"></span>E78A</td>
+<td class="instruction">JP C,<a href="E6F7.html#e793">Process_Player_Tracking_Enemy_Move_X</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e78d"></span>E78D</td>
+<td class="instruction">CP $AD</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e78f"></span>E78F</td>
+<td class="instruction">JP NC,<a href="E6F7.html#e793">Process_Player_Tracking_Enemy_Move_X</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e792"></span>E792</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Player_Tracking_Enemy_Move_X</td>
+<td class="address-2"><span id="e793"></span>E793</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="8">Apply the X nudge to the entity X position; clamp to 08-EF and write back.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e794"></span>E794</td>
+<td class="instruction">LD A,B</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e795"></span>E795</td>
+<td class="instruction">ADD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e796"></span>E796</td>
+<td class="instruction">CP $08</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e798"></span>E798</td>
+<td class="instruction">JP C,<a href="E6F7.html#e7a1">Process_Player_Tracking_Enemy_Draw</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e79b"></span>E79B</td>
+<td class="instruction">CP $EF</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e79d"></span>E79D</td>
+<td class="instruction">JP NC,<a href="E6F7.html#e7a1">Process_Player_Tracking_Enemy_Draw</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e7a0"></span>E7A0</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Player_Tracking_Enemy_Draw</td>
+<td class="address-2"><span id="e7a1"></span>E7A1</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="8">Stash <span class="register">HL</span>, step back two bytes, set colour 45 in alternate <span class="register">B</span>, draw the entity via <a href="D637.html">Draw_Entity_Sprite</a>, restore <span class="register">HL</span>, and advance via <a href="E520.html#e5b9">Process_Cluster_Entity_Next</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e7a2"></span>E7A2</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e7a3"></span>E7A3</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e7a4"></span>E7A4</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e7a5"></span>E7A5</td>
+<td class="instruction">LD B,$45</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e7a7"></span>E7A7</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e7a8"></span>E7A8</td>
+<td class="instruction">CALL <a href="D637.html">Draw_Entity_Sprite</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e7ab"></span>E7AB</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e7ac"></span>E7AC</td>
+<td class="instruction">JP <a href="E520.html#e5b9">Process_Cluster_Entity_Next</a></td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="E6C4.html">E6C4</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#e6f7">Map</a></td>
+<td class="next">
+Next: <a href="E7AF.html">E7AF</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/59127.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

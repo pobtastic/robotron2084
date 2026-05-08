@@ -33,431 +33,517 @@ Next: <a href="62554.html">62554</a>
 </td>
 </tr>
 </table>
-<div class="description">62382: Routine at F3AE</div>
+<div class="description">62382: Display High Score Screen</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routine at <a href="60360.html">60360</a>.
+Used by the routine at <a href="60360.html">Display_High_Score_Entry_Screen</a>.
+</div>
+<div class="paragraph">
+Displays the high score screen. Prints the five current game scores as Robotron Heroes using <a href="62201.html">Draw_Score_Entry</a>, then a second group of five using the same routine. Next prints the All Time Heroes table: the top record holder name and score are shown at the top, followed by 39 all-time entries printed in three BCD-indexed columns via <a href="62201.html#62275">Draw_Score_Entry_Compact</a>. Ends with the save and load prompt from <a href="62554.html">Messaging_SaveLoad</a>.
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Display_High_Score_Screen</td>
 <td class="address-2"><span id="62382"></span>62382</td>
 <td class="instruction">LD HL,62168</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Call <a href="36870.html">PrintMessaging</a> using <a href="62168.html">Messaging_RobotronHeroes</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62385"></span>62385</td>
 <td class="instruction">CALL <a href="36870.html">PrintMessaging</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62388"></span>62388</td>
 <td class="instruction">LD A,1</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Set the starting score index and screen position.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62390"></span>62390</td>
 <td class="instruction">LD D,26</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62392"></span>62392</td>
 <td class="instruction">LD E,28</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62394"></span>62394</td>
 <td class="instruction">LD HL,61797</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Point to <a href="61797.html">Table_RobotronHeroes</a>.</td>
 </tr>
 <tr>
+<td class="asm-label">Display_High_Score_Screen_Loop1</td>
 <td class="address-2"><span id="62397"></span>62397</td>
 <td class="instruction">LD (50435),A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Set the current score entry index.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62400"></span>62400</td>
 <td class="instruction">PUSH AF</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Stash the entry index on the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62401"></span>62401</td>
-<td class="instruction">CALL <a href="62201.html">62201</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="62201.html">Draw_Score_Entry</a></td>
+<td class="comment-1" rowspan="1">Draw this score entry.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62404"></span>62404</td>
 <td class="instruction">POP AF</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Restore the entry index from the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62405"></span>62405</td>
 <td class="instruction">INC A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Advance to the next score entry.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62406"></span>62406</td>
 <td class="instruction">CP 6</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Repeat until all five entries have been drawn.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62408"></span>62408</td>
-<td class="instruction">JR NZ,<a href="62382.html#62397">62397</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR NZ,<a href="62382.html#62397">Display_High_Score_Screen_Loop1</a></td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="62410"></span>
+<div class="comments">
+<div class="paragraph">
+Print the second group of five current game scores.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62410"></span>62410</td>
 <td class="instruction">LD D,137</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Set the screen position for the second group of five scores.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62412"></span>62412</td>
 <td class="instruction">LD E,28</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label">Display_High_Score_Screen_Loop2</td>
 <td class="address-2"><span id="62414"></span>62414</td>
 <td class="instruction">PUSH AF</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Stash the entry index on the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62415"></span>62415</td>
 <td class="instruction">CP 10</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Skip the score index remap if not at the tenth entry.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62417"></span>62417</td>
-<td class="instruction">JR NZ,<a href="62382.html#62421">62421</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR NZ,<a href="62382.html#62421">Display_High_Score_Screen_Remap</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62419"></span>62419</td>
 <td class="instruction">LD A,16</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Remap the tenth entry index for display.</td>
 </tr>
 <tr>
+<td class="asm-label">Display_High_Score_Screen_Remap</td>
 <td class="address-2"><span id="62421"></span>62421</td>
 <td class="instruction">LD (50435),A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Set the (possibly remapped) entry index.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62424"></span>62424</td>
-<td class="instruction">CALL <a href="62201.html">62201</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="62201.html">Draw_Score_Entry</a></td>
+<td class="comment-1" rowspan="1">Draw this score entry.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62427"></span>62427</td>
 <td class="instruction">POP AF</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Restore the entry index from the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62428"></span>62428</td>
 <td class="instruction">INC A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Advance to the next score entry.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62429"></span>62429</td>
 <td class="instruction">CP 11</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Repeat until all ten entries have been drawn.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62431"></span>62431</td>
-<td class="instruction">JR NZ,<a href="62382.html#62414">62414</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR NZ,<a href="62382.html#62414">Display_High_Score_Screen_Loop2</a></td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="62433"></span>
+<div class="comments">
+<div class="paragraph">
+Print the All Time Heroes rankings.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62433"></span>62433</td>
 <td class="instruction">LD HL,62349</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Call <a href="36870.html">PrintMessaging</a> using <a href="62349.html">Messaging_AllTimeHeroes</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62436"></span>62436</td>
 <td class="instruction">CALL <a href="36870.html">PrintMessaging</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62439"></span>62439</td>
 <td class="instruction">LD HL,61867</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Call <a href="36870.html">PrintMessaging</a> using <a href="61867.html">Messaging_HighScoreName</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62442"></span>62442</td>
 <td class="instruction">CALL <a href="36870.html">PrintMessaging</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62445"></span>62445</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Advance past the message and load the top record score.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62446"></span>62446</td>
 <td class="instruction">LD DE,(32768)</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62450"></span>62450</td>
 <td class="instruction">LD A,D</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Adjust the display row for the top score entry.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62451"></span>62451</td>
 <td class="instruction">ADD A,6</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62453"></span>62453</td>
 <td class="instruction">LD D,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62454"></span>62454</td>
 <td class="instruction">LD C,6</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Print the top score position label.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62456"></span>62456</td>
-<td class="instruction">CALL <a href="61703.html">61703</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="61703.html">Print_BCD_Score</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62459"></span>62459</td>
 <td class="instruction">LD A,40</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Print the opening parenthesis of the record holder name.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62461"></span>62461</td>
 <td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62464"></span>62464</td>
 <td class="instruction">LD B,3</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Set the name character loop counter.</td>
 </tr>
 <tr>
+<td class="asm-label">Display_High_Score_Screen_Name_Loop</td>
 <td class="address-2"><span id="62466"></span>62466</td>
 <td class="instruction">LD A,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Load and print each character of the record holder's name.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62467"></span>62467</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62468"></span>62468</td>
 <td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62471"></span>62471</td>
-<td class="instruction">DJNZ <a href="62382.html#62466">62466</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">DJNZ <a href="62382.html#62466">Display_High_Score_Screen_Name_Loop</a></td>
+<td class="comment-1" rowspan="1">Repeat for the three-character name.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62473"></span>62473</td>
 <td class="instruction">LD A,41</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Print the closing parenthesis.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62475"></span>62475</td>
 <td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62478"></span>62478</td>
 <td class="instruction">LD A,26</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Send the font select control code.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62480"></span>62480</td>
 <td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62483"></span>62483</td>
 <td class="instruction">LD A,0</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Send the font parameter byte.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62485"></span>62485</td>
 <td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="62488"></span>
+<div class="comments">
+<div class="paragraph">
+Print the all-time score entries across three columns.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62488"></span>62488</td>
 <td class="instruction">LD A,2</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Set the starting BCD index and position for the first column.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62490"></span>62490</td>
 <td class="instruction">LD D,20</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62492"></span>62492</td>
 <td class="instruction">LD E,89</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label">Display_High_Score_Screen_Col1</td>
 <td class="address-2"><span id="62494"></span>62494</td>
 <td class="instruction">LD (50435),A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Set the score entry index.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62497"></span>62497</td>
 <td class="instruction">PUSH AF</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Stash the entry index on the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62498"></span>62498</td>
-<td class="instruction">CALL <a href="62201.html#62275">62275</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="62201.html#62275">Draw_Score_Entry_Compact</a></td>
+<td class="comment-1" rowspan="1">Draw this all-time score entry.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62501"></span>62501</td>
 <td class="instruction">POP AF</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Restore the entry index from the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62502"></span>62502</td>
 <td class="instruction">ADD A,1</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Advance the BCD index; check if the first column is complete.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62504"></span>62504</td>
 <td class="instruction">DAA</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62505"></span>62505</td>
 <td class="instruction">CP 21</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62507"></span>62507</td>
-<td class="instruction">JR NZ,<a href="62382.html#62494">62494</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR NZ,<a href="62382.html#62494">Display_High_Score_Screen_Col1</a></td>
+<td class="comment-1" rowspan="1">Repeat for the next entry until the first column is done.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62509"></span>62509</td>
 <td class="instruction">LD D,94</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Set the screen position for the second score column.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62511"></span>62511</td>
 <td class="instruction">LD E,89</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label">Display_High_Score_Screen_Col2</td>
 <td class="address-2"><span id="62513"></span>62513</td>
 <td class="instruction">LD (50435),A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Set the score entry index.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62516"></span>62516</td>
 <td class="instruction">PUSH AF</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Stash the entry index on the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62517"></span>62517</td>
-<td class="instruction">CALL <a href="62201.html#62275">62275</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="62201.html#62275">Draw_Score_Entry_Compact</a></td>
+<td class="comment-1" rowspan="1">Draw this all-time score entry.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62520"></span>62520</td>
 <td class="instruction">POP AF</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Restore the entry index from the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62521"></span>62521</td>
 <td class="instruction">ADD A,1</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Advance the BCD index; check if the second column is complete.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62523"></span>62523</td>
 <td class="instruction">DAA</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62524"></span>62524</td>
 <td class="instruction">CP 40</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62526"></span>62526</td>
-<td class="instruction">JR NZ,<a href="62382.html#62513">62513</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR NZ,<a href="62382.html#62513">Display_High_Score_Screen_Col2</a></td>
+<td class="comment-1" rowspan="1">Repeat for the next entry until the second column is done.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62528"></span>62528</td>
 <td class="instruction">LD D,170</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Set the screen position for the third score column.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62530"></span>62530</td>
 <td class="instruction">LD E,89</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label">Display_High_Score_Screen_Col3</td>
 <td class="address-2"><span id="62532"></span>62532</td>
 <td class="instruction">LD (50435),A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Set the score entry index.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62535"></span>62535</td>
 <td class="instruction">PUSH AF</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Stash the entry index on the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62536"></span>62536</td>
-<td class="instruction">CALL <a href="62201.html#62275">62275</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="62201.html#62275">Draw_Score_Entry_Compact</a></td>
+<td class="comment-1" rowspan="1">Draw this all-time score entry.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62539"></span>62539</td>
 <td class="instruction">POP AF</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Restore the entry index from the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62540"></span>62540</td>
 <td class="instruction">ADD A,1</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Advance the BCD index; check if the third column is complete.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62542"></span>62542</td>
 <td class="instruction">DAA</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62543"></span>62543</td>
 <td class="instruction">CP 65</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62545"></span>62545</td>
-<td class="instruction">JR NZ,<a href="62382.html#62532">62532</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR NZ,<a href="62382.html#62532">Display_High_Score_Screen_Col3</a></td>
+<td class="comment-1" rowspan="1">Repeat for the next entry until the third column is done.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62547"></span>62547</td>
 <td class="instruction">LD HL,62554</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Call <a href="36870.html">PrintMessaging</a> using <a href="62554.html">Messaging_SaveLoad</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62550"></span>62550</td>
 <td class="instruction">CALL <a href="36870.html">PrintMessaging</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62553"></span>62553</td>
 <td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Return.</td>
 </tr>
 </table>
 <table class="asm-navigation">

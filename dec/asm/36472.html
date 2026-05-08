@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 36472</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="36453.html">36453</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#36472">Map</a></td>
+<td class="next">
+Next: <a href="36482.html">36482</a>
+</td>
+</tr>
+</table>
+<div class="description">36472: Print Handler: Print At X</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+PRINT AT first parameter handler. Called on the byte immediately following a 22 (PRINT AT) control code. Stores the X (column) parameter to 32769 and installs <a href="36482.html">PrintHandler_PrintAt_Y</a> into <a href="32778.html">PrintState_Handler</a> to handle the next byte (the Y position).
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">PrintHandler_PrintAt_X</td>
+<td class="address-2"><span id="36472"></span>36472</td>
+<td class="instruction">LD (32769),A</td>
+<td class="comment-1" rowspan="1">Write the X column parameter to *<a href="32769.html">PrintState_X</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36475"></span>36475</td>
+<td class="instruction">LD HL,36482</td>
+<td class="comment-1" rowspan="2">Write <a href="36482.html">PrintHandler_PrintAt_Y</a> (Y position parameter handler) to <a href="32778.html">PrintState_Handler</a> to consume the next (Y) byte.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36478"></span>36478</td>
+<td class="instruction">LD (32778),HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36481"></span>36481</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="36453.html">36453</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#36472">Map</a></td>
+<td class="next">
+Next: <a href="36482.html">36482</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/8E78.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

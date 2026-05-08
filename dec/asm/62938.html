@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 62938</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="62930.html">62930</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#62938">Map</a></td>
+<td class="next">
+Next: <a href="62982.html">62982</a>
+</td>
+</tr>
+</table>
+<div class="description">62938: Extra Life Flash Effect</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="50625.html">CheckScoreAwardLife</a>.
+</div>
+<div class="paragraph">
+Creates the extra life award flash effect. Sets the attribute fill colour to 18 and runs 12 screen-flash frames, each calling <a href="62600.html">Draw_Colour_Flash_Rectangle</a> to repaint the attribute area and <a href="62907.html">Advance_Flash_Colour_Cycle</a> to advance the colour cycling animation. The screen is then wiped by <a href="53360.html">ClearScreenBuffer</a> and a second pass of 12 frames plays with the colour cleared.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Extra_Life_Flash</td>
+<td class="address-2"><span id="62938"></span>62938</td>
+<td class="instruction">LD A,18</td>
+<td class="comment-1" rowspan="1">Set the screen flash colour.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="62940"></span>62940</td>
+<td class="instruction">LD (50439),A</td>
+<td class="comment-1" rowspan="1">Write the flash colour to the attribute fill register.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="62943"></span>62943</td>
+<td class="instruction">LD A,11</td>
+<td class="comment-1" rowspan="1">Set the flash loop counter.</td>
+</tr>
+<tr>
+<td class="asm-label">Extra_Life_Flash_Loop1</td>
+<td class="address-2"><span id="62945"></span>62945</td>
+<td class="instruction">PUSH AF</td>
+<td class="comment-1" rowspan="1">Stash the loop counter on the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="62946"></span>62946</td>
+<td class="instruction">CALL <a href="62600.html">Draw_Colour_Flash_Rectangle</a></td>
+<td class="comment-1" rowspan="1">Repaint the display with the flash colour.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="62949"></span>62949</td>
+<td class="instruction">CALL <a href="62907.html">Advance_Flash_Colour_Cycle</a></td>
+<td class="comment-1" rowspan="1">Advance the colour cycling animation.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="62952"></span>62952</td>
+<td class="instruction">POP AF</td>
+<td class="comment-1" rowspan="1">Restore the loop counter from the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="62953"></span>62953</td>
+<td class="instruction">DEC A</td>
+<td class="comment-1" rowspan="3">Decrease the loop counter and loop back for the next frame.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="62954"></span>62954</td>
+<td class="instruction">CP 255</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="62956"></span>62956</td>
+<td class="instruction">JR NZ,<a href="62938.html#62945">Extra_Life_Flash_Loop1</a></td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="62958"></span>
+<div class="comments">
+<div class="paragraph">
+Wipe the screen, clear the flash colour and run a second pass.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="62958"></span>62958</td>
+<td class="instruction">CALL <a href="53360.html">ClearScreenBuffer</a></td>
+<td class="comment-1" rowspan="1">Wipe the screen.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="62961"></span>62961</td>
+<td class="instruction">LD A,0</td>
+<td class="comment-1" rowspan="2">Clear the attribute fill register.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="62963"></span>62963</td>
+<td class="instruction">LD (50439),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="62966"></span>62966</td>
+<td class="instruction">LD A,11</td>
+<td class="comment-1" rowspan="1">Set the second loop counter.</td>
+</tr>
+<tr>
+<td class="asm-label">Extra_Life_Flash_Loop2</td>
+<td class="address-2"><span id="62968"></span>62968</td>
+<td class="instruction">PUSH AF</td>
+<td class="comment-1" rowspan="1">Stash the loop counter on the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="62969"></span>62969</td>
+<td class="instruction">CALL <a href="62600.html">Draw_Colour_Flash_Rectangle</a></td>
+<td class="comment-1" rowspan="1">Repaint the display with the cleared colour.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="62972"></span>62972</td>
+<td class="instruction">CALL <a href="62907.html">Advance_Flash_Colour_Cycle</a></td>
+<td class="comment-1" rowspan="1">Advance the colour cycling animation.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="62975"></span>62975</td>
+<td class="instruction">POP AF</td>
+<td class="comment-1" rowspan="1">Restore the loop counter from the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="62976"></span>62976</td>
+<td class="instruction">DEC A</td>
+<td class="comment-1" rowspan="3">Decrease the loop counter and loop back for the next frame.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="62977"></span>62977</td>
+<td class="instruction">CP 255</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="62979"></span>62979</td>
+<td class="instruction">JR NZ,<a href="62938.html#62968">Extra_Life_Flash_Loop2</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="62981"></span>62981</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="62930.html">62930</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#62938">Map</a></td>
+<td class="next">
+Next: <a href="62982.html">62982</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/F5DA.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

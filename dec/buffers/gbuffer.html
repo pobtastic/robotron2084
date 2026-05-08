@@ -30,10 +30,34 @@ gtag('config', 'G-75RERFCHBG');
 <th>Description</th>
 </tr>
 <tr>
-<td class="map-g"><span id="24832"></span><a href="../asm/24832.html">24832</a></td>
-<td class="map-length">7936</td>
+<td class="map-g"><span id="24576"></span><a href="../asm/24576.html">24576</a></td>
+<td class="map-length">256</td>
 <td class="map-g-desc">
-<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/24832.html">Game status buffer entry at 6100</a></div>
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/24576.html">Entity List</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Start of the entity list in RAM. The playfield write pointer at <a href="../asm/50385.html">Playfield_Entity_List_Pointer</a> is reset to this address before the main game loop, and the entity processing routines walk forward from here each frame.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="24832"></span><a href="../asm/24832.html">24832</a></td>
+<td class="map-length">3197</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/24832.html">Entity List Base</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Base address of the entity list. <a href="../asm/50441.html">Entity_List_Write_Pointer</a>, <a href="../asm/50443.html">Entity_List_Snapshot</a>, and <a href="../asm/50445.html">Entity_List_Working_Pointer</a> are all initialised to this address. Also used as the score table reception buffer during tape load operations at <a href="../asm/60688.html#60715">60715</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="28029"></span><a href="../asm/28029.html">28029</a></td>
+<td class="map-length">1923</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/28029.html">Game status buffer entry at 6D7D</a></div>
 <div class="map-entry-desc">
 </div>
 </td>
@@ -201,7 +225,7 @@ Two-byte handler address table for control codes 16–26 indexed by the control 
 <div class="map-entry-title-11"><a class="map-entry-title" href="../asm/36838.html">Font Configuration Table</a></div>
 <div class="map-entry-desc">
 <div class="paragraph">
-Font configuration table, indexed by font number (0–3). Each eight-byte entry comprises six bytes of font metrics copied to 32780–32785 by the select font handler at <a href="../asm/36323.html#36551">PrintHandler_SelectFont</a>, followed by a two-byte little-endian pointer to the font bitmap data stored at 32776.
+Font configuration table, indexed by font number (0–3). Each eight-byte entry comprises six bytes of font metrics copied to 32780–32785 by the select font handler at <a href="../asm/36551.html">PrintHandler_SelectFont</a>, followed by a two-byte little-endian pointer to the font bitmap data stored at 32776.
 </div>
 </div>
 </td>
@@ -221,6 +245,9 @@ Font configuration table, indexed by font number (0–3). Each eight-byte entry 
 <td class="map-g-desc">
 <div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50179.html">Player 1 State</a></div>
 <div class="map-entry-desc">
+<div class="paragraph">
+Root of the active player state block (see <a href="../asm/53387.html">Swap_Player_State</a> / <a href="../asm/54264.html#54347">PlayerDeath_ClearPlayerSlot</a>). Leading bytes hold the packed score for <a href="../asm/50500.html">PrintPlayerScore</a> and the prefix compared in <a href="../asm/50625.html">CheckScoreAwardLife</a>.
+</div>
 </div>
 </td>
 </tr>
@@ -235,9 +262,21 @@ Font configuration table, indexed by font number (0–3). Each eight-byte entry 
 </tr>
 <tr>
 <td class="map-g"><span id="50185"></span><a href="../asm/50185.html">50185</a></td>
-<td class="map-length">12</td>
+<td class="map-length">11</td>
 <td class="map-g-desc">
-<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50185.html">Game status buffer entry at C409</a></div>
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50185.html">Wave Definition Pointer</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Pointer to the current entry in the wave definition table. Read by <a href="../asm/53836.html">Stage_Next_Wave</a> to load the enemy count and type for the incoming wave; advanced after each wave is staged.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50196"></span><a href="../asm/50196.html">50196</a></td>
+<td class="map-length">1</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50196.html">Game status buffer entry at C414</a></div>
 <div class="map-entry-desc">
 </div>
 </td>
@@ -264,17 +303,59 @@ Font configuration table, indexed by font number (0–3). Each eight-byte entry 
 <td class="map-g"><span id="50199"></span><a href="../asm/50199.html">50199</a></td>
 <td class="map-length">1</td>
 <td class="map-g-desc">
-<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50199.html">Game status buffer entry at C417</a></div>
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50199.html">Lives Display Vertical Step</a></div>
 <div class="map-entry-desc">
+<div class="paragraph">
+Vertical pixel stride between adjacent life icons in <a href="../asm/51092.html">DrawLivesDisplay</a>. Each pass advances the vertical seed by this value (6) to space icons evenly in the lives display column.
+</div>
 </div>
 </td>
 </tr>
 <tr>
 <td class="map-g"><span id="50200"></span><a href="../asm/50200.html">50200</a></td>
-<td class="map-length">4</td>
+<td class="map-length">1</td>
 <td class="map-g-desc">
-<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50200.html">Game status buffer entry at C418</a></div>
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50200.html">Extra Life Compare Byte 0</a></div>
 <div class="map-entry-desc">
+<div class="paragraph">
+First byte of the four-byte template compared with *<a href="../asm/50179.html">Player_1_State</a> in <a href="../asm/50625.html">CheckScoreAwardLife</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50201"></span><a href="../asm/50201.html">50201</a></td>
+<td class="map-length">1</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50201.html">Extra Life Compare Byte 1</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Second template byte vs *<a href="../asm/50179.html#50180">50180</a> in <a href="../asm/50625.html">CheckScoreAwardLife</a>. Also the BCD byte that <a href="../asm/50625.html">CheckScoreAwardLife</a> adds 2 to (carry into *<a href="../asm/50197.html">Lives</a>). Seeded as 2 in <a href="../asm/54264.html#54367">54367</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50202"></span><a href="../asm/50202.html">50202</a></td>
+<td class="map-length">1</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50202.html">Extra Life Compare Byte 2</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Third template byte, compared with *<a href="../asm/50179.html#50181">50181</a> in <a href="../asm/50625.html">CheckScoreAwardLife</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50203"></span><a href="../asm/50203.html">50203</a></td>
+<td class="map-length">1</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50203.html">Extra Life Compare Byte 3</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Fourth template byte, compared with *<a href="../asm/50179.html#50182">50182</a> in <a href="../asm/50625.html">CheckScoreAwardLife</a>.
+</div>
 </div>
 </td>
 </tr>
@@ -282,8 +363,11 @@ Font configuration table, indexed by font number (0–3). Each eight-byte entry 
 <td class="map-g"><span id="50204"></span><a href="../asm/50204.html">50204</a></td>
 <td class="map-length">1</td>
 <td class="map-g-desc">
-<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50204.html">Game status buffer entry at C41C</a></div>
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50204.html">Active Enemy Count</a></div>
 <div class="map-entry-desc">
+<div class="paragraph">
+Running total of active wave enemies. Incremented as enemies are spawned and decremented as they are killed. When it reaches zero, <a href="../asm/53836.html">Stage_Next_Wave</a> loads a fresh wave; when non-zero, the current wave set is re-populated instead. <a href="../asm/50625.html#50671">CheckScoreAwardLife_SessionGate</a> also reads it as a session-active gate: non-zero means a game is in progress, so the copy-protection keyboard check is run.
+</div>
 </div>
 </td>
 </tr>
@@ -298,21 +382,63 @@ Font configuration table, indexed by font number (0–3). Each eight-byte entry 
 </tr>
 <tr>
 <td class="map-g"><span id="50206"></span><a href="../asm/50206.html">50206</a></td>
-<td class="map-length">16</td>
+<td class="map-length">5</td>
 <td class="map-g-desc">
 <div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50206.html">Two-Player Session Flag</a></div>
 <div class="map-entry-desc">
 <div class="paragraph">
-Non-zero when both player slots take part in the current credit session; read by <a href="../asm/54119.html">PlayerDeath</a> after a lost life to decide whether to swap with <a href="../asm/53387.html">SwapPlayerState</a> again or loop on the same player. Cleared when initialising state for a new game after the maximum wave.
+Non-zero when both player slots take part in the current credit session. After a lost life <a href="../asm/54119.html">PlayerDeath</a> uses it for <a href="../asm/53387.html">Swap_Player_State</a> swap vs same-player loop. Cleared on init after the max wave.
 </div>
 </div>
 </td>
 </tr>
 <tr>
-<td class="map-g"><span id="50222"></span><a href="../asm/50222.html">50222</a></td>
-<td class="map-length">25</td>
+<td class="map-g"><span id="50211"></span><a href="../asm/50211.html">50211</a></td>
+<td class="map-length">1</td>
 <td class="map-g-desc">
-<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50222.html">Game status buffer entry at C42E</a></div>
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50211.html">Wave Enemy Count</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Number of primary wave enemies to spawn in the current wave. Read from the wave definition by <a href="../asm/53488.html">Spawn_Primary_Wave_Enemies</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50212"></span><a href="../asm/50212.html">50212</a></td>
+<td class="map-length">3</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50212.html">Wave Enemy Type</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Enemy type parameter for the current wave, read from the wave definition by <a href="../asm/53488.html">Spawn_Primary_Wave_Enemies</a> and copied into each spawned entity record.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50215"></span><a href="../asm/50215.html">50215</a></td>
+<td class="map-length">7</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50215.html">Table: Slot Count</a></div>
+<div class="map-entry-desc">
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50222"></span><a href="../asm/50222.html">50222</a></td>
+<td class="map-length">1</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50222.html">Border Colour</a></div>
+<div class="map-entry-desc">
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50223"></span><a href="../asm/50223.html">50223</a></td>
+<td class="map-length">24</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50223.html">Bouncing Enemy Count</a></div>
 <div class="map-entry-desc">
 </div>
 </td>
@@ -337,19 +463,151 @@ Non-zero when both player slots take part in the current credit session; read by
 </tr>
 <tr>
 <td class="map-g"><span id="50315"></span><a href="../asm/50315.html">50315</a></td>
-<td class="map-length">109</td>
+<td class="map-length">68</td>
 <td class="map-g-desc">
-<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50315.html">Game status buffer entry at C48B</a></div>
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50315.html">Player State Swap Buffer</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Scratch buffer used by <a href="../asm/53387.html">Swap_Player_State</a> to hold the active player's 68-byte state block while the inactive player's state is copied over it.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50383"></span><a href="../asm/50383.html">50383</a></td>
+<td class="map-length">2</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50383.html">Entity Spawn Timer</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Decremented once per frame by the main game loop at <a href="../asm/52047.html">Main_Game_Loop</a>. When it reaches zero it is reset to 3 and one new entity is spawned adjacent to the player's current position.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50385"></span><a href="../asm/50385.html">50385</a></td>
+<td class="map-length">2</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50385.html">Playfield Entity List Pointer</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Pointer to the current write position in the playfield entity list. Set to <a href="../asm/24576.html">Entity_List</a> by <a href="../asm/53836.html">Stage_Next_Wave</a> before the main game loop is entered.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50387"></span><a href="../asm/50387.html">50387</a></td>
+<td class="map-length">1</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50387.html">Intro Closing Sprite</a></div>
 <div class="map-entry-desc">
 </div>
 </td>
 </tr>
 <tr>
-<td class="map-g"><span id="50424"></span><a href="../asm/50424.html">50424</a></td>
+<td class="map-g"><span id="50388"></span><a href="../asm/50388.html">50388</a></td>
+<td class="map-length">1</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50388.html">Player Y Position</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Player's current Y pixel position on the playfield. Updated each frame by the movement handler in <a href="../asm/52047.html">Main_Game_Loop</a> when the player moves vertically.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50389"></span><a href="../asm/50389.html">50389</a></td>
 <td class="map-length">5</td>
 <td class="map-g-desc">
-<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50424.html">Game status buffer entry at C4F8</a></div>
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50389.html">Player X Position</a></div>
 <div class="map-entry-desc">
+<div class="paragraph">
+Player's current X pixel position on the playfield. Updated each frame by the movement handler in <a href="../asm/52047.html">Main_Game_Loop</a> when the player moves horizontally.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50394"></span><a href="../asm/50394.html">50394</a></td>
+<td class="map-length">2</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50394.html">Entity Record Pointer</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Pointer to the entity record currently being processed. Set before calling <a href="../asm/54705.html">Remove_Entity_From_List</a> to identify which entity to remove, and saved on entry to the movement handler at <a href="../asm/54705.html#54749">Move_And_Redraw_Entity</a> so that the entity can be located after sprite-draw calls that may disturb <span class="register">HL</span>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50396"></span><a href="../asm/50396.html">50396</a></td>
+<td class="map-length">2</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50396.html">RNG Seed</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Two-byte seed for the linear congruential random number generator. Updated each call to <a href="../asm/53672.html">Advance_RNG_Seed</a> using the recurrence: seed = seed × 33 + 41.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50398"></span><a href="../asm/50398.html">50398</a></td>
+<td class="map-length">7</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50398.html">Wave Active Flag</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Set to 1 by <a href="../asm/53836.html">Stage_Next_Wave</a> once the entity list and playfield are initialised, signalling the main game loop at <a href="../asm/52047.html">Main_Game_Loop</a> that the wave is live.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50405"></span><a href="../asm/50405.html">50405</a></td>
+<td class="map-length">14</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50405.html">Colour Cycle Table Pointer</a></div>
+<div class="map-entry-desc">
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50419"></span><a href="../asm/50419.html">50419</a></td>
+<td class="map-length">5</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50419.html">Cached Spawn Pixels</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Y pixel then X pixel for the enemy currently being placed by <a href="../asm/53488.html">Spawn_Primary_Wave_Enemies</a>, written before the screen address build reads them back.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50424"></span><a href="../asm/50424.html">50424</a></td>
+<td class="map-length">1</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50424.html">Attract Mode Frame Counter</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Counts down from 50 in the attract mode loop at <a href="../asm/62700.html">Attract_Mode_Loop</a>. Written each frame before the per-frame service calls; when it reaches zero, control jumps to the high score entry screen at <a href="../asm/60360.html">Display_High_Score_Entry_Screen</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50425"></span><a href="../asm/50425.html">50425</a></td>
+<td class="map-length">4</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50425.html">Title Strip Blit Parameters</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Four bytes read by <a href="../asm/62982.html">BlitTitleStrips</a>: *<a href="../asm/50425.html">TitleBlit_Params</a> and *<a href="../asm/50425.html#50428">50428</a> bound the strip loop, *<a href="../asm/50425.html#50426">50426</a> selects the screen row / band, *<a href="../asm/50425.html#50427">50427</a> is the run length (LDIR) per strip. Filled by <a href="../asm/63031.html">DrawAttractTitle</a> before each <a href="../asm/62982.html">BlitTitleStrips</a> call.
+</div>
 </div>
 </td>
 </tr>
@@ -364,7 +622,7 @@ Non-zero when both player slots take part in the current credit session; read by
 </tr>
 <tr>
 <td class="map-g"><span id="50430"></span><a href="../asm/50430.html">50430</a></td>
-<td class="map-length">27</td>
+<td class="map-length">1</td>
 <td class="map-g-desc">
 <div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50430.html">Game status buffer entry at C4FE</a></div>
 <div class="map-entry-desc">
@@ -372,25 +630,238 @@ Non-zero when both player slots take part in the current credit session; read by
 </td>
 </tr>
 <tr>
+<td class="map-g"><span id="50431"></span><a href="../asm/50431.html">50431</a></td>
+<td class="map-length">1</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50431.html">Game status buffer entry at C4FF</a></div>
+<div class="map-entry-desc">
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50432"></span><a href="../asm/50432.html">50432</a></td>
+<td class="map-length">1</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50432.html">Game status buffer entry at C500</a></div>
+<div class="map-entry-desc">
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50433"></span><a href="../asm/50433.html">50433</a></td>
+<td class="map-length">1</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50433.html">Game status buffer entry at C501</a></div>
+<div class="map-entry-desc">
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50434"></span><a href="../asm/50434.html">50434</a></td>
+<td class="map-length">1</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50434.html">Game status buffer entry at C502</a></div>
+<div class="map-entry-desc">
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50435"></span><a href="../asm/50435.html">50435</a></td>
+<td class="map-length">5</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50435.html">Game status buffer entry at C503</a></div>
+<div class="map-entry-desc">
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50440"></span><a href="../asm/50440.html">50440</a></td>
+<td class="map-length">1</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50440.html">Border Colour Step</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Current step into the border colour cycle (0–7); decremented each frame by <a href="../asm/61678.html">Cycle_Border_Colour</a> and used to index the attribute pair table at <a href="../asm/61662.html">Table_Border_Colour_Pairs</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50441"></span><a href="../asm/50441.html">50441</a></td>
+<td class="map-length">2</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50441.html">Entity List Write Pointer</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Little-endian pointer into the entity list; loaded at the start of <a href="../asm/57634.html">Spawn_Wave_Enemies</a> and updated with the final write position on exit.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50443"></span><a href="../asm/50443.html">50443</a></td>
+<td class="map-length">2</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50443.html">Entity List Snapshot</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Snapshot of *<a href="../asm/50441.html">Entity_List_Write_Pointer</a> taken at the start of <a href="../asm/57634.html">Spawn_Wave_Enemies</a>; used alongside *<a href="../asm/50445.html">Entity_List_Working_Pointer</a> to bracket the range of entity records written.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50445"></span><a href="../asm/50445.html">50445</a></td>
+<td class="map-length">2</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50445.html">Entity List Working Pointer</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Working write pointer into the entity list; updated by <a href="../asm/57634.html#57673">Spawn_Wave_Enemies_Populate_Slot</a> as each record is appended and flushed to *<a href="../asm/50441.html">Entity_List_Write_Pointer</a> when the build completes.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50447"></span><a href="../asm/50447.html">50447</a></td>
+<td class="map-length">8</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50447.html">Entity Pointer Stash</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+General-purpose two-byte pointer stash used by several entity routines to preserve a working pointer across subroutine calls.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50455"></span><a href="../asm/50455.html">50455</a></td>
+<td class="map-length">1</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50455.html">Player Y Direction</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Index of the player's current vertical movement direction. Stored each frame by <a href="../asm/52047.html">Main_Game_Loop</a> and used to look up the vertical movement delta and the entity type to spawn above or below the player.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50456"></span><a href="../asm/50456.html">50456</a></td>
+<td class="map-length">1</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50456.html">Player X Direction</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Index of the player's current horizontal movement direction. Stored each frame by <a href="../asm/52047.html">Main_Game_Loop</a> and used to look up the horizontal movement delta, the sprite frame, and the entity type to spawn beside the player.
+</div>
+</div>
+</td>
+</tr>
+<tr>
 <td class="map-g"><span id="50457"></span><a href="../asm/50457.html">50457</a></td>
-<td class="map-length">25</td>
+<td class="map-length">2</td>
 <td class="map-g-desc">
 <div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50457.html">Wave Start Pointer</a></div>
 <div class="map-entry-desc">
 <div class="paragraph">
-Little-endian pointer loaded from the word table at <a href="../asm/54244.html">54244</a> (indexed from <a href="../asm/54264.html#54272">54272</a>) when staging a wave after tape load or max-wave reset; copied into <a href="../asm/50185.html">50185</a> when clearing player state in <a href="../asm/54119.html">PlayerDeath</a>.
+Little-endian pointer loaded from the word table at <a href="../asm/54244.html">54244</a> (indexed from <a href="../asm/54264.html#54272">54272</a>) when staging a wave after tape load or max-wave reset; copied into <a href="../asm/50185.html">Wave_Definition_Pointer</a> when clearing player state in <a href="../asm/54119.html">PlayerDeath</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50459"></span><a href="../asm/50459.html">50459</a></td>
+<td class="map-length">6</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50459.html">Animation Frame Pair</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Initial animation frame pair for the current wave. Written as a word by <a href="../asm/53695.html#53725">53725</a> and decremented each frame by <a href="../asm/52047.html">Main_Game_Loop</a> at <a href="../asm/52047.html#52322">52322</a> until it reaches zero.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50465"></span><a href="../asm/50465.html">50465</a></td>
+<td class="map-length">14</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50465.html">Entity State Pointer</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Two-byte pointer written by <a href="../asm/55748.html">Initialise_Entity_State</a> from the entity state table at <a href="../asm/55786.html">Entity_State_Table</a>. Read by <a href="../asm/55776.html">Dispatch_Entity_State_Handler</a> and executed via JP (HL) to dispatch the current entity state handler.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50479"></span><a href="../asm/50479.html">50479</a></td>
+<td class="map-length">3</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50479.html">Entity State Flag</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Tracks the progress of the active entity state effect. 0 = no effect running; 1 = one step complete; 2 = all steps complete. Written by <a href="../asm/55748.html">Initialise_Entity_State</a> and polled each frame by <a href="../asm/55776.html">Dispatch_Entity_State_Handler</a> and <a href="../asm/55850.html">Cycle_Border_From_Screen</a>.
 </div>
 </div>
 </td>
 </tr>
 <tr>
 <td class="map-g"><span id="50482"></span><a href="../asm/50482.html">50482</a></td>
-<td class="map-length">18</td>
+<td class="map-length">1</td>
 <td class="map-g-desc">
 <div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50482.html">Death Sequence Mode</a></div>
 <div class="map-entry-desc">
 <div class="paragraph">
 When 1 <a href="../asm/54119.html">PlayerDeath</a> skips the intro HUD, "PLAYER" messaging and intro delay before losing a life, and skips the extra "PLAYER" line in the game-over branch. Set from the wave-table path together with the table variant in <span class="register">B</span>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50483"></span><a href="../asm/50483.html">50483</a></td>
+<td class="map-length">1</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50483.html">Wave Start Delay</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Countdown loaded to 26 at the start of each wave by <a href="../asm/52047.html">Main_Game_Loop</a>. Checked each frame at <a href="../asm/52047.html#52071">Main_Loop_Poll</a>; while non-zero the frame is skipped and control branches to the wave-end handler at <a href="../asm/52532.html#53043">Clear_Colour_Bar_Column_21</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50484"></span><a href="../asm/50484.html">50484</a></td>
+<td class="map-length">2</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50484.html">Animation Frame Counter One</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+First per-frame animation counter, initialised to 15 at wave start by <a href="../asm/52047.html">Main_Game_Loop</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50486"></span><a href="../asm/50486.html">50486</a></td>
+<td class="map-length">14</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50486.html">Animation Frame Counter Two</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Second per-frame animation counter, initialised to 15 at wave start by <a href="../asm/52047.html">Main_Game_Loop</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="50956"></span><a href="../asm/50956.html">50956</a></td>
+<td class="map-length">7</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/50956.html">Help Bar Attribute Sequence</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Seven attribute bytes (65 / 66 / 68 ink cycling) and a 0 terminator, consumed from <a href="../asm/50963.html">UpdateAttributeBar</a> when <a href="../asm/50963.html#51063">UpdateAttributeBar_ResetTable</a> arms <span class="register">HL</span> here after the "H" key path through <a href="../asm/51069.html">PollHKey</a>.
 </div>
 </div>
 </td>
@@ -408,7 +879,31 @@ When 1 <a href="../asm/54119.html">PlayerDeath</a> skips the intro HUD, "PLAYER"
 <td class="map-g"><span id="61662"></span><a href="../asm/61662.html">61662</a></td>
 <td class="map-length">16</td>
 <td class="map-g-desc">
-<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/61662.html">Game status buffer entry at F0DE</a></div>
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/61662.html">Border Colour Pairs</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Eight outer/inner attribute-byte pairs for the screen border colour cycle. Each word is read by <a href="../asm/61678.html">Cycle_Border_Colour</a> and passed as <span class="register">DE</span> to <a href="../asm/61614.html">Fill_Border_Attributes</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="62804"></span><a href="../asm/62804.html">62804</a></td>
+<td class="map-length">2</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/62804.html">Screen Colour Cycle Pointer</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Self-modifying pointer into <a href="../asm/62797.html">Colour_Cycle_Table</a>. Holds the address of the next colour cycle entry to apply on the next call to <a href="../asm/62749.html">Advance_Colour_Cycle</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="62878"></span><a href="../asm/62878.html">62878</a></td>
+<td class="map-length">2</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/62878.html">Intro Colour Cycle Pointer</a></div>
 <div class="map-entry-desc">
 </div>
 </td>

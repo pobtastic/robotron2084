@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at C6CE</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="C6AE.html">C6AE</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#c6ce">Map</a></td>
+<td class="next">
+Next: <a href="C6DA.html">C6DA</a>
+</td>
+</tr>
+</table>
+<div class="description">C6CE: Lookup Vector Table Entry</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Returns the word at index <span class="register">A</span> in <a href="C60C.html">Sprite_Pixel_Data_Table</a>: <span class="register">HL</span> = <a href="C60C.html">Sprite_Pixel_Data_Table</a> + (<span class="register">A</span> * 02), little-endian word into <span class="register">DE</span>. Valid range is <a href="C60C.html">Sprite_Pixel_Data_Table</a> through C6CD (last word starts at <a href="C6AE.html#c6cc">C6CC</a>). No direct CALL to <a href="C6CE.html">LookupVectorTableEntry</a> in this ROM.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">LookupVectorTableEntry</td>
+<td class="address-2"><span id="c6ce"></span>C6CE</td>
+<td class="instruction">ADD A,A</td>
+<td class="comment-1" rowspan="1">Double <span class="register">A</span> (word stride).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="c6cf"></span>C6CF</td>
+<td class="instruction">LD HL,$C60C</td>
+<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="C60C.html">Sprite_Pixel_Data_Table</a> (table base).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="c6d2"></span>C6D2</td>
+<td class="instruction">LD D,$00</td>
+<td class="comment-1" rowspan="1"><span class="register">D</span>=00.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="c6d4"></span>C6D4</td>
+<td class="instruction">LD E,A</td>
+<td class="comment-1" rowspan="1"><span class="register">E</span>=<span class="register">A</span> (word offset in <span class="register">DE</span>).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="c6d5"></span>C6D5</td>
+<td class="instruction">ADD HL,DE</td>
+<td class="comment-1" rowspan="1">Add <span class="register">DE</span> to <span class="register">HL</span> (pointer to the entry).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="c6d6"></span>C6D6</td>
+<td class="instruction">LD E,(HL)</td>
+<td class="comment-1" rowspan="1"><span class="register">E</span>=*<span class="register">HL</span> (low byte of the word).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="c6d7"></span>C6D7</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Advance <span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="c6d8"></span>C6D8</td>
+<td class="instruction">LD D,(HL)</td>
+<td class="comment-1" rowspan="1"><span class="register">D</span>=*<span class="register">HL</span> (high byte of the word).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="c6d9"></span>C6D9</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return with the word in <span class="register">DE</span>.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="C6AE.html">C6AE</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#c6ce">Map</a></td>
+<td class="next">
+Next: <a href="C6DA.html">C6DA</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/50894.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

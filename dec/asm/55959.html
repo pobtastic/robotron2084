@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 55959</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="55850.html">55850</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#55959">Map</a></td>
+<td class="next">
+Next: <a href="55971.html">55971</a>
+</td>
+</tr>
+</table>
+<div class="description">55959: Delay Short</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Busy-wait delay: outer loop of 10 iterations, inner loop of 0 (256 cycles) each. Stashes and restores <span class="register">BC</span>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Delay_Short</td>
+<td class="address-2"><span id="55959"></span>55959</td>
+<td class="instruction">PUSH BC</td>
+<td class="comment-1" rowspan="1">Stash <span class="register">BC</span> on the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="55960"></span>55960</td>
+<td class="instruction">LD C,10</td>
+<td class="comment-1" rowspan="1"><span class="register">C</span>=10 (outer loop counter).</td>
+</tr>
+<tr>
+<td class="asm-label">Delay_Short_OuterLoop</td>
+<td class="address-2"><span id="55962"></span>55962</td>
+<td class="instruction">LD B,0</td>
+<td class="comment-1" rowspan="2">Inner loop: spin <span class="register">B</span> from 0 (256 iterations per pass).</td>
+</tr>
+<tr>
+<td class="asm-label">Delay_Short_InnerLoop</td>
+<td class="address-2"><span id="55964"></span>55964</td>
+<td class="instruction">DJNZ <a href="55959.html#55964">Delay_Short_InnerLoop</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="55966"></span>55966</td>
+<td class="instruction">DEC C</td>
+<td class="comment-1" rowspan="2">Decrease outer counter and loop back to <a href="55959.html#55962">Delay_Short_OuterLoop</a> until zero.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="55967"></span>55967</td>
+<td class="instruction">JR NZ,<a href="55959.html#55962">Delay_Short_OuterLoop</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="55969"></span>55969</td>
+<td class="instruction">POP BC</td>
+<td class="comment-1" rowspan="1">Restore <span class="register">BC</span> from the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="55970"></span>55970</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="55850.html">55850</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#55959">Map</a></td>
+<td class="next">
+Next: <a href="55971.html">55971</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/DA97.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

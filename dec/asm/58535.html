@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 58535</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="58514.html">58514</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#58535">Map</a></td>
+<td class="next">
+Next: <a href="58553.html">58553</a>
+</td>
+</tr>
+</table>
+<div class="description">58535: Retire Expired Entity</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="58514.html">Tick_Entity_Colour_Timer</a>.
+</div>
+<div class="paragraph">
+Erases the entity sprite via <a href="54832.html">Erase_Entity_Sprite</a>, writes the <a href="58208.html#58396">Process_Tracked_Enemy_Entity_Advance</a> advance handler to the entity record (retiring the entity from active update processing), and returns through <a href="58535.html#58548">Retire_Expired_Entity_Advance</a>. Reached when a colour timer spawned by <a href="58553.html">Kill_Tracked_Enemy_Entity</a> expires.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Retire_Expired_Entity</td>
+<td class="address-2"><span id="58535"></span>58535</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="3">Stash <span class="register">HL</span>, advance one byte, and erase the sprite via <a href="54832.html">Erase_Entity_Sprite</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58536"></span>58536</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58537"></span>58537</td>
+<td class="instruction">CALL <a href="54832.html">Erase_Entity_Sprite</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58540"></span>58540</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="4">Write the <a href="58208.html#58396">Process_Tracked_Enemy_Entity_Advance</a> handler to the entity record and advance.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58541"></span>58541</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58542"></span>58542</td>
+<td class="instruction">LD DE,58396</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58545"></span>58545</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58546"></span>58546</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58547"></span>58547</td>
+<td class="instruction">LD (HL),E</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="58548"></span>
+<div class="comments">
+<div class="paragraph">
+This entry point is used by the routines at <a href="58656.html">Process_Cluster_Entity</a> and <a href="59060.html">Retire_Cluster_Entity</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Retire_Expired_Entity_Advance</td>
+<td class="address-2"><span id="58548"></span>58548</td>
+<td class="instruction">LD DE,14</td>
+<td class="comment-1" rowspan="3">Advance the entity pointer by 14 bytes and return.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58551"></span>58551</td>
+<td class="instruction">ADD HL,DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58552"></span>58552</td>
+<td class="instruction">RET</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="58514.html">58514</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#58535">Map</a></td>
+<td class="next">
+Next: <a href="58553.html">58553</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/E4A7.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

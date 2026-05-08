@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 57954</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="57898.html">57898</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#57954">Map</a></td>
+<td class="next">
+Next: <a href="58000.html">58000</a>
+</td>
+</tr>
+</table>
+<div class="description">57954: Find Colliding Wave Enemy</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routines at <a href="57782.html">Handle_Horizontal_Enemy_Entity</a> and <a href="59521.html">Process_Wall_Bouncing_Enemy</a>.
+</div>
+<div class="paragraph">
+Walks the wave entity list between the snapshot pointer at 50443 and the write pointer at 50445. For each entity with a type nibble below 4 tests bounds overlap via <a href="50906.html">HitTestBounds8AtHL</a>; returns without carry set if an overlapping entity is found with its position left in alternate <span class="register">HL</span>. Returns with carry set if the list is exhausted without a match. Entities with a type nibble of 4 or higher are skipped as non-collidable. Called from <a href="57782.html">Handle_Horizontal_Enemy_Entity</a> and <a href="59521.html">Process_Wall_Bouncing_Enemy</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Find_Colliding_Wave_Enemy</td>
+<td class="address-2"><span id="57954"></span>57954</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="2">Switch to alternate registers and load the entity list snapshot pointer from 50443.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57955"></span>57955</td>
+<td class="instruction">LD HL,(50443)</td>
+</tr>
+<tr>
+<td class="asm-label">Find_Colliding_Wave_Enemy_Next</td>
+<td class="address-2"><span id="57958"></span>57958</td>
+<td class="instruction">EX DE,HL</td>
+<td class="comment-1" rowspan="6">Compare the snapshot against the write pointer; return with carry set (no match) if the list is exhausted.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57959"></span>57959</td>
+<td class="instruction">LD HL,(50445)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57962"></span>57962</td>
+<td class="instruction">AND A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57963"></span>57963</td>
+<td class="instruction">SBC HL,DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57965"></span>57965</td>
+<td class="instruction">SCF</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57966"></span>57966</td>
+<td class="instruction">EX DE,HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57967"></span>57967</td>
+<td class="instruction">RET Z</td>
+<td class="comment-1" rowspan="5">Advance three bytes past the handler word, read the entity type nibble, and mask to the low 4 bits.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57968"></span>57968</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57969"></span>57969</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57970"></span>57970</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57971"></span>57971</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57972"></span>57972</td>
+<td class="instruction">AND %00001111</td>
+<td class="comment-1" rowspan="1">Mask the type to the low nibble.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57974"></span>57974</td>
+<td class="instruction">CP 4</td>
+<td class="comment-1" rowspan="2">Jump to <a href="57954.html#57994">Find_Colliding_Wave_Enemy_1</a> to skip this entity if the type is 4 or higher (non-collidable).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57976"></span>57976</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57977"></span>57977</td>
+<td class="instruction">JP NC,<a href="57954.html#57994">Find_Colliding_Wave_Enemy_1</a></td>
+<td class="comment-1" rowspan="2">Test whether this entity's bounds overlap the current position via <a href="50906.html">HitTestBounds8AtHL</a>; advance and loop if they do not.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57980"></span>57980</td>
+<td class="instruction">CALL <a href="50906.html">HitTestBounds8AtHL</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57983"></span>57983</td>
+<td class="instruction">RET NC</td>
+<td class="comment-1" rowspan="6">No overlap: step the alternate <span class="register">HL</span> back three bytes and loop.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57984"></span>57984</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57985"></span>57985</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57986"></span>57986</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57987"></span>57987</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57988"></span>57988</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label">Find_Colliding_Wave_Enemy_0</td>
+<td class="address-2"><span id="57989"></span>57989</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="3">Advance two bytes to the next entity record and loop.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57990"></span>57990</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57991"></span>57991</td>
+<td class="instruction">JP <a href="57954.html#57958">Find_Colliding_Wave_Enemy_Next</a></td>
+</tr>
+<tr>
+<td class="asm-label">Find_Colliding_Wave_Enemy_1</td>
+<td class="address-2"><span id="57994"></span>57994</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="4">Wide entity: advance three more bytes and loop.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57995"></span>57995</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57996"></span>57996</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="57997"></span>57997</td>
+<td class="instruction">JP <a href="57954.html#57989">Find_Colliding_Wave_Enemy_0</a></td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="57898.html">57898</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#57954">Map</a></td>
+<td class="next">
+Next: <a href="58000.html">58000</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/E262.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

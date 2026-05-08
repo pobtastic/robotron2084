@@ -33,50 +33,61 @@ Next: <a href="F0EE.html">F0EE</a>
 </td>
 </tr>
 </table>
-<div class="description">F0DE: Game status buffer entry at F0DE</div>
+<div class="description">F0DE: Border Colour Pairs</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
+<div class="paragraph">
+Eight outer/inner attribute-byte pairs for the screen border colour cycle. Each word is read by <a href="F0EE.html">Cycle_Border_Colour</a> and passed as <span class="register">DE</span> to <a href="F0AE.html">Fill_Border_Attributes</a>.
+</div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Table_Border_Colour_Pairs</td>
 <td class="address-1"><span id="f0de"></span>F0DE</td>
 <td class="instruction">DEFW $2C08</td>
 <td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f0e0"></span>F0E0</td>
 <td class="instruction">DEFW $2102</td>
 <td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f0e2"></span>F0E2</td>
 <td class="instruction">DEFW $0813</td>
 <td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f0e4"></span>F0E4</td>
 <td class="instruction">DEFW $021E</td>
 <td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f0e6"></span>F0E6</td>
 <td class="instruction">DEFW $1337</td>
 <td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f0e8"></span>F0E8</td>
 <td class="instruction">DEFW $1E3D</td>
 <td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f0ea"></span>F0EA</td>
 <td class="instruction">DEFW $372C</td>
 <td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f0ec"></span>F0EC</td>
 <td class="instruction">DEFW $3D21</td>
 <td class="comment-0" rowspan="1"></td>

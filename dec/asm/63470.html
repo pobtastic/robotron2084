@@ -39,10 +39,10 @@ Next: <a href="63548.html">63548</a>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routine at <a href="62700.html">62700</a>.
+Used by the routine at <a href="62700.html">Attract_Mode_Loop</a>.
 </div>
 <div class="paragraph">
-Iterates over the 24 three-byte entries in the sprite table at <a href="62749.html#62808">62808</a> (Y pixel row at +0 X byte column at +1 attribute byte at +2) to animate the border march effect on the intro screen. For each entry, erases the sprite at its current position (calls <a href="63343.html">XorBlitSprite</a> with bit 7 of <span class="register">E</span> set in shadow to suppress attribute writes), advances the position by one step along a rectangular path (8 pixel rows vertically or 1 byte column horizontally: right across Y=0 down the right side at X=28 left across Y=160 up the left side at X=0), then redraws the sprite at the new position (calls <a href="63343.html">XorBlitSprite</a> with bit 7 clear to write the attribute). Called once per frame by the attract mode loop at <a href="62700.html">62700</a>.
+Iterates over the 24 three-byte entries in the sprite table at <a href="62808.html">Intro_Sprite_Table</a> (Y pixel row at +0 X byte column at +1 attribute byte at +2) to animate the border march effect on the intro screen. For each entry, erases the sprite at its current position (calls <a href="63343.html">XorBlitSprite</a> with bit 7 of <span class="register">E</span> set in shadow to suppress attribute writes), advances the position by one step along a rectangular path (8 pixel rows vertically or 1 byte column horizontally: right across Y=0 down the right side at X=28 left across Y=160 up the left side at X=0), then redraws the sprite at the new position (calls <a href="63343.html">XorBlitSprite</a> with bit 7 clear to write the attribute). Called once per frame by the attract mode loop at <a href="62700.html">Attract_Mode_Loop</a>.
 </div>
 </div>
 </td>
@@ -57,7 +57,7 @@ Iterates over the 24 three-byte entries in the sprite table at <a href="62749.ht
 <td class="asm-label"></td>
 <td class="address-1"><span id="63472"></span>63472</td>
 <td class="instruction">LD HL,62808</td>
-<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="62749.html#62808">62808</a> (attribute byte position of the first entry).</td>
+<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="62808.html">Intro_Sprite_Table</a> (attribute byte position of the first entry).</td>
 </tr>
 <tr>
 <td class="asm-label">AnimateIntroSprites_Loop</td>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 36413</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="36398.html">36398</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#36413">Map</a></td>
+<td class="next">
+Next: <a href="36434.html">36434</a>
+</td>
+</tr>
+</table>
+<div class="description">36413: Print Handler: Paper</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Set PAPER colour parameter handler. Called on the byte immediately following a 17 (PAPER) control code. Masks the parameter to the lower three bits (colour 0–7) and writes it into the PAPER bits (3–5) of the attribute byte at <a href="32772.html">PrintState_Attr</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">PrintHandler_Paper</td>
+<td class="address-2"><span id="36413"></span>36413</td>
+<td class="instruction">LD B,8</td>
+<td class="comment-1" rowspan="1"><span class="register">B</span>=8 (mask limit for PAPER colour range 0–7).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36415"></span>36415</td>
+<td class="instruction">CALL <a href="36582.html">PrintHandler_MaskParam</a></td>
+<td class="comment-1" rowspan="1">Call <a href="36582.html">PrintHandler_MaskParam</a> to reset <a href="32778.html">PrintState_Handler</a> and mask <span class="register">B</span> to the colour value.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36418"></span>36418</td>
+<td class="instruction">LD A,(32772)</td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=*<a href="32772.html">PrintState_Attr</a> (current attribute byte).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36421"></span>36421</td>
+<td class="instruction">AND %11000111</td>
+<td class="comment-1" rowspan="1">Clear the PAPER bits (199 = keep INK, BRIGHT, FLASH).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36423"></span>36423</td>
+<td class="instruction">SLA B</td>
+<td class="comment-1" rowspan="3">Shift <span class="register">B</span> left three positions to move the colour into bits 3–5.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36425"></span>36425</td>
+<td class="instruction">SLA B</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36427"></span>36427</td>
+<td class="instruction">SLA B</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36429"></span>36429</td>
+<td class="instruction">OR B</td>
+<td class="comment-1" rowspan="1">Write the new PAPER colour into bits 3–5.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36430"></span>36430</td>
+<td class="instruction">LD (32772),A</td>
+<td class="comment-1" rowspan="1">Write the updated attribute byte back to *<a href="32772.html">PrintState_Attr</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36433"></span>36433</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="36398.html">36398</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#36413">Map</a></td>
+<td class="next">
+Next: <a href="36434.html">36434</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/8E3D.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

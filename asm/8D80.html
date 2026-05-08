@@ -25,7 +25,7 @@ gtag('config', 'G-75RERFCHBG');
 <table class="asm-navigation">
 <tr>
 <td class="prev">
-Prev: <a href="8100.html">8100</a>
+Prev: <a href="8C00.html">8C00</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#8d80">Map</a></td>
 <td class="next">
@@ -33,312 +33,366 @@ Next: <a href="8DCC.html">8DCC</a>
 </td>
 </tr>
 </table>
-<div class="description">8D80: Routine at 8D80</div>
+<div class="description">8D80: Plot Screen Pixel</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="D562.html">D562</a>, <a href="D570.html">D570</a> and <a href="F04D.html">F04D</a>.
+Used by the routines at <a href="D562.html">DrawPlayfieldBorderRow</a>, <a href="D570.html">DrawPlayfieldBorder</a>, <a href="F04D.html">Fill_Row</a> and <a href="F058.html">Fill_Column</a>.
+</div>
+<div class="paragraph">
+Renders one pixel at screen position (<span class="register">H</span> = pixel column, <span class="register">L</span> = pixel row). Derives the column byte offset and pixel mask by indexing into <a href="8A00.html">Column_Pixel_Lookup_Table</a>, and reads the screen scan-line address from <a href="8C00.html">Screen_Row_Address_Lookup_Table</a>. Three entry points: <a href="8D80.html">PlotCharacterCell_Draw</a> draws by setting bits, <a href="8D80.html#8d99">PlotCharacterCell_Erase</a> erases by clearing bits, <a href="8D80.html#8db3">PlotCharacterCell_Toggle</a> toggles bits.
+</div>
+</div>
+<table class="input">
+<tr class="asm-input-header">
+<th colspan="2">Input</th>
+</tr>
+<tr>
+<td class="register">H</td>
+<td class="register-desc">Pixel column</td>
+</tr>
+<tr>
+<td class="register">L</td>
+<td class="register-desc">Pixel row</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td class="asm-label">PlotCharacterCell_Draw</td>
+<td class="address-2"><span id="8d80"></span>8D80</td>
+<td class="instruction">LD B,$45</td>
+<td class="comment-1" rowspan="4">Compute the column entry address in <a href="8A00.html">Column_Pixel_Lookup_Table</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8d82"></span>8D82</td>
+<td class="instruction">LD C,H</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8d83"></span>8D83</td>
+<td class="instruction">SLA C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8d85"></span>8D85</td>
+<td class="instruction">RL B</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8d87"></span>8D87</td>
+<td class="instruction">LD H,$46</td>
+<td class="comment-1" rowspan="3">Compute the row entry address in <a href="8C00.html">Screen_Row_Address_Lookup_Table</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8d89"></span>8D89</td>
+<td class="instruction">SLA L</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8d8b"></span>8D8B</td>
+<td class="instruction">RL H</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8d8d"></span>8D8D</td>
+<td class="instruction">LD A,(HL)</td>
+<td class="comment-1" rowspan="4">Read the scan-line base address from <a href="8C00.html">Screen_Row_Address_Lookup_Table</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8d8e"></span>8D8E</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8d8f"></span>8D8F</td>
+<td class="instruction">LD H,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8d90"></span>8D90</td>
+<td class="instruction">LD L,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8d91"></span>8D91</td>
+<td class="instruction">LD A,(BC)</td>
+<td class="comment-1" rowspan="4">Apply the column byte offset from <a href="8A00.html">Column_Pixel_Lookup_Table</a> to the scan-line address and advance to the pixel mask.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8d92"></span>8D92</td>
+<td class="instruction">ADD A,L</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8d93"></span>8D93</td>
+<td class="instruction">LD L,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8d94"></span>8D94</td>
+<td class="instruction">INC BC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8d95"></span>8D95</td>
+<td class="instruction">LD A,(BC)</td>
+<td class="comment-1" rowspan="3">Set the pixel on screen by ORing the column mask.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8d96"></span>8D96</td>
+<td class="instruction">OR (HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8d97"></span>8D97</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8d98"></span>8D98</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="8d99"></span>
+<div class="comments">
+<div class="paragraph">
+Alternate entry: erase the pixel by inverting the column mask and clearing the matching bits on screen.
 </div>
 </div>
 </td>
 </tr>
 <tr>
-<td class="address-2"><span id="8d80"></span>8D80</td>
-<td class="instruction">LD B,$45</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="8d82"></span>8D82</td>
-<td class="instruction">LD C,H</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="8d83"></span>8D83</td>
-<td class="instruction">SLA C</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="8d85"></span>8D85</td>
-<td class="instruction">RL B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="8d87"></span>8D87</td>
-<td class="instruction">LD H,$46</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="8d89"></span>8D89</td>
-<td class="instruction">SLA L</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="8d8b"></span>8D8B</td>
-<td class="instruction">RL H</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="8d8d"></span>8D8D</td>
-<td class="instruction">LD A,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="8d8e"></span>8D8E</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="8d8f"></span>8D8F</td>
-<td class="instruction">LD H,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="8d90"></span>8D90</td>
-<td class="instruction">LD L,A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="8d91"></span>8D91</td>
-<td class="instruction">LD A,(BC)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="8d92"></span>8D92</td>
-<td class="instruction">ADD A,L</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="8d93"></span>8D93</td>
-<td class="instruction">LD L,A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="8d94"></span>8D94</td>
-<td class="instruction">INC BC</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="8d95"></span>8D95</td>
-<td class="instruction">LD A,(BC)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="8d96"></span>8D96</td>
-<td class="instruction">OR (HL)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="8d97"></span>8D97</td>
-<td class="instruction">LD (HL),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="8d98"></span>8D98</td>
-<td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
+<td class="asm-label">PlotCharacterCell_Erase</td>
 <td class="address-1"><span id="8d99"></span>8D99</td>
 <td class="instruction">LD B,$45</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="4">Compute the column entry address in <a href="8A00.html">Column_Pixel_Lookup_Table</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8d9b"></span>8D9B</td>
 <td class="instruction">LD C,H</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8d9c"></span>8D9C</td>
 <td class="instruction">SLA C</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8d9e"></span>8D9E</td>
 <td class="instruction">RL B</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8da0"></span>8DA0</td>
 <td class="instruction">LD H,$46</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Compute the row entry address in <a href="8C00.html">Screen_Row_Address_Lookup_Table</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8da2"></span>8DA2</td>
 <td class="instruction">SLA L</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8da4"></span>8DA4</td>
 <td class="instruction">RL H</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8da6"></span>8DA6</td>
 <td class="instruction">LD A,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="4">Read the scan-line base address from <a href="8C00.html">Screen_Row_Address_Lookup_Table</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8da7"></span>8DA7</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8da8"></span>8DA8</td>
 <td class="instruction">LD H,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8da9"></span>8DA9</td>
 <td class="instruction">LD L,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8daa"></span>8DAA</td>
 <td class="instruction">LD A,(BC)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="4">Apply the column byte offset from <a href="8A00.html">Column_Pixel_Lookup_Table</a> to the scan-line address and advance to the pixel mask.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8dab"></span>8DAB</td>
 <td class="instruction">ADD A,L</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8dac"></span>8DAC</td>
 <td class="instruction">LD L,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8dad"></span>8DAD</td>
 <td class="instruction">INC BC</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8dae"></span>8DAE</td>
 <td class="instruction">LD A,(BC)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="4">Invert the column mask and clear the matching bits on screen.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8daf"></span>8DAF</td>
 <td class="instruction">CPL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8db0"></span>8DB0</td>
 <td class="instruction">AND (HL)</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8db1"></span>8DB1</td>
 <td class="instruction">LD (HL),A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8db2"></span>8DB2</td>
 <td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Return.</td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="8db3"></span>
+<div class="comments">
+<div class="paragraph">
+Alternate entry: toggle the pixel by flipping the matching bits using the column mask.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">PlotCharacterCell_Toggle</td>
 <td class="address-1"><span id="8db3"></span>8DB3</td>
 <td class="instruction">LD B,$45</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="4">Compute the column entry address in <a href="8A00.html">Column_Pixel_Lookup_Table</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8db5"></span>8DB5</td>
 <td class="instruction">LD C,H</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8db6"></span>8DB6</td>
 <td class="instruction">SLA C</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8db8"></span>8DB8</td>
 <td class="instruction">RL B</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8dba"></span>8DBA</td>
 <td class="instruction">LD H,$46</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Compute the row entry address in <a href="8C00.html">Screen_Row_Address_Lookup_Table</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8dbc"></span>8DBC</td>
 <td class="instruction">SLA L</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8dbe"></span>8DBE</td>
 <td class="instruction">RL H</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8dc0"></span>8DC0</td>
 <td class="instruction">LD A,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="4">Read the scan-line base address from <a href="8C00.html">Screen_Row_Address_Lookup_Table</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8dc1"></span>8DC1</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8dc2"></span>8DC2</td>
 <td class="instruction">LD H,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8dc3"></span>8DC3</td>
 <td class="instruction">LD L,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8dc4"></span>8DC4</td>
 <td class="instruction">LD A,(BC)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="4">Apply the column byte offset from <a href="8A00.html">Column_Pixel_Lookup_Table</a> to the scan-line address and advance to the pixel mask.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8dc5"></span>8DC5</td>
 <td class="instruction">ADD A,L</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8dc6"></span>8DC6</td>
 <td class="instruction">LD L,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8dc7"></span>8DC7</td>
 <td class="instruction">INC BC</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8dc8"></span>8DC8</td>
 <td class="instruction">LD A,(BC)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Toggle the matching bits on screen using the column mask.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8dc9"></span>8DC9</td>
 <td class="instruction">XOR (HL)</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8dca"></span>8DCA</td>
 <td class="instruction">LD (HL),A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="8dcb"></span>8DCB</td>
 <td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Return.</td>
 </tr>
 </table>
 <table class="asm-navigation">
 <tr>
 <td class="prev">
-Prev: <a href="8100.html">8100</a>
+Prev: <a href="8C00.html">8C00</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#8d80">Map</a></td>
 <td class="next">

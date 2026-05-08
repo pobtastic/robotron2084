@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at E2FD</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="E2C8.html">E2C8</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#e2fd">Map</a></td>
+<td class="next">
+Next: <a href="E31C.html">E31C</a>
+</td>
+</tr>
+</table>
+<div class="description">E2FD: Clamp Entity Velocity</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routines at <a href="E360.html">Process_Tracked_Enemy_Entity</a> and <a href="E7CF.html">Spawn_Tracked_Enemy_Entities</a>.
+</div>
+<div class="paragraph">
+Adds a 16-bit signed delta (<span class="register">DE</span>) to a velocity byte in <span class="register">H</span>, sign-extending <span class="register">H</span> to a full 16-bit value first, then clamps the result to the range FC00-03FF. Returns the clamped result in <span class="register">HL</span>. Called from <a href="E360.html">Process_Tracked_Enemy_Entity</a> and <a href="E6F7.html">Process_Player_Tracking_Enemy</a> when updating tracked enemy velocities.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Clamp_Entity_Velocity</td>
+<td class="address-2"><span id="e2fd"></span>E2FD</td>
+<td class="instruction">LD A,H</td>
+<td class="comment-1" rowspan="4">Sign-extend <span class="register">H</span> into a 16-bit value and add the delta in <span class="register">DE</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2fe"></span>E2FE</td>
+<td class="instruction">AND $80</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e300"></span>E300</td>
+<td class="instruction">LD H,$00</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e302"></span>E302</td>
+<td class="instruction">JP Z,<a href="E2FD.html#e307">Clamp_Entity_Velocity_0</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e305"></span>E305</td>
+<td class="instruction">LD H,$FF</td>
+<td class="comment-1" rowspan="3">Positive result: check bit 7 and jump if the result is negative.</td>
+</tr>
+<tr>
+<td class="asm-label">Clamp_Entity_Velocity_0</td>
+<td class="address-2"><span id="e307"></span>E307</td>
+<td class="instruction">ADD HL,DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e308"></span>E308</td>
+<td class="instruction">LD A,H</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e309"></span>E309</td>
+<td class="instruction">BIT 7,H</td>
+<td class="comment-1" rowspan="3">Positive ceiling: return if within range; clamp to 03FF otherwise.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e30b"></span>E30B</td>
+<td class="instruction">JP NZ,<a href="E2FD.html#e315">Clamp_Entity_Velocity_Negative</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e30e"></span>E30E</td>
+<td class="instruction">CP $04</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e310"></span>E310</td>
+<td class="instruction">RET C</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e311"></span>E311</td>
+<td class="instruction">LD HL,$03FF</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e314"></span>E314</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label">Clamp_Entity_Velocity_Negative</td>
+<td class="address-2"><span id="e315"></span>E315</td>
+<td class="instruction">CP $FC</td>
+<td class="comment-1" rowspan="4">Negative result: return if within range; clamp to FC00 otherwise.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e317"></span>E317</td>
+<td class="instruction">RET NC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e318"></span>E318</td>
+<td class="instruction">LD HL,$FC00</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e31b"></span>E31B</td>
+<td class="instruction">RET</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="E2C8.html">E2C8</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#e2fd">Map</a></td>
+<td class="next">
+Next: <a href="E31C.html">E31C</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/58109.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

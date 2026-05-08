@@ -29,7 +29,7 @@ Prev: <a href="C41D.html">C41D</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#c41e">Map</a></td>
 <td class="next">
-Next: <a href="C42E.html">C42E</a>
+Next: <a href="C423.html">C423</a>
 </td>
 </tr>
 </table>
@@ -39,7 +39,7 @@ Next: <a href="C42E.html">C42E</a>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Non-zero when both player slots take part in the current credit session; read by <a href="D367.html">PlayerDeath</a> after a lost life to decide whether to swap with <a href="D08B.html">SwapPlayerState</a> again or loop on the same player. Cleared when initialising state for a new game after the maximum wave.
+Non-zero when both player slots take part in the current credit session. After a lost life <a href="D367.html">PlayerDeath</a> uses it for <a href="D08B.html">Swap_Player_State</a> swap vs same-player loop. Cleared on init after the max wave.
 </div>
 </div>
 </td>
@@ -53,13 +53,19 @@ Non-zero when both player slots take part in the current credit session; read by
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c41f"></span>C41F</td>
-<td class="instruction">DEFB $01,$00,$00,$00,$00,$00,$00,$00</td>
+<td class="instruction">DEFB $01</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label">Colour_Bar_Column</td>
+<td class="address-1"><span id="c420"></span>C420</td>
+<td class="instruction">DEFB $00</td>
 <td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
 <td class="asm-label"></td>
-<td class="address-1"><span id="c427"></span>C427</td>
-<td class="instruction">DEFB $06,$00,$00,$00,$00,$00,$00</td>
+<td class="address-1"><span id="c421"></span>C421</td>
+<td class="instruction">DEFB $00,$00</td>
 <td class="comment-0" rowspan="1"></td>
 </tr>
 </table>
@@ -70,7 +76,7 @@ Prev: <a href="C41D.html">C41D</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#c41e">Map</a></td>
 <td class="next">
-Next: <a href="C42E.html">C42E</a>
+Next: <a href="C423.html">C423</a>
 </td>
 </tr>
 </table>

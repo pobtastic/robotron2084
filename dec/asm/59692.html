@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 59692</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="59521.html">59521</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#59692">Map</a></td>
+<td class="next">
+Next: <a href="59764.html">59764</a>
+</td>
+</tr>
+</table>
+<div class="description">59692: Spawn Wall Bouncing Enemies</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="53836.html">Stage_Next_Wave</a>.
+</div>
+<div class="paragraph">
+Called from <a href="53836.html">Stage_Next_Wave</a>. Reads the wall-bouncing enemy spawn count from *<span class="register">HL</span> and stores it at <a href="50223.html">Bouncing_Enemy_Count</a>. Returns immediately if the count is zero. Otherwise adds the count to the wave enemy total at <a href="50204.html">Active_Enemy_Count</a> and spawns <span class="register">B</span> bouncers, writing each entity record (handler <a href="59521.html">Process_Wall_Bouncing_Enemy</a>, entity type 4 random screen position via <a href="58056.html">Pick_Random_Spawn_Position_Y</a>, and state bytes 15 and 10) into the entity list at *<a href="50441.html">Entity_List_Write_Pointer</a>. Closes the list with <a href="53488.html#53668">Entity_List_Reset</a> and restores the wave data pointer.
+</div>
+</div>
+<table class="input">
+<tr class="asm-input-header">
+<th colspan="2">Input</th>
+</tr>
+<tr>
+<td class="register">HL</td>
+<td class="register-desc">Wave data pointer</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Spawn_Wall_Bouncing_Enemies</td>
+<td class="address-2"><span id="59692"></span>59692</td>
+<td class="instruction">LD A,(HL)</td>
+<td class="comment-1" rowspan="2">Read the spawn count from the wave data and store it at <a href="50223.html">Bouncing_Enemy_Count</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59693"></span>59693</td>
+<td class="instruction">LD (50223),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59696"></span>59696</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Advance past the spawn count byte.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59697"></span>59697</td>
+<td class="instruction">AND A</td>
+<td class="comment-1" rowspan="2">Return if no bouncers need spawning.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59698"></span>59698</td>
+<td class="instruction">RET Z</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="59699"></span>
+<div class="comments">
+<div class="paragraph">
+Update the wave enemy total and load the entity list write pointer.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59699"></span>59699</td>
+<td class="instruction">LD B,A</td>
+<td class="comment-1" rowspan="4">Add the spawn count to the wave enemy total at <a href="50204.html">Active_Enemy_Count</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59700"></span>59700</td>
+<td class="instruction">LD A,(50204)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59703"></span>59703</td>
+<td class="instruction">ADD A,B</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59704"></span>59704</td>
+<td class="instruction">LD (50204),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59707"></span>59707</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="1">Stash the wave data pointer on the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59708"></span>59708</td>
+<td class="instruction">LD HL,(50441)</td>
+<td class="comment-1" rowspan="1">Load the entity list write pointer from <a href="50441.html">Entity_List_Write_Pointer</a>.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="59711"></span>
+<div class="comments">
+<div class="paragraph">
+Write the entity record and spawn the bouncer at a random position.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Spawn_Wall_Bouncing_Enemies_Record</td>
+<td class="address-2"><span id="59711"></span>59711</td>
+<td class="instruction">LD DE,59521</td>
+<td class="comment-1" rowspan="4">Write the entity handler address <a href="59521.html">Process_Wall_Bouncing_Enemy</a> into the first two bytes.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59714"></span>59714</td>
+<td class="instruction">LD (HL),E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59715"></span>59715</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59716"></span>59716</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59717"></span>59717</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="5">Write entity type 4 and initial state byte 38 to the record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59718"></span>59718</td>
+<td class="instruction">LD (HL),4</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59720"></span>59720</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59721"></span>59721</td>
+<td class="instruction">LD (HL),38</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59723"></span>59723</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59724"></span>59724</td>
+<td class="instruction">PUSH BC</td>
+<td class="comment-1" rowspan="1">Stash the spawn loop counter on the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59725"></span>59725</td>
+<td class="instruction">CALL <a href="58056.html">Pick_Random_Spawn_Position_Y</a></td>
+<td class="comment-1" rowspan="1">Generate a random spawn position via <a href="58056.html">Pick_Random_Spawn_Position_Y</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59728"></span>59728</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="1">Step back to the Y position field.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59729"></span>59729</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="1">Stash <span class="register">HL</span> on the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59730"></span>59730</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="6">Step back three bytes and set spawn colour INK:
+BLUE,
+PAPER:
+BLACK
+(BRIGHT)
+ in <span class="register">B'</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59731"></span>59731</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59732"></span>59732</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59733"></span>59733</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59734"></span>59734</td>
+<td class="instruction">LD B,65</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59736"></span>59736</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59737"></span>59737</td>
+<td class="instruction">CALL <a href="51536.html">Draw_Wide_Entity_Sprite</a></td>
+<td class="comment-1" rowspan="1">Spawn the bouncer in the generated position via <a href="51536.html">Draw_Wide_Entity_Sprite</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59740"></span>59740</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="1">Restore the position pointer from the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59741"></span>59741</td>
+<td class="instruction">LD (HL),15</td>
+<td class="comment-1" rowspan="2">Write the active state byte 15 and advance.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59743"></span>59743</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59744"></span>59744</td>
+<td class="instruction">LD (HL),10</td>
+<td class="comment-1" rowspan="2">Write the bounce counter 10 and advance.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59746"></span>59746</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59747"></span>59747</td>
+<td class="instruction">LD (HL),255</td>
+<td class="comment-1" rowspan="2">Write the end-of-record marker 255 and advance.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59749"></span>59749</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59750"></span>59750</td>
+<td class="instruction">POP BC</td>
+<td class="comment-1" rowspan="1">Restore the spawn loop counter from the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59751"></span>59751</td>
+<td class="instruction">DJNZ <a href="59692.html#59711">Spawn_Wall_Bouncing_Enemies_Record</a></td>
+<td class="comment-1" rowspan="1">Loop back to <a href="59692.html#59711">Spawn_Wall_Bouncing_Enemies_Record</a> until all bouncers are spawned.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="59753"></span>
+<div class="comments">
+<div class="paragraph">
+Save the entity list pointer and write the list terminator.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59753"></span>59753</td>
+<td class="instruction">LD (50441),HL</td>
+<td class="comment-1" rowspan="1">Save the updated entity list write pointer to <a href="50441.html">Entity_List_Write_Pointer</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59756"></span>59756</td>
+<td class="instruction">LD DE,53668</td>
+<td class="comment-1" rowspan="4">Write the list terminator address <a href="53488.html#53668">Entity_List_Reset</a> to *<span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59759"></span>59759</td>
+<td class="instruction">LD (HL),E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59760"></span>59760</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59761"></span>59761</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59762"></span>59762</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="1">Restore the wave data pointer from the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59763"></span>59763</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="59521.html">59521</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#59692">Map</a></td>
+<td class="next">
+Next: <a href="59764.html">59764</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/E92C.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

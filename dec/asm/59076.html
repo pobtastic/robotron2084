@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 59076</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="59060.html">59060</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#59076">Map</a></td>
+<td class="next">
+Next: <a href="59127.html">59127</a>
+</td>
+</tr>
+</table>
+<div class="description">59076: Apply Entity Velocity</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="58656.html">Process_Cluster_Entity</a>.
+</div>
+<div class="paragraph">
+Applies a pre-computed velocity nudge (<span class="register">BC</span>) to the Y and X position bytes of the entity record, clamping each to the play area bounds, and redraws the entity via <a href="51286.html">Draw_Narrow_Entity_Sprite</a>. Called as the contact handler from <a href="58656.html">Process_Cluster_Entity</a> when a cluster entity reaches the player.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Apply_Entity_Velocity</td>
+<td class="address-2"><span id="59076"></span>59076</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="9">Switch to alternate registers, save the entity position pointer, and load the Y and X position bytes.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59077"></span>59077</td>
+<td class="instruction">LD D,H</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59078"></span>59078</td>
+<td class="instruction">LD E,L</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59079"></span>59079</td>
+<td class="instruction">INC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59080"></span>59080</td>
+<td class="instruction">INC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59081"></span>59081</td>
+<td class="instruction">INC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59082"></span>59082</td>
+<td class="instruction">INC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59083"></span>59083</td>
+<td class="instruction">LD A,(DE)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59084"></span>59084</td>
+<td class="instruction">ADD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59085"></span>59085</td>
+<td class="instruction">CP 16</td>
+<td class="comment-1" rowspan="5">Test and apply the Y nudge; clamp Y to 16-179 and write back.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59087"></span>59087</td>
+<td class="instruction">JP C,<a href="59076.html#59096">Apply_Entity_Velocity_X</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59090"></span>59090</td>
+<td class="instruction">CP 179</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59092"></span>59092</td>
+<td class="instruction">JP NC,<a href="59076.html#59096">Apply_Entity_Velocity_X</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59095"></span>59095</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label">Apply_Entity_Velocity_X</td>
+<td class="address-2"><span id="59096"></span>59096</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="9">Test and apply the X nudge; clamp X to 8-243 and write back.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59097"></span>59097</td>
+<td class="instruction">INC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59098"></span>59098</td>
+<td class="instruction">LD A,(DE)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59099"></span>59099</td>
+<td class="instruction">ADD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59100"></span>59100</td>
+<td class="instruction">CP 8</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59102"></span>59102</td>
+<td class="instruction">JP C,<a href="59076.html#59111">Apply_Entity_Velocity_Draw</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59105"></span>59105</td>
+<td class="instruction">CP 243</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59107"></span>59107</td>
+<td class="instruction">JP NC,<a href="59076.html#59111">Apply_Entity_Velocity_Draw</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59110"></span>59110</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label">Apply_Entity_Velocity_Draw</td>
+<td class="address-2"><span id="59111"></span>59111</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="6">Step back two bytes, set colour INK:
+WHITE,
+PAPER:
+BLACK
+(BRIGHT)
+ in <span class="register">B'</span>, and draw the entity via <a href="51286.html">Draw_Narrow_Entity_Sprite</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59112"></span>59112</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59113"></span>59113</td>
+<td class="instruction">PUSH DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59114"></span>59114</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59115"></span>59115</td>
+<td class="instruction">LD B,71</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59117"></span>59117</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59118"></span>59118</td>
+<td class="instruction">CALL <a href="51286.html">Draw_Narrow_Entity_Sprite</a></td>
+<td class="comment-1" rowspan="6">Restore <span class="register">DE</span>, copy to <span class="register">HL</span>, advance two bytes, and return.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59121"></span>59121</td>
+<td class="instruction">POP DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59122"></span>59122</td>
+<td class="instruction">LD H,D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59123"></span>59123</td>
+<td class="instruction">LD L,E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59124"></span>59124</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59125"></span>59125</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59126"></span>59126</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="59060.html">59060</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#59076">Map</a></td>
+<td class="next">
+Next: <a href="59127.html">59127</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/E6C4.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

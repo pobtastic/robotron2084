@@ -33,71 +33,101 @@ Next: <a href="60688.html">60688</a>
 </td>
 </tr>
 </table>
-<div class="description">60667: Routine at ECFB</div>
+<div class="description">60667: Check S Key During Display</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="60360.html">60360</a> and <a href="62700.html">62700</a>.
+Used by the routines at <a href="60360.html">Display_High_Score_Entry_Screen</a> and <a href="62700.html">Attract_Mode_Loop</a>.
+</div>
+<div class="paragraph">
+Reads keyboard row 253 (A-S-D-F-G) during the high score display loops. Forces the upper three bits high and checks for the S key alone. If S is the only key held, discards the caller's return address and jumps to the tape load continuation handler at <a href="54264.html">PlayerDeath_TapeLoadContinue</a> with the header parameters from <a href="50429.html">50429</a> and <a href="50430.html">50430</a>. Returns normally if no matching key is detected.
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Check_S_Key_During_Display</td>
 <td class="address-2"><span id="60667"></span>60667</td>
 <td class="instruction">LD A,253</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Read from the keyboard; <table class="default">
+<tr>
+<th colspan="1" rowspan="2">Port Number</th>
+<th colspan="5" rowspan="1">Bit</th>
 </tr>
 <tr>
+<th colspan="1" rowspan="1">0</th>
+<th colspan="1" rowspan="1">1</th>
+<th colspan="1" rowspan="1">2</th>
+<th colspan="1" rowspan="1">3</th>
+<th colspan="1" rowspan="1">4</th>
+</tr>
+<tr>
+<td class="centre" colspan="1" rowspan="1">253</td>
+<td class="centre" colspan="1" rowspan="1">A</td>
+<td class="centre" colspan="1" rowspan="1">S</td>
+<td class="centre" colspan="1" rowspan="1">D</td>
+<td class="centre" colspan="1" rowspan="1">F</td>
+<td class="centre" colspan="1" rowspan="1">G</td>
+</tr>
+</table></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60669"></span>60669</td>
 <td class="instruction">IN A,(254)</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60671"></span>60671</td>
-<td class="instruction">OR 224</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">OR %11100000</td>
+<td class="comment-1" rowspan="1">Force bits 5-7 high.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60673"></span>60673</td>
 <td class="instruction">CP 253</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Return if the S key is not the only key pressed.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60675"></span>60675</td>
 <td class="instruction">RET NZ</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60676"></span>60676</td>
 <td class="instruction">POP HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Discard the caller's return address from the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60677"></span>60677</td>
 <td class="instruction">LD A,(50429)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Load the tape header byte from <a href="50429.html">50429</a> into <span class="register">B</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60680"></span>60680</td>
 <td class="instruction">LD B,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60681"></span>60681</td>
 <td class="instruction">LD A,(50430)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Load the tape header byte from <a href="50430.html">50430</a> into <span class="register">E</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60684"></span>60684</td>
 <td class="instruction">LD E,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60685"></span>60685</td>
 <td class="instruction">JP <a href="54264.html">PlayerDeath_TapeLoadContinue</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Jump to the tape load continuation at <a href="54264.html">PlayerDeath_TapeLoadContinue</a>.</td>
 </tr>
 </table>
 <table class="asm-navigation">

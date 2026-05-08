@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at DA2A</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="D9EA.html">D9EA</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#da2a">Map</a></td>
+<td class="next">
+Next: <a href="DA97.html">DA97</a>
+</td>
+</tr>
+</table>
+<div class="description">DA2A: Cycle Border from Screen</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Drives the per-frame border colour cycling effect. Reads successive pixel bytes from the screen buffer pointer at C523 ANDs each byte with 18 to extract the paper colour bits, and writes the result to the border port FE. Between each byte a variable delay is run, its period advanced by the step value at C52B. After the outer loop the frame counter at C527 is decremented; when it reaches the threshold at C52D <a href="C52F.html">Entity_State_Flag</a> is set to 01 (step complete). When the frame counter reaches zero, <a href="C52F.html">Entity_State_Flag</a> is set to 02 (all complete). The alternate entry at <a href="DA2A.html#da6b">Cycle_Border_Toggle_Loop</a> drives the same counter machinery without sampling screen data, instead XOR-toggling the border between two colours.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Cycle_Border_From_Screen</td>
+<td class="address-2"><span id="da2a"></span>DA2A</td>
+<td class="instruction">LD HL,($C523)</td>
+<td class="comment-1" rowspan="2">Load the screen data pointer from C523 and the outer loop count from C529 into <span class="register">B</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da2d"></span>DA2D</td>
+<td class="instruction">LD A,($C529)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da30"></span>DA30</td>
+<td class="instruction">LD B,A</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label">Cycle_Border_Loop</td>
+<td class="address-2"><span id="da31"></span>DA31</td>
+<td class="instruction">LD A,$18</td>
+<td class="comment-1" rowspan="2">Read the next pixel byte, mask to paper bits with 18 and write to the border port FE.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da33"></span>DA33</td>
+<td class="instruction">AND (HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da34"></span>DA34</td>
+<td class="instruction">OUT ($FE),A</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da36"></span>DA36</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Advance the screen data pointer.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da37"></span>DA37</td>
+<td class="instruction">LD A,($C525)</td>
+<td class="comment-1" rowspan="2">Load the current delay count from C525 into <span class="register">C</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da3a"></span>DA3A</td>
+<td class="instruction">LD C,A</td>
+</tr>
+<tr>
+<td class="asm-label">Cycle_Border_Delay</td>
+<td class="address-2"><span id="da3b"></span>DA3B</td>
+<td class="instruction">DEC C</td>
+<td class="comment-1" rowspan="2">Busy-wait for the delay period.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da3c"></span>DA3C</td>
+<td class="instruction">JR NZ,<a href="DA2A.html#da3b">Cycle_Border_Delay</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da3e"></span>DA3E</td>
+<td class="instruction">LD C,A</td>
+<td class="comment-1" rowspan="4">Reload <span class="register">C</span>, add the step increment from C52B and store the updated delay back to C525.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da3f"></span>DA3F</td>
+<td class="instruction">LD A,($C52B)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da42"></span>DA42</td>
+<td class="instruction">ADD A,C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da43"></span>DA43</td>
+<td class="instruction">LD ($C525),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da46"></span>DA46</td>
+<td class="instruction">DJNZ <a href="DA2A.html#da31">Cycle_Border_Loop</a></td>
+<td class="comment-1" rowspan="1">Loop back to <a href="DA2A.html#da31">Cycle_Border_Loop</a> for the next pixel byte.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da48"></span>DA48</td>
+<td class="instruction">LD ($C523),HL</td>
+<td class="comment-1" rowspan="1">Save the updated screen data pointer back to C523.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da4b"></span>DA4B</td>
+<td class="instruction">LD A,($C527)</td>
+<td class="comment-1" rowspan="3">Decrement the frame counter at C527 and jump to <a href="DA2A.html#da60">Cycle_Border_Complete</a> if it has reached zero.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da4e"></span>DA4E</td>
+<td class="instruction">DEC A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da4f"></span>DA4F</td>
+<td class="instruction">JR Z,<a href="DA2A.html#da60">Cycle_Border_Complete</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da51"></span>DA51</td>
+<td class="instruction">LD ($C527),A</td>
+<td class="comment-1" rowspan="5">Save the decremented frame counter; return if it has not yet reached the completion threshold at C52D.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da54"></span>DA54</td>
+<td class="instruction">LD B,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da55"></span>DA55</td>
+<td class="instruction">LD A,($C52D)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da58"></span>DA58</td>
+<td class="instruction">CP B</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da59"></span>DA59</td>
+<td class="instruction">RET NZ</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da5a"></span>DA5A</td>
+<td class="instruction">LD A,$01</td>
+<td class="comment-1" rowspan="3">Set <a href="C52F.html">Entity_State_Flag</a> to 01 (step complete) and return.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da5c"></span>DA5C</td>
+<td class="instruction">LD ($C52F),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da5f"></span>DA5F</td>
+<td class="instruction">RET</td>
+</tr>
+<tr>
+<td class="asm-label">Cycle_Border_Complete</td>
+<td class="address-2"><span id="da60"></span>DA60</td>
+<td class="instruction">LD A,$02</td>
+<td class="comment-1" rowspan="3">Set <a href="C52F.html">Entity_State_Flag</a> to 02 (all complete) and return.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da62"></span>DA62</td>
+<td class="instruction">LD ($C52F),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da65"></span>DA65</td>
+<td class="instruction">RET</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="da66"></span>
+<div class="comments">
+<div class="paragraph">
+Alternate entry: toggle the border colour on each pass without reading screen data.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Cycle_Border_Toggle</td>
+<td class="address-1"><span id="da66"></span>DA66</td>
+<td class="instruction">LD A,($C529)</td>
+<td class="comment-1" rowspan="3">Load the outer loop count from C529 into <span class="register">B</span> and clear <span class="register">A</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da69"></span>DA69</td>
+<td class="instruction">LD B,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da6a"></span>DA6A</td>
+<td class="instruction">XOR A</td>
+</tr>
+<tr>
+<td class="asm-label">Cycle_Border_Toggle_Loop</td>
+<td class="address-2"><span id="da6b"></span>DA6B</td>
+<td class="instruction">XOR %00011000</td>
+<td class="comment-1" rowspan="1">XOR the border value with 18 to toggle between two colours.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da6d"></span>DA6D</td>
+<td class="instruction">OUT ($FE),A</td>
+<td class="comment-1" rowspan="2">Write the toggled value to the border port FE and stash it in <span class="register">D</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da6f"></span>DA6F</td>
+<td class="instruction">LD D,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da70"></span>DA70</td>
+<td class="instruction">LD A,($C525)</td>
+<td class="comment-1" rowspan="2">Load the delay count from C525 into <span class="register">C</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da73"></span>DA73</td>
+<td class="instruction">LD C,A</td>
+</tr>
+<tr>
+<td class="asm-label">Cycle_Border_Toggle_Delay</td>
+<td class="address-2"><span id="da74"></span>DA74</td>
+<td class="instruction">DEC C</td>
+<td class="comment-1" rowspan="2">Busy-wait for the delay period.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da75"></span>DA75</td>
+<td class="instruction">JR NZ,<a href="DA2A.html#da74">Cycle_Border_Toggle_Delay</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da77"></span>DA77</td>
+<td class="instruction">LD C,A</td>
+<td class="comment-1" rowspan="4">Reload <span class="register">C</span>, add the step increment from C52B and store the updated delay back to C525.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da78"></span>DA78</td>
+<td class="instruction">LD A,($C52B)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da7b"></span>DA7B</td>
+<td class="instruction">ADD A,C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da7c"></span>DA7C</td>
+<td class="instruction">LD ($C525),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da7f"></span>DA7F</td>
+<td class="instruction">LD A,D</td>
+<td class="comment-1" rowspan="2">Reload the toggled border value from <span class="register">D</span> and loop back to <a href="DA2A.html#da6b">Cycle_Border_Toggle_Loop</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da80"></span>DA80</td>
+<td class="instruction">DJNZ <a href="DA2A.html#da6b">Cycle_Border_Toggle_Loop</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da82"></span>DA82</td>
+<td class="instruction">LD A,($C527)</td>
+<td class="comment-1" rowspan="3">Decrement the frame counter at C527 and jump to <a href="DA2A.html#da60">Cycle_Border_Complete</a> if it has reached zero.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da85"></span>DA85</td>
+<td class="instruction">DEC A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da86"></span>DA86</td>
+<td class="instruction">JR Z,<a href="DA2A.html#da60">Cycle_Border_Complete</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da88"></span>DA88</td>
+<td class="instruction">LD ($C527),A</td>
+<td class="comment-1" rowspan="5">Save the decremented frame counter; return if it has not yet reached the completion threshold at C52D.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da8b"></span>DA8B</td>
+<td class="instruction">LD B,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da8c"></span>DA8C</td>
+<td class="instruction">LD A,($C52D)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da8f"></span>DA8F</td>
+<td class="instruction">CP B</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da90"></span>DA90</td>
+<td class="instruction">RET NZ</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da91"></span>DA91</td>
+<td class="instruction">LD A,$01</td>
+<td class="comment-1" rowspan="3">Set <a href="C52F.html">Entity_State_Flag</a> to 01 (step complete) and return.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da93"></span>DA93</td>
+<td class="instruction">LD ($C52F),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="da96"></span>DA96</td>
+<td class="instruction">RET</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="D9EA.html">D9EA</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#da2a">Map</a></td>
+<td class="next">
+Next: <a href="DA97.html">DA97</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/55850.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

@@ -33,491 +33,601 @@ Next: <a href="60580.html">60580</a>
 </td>
 </tr>
 </table>
-<div class="description">60360: Routine at EBC8</div>
+<div class="description">60360: Display High Score Entry Screen</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="60785.html">60785</a> and <a href="62700.html">62700</a>.
+Used by the routines at <a href="60785.html">Check_Any_Key_During_Display</a> and <a href="62700.html">Attract_Mode_Loop</a>.
+</div>
+<div class="paragraph">
+Initialises the high score entry screen: clears the display, prints the option header from <a href="61030.html">Messaging_SelectOptions</a>, and renders the current score entries with their cursor markers. Runs a 75-frame input loop allowing keyboard and joystick adjustment of the three score entry fields via <a href="60842.html">Adjust_Score_Field_Cursor</a> and <a href="60893.html">Adjust_Name_Entry_Cursor</a>. After name entry, redraws the final score table and cycles the display for 50 frames before jumping to the attract mode at <a href="62700.html">Attract_Mode_Loop</a>.
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Display_High_Score_Entry_Screen</td>
 <td class="address-2"><span id="60360"></span>60360</td>
 <td class="instruction">XOR A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Clear the display with attribute 
+
+
+BLACK via <a href="60580.html">Initialise_Display_And_Border</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60361"></span>60361</td>
-<td class="instruction">CALL <a href="60580.html">60580</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="60580.html">Initialise_Display_And_Border</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60364"></span>60364</td>
-<td class="instruction">CALL <a href="61597.html">61597</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="61597.html">Draw_Colour_Border</a></td>
+<td class="comment-1" rowspan="1">Initialise the scrolling display via <a href="61597.html">Draw_Colour_Border</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60367"></span>60367</td>
-<td class="instruction">CALL <a href="61678.html">61678</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="61678.html">Cycle_Border_Colour</a></td>
+<td class="comment-1" rowspan="1">Advance the colour cycle via <a href="61678.html">Cycle_Border_Colour</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60370"></span>60370</td>
 <td class="instruction">LD HL,61030</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Call <a href="36870.html">PrintMessaging</a> using <a href="61030.html">Messaging_SelectOptions</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60373"></span>60373</td>
 <td class="instruction">CALL <a href="36870.html">PrintMessaging</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60376"></span>60376</td>
 <td class="instruction">LD A,6</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Write 6 to *<a href="50432.html">50432</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60378"></span>60378</td>
 <td class="instruction">LD (50432),A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60381"></span>60381</td>
 <td class="instruction">LD A,70</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Write 70 to *<a href="50433.html">50433</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60383"></span>60383</td>
 <td class="instruction">LD (50433),A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60386"></span>60386</td>
 <td class="instruction">LD A,4</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Write 4 to *<a href="50434.html">50434</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60388"></span>60388</td>
 <td class="instruction">LD (50434),A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60391"></span>60391</td>
 <td class="instruction">LD A,(50429)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Load the first score entry cursor from <a href="50429.html">50429</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60394"></span>60394</td>
 <td class="instruction">LD B,25</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Set the column position to 25.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60396"></span>60396</td>
-<td class="instruction">CALL <a href="60580.html#60618">60618</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="60580.html#60618">Render_Score_Character</a></td>
+<td class="comment-1" rowspan="1">Render the first score entry character via <a href="60580.html#60618">Render_Score_Character</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60399"></span>60399</td>
 <td class="instruction">LD A,(50430)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Load the second score entry cursor from <a href="50430.html">50430</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60402"></span>60402</td>
-<td class="instruction">CALL <a href="60580.html#60629">60629</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="60580.html#60629">Highlight_Score_Entry_Cell</a></td>
+<td class="comment-1" rowspan="1">Highlight the second score entry character via <a href="60580.html#60629">Highlight_Score_Entry_Cell</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60405"></span>60405</td>
 <td class="instruction">LD A,(50431)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Load the third score entry cursor from <a href="50431.html">50431</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60408"></span>60408</td>
 <td class="instruction">LD B,73</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Set the column position to 73.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60410"></span>60410</td>
-<td class="instruction">CALL <a href="60580.html#60618">60618</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="60580.html#60618">Render_Score_Character</a></td>
+<td class="comment-1" rowspan="1">Render the third score entry character via <a href="60580.html#60618">Render_Score_Character</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60413"></span>60413</td>
 <td class="instruction">XOR A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Clear <span class="register">A</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60414"></span>60414</td>
 <td class="instruction">LD B,153</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Set the column position to 153.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60416"></span>60416</td>
-<td class="instruction">CALL <a href="60580.html#60618">60618</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="60580.html#60618">Render_Score_Character</a></td>
+<td class="comment-1" rowspan="1">Clear the bottom score entry position via <a href="60580.html#60618">Render_Score_Character</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60419"></span>60419</td>
 <td class="instruction">EXX</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Switch to the alternate registers.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60420"></span>60420</td>
 <td class="instruction">LD B,75</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Set the name entry frame counter to 75 in <span class="register">B'</span>.</td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="60422"></span>
+<div class="comments">
+<div class="paragraph">
+Per-frame name entry loop: services controls and handles character selection for all three score entry fields each frame.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">High_Score_Entry_Loop</td>
 <td class="address-2"><span id="60422"></span>60422</td>
 <td class="instruction">EXX</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Switch back to the main registers for this frame.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60423"></span>60423</td>
 <td class="instruction">LD C,100</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Set the frame delay count to 100.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60425"></span>60425</td>
-<td class="instruction">CALL <a href="60638.html">60638</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="60638.html">Display_Loop_Delay</a></td>
+<td class="comment-1" rowspan="1">Run the per-frame timing delay via <a href="60638.html">Display_Loop_Delay</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60428"></span>60428</td>
 <td class="instruction">CALL <a href="60646.html">CheckBreakKey</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Check for the BREAK key combination via <a href="60646.html">CheckBreakKey</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60431"></span>60431</td>
-<td class="instruction">CALL <a href="60667.html">60667</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="60667.html">Check_S_Key_During_Display</a></td>
+<td class="comment-1" rowspan="1">Check for the S key via <a href="60667.html">Check_S_Key_During_Display</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60434"></span>60434</td>
-<td class="instruction">CALL <a href="60688.html">60688</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="60688.html">Save_Or_Load_High_Scores</a></td>
+<td class="comment-1" rowspan="1">Check for tape save/load keys (J/L) via <a href="60688.html">Save_Or_Load_High_Scores</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60437"></span>60437</td>
-<td class="instruction">CALL <a href="60796.html">60796</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="60796.html">Scan_And_Cycle_Screen_Attributes</a></td>
+<td class="comment-1" rowspan="1">Read the joystick input via <a href="60796.html">Scan_And_Cycle_Screen_Attributes</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60440"></span>60440</td>
 <td class="instruction">LD DE,50432</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Point <span class="register">DE</span> to the score entry columns at <a href="50432.html">50432</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60443"></span>60443</td>
 <td class="instruction">LD IX,50435</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Point <span class="register">IX</span> to the score entry parameters at <a href="50435.html">50435</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60447"></span>60447</td>
-<td class="instruction">CALL <a href="60796.html#60819">60819</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="60819.html">Scan_Score_Display_Attributes</a></td>
+<td class="comment-1" rowspan="1">Update the score display via <a href="60819.html">Scan_Score_Display_Attributes</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60450"></span>60450</td>
-<td class="instruction">CALL <a href="61678.html">61678</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="61678.html">Cycle_Border_Colour</a></td>
+<td class="comment-1" rowspan="1">Advance the colour cycle via <a href="61678.html">Cycle_Border_Colour</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60453"></span>60453</td>
 <td class="instruction">CALL 654</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Call <a href="https://skoolkit.ca/disassemblies/rom/hex/asm/028E.html">KEY_SCAN</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60456"></span>60456</td>
-<td class="instruction">JR NZ,<a href="60360.html#60529">60529</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR NZ,<a href="60360.html#60529">High_Score_Entry_Loop_End</a></td>
+<td class="comment-1" rowspan="1">Skip character field handling if no player input is registered.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60458"></span>60458</td>
 <td class="instruction">INC E</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Advance the character selection index.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60459"></span>60459</td>
-<td class="instruction">JR Z,<a href="60360.html#60529">60529</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR Z,<a href="60360.html#60529">High_Score_Entry_Loop_End</a></td>
+<td class="comment-1" rowspan="1">Skip to <a href="60360.html#60529">High_Score_Entry_Loop_End</a> if the selection index has overflowed.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60461"></span>60461</td>
 <td class="instruction">DEC E</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Step the selection index back by one.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60462"></span>60462</td>
 <td class="instruction">LD B,2</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Set the field count to 2.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60464"></span>60464</td>
 <td class="instruction">LD A,(50432)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Load the first cursor column from <a href="50432.html">50432</a> into <span class="register">C</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60467"></span>60467</td>
 <td class="instruction">LD C,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60468"></span>60468</td>
 <td class="instruction">LD A,(50429)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Load the first cursor position from <a href="50429.html">50429</a> into <span class="register">D</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60471"></span>60471</td>
 <td class="instruction">LD D,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60472"></span>60472</td>
 <td class="instruction">LD IX,60968</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Point <span class="register">IX</span> to the first character table at <a href="60968.html">60968</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60476"></span>60476</td>
-<td class="instruction">CALL <a href="60796.html#60842">60842</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="60842.html">Adjust_Score_Field_Cursor</a></td>
+<td class="comment-1" rowspan="1">Adjust the first score entry field via <a href="60842.html">Adjust_Score_Field_Cursor</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60479"></span>60479</td>
 <td class="instruction">LD A,D</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Write the updated first cursor position back to <a href="50429.html">50429</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60480"></span>60480</td>
 <td class="instruction">LD (50429),A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60483"></span>60483</td>
-<td class="instruction">JR Z,<a href="60360.html#60529">60529</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR Z,<a href="60360.html#60529">High_Score_Entry_Loop_End</a></td>
+<td class="comment-1" rowspan="1">Skip to <a href="60360.html#60529">High_Score_Entry_Loop_End</a> if only the first field was updated.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60485"></span>60485</td>
 <td class="instruction">LD B,9</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Set the field count to 9.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60487"></span>60487</td>
 <td class="instruction">LD A,(50433)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Load the second cursor column from <a href="50433.html">50433</a> into <span class="register">C</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60490"></span>60490</td>
 <td class="instruction">LD C,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60491"></span>60491</td>
 <td class="instruction">LD A,(50430)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Load the second cursor position from <a href="50430.html">50430</a> into <span class="register">D</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60494"></span>60494</td>
 <td class="instruction">LD D,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60495"></span>60495</td>
 <td class="instruction">LD IX,60974</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Point <span class="register">IX</span> to the second character table at <a href="60974.html">60974</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60499"></span>60499</td>
-<td class="instruction">CALL <a href="60796.html#60893">60893</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="60893.html">Adjust_Name_Entry_Cursor</a></td>
+<td class="comment-1" rowspan="1">Adjust the second score entry field via <a href="60893.html">Adjust_Name_Entry_Cursor</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60502"></span>60502</td>
 <td class="instruction">LD A,D</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Write the updated second cursor position back to <a href="50430.html">50430</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60503"></span>60503</td>
 <td class="instruction">LD (50430),A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60506"></span>60506</td>
-<td class="instruction">JR Z,<a href="60360.html#60529">60529</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR Z,<a href="60360.html#60529">High_Score_Entry_Loop_End</a></td>
+<td class="comment-1" rowspan="1">Skip to <a href="60360.html#60529">High_Score_Entry_Loop_End</a> if only the second field was updated.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60508"></span>60508</td>
 <td class="instruction">LD B,6</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Set the field count to 6.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60510"></span>60510</td>
 <td class="instruction">LD A,(50434)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Load the third cursor column from <a href="50434.html">50434</a> into <span class="register">C</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60513"></span>60513</td>
 <td class="instruction">LD C,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60514"></span>60514</td>
 <td class="instruction">LD A,(50431)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Load the third cursor position from <a href="50431.html">50431</a> into <span class="register">D</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60517"></span>60517</td>
 <td class="instruction">LD D,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60518"></span>60518</td>
 <td class="instruction">LD IX,61001</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Point <span class="register">IX</span> to the third character table at <a href="61001.html">Score_Entry_Field_Three_Table</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60522"></span>60522</td>
-<td class="instruction">CALL <a href="60796.html#60842">60842</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="60842.html">Adjust_Score_Field_Cursor</a></td>
+<td class="comment-1" rowspan="1">Adjust the third score entry field via <a href="60842.html">Adjust_Score_Field_Cursor</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60525"></span>60525</td>
 <td class="instruction">LD A,D</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Write the updated third cursor position back to <a href="50431.html">50431</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60526"></span>60526</td>
 <td class="instruction">LD (50431),A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label">High_Score_Entry_Loop_End</td>
 <td class="address-2"><span id="60529"></span>60529</td>
 <td class="instruction">EXX</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Switch to the alternate registers.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60530"></span>60530</td>
-<td class="instruction">DJNZ <a href="60360.html#60422">60422</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">DJNZ <a href="60360.html#60422">High_Score_Entry_Loop</a></td>
+<td class="comment-1" rowspan="1">Decrement the frame counter and loop back to <a href="60360.html#60422">High_Score_Entry_Loop</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60532"></span>60532</td>
 <td class="instruction">EXX</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Switch back to the main registers.</td>
 </tr>
 <tr>
 <td class="routine-comment" colspan="5">
 <span id="60533"></span>
 <div class="comments">
 <div class="paragraph">
-This entry point is used by the routine at <a href="60688.html">60688</a>.
+This entry point is used by the routine at <a href="60688.html">Save_Or_Load_High_Scores</a>.
+</div>
+<div class="paragraph">
+Name entry complete: clear the display and redraw the final score table before the display cycling phase.
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">High_Score_Display</td>
 <td class="address-2"><span id="60533"></span>60533</td>
 <td class="instruction">XOR A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Clear the display with attribute 
+
+
+BLACK via <a href="60580.html">Initialise_Display_And_Border</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60534"></span>60534</td>
-<td class="instruction">CALL <a href="60580.html">60580</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="60580.html">Initialise_Display_And_Border</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60537"></span>60537</td>
-<td class="instruction">CALL <a href="61597.html">61597</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="61597.html">Draw_Colour_Border</a></td>
+<td class="comment-1" rowspan="1">Initialise the scrolling display via <a href="61597.html">Draw_Colour_Border</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60540"></span>60540</td>
-<td class="instruction">CALL <a href="61678.html">61678</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="61678.html">Cycle_Border_Colour</a></td>
+<td class="comment-1" rowspan="1">Advance the colour cycle via <a href="61678.html">Cycle_Border_Colour</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60543"></span>60543</td>
-<td class="instruction">CALL <a href="62382.html">62382</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="62382.html">Display_High_Score_Screen</a></td>
+<td class="comment-1" rowspan="1">Render the high score table via <a href="62382.html">Display_High_Score_Screen</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60546"></span>60546</td>
 <td class="instruction">EXX</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Switch to the alternate registers.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60547"></span>60547</td>
 <td class="instruction">LD B,50</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Set the display frame counter to 50 in <span class="register">B'</span>.</td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="60549"></span>
+<div class="comments">
+<div class="paragraph">
+Per-frame display cycling loop: services controls and colour attributes for 50 frames before returning to the attract mode.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">High_Score_Display_Loop</td>
 <td class="address-2"><span id="60549"></span>60549</td>
 <td class="instruction">EXX</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Switch back to the main registers for this frame.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60550"></span>60550</td>
 <td class="instruction">LD C,100</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Set the frame delay count to 100.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60552"></span>60552</td>
-<td class="instruction">CALL <a href="60638.html">60638</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="60638.html">Display_Loop_Delay</a></td>
+<td class="comment-1" rowspan="1">Run the per-frame timing delay via <a href="60638.html">Display_Loop_Delay</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60555"></span>60555</td>
 <td class="instruction">CALL <a href="60646.html">CheckBreakKey</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Check for the BREAK key combination via <a href="60646.html">CheckBreakKey</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60558"></span>60558</td>
-<td class="instruction">CALL <a href="60667.html">60667</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="60667.html">Check_S_Key_During_Display</a></td>
+<td class="comment-1" rowspan="1">Check for the S key via <a href="60667.html">Check_S_Key_During_Display</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60561"></span>60561</td>
-<td class="instruction">CALL <a href="60688.html">60688</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="60688.html">Save_Or_Load_High_Scores</a></td>
+<td class="comment-1" rowspan="1">Check for tape save/load keys (J/L) via <a href="60688.html">Save_Or_Load_High_Scores</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60564"></span>60564</td>
-<td class="instruction">CALL <a href="60785.html">60785</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="60785.html">Check_Any_Key_During_Display</a></td>
+<td class="comment-1" rowspan="1">Restart the high score display if any key is held via <a href="60785.html">Check_Any_Key_During_Display</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60567"></span>60567</td>
-<td class="instruction">CALL <a href="60796.html">60796</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="60796.html">Scan_And_Cycle_Screen_Attributes</a></td>
+<td class="comment-1" rowspan="1">Read the joystick input via <a href="60796.html">Scan_And_Cycle_Screen_Attributes</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60570"></span>60570</td>
-<td class="instruction">CALL <a href="61678.html">61678</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="61678.html">Cycle_Border_Colour</a></td>
+<td class="comment-1" rowspan="1">Advance the colour cycle via <a href="61678.html">Cycle_Border_Colour</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60573"></span>60573</td>
 <td class="instruction">EXX</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Switch to the alternate registers.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60574"></span>60574</td>
-<td class="instruction">DJNZ <a href="60360.html#60549">60549</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">DJNZ <a href="60360.html#60549">High_Score_Display_Loop</a></td>
+<td class="comment-1" rowspan="1">Decrement the frame counter and loop back to <a href="60360.html#60549">High_Score_Display_Loop</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60576"></span>60576</td>
 <td class="instruction">EXX</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Switch back to the main registers.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60577"></span>60577</td>
-<td class="instruction">JP <a href="62700.html">62700</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JP <a href="62700.html">Attract_Mode_Loop</a></td>
+<td class="comment-1" rowspan="1">Jump to the attract mode loop at <a href="62700.html">Attract_Mode_Loop</a>.</td>
 </tr>
 </table>
 <table class="asm-navigation">

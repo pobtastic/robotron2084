@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 52504</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="52499.html">52499</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#52504">Map</a></td>
+<td class="next">
+Next: <a href="52532.html">52532</a>
+</td>
+</tr>
+</table>
+<div class="description">52504: Find Colliding Entity</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routines at <a href="52430.html">Primary_Enemy_Entity_Handler</a>, <a href="52532.html">Clear_Colour_Bar_Column</a>, <a href="58208.html">Process_Tracked_Enemy_Entity</a>, <a href="58656.html">Process_Cluster_Entity</a>, <a href="59521.html">Process_Wall_Bouncing_Enemy</a> and <a href="60167.html">Process_Final_Phase_Enemy_Entity</a>.
+</div>
+<div class="paragraph">
+Walks the entity list from <a href="24576.html">Entity_List</a>, testing each record's bounds against the current entity via <a href="50906.html">HitTestBounds8AtHL</a>. Returns without carry if no collision is found (list exhausted). Returns with carry set if the current entity's position overlaps another entity's bounds.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Find_Colliding_Entity</td>
+<td class="address-2"><span id="52504"></span>52504</td>
+<td class="instruction">LD HL,24576</td>
+<td class="comment-1" rowspan="1">Point <span class="register">HL</span> to the start of the entity list at <a href="24576.html">Entity_List</a>.</td>
+</tr>
+<tr>
+<td class="asm-label">Find_Colliding_Entity_Check</td>
+<td class="address-2"><span id="52507"></span>52507</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="6">Skip the handler address and read the state byte. If it is the 255 sentinel, set carry and return (end of list reached).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52508"></span>52508</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52509"></span>52509</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52510"></span>52510</td>
+<td class="instruction">CP 255</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52512"></span>52512</td>
+<td class="instruction">SCF</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52513"></span>52513</td>
+<td class="instruction">RET Z</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52514"></span>52514</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="4">Advance past three more bytes and test this entity's bounds against the current position via <a href="50906.html">HitTestBounds8AtHL</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52515"></span>52515</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52516"></span>52516</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52517"></span>52517</td>
+<td class="instruction">CALL <a href="50906.html">HitTestBounds8AtHL</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52520"></span>52520</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="5">Adjust alternate <span class="register">HL</span> back by three and return without carry if the bounds do not overlap.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52521"></span>52521</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52522"></span>52522</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52523"></span>52523</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52524"></span>52524</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52525"></span>52525</td>
+<td class="instruction">RET NC</td>
+<td class="comment-1" rowspan="5">Advance four bytes to the next entity record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52526"></span>52526</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52527"></span>52527</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52528"></span>52528</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52529"></span>52529</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52530"></span>52530</td>
+<td class="instruction">JR <a href="52504.html#52507">Find_Colliding_Entity_Check</a></td>
+<td class="comment-1" rowspan="1">Check the next entity.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="52499.html">52499</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#52504">Map</a></td>
+<td class="next">
+Next: <a href="52532.html">52532</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/CD18.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

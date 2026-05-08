@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Game status buffer entry at C533</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-g">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Game status buffer</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="C532.html">C532</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#c533">Map</a></td>
+<td class="next">
+Next: <a href="C534.html">C534</a>
+</td>
+</tr>
+</table>
+<div class="description">C533: Wave Start Delay</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Countdown loaded to 1A at the start of each wave by <a href="CB4F.html">Main_Game_Loop</a>. Checked each frame at <a href="CB4F.html#cb67">Main_Loop_Poll</a>; while non-zero the frame is skipped and control branches to the wave-end handler at <a href="CD34.html#cf33">Clear_Colour_Bar_Column_21</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Wave_Start_Delay</td>
+<td class="address-1"><span id="c533"></span>C533</td>
+<td class="instruction">DEFB $16</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="C532.html">C532</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#c533">Map</a></td>
+<td class="next">
+Next: <a href="C534.html">C534</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/50483.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

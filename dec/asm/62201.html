@@ -33,426 +33,471 @@ Next: <a href="62349.html">62349</a>
 </td>
 </tr>
 </table>
-<div class="description">62201: Routine at F2F9</div>
+<div class="description">62201: Draw Score Entry</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routine at <a href="62382.html">62382</a>.
+Used by the routine at <a href="62382.html">Display_High_Score_Screen</a>.
+</div>
+<div class="paragraph">
+Draws one score entry on the high score screen. Given the screen position in <span class="register">DE</span> and the name data in <span class="register">HL</span>, prints the rank number from <a href="50435.html">50435</a>, a closing parenthesis, the three-character name, then the full score digits via <a href="61703.html">Print_BCD_Score</a>. The alternate entry at <a href="62201.html#62275">Draw_Score_Entry_Compact</a> uses tighter row spacing and a smaller column advance for the All Time Heroes table.
 </div>
 </div>
+<table class="input">
+<tr class="asm-input-header">
+<th colspan="2">Input</th>
+</tr>
+<tr>
+<td class="register">DE</td>
+<td class="register-desc">Screen position (row in <span class="register">D</span>, column in <span class="register">E</span>)</td>
+</tr>
+<tr>
+<td class="register">HL</td>
+<td class="register-desc">Points to the three-character name for this score entry</td>
+</tr>
+</table>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Draw_Score_Entry</td>
 <td class="address-2"><span id="62201"></span>62201</td>
 <td class="instruction">LD B,1</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Set the rank digit count and row stride.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62203"></span>62203</td>
 <td class="instruction">LD C,6</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62205"></span>62205</td>
 <td class="instruction">PUSH HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Stash the name pointer and screen position on the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62206"></span>62206</td>
 <td class="instruction">PUSH DE</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62207"></span>62207</td>
 <td class="instruction">LD HL,50435</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Call <a href="61703.html#61705">Print_BCD_Score_Suppress_Loop</a> using <a href="50435.html">50435</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62210"></span>62210</td>
-<td class="instruction">CALL <a href="61703.html#61705">61705</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="61703.html#61705">Print_BCD_Score_Suppress_Loop</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62213"></span>62213</td>
 <td class="instruction">POP DE</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Restore the screen position and name pointer from the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62214"></span>62214</td>
 <td class="instruction">POP HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62215"></span>62215</td>
 <td class="instruction">LD A,22</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="9">Position the cursor and print the closing parenthesis character.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62217"></span>62217</td>
 <td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62220"></span>62220</td>
 <td class="instruction">LD A,D</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62221"></span>62221</td>
 <td class="instruction">ADD A,12</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62223"></span>62223</td>
 <td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62226"></span>62226</td>
 <td class="instruction">LD A,E</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62227"></span>62227</td>
 <td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62230"></span>62230</td>
 <td class="instruction">LD A,41</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62232"></span>62232</td>
 <td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62235"></span>62235</td>
 <td class="instruction">LD A,22</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="7">Position the cursor for the score entry name.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62237"></span>62237</td>
 <td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62240"></span>62240</td>
 <td class="instruction">LD A,D</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62241"></span>62241</td>
 <td class="instruction">ADD A,19</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62243"></span>62243</td>
 <td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62246"></span>62246</td>
 <td class="instruction">LD A,E</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62247"></span>62247</td>
 <td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62250"></span>62250</td>
 <td class="instruction">LD B,3</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Set the name character loop counter.</td>
 </tr>
 <tr>
+<td class="asm-label">Draw_Score_Entry_Name_Loop</td>
 <td class="address-2"><span id="62252"></span>62252</td>
 <td class="instruction">LD A,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Print the next character of the name.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62253"></span>62253</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62254"></span>62254</td>
 <td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62257"></span>62257</td>
-<td class="instruction">DJNZ <a href="62201.html#62252">62252</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">DJNZ <a href="62201.html#62252">Draw_Score_Entry_Name_Loop</a></td>
+<td class="comment-1" rowspan="1">Repeat for the three-character name.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62259"></span>62259</td>
 <td class="instruction">PUSH DE</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="5">Save the screen position and advance the row for the score digits.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62260"></span>62260</td>
 <td class="instruction">LD A,45</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62262"></span>62262</td>
 <td class="instruction">ADD A,D</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62263"></span>62263</td>
 <td class="instruction">LD D,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62264"></span>62264</td>
 <td class="instruction">LD C,6</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62266"></span>62266</td>
-<td class="instruction">CALL <a href="61703.html">61703</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="61703.html">Print_BCD_Score</a></td>
+<td class="comment-1" rowspan="1">Print the score digits via <a href="61703.html">Print_BCD_Score</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62269"></span>62269</td>
 <td class="instruction">POP DE</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="4">Restore the position and advance the column for the next entry.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62270"></span>62270</td>
 <td class="instruction">LD A,8</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62272"></span>62272</td>
 <td class="instruction">ADD A,E</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62273"></span>62273</td>
 <td class="instruction">LD E,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62274"></span>62274</td>
 <td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Return.</td>
 </tr>
 <tr>
 <td class="routine-comment" colspan="5">
 <span id="62275"></span>
 <div class="comments">
 <div class="paragraph">
-This entry point is used by the routine at <a href="62382.html">62382</a>.
+This entry point is used by the routine at <a href="62382.html">Display_High_Score_Screen</a>.
+</div>
+<div class="paragraph">
+Compact variant for the All Time Heroes table; uses a row stride of 4 and a column advance of 6 for tighter spacing.
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Draw_Score_Entry_Compact</td>
 <td class="address-2"><span id="62275"></span>62275</td>
 <td class="instruction">LD B,1</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Set the rank digit count and row stride.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62277"></span>62277</td>
 <td class="instruction">LD C,4</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62279"></span>62279</td>
 <td class="instruction">PUSH HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Stash the name pointer and screen position on the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62280"></span>62280</td>
 <td class="instruction">PUSH DE</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62281"></span>62281</td>
 <td class="instruction">LD HL,50435</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Call <a href="61703.html#61705">Print_BCD_Score_Suppress_Loop</a> using <a href="50435.html">50435</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62284"></span>62284</td>
-<td class="instruction">CALL <a href="61703.html#61705">61705</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="61703.html#61705">Print_BCD_Score_Suppress_Loop</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62287"></span>62287</td>
 <td class="instruction">POP DE</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Restore the screen position and name pointer from the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62288"></span>62288</td>
 <td class="instruction">POP HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62289"></span>62289</td>
 <td class="instruction">LD A,22</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="9">Position the cursor and print the closing parenthesis character.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62291"></span>62291</td>
 <td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62294"></span>62294</td>
 <td class="instruction">LD A,D</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62295"></span>62295</td>
 <td class="instruction">ADD A,8</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62297"></span>62297</td>
 <td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62300"></span>62300</td>
 <td class="instruction">LD A,E</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62301"></span>62301</td>
 <td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62304"></span>62304</td>
 <td class="instruction">LD A,41</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62306"></span>62306</td>
 <td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62309"></span>62309</td>
 <td class="instruction">LD A,22</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="7">Position the cursor for the score entry name.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62311"></span>62311</td>
 <td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62314"></span>62314</td>
 <td class="instruction">LD A,D</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62315"></span>62315</td>
 <td class="instruction">ADD A,13</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62317"></span>62317</td>
 <td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62320"></span>62320</td>
 <td class="instruction">LD A,E</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62321"></span>62321</td>
 <td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62324"></span>62324</td>
 <td class="instruction">LD B,3</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Set the name character loop counter.</td>
 </tr>
 <tr>
+<td class="asm-label">Draw_Score_Entry_Compact_Name_Loop</td>
 <td class="address-2"><span id="62326"></span>62326</td>
 <td class="instruction">LD A,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Print the next character of the name.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62327"></span>62327</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62328"></span>62328</td>
 <td class="instruction">CALL <a href="36300.html">PrintDispatch</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62331"></span>62331</td>
-<td class="instruction">DJNZ <a href="62201.html#62326">62326</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">DJNZ <a href="62201.html#62326">Draw_Score_Entry_Compact_Name_Loop</a></td>
+<td class="comment-1" rowspan="1">Repeat for the three-character name.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62333"></span>62333</td>
 <td class="instruction">PUSH DE</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="5">Save the screen position and advance the row for the score digits.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62334"></span>62334</td>
 <td class="instruction">LD A,31</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62336"></span>62336</td>
 <td class="instruction">ADD A,D</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62337"></span>62337</td>
 <td class="instruction">LD D,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62338"></span>62338</td>
 <td class="instruction">LD C,4</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62340"></span>62340</td>
-<td class="instruction">CALL <a href="61703.html">61703</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="61703.html">Print_BCD_Score</a></td>
+<td class="comment-1" rowspan="1">Print the score digits via <a href="61703.html">Print_BCD_Score</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62343"></span>62343</td>
 <td class="instruction">POP DE</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="4">Restore the position and advance the column for the next entry.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62344"></span>62344</td>
 <td class="instruction">LD A,6</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62346"></span>62346</td>
 <td class="instruction">ADD A,E</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62347"></span>62347</td>
 <td class="instruction">LD E,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62348"></span>62348</td>
 <td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Return.</td>
 </tr>
 </table>
 <table class="asm-navigation">

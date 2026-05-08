@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 63214</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="63209.html">63209</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#63214">Map</a></td>
+<td class="next">
+Next: <a href="63226.html">63226</a>
+</td>
+</tr>
+</table>
+<div class="description">63214: Read Keyboard Split</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Control mode 5: reads both keyboard rows separately, returning the 63486 row in <span class="register">B</span> and the 61438 row in <span class="register">C</span>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Read_Control_Keyboard_Split</td>
+<td class="address-2"><span id="63214"></span>63214</td>
+<td class="instruction">CALL <a href="63226.html">Read_Keyboard_Rows</a></td>
+<td class="comment-1" rowspan="1">Call <a href="63226.html">Read_Keyboard_Rows</a> to read both keyboard rows.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="63217"></span>63217</td>
+<td class="instruction">AND %00011111</td>
+<td class="comment-1" rowspan="1">Mask the 63486 row result to five bits.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="63219"></span>63219</td>
+<td class="instruction">LD B,A</td>
+<td class="comment-1" rowspan="2">Copy the 63486 row result to <span class="register">B</span> and load the 61438 row.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="63220"></span>63220</td>
+<td class="instruction">LD A,C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="63221"></span>63221</td>
+<td class="instruction">AND %00011111</td>
+<td class="comment-1" rowspan="1">Mask the 61438 row result to five bits.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="63223"></span>63223</td>
+<td class="instruction">LD C,A</td>
+<td class="comment-1" rowspan="1">Store the masked 61438 row result in <span class="register">C</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="63224"></span>63224</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="1">Discard the stacked return address.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="63225"></span>63225</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="63209.html">63209</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#63214">Map</a></td>
+<td class="next">
+Next: <a href="63226.html">63226</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/F6EE.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

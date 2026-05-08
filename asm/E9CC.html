@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at E9CC</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="E974.html">E974</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#e9cc">Map</a></td>
+<td class="next">
+Next: <a href="EA0F.html">EA0F</a>
+</td>
+</tr>
+</table>
+<div class="description">E9CC: Animate Wall Bouncing Enemy Death</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Per-frame death handler for a wall-bouncing enemy, written by <a href="E974.html">Kill_Wall_Bouncing_Enemy</a>. Each frame, XOR-draws the entity using the stored animation colour, then increments the death animation counter. When it reaches 0F writes <a href="E003.html#e02c">Process_Entity_Record_Next7</a> as the retire handler and jumps to it. Otherwise loads the counter into <span class="register">B'</span>, reads the entity Y position, selects a scroll offset (F8 within the play area, F0 near the ceiling), updates the Y position, XOR-erases the entity, and jumps to <a href="E003.html#e094">Process_Entity_Record_Next6</a>.
+</div>
+</div>
+<table class="input">
+<tr class="asm-input-header">
+<th colspan="2">Input</th>
+</tr>
+<tr>
+<td class="register">HL</td>
+<td class="register-desc">Entity record pointer</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="e9cc"></span>
+<div class="comments">
+<div class="paragraph">
+XOR-draw the entity with the stored animation colour.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Animate_Wall_Bouncing_Enemy_Death</td>
+<td class="address-2"><span id="e9cc"></span>E9CC</td>
+<td class="instruction">LD A,(HL)</td>
+<td class="comment-1" rowspan="4">Load the animation colour from the entity record into <span class="register">B'</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9cd"></span>E9CD</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9ce"></span>E9CE</td>
+<td class="instruction">LD B,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9cf"></span>E9CF</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9d0"></span>E9D0</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="1">Stash the entity pointer on the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9d1"></span>E9D1</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="2">Step to the draw position and call <a href="DAAF.html">Draw_Wide_Entity_Sprite_Pixels_Only</a> to XOR-draw the entity.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9d2"></span>E9D2</td>
+<td class="instruction">CALL <a href="DAAF.html">Draw_Wide_Entity_Sprite_Pixels_Only</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9d5"></span>E9D5</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="1">Restore the entity pointer from the stack.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="e9d6"></span>
+<div class="comments">
+<div class="paragraph">
+Increment the death counter and retire when it reaches 0F.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9d6"></span>E9D6</td>
+<td class="instruction">INC (HL)</td>
+<td class="comment-1" rowspan="4">Increment the counter and jump to <a href="E9CC.html#ea03">Animate_Wall_Bouncing_Enemy_Death_End</a> when it reaches 0F.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9d7"></span>E9D7</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9d8"></span>E9D8</td>
+<td class="instruction">CP $0F</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9da"></span>E9DA</td>
+<td class="instruction">JR Z,<a href="E9CC.html#ea03">Animate_Wall_Bouncing_Enemy_Death_End</a></td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="e9dc"></span>
+<div class="comments">
+<div class="paragraph">
+Load the new frame colour and read the entity Y position.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9dc"></span>E9DC</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="6">Set the frame colour in <span class="register">B'</span> and read the entity Y position.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9dd"></span>E9DD</td>
+<td class="instruction">LD B,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9de"></span>E9DE</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9df"></span>E9DF</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9e0"></span>E9E0</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9e1"></span>E9E1</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="e9e2"></span>
+<div class="comments">
+<div class="paragraph">
+Select the scroll offset based on the Y position.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9e2"></span>E9E2</td>
+<td class="instruction">CP $18</td>
+<td class="comment-1" rowspan="2">Jump to <a href="E9CC.html#e9ee">Animate_Wall_Bouncing_Enemy_Death_Scroll</a> if the entity is within the play area.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9e4"></span>E9E4</td>
+<td class="instruction">JR NC,<a href="E9CC.html#e9ee">Animate_Wall_Bouncing_Enemy_Death_Scroll</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9e6"></span>E9E6</td>
+<td class="instruction">CP $AB</td>
+<td class="comment-1" rowspan="3">Load zero scroll offset and jump to <a href="E9CC.html#ea01">Animate_Wall_Bouncing_Enemy_Death_Ceil</a> if the ceiling boundary is exceeded.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9e8"></span>E9E8</td>
+<td class="instruction">LD A,$00</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9ea"></span>E9EA</td>
+<td class="instruction">JR NC,<a href="E9CC.html#ea01">Animate_Wall_Bouncing_Enemy_Death_Ceil</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9ec"></span>E9EC</td>
+<td class="instruction">JR <a href="E9CC.html#e9f6">Animate_Wall_Bouncing_Enemy_Death_Apply</a></td>
+<td class="comment-1" rowspan="1">Jump to <a href="E9CC.html#e9f6">Animate_Wall_Bouncing_Enemy_Death_Apply</a> to apply the scroll offset.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="e9ee"></span>
+<div class="comments">
+<div class="paragraph">
+Choose the scroll speed based on distance from the ceiling.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Animate_Wall_Bouncing_Enemy_Death_Scroll</td>
+<td class="address-2"><span id="e9ee"></span>E9EE</td>
+<td class="instruction">CP $AE</td>
+<td class="comment-1" rowspan="4">Select scroll offset F8 if within bounds, or F0 if near the ceiling.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9f0"></span>E9F0</td>
+<td class="instruction">LD A,$F8</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9f2"></span>E9F2</td>
+<td class="instruction">JR C,<a href="E9CC.html#e9f6">Animate_Wall_Bouncing_Enemy_Death_Apply</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9f4"></span>E9F4</td>
+<td class="instruction">LD A,$F0</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="e9f6"></span>
+<div class="comments">
+<div class="paragraph">
+Apply the scroll offset, XOR-erase the entity, and advance.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Animate_Wall_Bouncing_Enemy_Death_Apply</td>
+<td class="address-2"><span id="e9f6"></span>E9F6</td>
+<td class="instruction">ADD A,(HL)</td>
+<td class="comment-1" rowspan="5">Apply the scroll offset to the Y position and call <a href="DAAF.html">Draw_Wide_Entity_Sprite_Pixels_Only</a> to XOR-erase the entity.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9f7"></span>E9F7</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9f8"></span>E9F8</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9f9"></span>E9F9</td>
+<td class="instruction">PUSH HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9fa"></span>E9FA</td>
+<td class="instruction">CALL <a href="DAAF.html">Draw_Wide_Entity_Sprite_Pixels_Only</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9fd"></span>E9FD</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="1">Restore the entity pointer from the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e9fe"></span>E9FE</td>
+<td class="instruction">JP <a href="E003.html#e094">Process_Entity_Record_Next6</a></td>
+<td class="comment-1" rowspan="1">Jump to <a href="E003.html#e094">Process_Entity_Record_Next6</a> to advance the entity pointer.</td>
+</tr>
+<tr>
+<td class="asm-label">Animate_Wall_Bouncing_Enemy_Death_Ceil</td>
+<td class="address-2"><span id="ea01"></span>EA01</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="2">Step back to the entity handler field.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea02"></span>EA02</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="ea03"></span>
+<div class="comments">
+<div class="paragraph">
+Write the retire handler and jump to it.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Animate_Wall_Bouncing_Enemy_Death_End</td>
+<td class="address-2"><span id="ea03"></span>EA03</td>
+<td class="instruction">LD DE,$E02C</td>
+<td class="comment-1" rowspan="7">Write the retire handler address <a href="E003.html#e02c">Process_Entity_Record_Next7</a> into the entity record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea06"></span>EA06</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea07"></span>EA07</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea08"></span>EA08</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea09"></span>EA09</td>
+<td class="instruction">LD (HL),E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea0a"></span>EA0A</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea0b"></span>EA0B</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea0c"></span>EA0C</td>
+<td class="instruction">JP <a href="E003.html#e02c">Process_Entity_Record_Next7</a></td>
+<td class="comment-1" rowspan="1">Jump to <a href="E003.html#e02c">Process_Entity_Record_Next7</a>.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="E974.html">E974</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#e9cc">Map</a></td>
+<td class="next">
+Next: <a href="EA0F.html">EA0F</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/59852.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

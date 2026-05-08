@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at F6EE</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="F6E9.html">F6E9</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#f6ee">Map</a></td>
+<td class="next">
+Next: <a href="F6FA.html">F6FA</a>
+</td>
+</tr>
+</table>
+<div class="description">F6EE: Read Keyboard Split</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Control mode 05: reads both keyboard rows separately, returning the F7FE row in <span class="register">B</span> and the EFFE row in <span class="register">C</span>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Read_Control_Keyboard_Split</td>
+<td class="address-2"><span id="f6ee"></span>F6EE</td>
+<td class="instruction">CALL <a href="F6FA.html">Read_Keyboard_Rows</a></td>
+<td class="comment-1" rowspan="1">Call <a href="F6FA.html">Read_Keyboard_Rows</a> to read both keyboard rows.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="f6f1"></span>F6F1</td>
+<td class="instruction">AND %00011111</td>
+<td class="comment-1" rowspan="1">Mask the F7FE row result to five bits.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="f6f3"></span>F6F3</td>
+<td class="instruction">LD B,A</td>
+<td class="comment-1" rowspan="2">Copy the F7FE row result to <span class="register">B</span> and load the EFFE row.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="f6f4"></span>F6F4</td>
+<td class="instruction">LD A,C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="f6f5"></span>F6F5</td>
+<td class="instruction">AND %00011111</td>
+<td class="comment-1" rowspan="1">Mask the EFFE row result to five bits.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="f6f7"></span>F6F7</td>
+<td class="instruction">LD C,A</td>
+<td class="comment-1" rowspan="1">Store the masked EFFE row result in <span class="register">C</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="f6f8"></span>F6F8</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="1">Discard the stacked return address.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="f6f9"></span>F6F9</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="F6E9.html">F6E9</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#f6ee">Map</a></td>
+<td class="next">
+Next: <a href="F6FA.html">F6FA</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/63214.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

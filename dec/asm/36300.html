@@ -29,7 +29,7 @@ Prev: <a href="36224.html">36224</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#36300">Map</a></td>
 <td class="next">
-Next: <a href="36323.html">36323</a>
+Next: <a href="36317.html">36317</a>
 </td>
 </tr>
 </table>
@@ -39,7 +39,10 @@ Next: <a href="36323.html">36323</a>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="36870.html">PrintMessaging</a>, <a href="50500.html">50500</a>, <a href="53415.html">PrintWaveNumber</a>, <a href="54119.html">PlayerDeath</a>, <a href="61703.html">61703</a>, <a href="62201.html">62201</a> and <a href="62382.html">62382</a>.
+Used by the routines at <a href="36870.html">PrintMessaging</a>, <a href="50500.html">PrintPlayerScore</a>, <a href="53415.html">PrintWaveNumber</a>, <a href="54119.html">PlayerDeath</a>, <a href="61703.html">Print_BCD_Score</a>, <a href="62201.html">Draw_Score_Entry</a> and <a href="62382.html">Display_High_Score_Screen</a>.
+</div>
+<div class="paragraph">
+Calls the active print handler stored at <a href="32778.html">PrintState_Handler</a> to process one character or control code, preserving caller context across the call.
 </div>
 </div>
 </td>
@@ -71,60 +74,30 @@ Used by the routines at <a href="36870.html">PrintMessaging</a>, <a href="50500.
 <td class="asm-label"></td>
 <td class="address-1"><span id="36305"></span>36305</td>
 <td class="instruction">LD IX,32768</td>
-<td class="comment-1" rowspan="1"><span class="register">IX</span>=<a href="32768.html">PrintState_Y</a>.</td>
+<td class="comment-1" rowspan="1">Set <span class="register">IX</span> to the print state base at <a href="32768.html">PrintState_Y</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="36309"></span>36309</td>
 <td class="instruction">LD HL,36317</td>
-<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="36300.html#36317">36317</a>.</td>
+<td class="comment-1" rowspan="2">Push <a href="36317.html">Print_Dispatch_Return</a> as the handler return address.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="36312"></span>36312</td>
 <td class="instruction">PUSH HL</td>
-<td class="comment-1" rowspan="1">Stash <span class="register">HL</span> on the stack.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="36313"></span>36313</td>
 <td class="instruction">LD HL,(32778)</td>
-<td class="comment-1" rowspan="1"><span class="register">HL</span>=*<a href="32778.html">PrintState_Handler</a>.</td>
+<td class="comment-1" rowspan="1">Read the current print handler address from <a href="32778.html">PrintState_Handler</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="36316"></span>36316</td>
 <td class="instruction">JP (HL)</td>
-<td class="comment-1" rowspan="1">Jump to *<span class="register">HL</span>.</td>
-</tr>
-<tr>
-<td class="asm-label"></td>
-<td class="address-1"><span id="36317"></span>36317</td>
-<td class="instruction">POP IX</td>
-<td class="comment-1" rowspan="2">Restore <span class="register">IX</span> and <span class="register">HL</span> from the stack.</td>
-</tr>
-<tr>
-<td class="asm-label"></td>
-<td class="address-1"><span id="36319"></span>36319</td>
-<td class="instruction">POP HL</td>
-</tr>
-<tr>
-<td class="asm-label"></td>
-<td class="address-1"><span id="36320"></span>36320</td>
-<td class="instruction">EXX</td>
-<td class="comment-1" rowspan="1">Switch back to the normal registers.</td>
-</tr>
-<tr>
-<td class="asm-label"></td>
-<td class="address-1"><span id="36321"></span>36321</td>
-<td class="instruction">POP BC</td>
-<td class="comment-1" rowspan="1">Restore <span class="register">BC</span> from the stack.</td>
-</tr>
-<tr>
-<td class="asm-label"></td>
-<td class="address-1"><span id="36322"></span>36322</td>
-<td class="instruction">RET</td>
-<td class="comment-1" rowspan="1">Return.</td>
+<td class="comment-1" rowspan="1">Jump to the print handler.</td>
 </tr>
 </table>
 <table class="asm-navigation">
@@ -134,7 +107,7 @@ Prev: <a href="36224.html">36224</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#36300">Map</a></td>
 <td class="next">
-Next: <a href="36323.html">36323</a>
+Next: <a href="36317.html">36317</a>
 </td>
 </tr>
 </table>

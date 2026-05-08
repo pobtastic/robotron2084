@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 61539</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="61528.html">61528</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#61539">Map</a></td>
+<td class="next">
+Next: <a href="61586.html">61586</a>
+</td>
+</tr>
+</table>
+<div class="description">61539: Draw Colour Ring</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="61586.html">Draw_Concentric_Rings</a>.
+</div>
+<div class="paragraph">
+Draws one rectangular colour ring with its top-left corner at column <span class="register">B</span>, row <span class="register">C</span>. The horizontal edges span columns <span class="register">B</span> to 255-<span class="register">B</span> and are drawn via <a href="61517.html">Fill_Row</a>; the vertical edges span rows <span class="register">C</span> to 191-<span class="register">C</span> and are drawn via <a href="61528.html">Fill_Column</a>.
+</div>
+</div>
+<table class="input">
+<tr class="asm-input-header">
+<th colspan="2">Input</th>
+</tr>
+<tr>
+<td class="register">BC</td>
+<td class="register-desc">Corner offset (B = column, C = row)</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="61539"></span>
+<div class="comments">
+<div class="paragraph">
+Draw the top and bottom horizontal edges.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Draw_Colour_Ring</td>
+<td class="address-2"><span id="61539"></span>61539</td>
+<td class="instruction">LD H,B</td>
+<td class="comment-1" rowspan="3">Load the corner position into <span class="register">HL</span> and copy the column to <span class="register">A</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61540"></span>61540</td>
+<td class="instruction">LD L,C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61541"></span>61541</td>
+<td class="instruction">LD A,B</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61542"></span>61542</td>
+<td class="instruction">SLA A</td>
+<td class="comment-1" rowspan="3">Calculate the horizontal edge length as 256 minus 2 times the column offset.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61544"></span>61544</td>
+<td class="instruction">NEG</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61546"></span>61546</td>
+<td class="instruction">LD D,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61547"></span>61547</td>
+<td class="instruction">PUSH BC</td>
+<td class="comment-1" rowspan="3">Stash the corner, draw the top edge rightward via <a href="61517.html">Fill_Row</a>, and restore.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61548"></span>61548</td>
+<td class="instruction">CALL <a href="61517.html">Fill_Row</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61551"></span>61551</td>
+<td class="instruction">POP BC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61552"></span>61552</td>
+<td class="instruction">LD H,B</td>
+<td class="comment-1" rowspan="4">Set the position to the bottom edge at row 191 minus <span class="register">C</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61553"></span>61553</td>
+<td class="instruction">LD A,191</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61555"></span>61555</td>
+<td class="instruction">SUB C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61556"></span>61556</td>
+<td class="instruction">LD L,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61557"></span>61557</td>
+<td class="instruction">PUSH BC</td>
+<td class="comment-1" rowspan="3">Stash the corner, draw the bottom edge rightward via <a href="61517.html">Fill_Row</a>, and restore.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61558"></span>61558</td>
+<td class="instruction">CALL <a href="61517.html">Fill_Row</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61561"></span>61561</td>
+<td class="instruction">POP BC</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="61562"></span>
+<div class="comments">
+<div class="paragraph">
+Draw the left and right vertical edges.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61562"></span>61562</td>
+<td class="instruction">LD H,B</td>
+<td class="comment-1" rowspan="7">Reset the corner position and calculate the vertical edge length as 192 minus 2 times the row offset.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61563"></span>61563</td>
+<td class="instruction">LD L,C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61564"></span>61564</td>
+<td class="instruction">LD E,C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61565"></span>61565</td>
+<td class="instruction">SLA E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61567"></span>61567</td>
+<td class="instruction">LD A,192</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61569"></span>61569</td>
+<td class="instruction">SUB E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61570"></span>61570</td>
+<td class="instruction">LD D,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61571"></span>61571</td>
+<td class="instruction">PUSH BC</td>
+<td class="comment-1" rowspan="3">Stash the corner, draw the left edge downward via <a href="61528.html">Fill_Column</a>, and restore.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61572"></span>61572</td>
+<td class="instruction">CALL <a href="61528.html">Fill_Column</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61575"></span>61575</td>
+<td class="instruction">POP BC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61576"></span>61576</td>
+<td class="instruction">LD L,C</td>
+<td class="comment-1" rowspan="4">Set the position to the right edge at column 255 minus <span class="register">B</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61577"></span>61577</td>
+<td class="instruction">LD A,B</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61578"></span>61578</td>
+<td class="instruction">CPL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61579"></span>61579</td>
+<td class="instruction">LD H,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61580"></span>61580</td>
+<td class="instruction">PUSH BC</td>
+<td class="comment-1" rowspan="3">Stash the corner, draw the right edge downward via <a href="61528.html">Fill_Column</a>, and restore.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61581"></span>61581</td>
+<td class="instruction">CALL <a href="61528.html">Fill_Column</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61584"></span>61584</td>
+<td class="instruction">POP BC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="61585"></span>61585</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="61528.html">61528</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#61539">Map</a></td>
+<td class="next">
+Next: <a href="61586.html">61586</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/F063.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

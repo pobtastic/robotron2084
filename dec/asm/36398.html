@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 36398</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="36387.html">36387</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#36398">Map</a></td>
+<td class="next">
+Next: <a href="36413.html">36413</a>
+</td>
+</tr>
+</table>
+<div class="description">36398: Print Handler: Ink</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Sets the INK colour parameter handler. Called on the byte immediately following a 16 (INK) control code. Masks the parameter to the lower three bits (colour 0–7) and writes it into the INK bits (0–2) of the attribute byte at <a href="32772.html">PrintState_Attr</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">PrintHandler_Ink</td>
+<td class="address-2"><span id="36398"></span>36398</td>
+<td class="instruction">LD B,8</td>
+<td class="comment-1" rowspan="1"><span class="register">B</span>=8 (mask limit for INK colour range 0–7).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36400"></span>36400</td>
+<td class="instruction">CALL <a href="36582.html">PrintHandler_MaskParam</a></td>
+<td class="comment-1" rowspan="1">Call <a href="36582.html">PrintHandler_MaskParam</a> to reset <a href="32778.html">PrintState_Handler</a> and mask <span class="register">B</span> to the colour value.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36403"></span>36403</td>
+<td class="instruction">LD A,(32772)</td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=*<a href="32772.html">PrintState_Attr</a> (current attribute byte).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36406"></span>36406</td>
+<td class="instruction">AND %11111000</td>
+<td class="comment-1" rowspan="1">Clear the INK bits (248 = keep PAPER, BRIGHT, FLASH).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36408"></span>36408</td>
+<td class="instruction">OR B</td>
+<td class="comment-1" rowspan="1">Write the new INK colour into bits 0–2.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36409"></span>36409</td>
+<td class="instruction">LD (32772),A</td>
+<td class="comment-1" rowspan="1">Write the updated attribute byte back to *<a href="32772.html">PrintState_Attr</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36412"></span>36412</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="36387.html">36387</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#36398">Map</a></td>
+<td class="next">
+Next: <a href="36413.html">36413</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/8E2E.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

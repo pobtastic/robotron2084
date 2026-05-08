@@ -33,15 +33,19 @@ Next: <a href="C418.html">C418</a>
 </td>
 </tr>
 </table>
-<div class="description">C417: Game status buffer entry at C417</div>
+<div class="description">C417: Lives Display Vertical Step</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
+<div class="paragraph">
+Vertical pixel stride between adjacent life icons in <a href="C794.html">DrawLivesDisplay</a>. Each pass advances the vertical seed by this value (06) to space icons evenly in the lives display column.
+</div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Lives_Display_Vertical_Step</td>
 <td class="address-1"><span id="c417"></span>C417</td>
 <td class="instruction">DEFB $06</td>
 <td class="comment-0" rowspan="1"></td>

@@ -33,51 +33,59 @@ Next: <a href="ED7C.html">ED7C</a>
 </td>
 </tr>
 </table>
-<div class="description">ED71: Routine at ED71</div>
+<div class="description">ED71: Check Any Key During Display</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="EBC8.html">EBC8</a>, <a href="ED10.html">ED10</a> and <a href="F4EC.html">F4EC</a>.
+Used by the routines at <a href="EBC8.html">Display_High_Score_Entry_Screen</a>, <a href="ED10.html">Save_Or_Load_High_Scores</a> and <a href="F4EC.html">Attract_Mode_Loop</a>.
+</div>
+<div class="paragraph">
+Reads all keyboard rows simultaneously (port FE with selector 00) during the high score display loop. Forces the upper three bits high; if any key is pressed, increments <span class="register">A</span> past FF discards the caller's return address, and restarts the high score display at <a href="EBC8.html">Display_High_Score_Entry_Screen</a>. Returns normally if no keys are held.
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Check_Any_Key_During_Display</td>
 <td class="address-2"><span id="ed71"></span>ED71</td>
 <td class="instruction">XOR A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Read all keyboard rows simultaneously.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed72"></span>ED72</td>
 <td class="instruction">IN A,($FE)</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed74"></span>ED74</td>
-<td class="instruction">OR $E0</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">OR %11100000</td>
+<td class="comment-1" rowspan="1">Force bits 5-7 high.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed76"></span>ED76</td>
 <td class="instruction">INC A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Return if no keys are pressed (<span class="register">A</span> wraps to 00).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed77"></span>ED77</td>
 <td class="instruction">RET Z</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed78"></span>ED78</td>
 <td class="instruction">POP HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Discard the caller's return address from the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed79"></span>ED79</td>
-<td class="instruction">JP <a href="EBC8.html">$EBC8</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JP <a href="EBC8.html">Display_High_Score_Entry_Screen</a></td>
+<td class="comment-1" rowspan="1">Restart the high score display at <a href="EBC8.html">Display_High_Score_Entry_Screen</a>.</td>
 </tr>
 </table>
 <table class="asm-navigation">

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 63209</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="63197.html">63197</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#63209">Map</a></td>
+<td class="next">
+Next: <a href="63214.html">63214</a>
+</td>
+</tr>
+</table>
+<div class="description">63209: Read Keyboard Combined</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Control mode 1: reads both keyboard rows via <a href="63226.html">Read_Keyboard_Rows</a> and ANDs them together before returning to <a href="63192.html">Read_Control_Input_Return</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Read_Control_Keyboard_Combined</td>
+<td class="address-2"><span id="63209"></span>63209</td>
+<td class="instruction">CALL <a href="63226.html">Read_Keyboard_Rows</a></td>
+<td class="comment-1" rowspan="1">Call <a href="63226.html">Read_Keyboard_Rows</a> to read both keyboard rows.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="63212"></span>63212</td>
+<td class="instruction">AND C</td>
+<td class="comment-1" rowspan="1">Combine the two row results.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="63213"></span>63213</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return to <a href="63192.html">Read_Control_Input_Return</a>.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="63197.html">63197</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#63209">Map</a></td>
+<td class="next">
+Next: <a href="63214.html">63214</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/F6E9.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

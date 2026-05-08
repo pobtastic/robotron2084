@@ -25,7 +25,7 @@ gtag('config', 'G-75RERFCHBG');
 <table class="asm-navigation">
 <tr>
 <td class="prev">
-Prev: <a href="63171.html">63171</a>
+Prev: <a href="63314.html">63314</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#63343">Map</a></td>
 <td class="next">
@@ -42,7 +42,7 @@ Next: <a href="63470.html">63470</a>
 Used by the routines at <a href="63470.html">AnimateIntroSprites</a> and <a href="63548.html">DrawIntroSprites</a>.
 </div>
 <div class="paragraph">
-Takes the two-byte position entry at <span class="register">HL</span> (byte 0 = Y pixel row, byte 1 = X byte column) and the attribute byte in <span class="register">E</span> (shadow; bit 7 set = erase mode, bit 7 clear = draw mode). Computes each screen pixel address by reading the row base from the screen row LUT at 35840 (indexed by Y) and adding the X column byte offset stored in shadow <span class="register">D</span>. XORs 4 bytes of the fixed bitmap at 27900 into consecutive screen pixel memory for each of 32 pixel rows (4 attribute-cell rows of 8 pixel rows each). After the first pixel row of each attribute-cell row, derives the attribute memory high byte from the pixel address high byte and writes the attribute byte to 4 consecutive attribute cells — suppressed in erase mode.
+Takes the two-byte position entry at <span class="register">HL</span> (byte 0 = Y pixel row, byte 1 = X byte column) and the attribute byte in <span class="register">E</span> (shadow; bit 7 set = erase mode, bit 7 clear = draw mode). Computes each screen pixel address by reading the row base from the screen row lookup table at 35840 (indexed by Y) and adding the X column byte offset stored in shadow <span class="register">D</span>. XORs 4 bytes of the fixed bitmap at 27900 into consecutive screen pixel memory for each of 32 pixel rows (4 attribute-cell rows of 8 pixel rows each). After the first pixel row of each attribute-cell row, derives the attribute memory high byte from the pixel address high byte and writes the attribute byte to 4 consecutive attribute cells — suppressed in erase mode.
 </div>
 </div>
 <table class="input">
@@ -61,7 +61,7 @@ Takes the two-byte position entry at <span class="register">HL</span> (byte 0 = 
 <span id="63343"></span>
 <div class="comments">
 <div class="paragraph">
-Initialise the bitmap source (<span class="register">HL</span>=27900 via EX DE,HL) and compute <span class="register">IX</span> into the screen row LUT at 35840 indexed by the Y pixel row. The row is shifted left into the LUT index directly (<span class="register">IX</span>=35840 + Y × 2). Store the X column byte offset in shadow <span class="register">D</span> and set the outer loop count (<span class="register">C</span>=4 shadow, one iteration per attribute-cell row of 8 pixel rows).
+Initialise the bitmap source (<span class="register">HL</span>=27900 via EX DE,HL) and compute <span class="register">IX</span> into the screen row lookup table at 35840 indexed by the Y pixel row. The row is shifted left into the lookup table index directly (<span class="register">IX</span>=35840 + Y × 2). Store the X column byte offset in shadow <span class="register">D</span> and set the outer loop count (<span class="register">C</span>=4 shadow, one iteration per attribute-cell row of 8 pixel rows).
 </div>
 </div>
 </td>
@@ -100,7 +100,7 @@ Initialise the bitmap source (<span class="register">HL</span>=27900 via EX DE,H
 <td class="asm-label"></td>
 <td class="address-1"><span id="63352"></span>63352</td>
 <td class="instruction">RL B</td>
-<td class="comment-1" rowspan="1">RL <span class="register">B</span>; <span class="register">B</span>=140 (or 141 if carry set) — high byte of LUT pointer.</td>
+<td class="comment-1" rowspan="1">RL <span class="register">B</span>; <span class="register">B</span>=140 (or 141 if carry set) — high byte of lookup table pointer.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -136,7 +136,7 @@ Initialise the bitmap source (<span class="register">HL</span>=27900 via EX DE,H
 <td class="asm-label"></td>
 <td class="address-1"><span id="63359"></span>63359</td>
 <td class="instruction">POP IX</td>
-<td class="comment-1" rowspan="1">POP <span class="register">IX</span>; <span class="register">IX</span>=35840 + Y × 2 (pointer into the screen row LUT).</td>
+<td class="comment-1" rowspan="1">POP <span class="register">IX</span>; <span class="register">IX</span>=35840 + Y × 2 (pointer into the screen row address table).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -167,7 +167,7 @@ Initialise the bitmap source (<span class="register">HL</span>=27900 via EX DE,H
 <span id="63366"></span>
 <div class="comments">
 <div class="paragraph">
-Outer loop (4 iterations, one per attribute-cell row of 8 pixel rows). Compute the screen pixel address for the first row of this attribute cell: read shadow <span class="register">D</span> (X column), add the LUT low byte from *(<span class="register">IX</span>) to give <span class="register">E</span>, then read the LUT high byte from *(<span class="register">IX</span>+1) into <span class="register">D</span>. Advance <span class="register">IX</span> by two to the next LUT entry.
+Outer loop (4 iterations, one per attribute-cell row of 8 pixel rows). Compute the screen pixel address for the first row of this attribute cell: read shadow <span class="register">D</span> (X column), add the lookup table low byte from *(<span class="register">IX</span>) to give <span class="register">E</span>, then read the lookup table high byte from *(<span class="register">IX</span>+1) into <span class="register">D</span>. Advance <span class="register">IX</span> by two to the next lookup table entry.
 </div>
 </div>
 </td>
@@ -194,13 +194,13 @@ Outer loop (4 iterations, one per attribute-cell row of 8 pixel rows). Compute t
 <td class="asm-label"></td>
 <td class="address-1"><span id="63369"></span>63369</td>
 <td class="instruction">ADD A,(IX+0)</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span> += *(<span class="register">IX</span>) (LUT low byte); low byte of screen pixel address.</td>
+<td class="comment-1" rowspan="1"><span class="register">A</span> += *(<span class="register">IX</span>) (row table low byte); low byte of screen pixel address.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="63372"></span>63372</td>
 <td class="instruction">INC IX</td>
-<td class="comment-1" rowspan="1">Advance <span class="register">IX</span> to the LUT high byte.</td>
+<td class="comment-1" rowspan="1">Advance <span class="register">IX</span> to the lookup table high byte.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -212,13 +212,13 @@ Outer loop (4 iterations, one per attribute-cell row of 8 pixel rows). Compute t
 <td class="asm-label"></td>
 <td class="address-1"><span id="63375"></span>63375</td>
 <td class="instruction">LD D,(IX+0)</td>
-<td class="comment-1" rowspan="1"><span class="register">D</span>=*(<span class="register">IX</span>) (high byte of screen pixel address from LUT).</td>
+<td class="comment-1" rowspan="1"><span class="register">D</span>=*(<span class="register">IX</span>) (row table high byte of screen pixel address).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="63378"></span>63378</td>
 <td class="instruction">INC IX</td>
-<td class="comment-1" rowspan="1">Advance <span class="register">IX</span> to the next LUT entry.</td>
+<td class="comment-1" rowspan="1">Advance <span class="register">IX</span> to the next lookup table entry.</td>
 </tr>
 <tr>
 <td class="routine-comment" colspan="5">
@@ -470,7 +470,7 @@ Test the erase-mode flag (bit 7 of shadow <span class="register">E</span>). If s
 <span id="63426"></span>
 <div class="comments">
 <div class="paragraph">
-Inner loop (7 iterations, one per remaining pixel row in this attribute-cell row). Compute the screen address from the LUT and XOR 4 bitmap bytes into pixel memory. No attribute write.
+Inner loop (7 iterations, one per remaining pixel row in this attribute-cell row). Compute the screen address from the lookup table and XOR 4 bitmap bytes into pixel memory. No attribute write.
 </div>
 </div>
 </td>
@@ -497,13 +497,13 @@ Inner loop (7 iterations, one per remaining pixel row in this attribute-cell row
 <td class="asm-label"></td>
 <td class="address-1"><span id="63429"></span>63429</td>
 <td class="instruction">ADD A,(IX+0)</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span> += *(<span class="register">IX</span>) (LUT low byte for this pixel row).</td>
+<td class="comment-1" rowspan="1"><span class="register">A</span> += *(<span class="register">IX</span>) (row table low byte for this pixel row).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="63432"></span>63432</td>
 <td class="instruction">INC IX</td>
-<td class="comment-1" rowspan="1">Advance <span class="register">IX</span> to the LUT high byte.</td>
+<td class="comment-1" rowspan="1">Advance <span class="register">IX</span> to the lookup table high byte.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -515,13 +515,13 @@ Inner loop (7 iterations, one per remaining pixel row in this attribute-cell row
 <td class="asm-label"></td>
 <td class="address-1"><span id="63435"></span>63435</td>
 <td class="instruction">LD D,(IX+0)</td>
-<td class="comment-1" rowspan="1"><span class="register">D</span>=*(<span class="register">IX</span>) (high byte of screen pixel address from LUT).</td>
+<td class="comment-1" rowspan="1"><span class="register">D</span>=*(<span class="register">IX</span>) (row table high byte of screen pixel address).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="63438"></span>63438</td>
 <td class="instruction">INC IX</td>
-<td class="comment-1" rowspan="1">Advance <span class="register">IX</span> to the next LUT entry.</td>
+<td class="comment-1" rowspan="1">Advance <span class="register">IX</span> to the next lookup table entry.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -676,7 +676,7 @@ Inner loop (7 iterations, one per remaining pixel row in this attribute-cell row
 <table class="asm-navigation">
 <tr>
 <td class="prev">
-Prev: <a href="63171.html">63171</a>
+Prev: <a href="63314.html">63314</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#63343">Map</a></td>
 <td class="next">

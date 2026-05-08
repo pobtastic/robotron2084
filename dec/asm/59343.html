@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 59343</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="59311.html">59311</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#59343">Map</a></td>
+<td class="next">
+Next: <a href="59491.html">59491</a>
+</td>
+</tr>
+</table>
+<div class="description">59343: Spawn Tracked Enemy Entities</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="59491.html">Evaluate_And_Spawn_Tracked_Enemies</a>.
+</div>
+<div class="paragraph">
+Initialises the tracked-enemy active count at 50221 to zero, copies the per-wave count byte into 50220 and adds it to the total wave enemy count at <a href="50204.html">Active_Enemy_Count</a>, then stashes the wave data pointer. If the count is zero, jumps to <a href="59343.html#59477">Spawn_Tracked_Enemy_Entities_Terminate</a>; otherwise loops <span class="register">B</span> times: writes a 14-byte entity record (handler <a href="58208.html">Process_Tracked_Enemy_Entity</a>, entity type 176 random type variant, random screen position via <a href="58056.html">Pick_Random_Spawn_Position_Y</a>, three initial bytes from the wave data for velocity seeds, and 255 as the terminator) into the entity list via *<a href="50441.html">Entity_List_Write_Pointer</a>, spawning each entity via <a href="51536.html">Draw_Wide_Entity_Sprite</a>. Closes the entity list with the 53668 terminator.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Spawn_Tracked_Enemy_Entities</td>
+<td class="address-2"><span id="59343"></span>59343</td>
+<td class="instruction">XOR A</td>
+<td class="comment-1" rowspan="5">Clear 50221 copy the spawn count into 50220 and accumulate it into the wave enemy count at <a href="50204.html">Active_Enemy_Count</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59344"></span>59344</td>
+<td class="instruction">LD (50221),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59347"></span>59347</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59348"></span>59348</td>
+<td class="instruction">LD (50220),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59351"></span>59351</td>
+<td class="instruction">PUSH AF</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59352"></span>59352</td>
+<td class="instruction">LD B,A</td>
+<td class="comment-1" rowspan="5">Stash the wave data pointer, load the entity list write pointer, and jump to <a href="59343.html#59477">Spawn_Tracked_Enemy_Entities_Terminate</a> if the count is zero.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59353"></span>59353</td>
+<td class="instruction">LD A,(50204)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59356"></span>59356</td>
+<td class="instruction">ADD A,B</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59357"></span>59357</td>
+<td class="instruction">LD (50204),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59360"></span>59360</td>
+<td class="instruction">POP AF</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59361"></span>59361</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59362"></span>59362</td>
+<td class="instruction">AND A</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59363"></span>59363</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59364"></span>59364</td>
+<td class="instruction">LD HL,(50441)</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="59367"></span>
+<div class="comments">
+<div class="paragraph">
+This entry point is used by the routine at <a href="36963.html">36963</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Spawn_Tracked_Enemy_Entities_0</td>
+<td class="address-2"><span id="59367"></span>59367</td>
+<td class="instruction">JP Z,<a href="59343.html#59477">Spawn_Tracked_Enemy_Entities_Terminate</a></td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59370"></span>59370</td>
+<td class="instruction">LD B,A</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label">Spawn_Tracked_Enemy_Entities_Record</td>
+<td class="address-2"><span id="59371"></span>59371</td>
+<td class="instruction">PUSH BC</td>
+<td class="comment-1" rowspan="8">Write the <a href="58208.html">Process_Tracked_Enemy_Entity</a> handler and entity type 176 to the entity list record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59372"></span>59372</td>
+<td class="instruction">LD DE,58208</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59375"></span>59375</td>
+<td class="instruction">LD (HL),E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59376"></span>59376</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59377"></span>59377</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59378"></span>59378</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59379"></span>59379</td>
+<td class="instruction">LD (HL),176</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59381"></span>59381</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59382"></span>59382</td>
+<td class="instruction">LD (HL),4</td>
+<td class="comment-1" rowspan="2">Generate a random entity type variant via <a href="53695.html">Generate_Random_Byte</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59384"></span>59384</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59385"></span>59385</td>
+<td class="instruction">CALL <a href="53695.html">Generate_Random_Byte</a></td>
+<td class="comment-1" rowspan="3">Mask to 2 bits for the type variant and add 40.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59388"></span>59388</td>
+<td class="instruction">AND 3</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59390"></span>59390</td>
+<td class="instruction">ADD A,40</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59392"></span>59392</td>
+<td class="instruction">LD (HL),A</td>
+<td class="comment-1" rowspan="2">Write the entity type variant and advance.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59393"></span>59393</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59394"></span>59394</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="6">Point <span class="register">HL</span> at the spawn buffer, write the type variant, and call <a href="58056.html">Pick_Random_Spawn_Position_Y</a> to generate a valid random screen position.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59395"></span>59395</td>
+<td class="instruction">LD HL,50449</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59398"></span>59398</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59399"></span>59399</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59400"></span>59400</td>
+<td class="instruction">CALL <a href="58056.html">Pick_Random_Spawn_Position_Y</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59403"></span>59403</td>
+<td class="instruction">LD DE,50491</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59406"></span>59406</td>
+<td class="instruction">LDD</td>
+<td class="comment-1" rowspan="9">Copy three bytes from the wave data at 50491 using LDD×4 and apply the direction delta via <a href="58182.html">Apply_Direction_Delta</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59408"></span>59408</td>
+<td class="instruction">LDD</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59410"></span>59410</td>
+<td class="instruction">LDD</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59412"></span>59412</td>
+<td class="instruction">PUSH HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59413"></span>59413</td>
+<td class="instruction">LDD</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59415"></span>59415</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59416"></span>59416</td>
+<td class="instruction">LD (DE),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59417"></span>59417</td>
+<td class="instruction">EX DE,HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59418"></span>59418</td>
+<td class="instruction">CALL <a href="58182.html">Apply_Direction_Delta</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59421"></span>59421</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="4">Set colour 66 in <span class="register">B'</span> and spawn the entity via <a href="51536.html">Draw_Wide_Entity_Sprite</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59422"></span>59422</td>
+<td class="instruction">LD B,66</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59424"></span>59424</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59425"></span>59425</td>
+<td class="instruction">CALL <a href="51536.html">Draw_Wide_Entity_Sprite</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59428"></span>59428</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="14">Write three velocity seed bytes, initial deltas, and the 255 record terminator; loop back to <a href="59343.html#59371">Spawn_Tracked_Enemy_Entities_Record</a> for the next entity.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59429"></span>59429</td>
+<td class="instruction">POP DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59430"></span>59430</td>
+<td class="instruction">XOR A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59431"></span>59431</td>
+<td class="instruction">LDI</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59433"></span>59433</td>
+<td class="instruction">LD (DE),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59434"></span>59434</td>
+<td class="instruction">INC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59435"></span>59435</td>
+<td class="instruction">LDI</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59437"></span>59437</td>
+<td class="instruction">LD (DE),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59438"></span>59438</td>
+<td class="instruction">INC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59439"></span>59439</td>
+<td class="instruction">PUSH DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59440"></span>59440</td>
+<td class="instruction">CALL <a href="53672.html">Advance_RNG_Seed</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59443"></span>59443</td>
+<td class="instruction">LD DE,0</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59446"></span>59446</td>
+<td class="instruction">CALL <a href="58109.html">Clamp_Entity_Velocity</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59449"></span>59449</td>
+<td class="instruction">POP DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59450"></span>59450</td>
+<td class="instruction">EX DE,HL</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59451"></span>59451</td>
+<td class="instruction">LD (HL),D</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59452"></span>59452</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59453"></span>59453</td>
+<td class="instruction">LD (HL),E</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59454"></span>59454</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59455"></span>59455</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59456"></span>59456</td>
+<td class="instruction">CALL <a href="53672.html">Advance_RNG_Seed</a></td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59459"></span>59459</td>
+<td class="instruction">LD DE,0</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59462"></span>59462</td>
+<td class="instruction">CALL <a href="58109.html">Clamp_Entity_Velocity</a></td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59465"></span>59465</td>
+<td class="instruction">POP DE</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59466"></span>59466</td>
+<td class="instruction">EX DE,HL</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59467"></span>59467</td>
+<td class="instruction">LD (HL),D</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59468"></span>59468</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59469"></span>59469</td>
+<td class="instruction">LD (HL),E</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59470"></span>59470</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59471"></span>59471</td>
+<td class="instruction">LD (HL),255</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59473"></span>59473</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59474"></span>59474</td>
+<td class="instruction">POP BC</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59475"></span>59475</td>
+<td class="instruction">DJNZ <a href="59343.html#59371">Spawn_Tracked_Enemy_Entities_Record</a></td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label">Spawn_Tracked_Enemy_Entities_Terminate</td>
+<td class="address-2"><span id="59477"></span>59477</td>
+<td class="instruction">LD DE,53668</td>
+<td class="comment-1" rowspan="4">Save the entity list pointer to *<a href="50441.html">Entity_List_Write_Pointer</a> and write the 53668 terminator.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59480"></span>59480</td>
+<td class="instruction">LD (50441),HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59483"></span>59483</td>
+<td class="instruction">LD (HL),E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59484"></span>59484</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59485"></span>59485</td>
+<td class="instruction">LD (HL),D</td>
+<td class="comment-1" rowspan="2">Write 255 and advance <span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59486"></span>59486</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59487"></span>59487</td>
+<td class="instruction">LD (HL),255</td>
+<td class="comment-1" rowspan="2">Restore the wave data pointer and return.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59489"></span>59489</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59490"></span>59490</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="59311.html">59311</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#59343">Map</a></td>
+<td class="next">
+Next: <a href="59491.html">59491</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/E7CF.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

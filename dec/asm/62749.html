@@ -29,480 +29,186 @@ Prev: <a href="62700.html">62700</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#62749">Map</a></td>
 <td class="next">
-Next: <a href="62880.html">62880</a>
+Next: <a href="62797.html">62797</a>
 </td>
 </tr>
 </table>
-<div class="description">62749: Routine at F51D</div>
+<div class="description">62749: Advance Colour Cycle</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routine at <a href="62700.html">62700</a>.
+Used by the routine at <a href="62700.html">Attract_Mode_Loop</a>.
+</div>
+<div class="paragraph">
+Advances the colour cycling animation by one step. Scans all 768 screen attribute cells and replaces cells matching 71 with the next colour from the sequence at <a href="62797.html">Colour_Cycle_Table</a>, then immediately replaces all cells matching the following entry with 71 to prime the next cycle step.
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Advance_Colour_Cycle</td>
 <td class="address-2"><span id="62749"></span>62749</td>
 <td class="instruction">LD HL,(62804)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Load the colour cycle table pointer.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62752"></span>62752</td>
 <td class="instruction">LD E,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Read the replacement colour from the current table entry.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62753"></span>62753</td>
 <td class="instruction">LD A,71</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Set the attribute value to be replaced.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62755"></span>62755</td>
 <td class="instruction">LD D,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62756"></span>62756</td>
-<td class="instruction">CALL <a href="62749.html#62779">62779</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="62749.html#62779">Advance_Colour_Cycle_Scan</a></td>
+<td class="comment-1" rowspan="1">Scan the attribute area and apply the colour replacement.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62759"></span>62759</td>
 <td class="instruction">LD HL,(62804)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Re-read and advance the colour cycle pointer.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62762"></span>62762</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label">Advance_Colour_Cycle_Next</td>
 <td class="address-2"><span id="62763"></span>62763</td>
 <td class="instruction">LD (62804),HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Save the updated colour cycle pointer.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62766"></span>62766</td>
 <td class="instruction">LD A,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Read the next table entry and check for the end sentinel.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62767"></span>62767</td>
 <td class="instruction">CP 255</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62769"></span>62769</td>
 <td class="instruction">LD D,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62770"></span>62770</td>
 <td class="instruction">LD E,71</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Set up to restore the marker colour and scan again.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62772"></span>62772</td>
-<td class="instruction">JR NZ,<a href="62749.html#62779">62779</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR NZ,<a href="62749.html#62779">Advance_Colour_Cycle_Scan</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62774"></span>62774</td>
 <td class="instruction">LD HL,62797</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Reset the colour cycle pointer to the table start.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62777"></span>62777</td>
-<td class="instruction">JR <a href="62749.html#62763">62763</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR <a href="62749.html#62763">Advance_Colour_Cycle_Next</a></td>
 </tr>
 <tr>
 <td class="routine-comment" colspan="5">
 <span id="62779"></span>
 <div class="comments">
 <div class="paragraph">
-This entry point is used by the routine at <a href="62880.html">62880</a>.
+This entry point is used by the routine at <a href="62880.html">Advance_Intro_Colour_Cycle</a>.
+</div>
+<div class="paragraph">
+Scan all 768 screen attribute cells and replace any cell colour matching the target with the replacement colour.
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Advance_Colour_Cycle_Scan</td>
 <td class="address-2"><span id="62779"></span>62779</td>
 <td class="instruction">LD HL,22528</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Set up to scan all 768 screen attribute cells.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62782"></span>62782</td>
 <td class="instruction">LD BC,768</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label">Advance_Colour_Cycle_Scan_Loop</td>
 <td class="address-2"><span id="62785"></span>62785</td>
 <td class="instruction">CP (HL)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Skip the cell if it does not match the target colour.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62786"></span>62786</td>
-<td class="instruction">JR NZ,<a href="62749.html#62789">62789</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR NZ,<a href="62749.html#62789">Advance_Colour_Cycle_Loop_Next</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62788"></span>62788</td>
 <td class="instruction">LD (HL),E</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Write the replacement colour to this attribute cell.</td>
 </tr>
 <tr>
+<td class="asm-label">Advance_Colour_Cycle_Loop_Next</td>
 <td class="address-2"><span id="62789"></span>62789</td>
 <td class="instruction">DEC BC</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="5">Advance to the next cell and reload the target colour.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62790"></span>62790</td>
 <td class="instruction">LD A,B</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62791"></span>62791</td>
 <td class="instruction">OR C</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62792"></span>62792</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62793"></span>62793</td>
 <td class="instruction">LD A,D</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62794"></span>62794</td>
-<td class="instruction">JR NZ,<a href="62749.html#62785">62785</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR NZ,<a href="62749.html#62785">Advance_Colour_Cycle_Scan_Loop</a></td>
+<td class="comment-1" rowspan="1">Loop back until all attribute cells are scanned.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62796"></span>62796</td>
 <td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62797"></span>62797</td>
-<td class="instruction">LD BC,517</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62800"></span>62800</td>
-<td class="instruction">INC B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62801"></span>62801</td>
-<td class="instruction">INC BC</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62802"></span>62802</td>
-<td class="instruction">LD B,255</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62804"></span>62804</td>
-<td class="instruction">LD C,L</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62805"></span>62805</td>
-<td class="instruction">PUSH AF</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62806"></span>62806</td>
-<td class="instruction">NOP</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62807"></span>62807</td>
-<td class="instruction">NOP</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62808"></span>62808</td>
-<td class="instruction">LD B,0</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62810"></span>62810</td>
-<td class="instruction">INC B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62811"></span>62811</td>
-<td class="instruction">INC BC</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62812"></span>62812</td>
-<td class="instruction">NOP</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62813"></span>62813</td>
-<td class="instruction">EX AF,AF'</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62814"></span>62814</td>
-<td class="instruction">INC B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62815"></span>62815</td>
-<td class="instruction">NOP</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62816"></span>62816</td>
-<td class="instruction">INC C</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62817"></span>62817</td>
-<td class="instruction">LD (BC),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62818"></span>62818</td>
-<td class="instruction">NOP</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62819"></span>62819</td>
-<td class="instruction">DJNZ <a href="62749.html#62826">62826</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62821"></span>62821</td>
-<td class="instruction">NOP</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62822"></span>62822</td>
-<td class="instruction">INC D</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62823"></span>62823</td>
-<td class="instruction">LD BC,6144</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-2"><span id="62826"></span>62826</td>
-<td class="instruction">LD B,0</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62828"></span>62828</td>
-<td class="instruction">INC E</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62829"></span>62829</td>
-<td class="instruction">INC BC</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62830"></span>62830</td>
-<td class="instruction">JR NZ,62860</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62832"></span>62832</td>
-<td class="instruction">INC B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62833"></span>62833</td>
-<td class="instruction">LD B,B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62834"></span>62834</td>
-<td class="instruction">INC E</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62835"></span>62835</td>
-<td class="instruction">LD (BC),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62836"></span>62836</td>
-<td class="instruction">LD H,B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62837"></span>62837</td>
-<td class="instruction">INC E</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62838"></span>62838</td>
-<td class="instruction">DEC B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62839"></span>62839</td>
-<td class="instruction">ADD A,B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62840"></span>62840</td>
-<td class="instruction">INC E</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62841"></span>62841</td>
-<td class="instruction">LD BC,7328</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62844"></span>62844</td>
-<td class="instruction">LD B,160</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62846"></span>62846</td>
-<td class="instruction">JR <a href="62749.html#62851">62851</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62848"></span>62848</td>
-<td class="instruction">AND B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62849"></span>62849</td>
-<td class="instruction">INC D</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62850"></span>62850</td>
-<td class="instruction">INC B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-2"><span id="62851"></span>62851</td>
-<td class="instruction">AND B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62852"></span>62852</td>
-<td class="instruction">DJNZ <a href="62749.html#62856">62856</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62854"></span>62854</td>
-<td class="instruction">AND B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62855"></span>62855</td>
-<td class="instruction">INC C</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-2"><span id="62856"></span>62856</td>
-<td class="instruction">DEC B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62857"></span>62857</td>
-<td class="instruction">AND B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62858"></span>62858</td>
-<td class="instruction">EX AF,AF'</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62859"></span>62859</td>
-<td class="instruction">LD BC,1184</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62862"></span>62862</td>
-<td class="instruction">LD B,160</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62864"></span>62864</td>
-<td class="instruction">NOP</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62865"></span>62865</td>
-<td class="instruction">INC BC</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62866"></span>62866</td>
-<td class="instruction">ADD A,B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62867"></span>62867</td>
-<td class="instruction">NOP</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62868"></span>62868</td>
-<td class="instruction">INC B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62869"></span>62869</td>
-<td class="instruction">LD H,B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62870"></span>62870</td>
-<td class="instruction">NOP</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62871"></span>62871</td>
-<td class="instruction">LD (BC),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62872"></span>62872</td>
-<td class="instruction">LD B,B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62873"></span>62873</td>
-<td class="instruction">NOP</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62874"></span>62874</td>
-<td class="instruction">DEC B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="62875"></span>62875</td>
-<td class="instruction">JR NZ,<a href="62749.html#62877">62877</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-2"><span id="62877"></span>62877</td>
-<td class="instruction">LD BC,62903</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Return.</td>
 </tr>
 </table>
 <table class="asm-navigation">
@@ -512,7 +218,7 @@ Prev: <a href="62700.html">62700</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#62749">Map</a></td>
 <td class="next">
-Next: <a href="62880.html">62880</a>
+Next: <a href="62797.html">62797</a>
 </td>
 </tr>
 </table>

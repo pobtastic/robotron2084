@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 52430</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="52353.html">52353</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#52430">Map</a></td>
+<td class="next">
+Next: <a href="52457.html">52457</a>
+</td>
+</tr>
+</table>
+<div class="description">52430: Primary Enemy Entity Handler</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Entity handler stored in primary wave enemy records. Called once per frame by the entity dispatcher in <a href="50946.html">DispatchWordFromHL</a>. Searches the entity list for a collision-free position via <a href="52504.html">Find_Colliding_Entity</a>. If a free position exists, hands off to <a href="52457.html">Process_Enemy_Entity</a> to draw the entity and detect contact with other enemies. Otherwise checks whether the enemy touches the player via <a href="50906.html">HitTestBounds8AtHL</a>; if the player is hit, the death transition fires via <a href="53948.html">Strip_Attributes_And_Fade</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Primary_Enemy_Entity_Handler</td>
+<td class="address-2"><span id="52430"></span>52430</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="3">Switch to alternate registers and search the entity list for a free slot via <a href="52504.html">Find_Colliding_Entity</a>; restore main registers.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52431"></span>52431</td>
+<td class="instruction">CALL <a href="52504.html">Find_Colliding_Entity</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52434"></span>52434</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52435"></span>52435</td>
+<td class="instruction">JR NC,<a href="52457.html">Process_Enemy_Entity</a></td>
+<td class="comment-1" rowspan="1">If a free slot was found, hand off to <a href="52457.html">Process_Enemy_Entity</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52437"></span>52437</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="3">Load the player's screen position into alternate <span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52438"></span>52438</td>
+<td class="instruction">LD HL,50388</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52441"></span>52441</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52442"></span>52442</td>
+<td class="instruction">CALL <a href="50906.html">HitTestBounds8AtHL</a></td>
+<td class="comment-1" rowspan="1">Test whether the enemy's bounds overlap the player via <a href="50906.html">HitTestBounds8AtHL</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52445"></span>52445</td>
+<td class="instruction">JP NC,<a href="53948.html">Strip_Attributes_And_Fade</a></td>
+<td class="comment-1" rowspan="1">If the player is hit, trigger the death transition via <a href="53948.html">Strip_Attributes_And_Fade</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52448"></span>52448</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="6">Advance the entity list pointer four bytes and save it in <span class="register">BC</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52449"></span>52449</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52450"></span>52450</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52451"></span>52451</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52452"></span>52452</td>
+<td class="instruction">LD B,H</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52453"></span>52453</td>
+<td class="instruction">LD C,L</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52454"></span>52454</td>
+<td class="instruction">JP <a href="52353.html#52413">Draw_Spawned_Entity_Attribute</a></td>
+<td class="comment-1" rowspan="1">Write the entity's attribute colour via <a href="52353.html#52413">Draw_Spawned_Entity_Attribute</a>.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="52353.html">52353</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#52430">Map</a></td>
+<td class="next">
+Next: <a href="52457.html">52457</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/CCCE.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

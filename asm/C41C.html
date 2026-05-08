@@ -25,7 +25,7 @@ gtag('config', 'G-75RERFCHBG');
 <table class="asm-navigation">
 <tr>
 <td class="prev">
-Prev: <a href="C418.html">C418</a>
+Prev: <a href="C41B.html">C41B</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#c41c">Map</a></td>
 <td class="next">
@@ -33,15 +33,19 @@ Next: <a href="C41D.html">C41D</a>
 </td>
 </tr>
 </table>
-<div class="description">C41C: Game status buffer entry at C41C</div>
+<div class="description">C41C: Active Enemy Count</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
+<div class="paragraph">
+Running total of active wave enemies. Incremented as enemies are spawned and decremented as they are killed. When it reaches zero, <a href="D24C.html">Stage_Next_Wave</a> loads a fresh wave; when non-zero, the current wave set is re-populated instead. <a href="C5C1.html#c5ef">CheckScoreAwardLife_SessionGate</a> also reads it as a session-active gate: non-zero means a game is in progress, so the copy-protection keyboard check is run.
+</div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Active_Enemy_Count</td>
 <td class="address-1"><span id="c41c"></span>C41C</td>
 <td class="instruction">DEFB $00</td>
 <td class="comment-0" rowspan="1"></td>
@@ -50,7 +54,7 @@ Next: <a href="C41D.html">C41D</a>
 <table class="asm-navigation">
 <tr>
 <td class="prev">
-Prev: <a href="C418.html">C418</a>
+Prev: <a href="C41B.html">C41B</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#c41c">Map</a></td>
 <td class="next">

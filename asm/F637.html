@@ -33,156 +33,219 @@ Next: <a href="F670.html">F670</a>
 </td>
 </tr>
 </table>
-<div class="description">F637: Routine at F637</div>
+<div class="description">F637: Draw Attract Title</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routine at <a href="F4EC.html">F4EC</a>.
+Used by the routine at <a href="F4EC.html">Attract_Mode_Loop</a>.
+</div>
+<div class="paragraph">
+Attract-mode title setup after the screen is cleared: writes two parameter sets to <a href="C4F9.html">TitleBlit_Params</a>–<a href="C4F9.html#c4fc">C4FC</a> and OR-blits ROM logos from <a href="6D7D.html">6D7D</a> and <a href="6D7D.html#7005">7005</a> via <a href="F606.html">BlitTitleStrips</a>, fills C0 attribute cells from 5920 with 
+
+
+YELLOW (yellow ink on black paper), then prints <a href="F670.html">Messaging_Credits</a> (copyright / Williams credits) via <a href="9006.html">PrintMessaging</a>. Called from <a href="F4EC.html">Attract_Mode_Loop</a> after <a href="F83C.html">DrawIntroSprites</a>.
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">DrawAttractTitle</td>
 <td class="address-2"><span id="f637"></span>F637</td>
 <td class="instruction">LD HL,$C4F9</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="C4F9.html">TitleBlit_Params</a> (parameter block).</td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="f63a"></span>
+<div class="comments">
+<div class="paragraph">
+First bitmap: parameters 28 20 18 43 then source <a href="6D7D.html">6D7D</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f63a"></span>F63A</td>
 <td class="instruction">LD (HL),$28</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Write 28 to *<a href="C4F9.html">TitleBlit_Params</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f63c"></span>F63C</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Write 20 to *<a href="C4F9.html#c4fa">C4FA</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f63d"></span>F63D</td>
 <td class="instruction">LD (HL),$20</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f63f"></span>F63F</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Write 18 to *<a href="C4F9.html#c4fb">C4FB</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f640"></span>F640</td>
 <td class="instruction">LD (HL),$18</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f642"></span>F642</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Write 43 to *<a href="C4F9.html#c4fc">C4FC</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f643"></span>F643</td>
 <td class="instruction">LD (HL),$43</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f645"></span>F645</td>
 <td class="instruction">LD HL,$6D7D</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="6D7D.html">6D7D</a> (first title / logo bitmap in ROM).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f648"></span>F648</td>
-<td class="instruction">CALL <a href="F606.html">$F606</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="F606.html">BlitTitleStrips</a></td>
+<td class="comment-1" rowspan="1">Call <a href="F606.html">BlitTitleStrips</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f64b"></span>F64B</td>
 <td class="instruction">LD HL,$C4F9</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Write 4A to *<a href="C4F9.html">TitleBlit_Params</a>.</td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="f64e"></span>
+<div class="comments">
+<div class="paragraph">
+Second bitmap: parameters 4A 58 0A 69 then source <a href="6D7D.html#7005">7005</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f64e"></span>F64E</td>
 <td class="instruction">LD (HL),$4A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f650"></span>F650</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Write 58 to *<a href="C4F9.html#c4fa">C4FA</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f651"></span>F651</td>
 <td class="instruction">LD (HL),$58</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f653"></span>F653</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Write 0A to *<a href="C4F9.html#c4fb">C4FB</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f654"></span>F654</td>
 <td class="instruction">LD (HL),$0A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f656"></span>F656</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Write 69 to *<a href="C4F9.html#c4fc">C4FC</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f657"></span>F657</td>
 <td class="instruction">LD (HL),$69</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f659"></span>F659</td>
 <td class="instruction">LD HL,$7005</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="6D7D.html#7005">7005</a> (second title / logo bitmap in ROM).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f65c"></span>F65C</td>
-<td class="instruction">CALL <a href="F606.html">$F606</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="F606.html">BlitTitleStrips</a></td>
+<td class="comment-1" rowspan="1">Call <a href="F606.html">BlitTitleStrips</a>.</td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="f65f"></span>
+<div class="comments">
+<div class="paragraph">
+Attribute band for the credits line (C0 cells, attribute 
+
+
+YELLOW).
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f65f"></span>F65F</td>
 <td class="instruction">LD HL,$5920</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">HL</span>=5920 (start within the attribute file 5800–5AFF).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f662"></span>F662</td>
 <td class="instruction">LD B,$C0</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Set a loop counter in <span class="register">B</span> for C0 attributes.</td>
 </tr>
 <tr>
+<td class="asm-label">DrawAttractTitle_FillAttrs</td>
 <td class="address-2"><span id="f664"></span>F664</td>
 <td class="instruction">LD (HL),$06</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Write 
+
+
+YELLOW (06) to *<span class="register">HL</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f666"></span>F666</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Advance <span class="register">HL</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f667"></span>F667</td>
-<td class="instruction">DJNZ <a href="F637.html#f664">$F664</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">DJNZ <a href="F637.html#f664">DrawAttractTitle_FillAttrs</a></td>
+<td class="comment-1" rowspan="1">Decrease counter and loop back to <a href="F637.html#f664">DrawAttractTitle_FillAttrs</a> until the band is filled.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f669"></span>F669</td>
 <td class="instruction">LD HL,$F670</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Call <a href="9006.html">PrintMessaging</a> using <a href="F670.html">Messaging_Credits</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f66c"></span>F66C</td>
 <td class="instruction">CALL <a href="9006.html">PrintMessaging</a></td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="f66f"></span>F66F</td>
 <td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Return.</td>
 </tr>
 </table>
 <table class="asm-navigation">

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 8E0F</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="8DE3.html">8DE3</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#8e0f">Map</a></td>
+<td class="next">
+Next: <a href="8E23.html">8E23</a>
+</td>
+</tr>
+</table>
+<div class="description">8E0F: Print Handler: Newline</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routines at <a href="8DE3.html">PrintHandler</a> and <a href="8EF7.html">PrintHandler_Render</a>.
+</div>
+<div class="paragraph">
+Carriage return handler: resets the X position to the left margin, then advances the Y position by one font line height (wrapping at BC).
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">PrintHandler_Newline</td>
+<td class="address-2"><span id="8e0f"></span>8E0F</td>
+<td class="instruction">LD HL,$8001</td>
+<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="8001.html">PrintState_X</a> (X position pointer).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8e12"></span>8E12</td>
+<td class="instruction">LD A,($8005)</td>
+<td class="comment-1" rowspan="2">Write *<a href="8005.html">PrintState_LeftMargin</a> (left margin X position) to *<span class="register">HL</span>, resetting X to the left margin.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8e15"></span>8E15</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8e16"></span>8E16</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="8000.html">PrintState_Y</a> (Y position pointer).</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="8e17"></span>
+<div class="comments">
+<div class="paragraph">
+This entry point is used by the routine at <a href="8E92.html">PrintHandler_Tab</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">PrintHandler_AdvanceRow</td>
+<td class="address-2"><span id="8e17"></span>8E17</td>
+<td class="instruction">LD A,(HL)</td>
+<td class="comment-1" rowspan="2"><span class="register">A</span>=*<span class="register">HL</span> + font line height (*<a href="8010.html">PrintState_LineHeight</a>).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8e18"></span>8E18</td>
+<td class="instruction">ADD A,(IX+$10)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8e1b"></span>8E1B</td>
+<td class="instruction">CP $BC</td>
+<td class="comment-1" rowspan="2">Wrap the Y position at BC if it has reached or exceeded that value.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8e1d"></span>8E1D</td>
+<td class="instruction">JR C,<a href="8E0F.html#8e21">PrintHandler_AdvanceRow_Store</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8e1f"></span>8E1F</td>
+<td class="instruction">SUB $BC</td>
+<td class="comment-1" rowspan="1">Subtract BC to wrap Y.</td>
+</tr>
+<tr>
+<td class="asm-label">PrintHandler_AdvanceRow_Store</td>
+<td class="address-2"><span id="8e21"></span>8E21</td>
+<td class="instruction">LD (HL),A</td>
+<td class="comment-1" rowspan="1">Write the new Y position back to *<span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="8e22"></span>8E22</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="8DE3.html">8DE3</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#8e0f">Map</a></td>
+<td class="next">
+Next: <a href="8E23.html">8E23</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/36367.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

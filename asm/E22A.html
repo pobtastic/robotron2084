@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at E22A</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="E1B6.html">E1B6</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#e22a">Map</a></td>
+<td class="next">
+Next: <a href="E262.html">E262</a>
+</td>
+</tr>
+</table>
+<div class="description">E22A: Begin Enemy Death Animation</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="E1B6.html">Handle_Horizontal_Enemy_Entity</a>.
+</div>
+<div class="paragraph">
+Called when a colliding wave enemy is struck: freezes movement, removes the sprite, flashes it white, marks it as dying, and starts the 32-frame death timer. Decrements the live count for this enemy's class. Called from <a href="E1B6.html">Handle_Horizontal_Enemy_Entity</a> and <a href="E881.html">Process_Wall_Bouncing_Enemy</a>.
+</div>
+</div>
+<table class="input">
+<tr class="asm-input-header">
+<th colspan="2">Input</th>
+</tr>
+<tr>
+<td class="register">HL</td>
+<td class="register-desc">Entity record pointer (positioned at the entity type byte)</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="e22a"></span>
+<div class="comments">
+<div class="paragraph">
+Freeze the enemy and remove it from the screen.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Begin_Enemy_Death_Animation</td>
+<td class="address-2"><span id="e22a"></span>E22A</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="4">Step back four bytes to the entity handler field.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e22b"></span>E22B</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e22c"></span>E22C</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e22d"></span>E22D</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e22e"></span>E22E</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="3">Freeze the enemy: save the entity pointer and call <a href="D9C4.html">Initialise_Entity_State</a> with movement state 03.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e22f"></span>E22F</td>
+<td class="instruction">LD E,$03</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e231"></span>E231</td>
+<td class="instruction">CALL <a href="D9C4.html">Initialise_Entity_State</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e234"></span>E234</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="2">Restore the entity pointer into <span class="register">HL</span> and keep a copy on the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e235"></span>E235</td>
+<td class="instruction">PUSH HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e236"></span>E236</td>
+<td class="instruction">CALL <a href="C949.html">Erase_Wide_Entity_Sprite</a></td>
+<td class="comment-1" rowspan="1">Erase the enemy sprite from the screen via <a href="C949.html">Erase_Wide_Entity_Sprite</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e239"></span>E239</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="1">Restore the entity pointer from the stack.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="e23a"></span>
+<div class="comments">
+<div class="paragraph">
+Mark the enemy as dying and flash it white to signal the kill.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Begin_Enemy_Death_Animation_Flash</td>
+<td class="address-1"><span id="e23a"></span>E23A</td>
+<td class="instruction">LD C,(HL)</td>
+<td class="comment-1" rowspan="4">Save the entity type in <span class="register">C</span>, stash both on the stack, and mark the enemy as dying (0F).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e23b"></span>E23B</td>
+<td class="instruction">PUSH BC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e23c"></span>E23C</td>
+<td class="instruction">LD (HL),$0F</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e23e"></span>E23E</td>
+<td class="instruction">PUSH HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e23f"></span>E23F</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="3">Set the draw colour to INK:
+WHITE,
+PAPER:
+BLACK
+(BRIGHT)
+ in <span class="register">B'</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e240"></span>E240</td>
+<td class="instruction">LD B,$47</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e242"></span>E242</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e243"></span>E243</td>
+<td class="instruction">CALL <a href="D637.html">Draw_Entity_Sprite</a></td>
+<td class="comment-1" rowspan="1">Flash the enemy white on screen via <a href="D637.html">Draw_Entity_Sprite</a>.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="e246"></span>
+<div class="comments">
+<div class="paragraph">
+Restore context, reduce the live count, and start the death timer.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e246"></span>E246</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="2">Restore the entity pointer and entity type from the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e247"></span>E247</td>
+<td class="instruction">POP BC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e248"></span>E248</td>
+<td class="instruction">SRL C</td>
+<td class="comment-1" rowspan="4">Shift the entity type right four bits to get the enemy class index.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e24a"></span>E24A</td>
+<td class="instruction">SRL C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e24c"></span>E24C</td>
+<td class="instruction">SRL C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e24e"></span>E24E</td>
+<td class="instruction">SRL C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e250"></span>E250</td>
+<td class="instruction">EX DE,HL</td>
+<td class="comment-1" rowspan="6">Reduce the live enemy count for this class in the table at <a href="C427.html">Table_SlotCount</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e251"></span>E251</td>
+<td class="instruction">LD B,$00</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e253"></span>E253</td>
+<td class="instruction">LD HL,$C427</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e256"></span>E256</td>
+<td class="instruction">ADD HL,BC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e257"></span>E257</td>
+<td class="instruction">DEC (HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e258"></span>E258</td>
+<td class="instruction">EX DE,HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e259"></span>E259</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="2">Step back to the animation timer byte and set it to 32 frames.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e25a"></span>E25A</td>
+<td class="instruction">LD (HL),$32</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e25c"></span>E25C</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="5">Step the alternate entity list pointer back three bytes.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e25d"></span>E25D</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e25e"></span>E25E</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e25f"></span>E25F</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e260"></span>E260</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e261"></span>E261</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="E1B6.html">E1B6</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#e22a">Map</a></td>
+<td class="next">
+Next: <a href="E262.html">E262</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/57898.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

@@ -25,7 +25,7 @@ gtag('config', 'G-75RERFCHBG');
 <table class="asm-navigation">
 <tr>
 <td class="prev">
-Prev: <a href="50500.html">50500</a>
+Prev: <a href="50956.html">50956</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#50963">Map</a></td>
 <td class="next">
@@ -33,307 +33,427 @@ Next: <a href="51069.html">51069</a>
 </td>
 </tr>
 </table>
-<div class="description">50963: Routine at C713</div>
+<div class="description">50963: Update Attribute Bar</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="51279.html">51279</a>, <a href="54039.html">RenderHUD</a> and <a href="54119.html">PlayerDeath</a>.
+Used by the routines at <a href="52047.html">Main_Game_Loop</a>, <a href="52532.html">Clear_Colour_Bar_Column</a>, <a href="54039.html">RenderHUD</a> and <a href="54119.html">PlayerDeath</a>.
+</div>
+<div class="paragraph">
+Paints the HUD attribute border with *<a href="50222.html">Border_Colour</a> and writes the cycling colour from <a href="50956.html">HelpBarAttributeSequence</a> to 7 attribute cells at *<a href="50206.html#50208">Colour_Bar_Column</a>. Checks the H key (help) and F key (restart). <a href="50963.html#50975">UpdateAttributeBar_FillBorder</a> is also called directly by <a href="50500.html#50621">50621</a>.
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">UpdateAttributeBar</td>
 <td class="address-2"><span id="50963"></span>50963</td>
 <td class="instruction">LD HL,(50405)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">HL</span>=*<a href="50405.html">Colour_Cycle_Table_Pointer</a> (colour cycle table pointer).</td>
 </tr>
 <tr>
+<td class="asm-label">UpdateAttributeBar_FetchColour</td>
 <td class="address-2"><span id="50966"></span>50966</td>
 <td class="instruction">LD A,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Read the next colour byte; jump to <a href="50963.html#51063">UpdateAttributeBar_ResetTable</a> if zero (table end).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="50967"></span>50967</td>
 <td class="instruction">AND A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="50968"></span>50968</td>
-<td class="instruction">JP Z,<a href="50963.html#51063">51063</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JP Z,<a href="50963.html#51063">UpdateAttributeBar_ResetTable</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="50971"></span>50971</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Advance the table pointer and save it back to *<a href="50405.html">Colour_Cycle_Table_Pointer</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="50972"></span>50972</td>
 <td class="instruction">LD (50405),HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
 <td class="routine-comment" colspan="5">
 <span id="50975"></span>
 <div class="comments">
 <div class="paragraph">
-This entry point is used by the routine at <a href="50500.html">50500</a>.
+This entry point is used by the routine at <a href="50500.html">PrintPlayerScore</a>.
+</div>
+<div class="paragraph">
+Fill the attribute area border with *<a href="50222.html">Border_Colour</a> (current border colour).
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">UpdateAttributeBar_FillBorder</td>
 <td class="address-2"><span id="50975"></span>50975</td>
 <td class="instruction">LD HL,22528</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">HL</span>=22528 (attribute area start).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="50978"></span>50978</td>
 <td class="instruction">LD A,(50222)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=*<a href="50222.html">Border_Colour</a> (border colour).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="50981"></span>50981</td>
 <td class="instruction">LD B,64</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Top rows loop count 64 (<span class="register">B</span>=64).</td>
 </tr>
 <tr>
+<td class="asm-label">UpdateAttributeBar_TopFillLoop</td>
 <td class="address-2"><span id="50983"></span>50983</td>
 <td class="instruction">LD (HL),A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Write the border colour to 64 attribute cells (top two rows).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="50984"></span>50984</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="50985"></span>50985</td>
-<td class="instruction">DJNZ <a href="50963.html#50983">50983</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">DJNZ <a href="50963.html#50983">UpdateAttributeBar_TopFillLoop</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="50987"></span>50987</td>
 <td class="instruction">LD B,21</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Side-column loop count 21 (<span class="register">B</span>=21).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="50989"></span>50989</td>
 <td class="instruction">LD DE,31</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">DE</span>=31 (stride between left and right edge columns).</td>
 </tr>
 <tr>
+<td class="asm-label">UpdateAttributeBar_SideFillLoop</td>
 <td class="address-2"><span id="50992"></span>50992</td>
 <td class="instruction">LD (HL),A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="5">Write the border colour to the left (col 0) and right (col 31) edge cells of 21 consecutive rows.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="50993"></span>50993</td>
 <td class="instruction">ADD HL,DE</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="50994"></span>50994</td>
 <td class="instruction">LD (HL),A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="50995"></span>50995</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="50996"></span>50996</td>
-<td class="instruction">DJNZ <a href="50963.html#50992">50992</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">DJNZ <a href="50963.html#50992">UpdateAttributeBar_SideFillLoop</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="50998"></span>50998</td>
 <td class="instruction">LD B,32</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Bottom row loop count 32 (<span class="register">B</span>=32).</td>
 </tr>
 <tr>
+<td class="asm-label">UpdateAttributeBar_BottomFillLoop</td>
 <td class="address-2"><span id="51000"></span>51000</td>
 <td class="instruction">LD (HL),A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Write the border colour to 32 attribute cells (bottom row).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51001"></span>51001</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51002"></span>51002</td>
-<td class="instruction">DJNZ <a href="50963.html#51000">51000</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">DJNZ <a href="50963.html#51000">UpdateAttributeBar_BottomFillLoop</a></td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="51004"></span>
+<div class="comments">
+<div class="paragraph">
+Load the current colour byte from the table into <span class="register">C</span>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51004"></span>51004</td>
 <td class="instruction">LD HL,(50405)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Back up one step in the table and load the colour byte into <span class="register">C</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51007"></span>51007</td>
 <td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51008"></span>51008</td>
 <td class="instruction">LD C,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51009"></span>51009</td>
 <td class="instruction">LD H,88</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">H</span>=88 (high byte of the colour bar attribute row pointer).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51011"></span>51011</td>
 <td class="instruction">LD A,(50208)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2"><span class="register">L</span>=*<a href="50206.html#50208">Colour_Bar_Column</a> (colour bar column offset).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51014"></span>51014</td>
 <td class="instruction">LD L,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51015"></span>51015</td>
 <td class="instruction">LD B,7</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Colour bar loop count 7 (<span class="register">B</span>=7).</td>
 </tr>
 <tr>
+<td class="asm-label">UpdateAttributeBar_ColourBarLoop</td>
 <td class="address-2"><span id="51017"></span>51017</td>
 <td class="instruction">LD (HL),C</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Write the cycling colour (<span class="register">C</span>) to 7 consecutive attribute cells.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51018"></span>51018</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51019"></span>51019</td>
-<td class="instruction">DJNZ <a href="50963.html#51017">51017</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">DJNZ <a href="50963.html#51017">UpdateAttributeBar_ColourBarLoop</a></td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="51021"></span>
+<div class="comments">
+<div class="paragraph">
+Check H (help) and F (restart) keys.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51021"></span>51021</td>
 <td class="instruction">LD A,191</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Read from the keyboard; <table class="default">
+<tr>
+<th colspan="1" rowspan="2">Port Number</th>
+<th colspan="5" rowspan="1">Bit</th>
 </tr>
 <tr>
+<th colspan="1" rowspan="1">0</th>
+<th colspan="1" rowspan="1">1</th>
+<th colspan="1" rowspan="1">2</th>
+<th colspan="1" rowspan="1">3</th>
+<th colspan="1" rowspan="1">4</th>
+</tr>
+<tr>
+<td class="centre" colspan="1" rowspan="1">191</td>
+<td class="centre" colspan="1" rowspan="1">ENTER</td>
+<td class="centre" colspan="1" rowspan="1">L</td>
+<td class="centre" colspan="1" rowspan="1">K</td>
+<td class="centre" colspan="1" rowspan="1">J</td>
+<td class="centre" colspan="1" rowspan="1">H</td>
+</tr>
+</table></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51023"></span>51023</td>
 <td class="instruction">IN A,(254)</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51025"></span>51025</td>
-<td class="instruction">AND 16</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">AND %00010000</td>
+<td class="comment-1" rowspan="1">Test the H key (bit 4).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51027"></span>51027</td>
-<td class="instruction">JP Z,<a href="50963.html#51040">51040</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JP Z,<a href="50963.html#51040">UpdateAttributeBar_HKeyWait_D</a></td>
+<td class="comment-1" rowspan="1">Jump to <a href="50963.html#51040">UpdateAttributeBar_HKeyWait_D</a> if H is pressed.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51030"></span>51030</td>
 <td class="instruction">LD A,253</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Read from the keyboard; <table class="default">
+<tr>
+<th colspan="1" rowspan="2">Port Number</th>
+<th colspan="5" rowspan="1">Bit</th>
 </tr>
 <tr>
+<th colspan="1" rowspan="1">0</th>
+<th colspan="1" rowspan="1">1</th>
+<th colspan="1" rowspan="1">2</th>
+<th colspan="1" rowspan="1">3</th>
+<th colspan="1" rowspan="1">4</th>
+</tr>
+<tr>
+<td class="centre" colspan="1" rowspan="1">253</td>
+<td class="centre" colspan="1" rowspan="1">A</td>
+<td class="centre" colspan="1" rowspan="1">S</td>
+<td class="centre" colspan="1" rowspan="1">D</td>
+<td class="centre" colspan="1" rowspan="1">F</td>
+<td class="centre" colspan="1" rowspan="1">G</td>
+</tr>
+</table></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51032"></span>51032</td>
 <td class="instruction">IN A,(254)</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51034"></span>51034</td>
-<td class="instruction">AND 8</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">AND %00001000</td>
+<td class="comment-1" rowspan="1">Test the F key (bit 3).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51036"></span>51036</td>
 <td class="instruction">JP Z,<a href="60348.html">GameEntryPoint</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Jump to <a href="60348.html">GameEntryPoint</a> if F is pressed (restart the game).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51039"></span>51039</td>
 <td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Return.</td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="51040"></span>
+<div class="comments">
+<div class="paragraph">
+H key pressed: poll via <a href="51069.html">PollHKey</a>, counting down <span class="register">D</span> then <span class="register">E</span> then <span class="register">D</span> again.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">UpdateAttributeBar_HKeyWait_D</td>
 <td class="address-2"><span id="51040"></span>51040</td>
 <td class="instruction">CALL <a href="51069.html">PollHKey</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Call <a href="51069.html">PollHKey</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51043"></span>51043</td>
 <td class="instruction">DEC D</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Decrease <span class="register">D</span> and loop back to <a href="50963.html#51040">UpdateAttributeBar_HKeyWait_D</a> while non-zero.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51044"></span>51044</td>
-<td class="instruction">JP NZ,<a href="50963.html#51040">51040</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JP NZ,<a href="50963.html#51040">UpdateAttributeBar_HKeyWait_D</a></td>
 </tr>
 <tr>
+<td class="asm-label">UpdateAttributeBar_HKeyWait_E</td>
 <td class="address-2"><span id="51047"></span>51047</td>
 <td class="instruction">CALL <a href="51069.html">PollHKey</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Call <a href="51069.html">PollHKey</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51050"></span>51050</td>
 <td class="instruction">DEC E</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Decrease <span class="register">E</span> and loop back to <a href="50963.html#51047">UpdateAttributeBar_HKeyWait_E</a> while non-zero.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51051"></span>51051</td>
-<td class="instruction">JP NZ,<a href="50963.html#51047">51047</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JP NZ,<a href="50963.html#51047">UpdateAttributeBar_HKeyWait_E</a></td>
 </tr>
 <tr>
+<td class="asm-label">UpdateAttributeBar_HKeyWait_D2</td>
 <td class="address-2"><span id="51054"></span>51054</td>
 <td class="instruction">CALL <a href="51069.html">PollHKey</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Call <a href="51069.html">PollHKey</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51057"></span>51057</td>
 <td class="instruction">DEC D</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Decrease <span class="register">D</span> and loop back to <a href="50963.html#51054">UpdateAttributeBar_HKeyWait_D2</a> while non-zero.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51058"></span>51058</td>
-<td class="instruction">JP NZ,<a href="50963.html#51054">51054</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JP NZ,<a href="50963.html#51054">UpdateAttributeBar_HKeyWait_D2</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51061"></span>51061</td>
 <td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Return.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51062"></span>51062</td>
 <td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Return.</td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="51063"></span>
+<div class="comments">
+<div class="paragraph">
+Table exhausted: reset the pointer to the start of <a href="50956.html">HelpBarAttributeSequence</a> and continue.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">UpdateAttributeBar_ResetTable</td>
 <td class="address-2"><span id="51063"></span>51063</td>
 <td class="instruction">LD HL,50956</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="50956.html">HelpBarAttributeSequence</a> (start of the colour cycle table).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="51066"></span>51066</td>
-<td class="instruction">JP <a href="50963.html#50966">50966</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JP <a href="50963.html#50966">UpdateAttributeBar_FetchColour</a></td>
+<td class="comment-1" rowspan="1">Jump to <a href="50963.html#50966">UpdateAttributeBar_FetchColour</a> (fetch the first colour byte).</td>
 </tr>
 </table>
 <table class="asm-navigation">
 <tr>
 <td class="prev">
-Prev: <a href="50500.html">50500</a>
+Prev: <a href="50956.html">50956</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#50963">Map</a></td>
 <td class="next">

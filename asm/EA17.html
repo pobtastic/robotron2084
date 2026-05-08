@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at EA17</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="EA0F.html">EA0F</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#ea17">Map</a></td>
+<td class="next">
+Next: <a href="EA6E.html">EA6E</a>
+</td>
+</tr>
+</table>
+<div class="description">EA17: Handle Enemy Collision Chain</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="E881.html">Process_Wall_Bouncing_Enemy</a>.
+</div>
+<div class="paragraph">
+Reached from <a href="E881.html">Process_Wall_Bouncing_Enemy</a> when the bouncer finds no collision partner. Flags the entity as active, reads the entity type and state, decrements the slot count at <a href="C427.html">Table_SlotCount</a>, and installs the retire handler <a href="E003.html#e02c">Process_Entity_Record_Next7</a>. Then appends a replacement entity record (handler <a href="EA6E.html">Process_Replacement_Enemy_Entity</a>) to the entity list at *<a href="C509.html">Entity_List_Write_Pointer</a>, writes the list terminator <a href="D0F0.html#d1a4">Entity_List_Reset</a>, and jumps to <a href="E881.html#e90f">Process_Wall_Bouncing_Enemy_Advance</a> to redraw without moving.
+</div>
+</div>
+<table class="input">
+<tr class="asm-input-header">
+<th colspan="2">Input</th>
+</tr>
+<tr>
+<td class="register">HL</td>
+<td class="register-desc">Entity record pointer</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="ea17"></span>
+<div class="comments">
+<div class="paragraph">
+Flag the bouncer as active and save the entity record pointer.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Handle_Enemy_Collision_Chain</td>
+<td class="address-2"><span id="ea17"></span>EA17</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="1">Switch to alternate registers.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea18"></span>EA18</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="5">Step back five bytes to the entity active flag.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea19"></span>EA19</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea1a"></span>EA1A</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea1b"></span>EA1B</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea1c"></span>EA1C</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea1d"></span>EA1D</td>
+<td class="instruction">LD (HL),$01</td>
+<td class="comment-1" rowspan="1">Set the entity active flag to 01.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea1f"></span>EA1F</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="1">Stash the entity record pointer on the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea20"></span>EA20</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="1">Switch to main registers.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="ea21"></span>
+<div class="comments">
+<div class="paragraph">
+Read the entity state and extract the type index.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea21"></span>EA21</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="5">Step back through the record and read the entity type into <span class="register">B</span> and the count into <span class="register">C</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea22"></span>EA22</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea23"></span>EA23</td>
+<td class="instruction">LD B,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea24"></span>EA24</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea25"></span>EA25</td>
+<td class="instruction">LD C,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea26"></span>EA26</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="4">Read the entity state byte into <span class="register">A</span>, write the countdown timer 0F and stash the record pointer.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea27"></span>EA27</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea28"></span>EA28</td>
+<td class="instruction">LD (HL),$0F</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea2a"></span>EA2A</td>
+<td class="instruction">PUSH HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea2b"></span>EA2B</td>
+<td class="instruction">LD E,A</td>
+<td class="comment-1" rowspan="6">Extract the entity type index (upper nibble of <span class="register">A</span>) into <span class="register">DE</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea2c"></span>EA2C</td>
+<td class="instruction">SRL E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea2e"></span>EA2E</td>
+<td class="instruction">SRL E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea30"></span>EA30</td>
+<td class="instruction">SRL E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea32"></span>EA32</td>
+<td class="instruction">SRL E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea34"></span>EA34</td>
+<td class="instruction">LD D,$00</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="ea36"></span>
+<div class="comments">
+<div class="paragraph">
+Decrement the slot count and install the retire handler.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea36"></span>EA36</td>
+<td class="instruction">LD HL,$C427</td>
+<td class="comment-1" rowspan="3">Look up the slot count at <a href="C427.html">Table_SlotCount</a> and decrement it.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea39"></span>EA39</td>
+<td class="instruction">ADD HL,DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea3a"></span>EA3A</td>
+<td class="instruction">DEC (HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea3b"></span>EA3B</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="1">Restore the entity record pointer from the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea3c"></span>EA3C</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="2">Step back to the retire handler field.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea3d"></span>EA3D</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea3e"></span>EA3E</td>
+<td class="instruction">LD DE,$E02C</td>
+<td class="comment-1" rowspan="4">Write the retire handler <a href="E003.html#e02c">Process_Entity_Record_Next7</a> into the entity record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea41"></span>EA41</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea42"></span>EA42</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea43"></span>EA43</td>
+<td class="instruction">LD (HL),E</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="ea44"></span>
+<div class="comments">
+<div class="paragraph">
+Open a new entity record for the replacement handler.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea44"></span>EA44</td>
+<td class="instruction">LD HL,($C509)</td>
+<td class="comment-1" rowspan="8">Load the entity list write pointer from <a href="C509.html">Entity_List_Write_Pointer</a> and write the <a href="EA6E.html">Process_Replacement_Enemy_Entity</a> handler and state byte 23.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea47"></span>EA47</td>
+<td class="instruction">LD DE,$EA6E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea4a"></span>EA4A</td>
+<td class="instruction">LD (HL),E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea4b"></span>EA4B</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea4c"></span>EA4C</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea4d"></span>EA4D</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea4e"></span>EA4E</td>
+<td class="instruction">LD (HL),$23</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea50"></span>EA50</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="ea51"></span>
+<div class="comments">
+<div class="paragraph">
+Write the entity fields and save the list pointer.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea51"></span>EA51</td>
+<td class="instruction">LD (HL),A</td>
+<td class="comment-1" rowspan="8">Write the entity state, count, type, and count to the replacement record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea52"></span>EA52</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea53"></span>EA53</td>
+<td class="instruction">LD (HL),C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea54"></span>EA54</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea55"></span>EA55</td>
+<td class="instruction">LD (HL),B</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea56"></span>EA56</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea57"></span>EA57</td>
+<td class="instruction">LD (HL),C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea58"></span>EA58</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea59"></span>EA59</td>
+<td class="instruction">POP DE</td>
+<td class="comment-1" rowspan="1">Restore the entity record pointer from the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea5a"></span>EA5A</td>
+<td class="instruction">LD (HL),E</td>
+<td class="comment-1" rowspan="5">Write the entity record pointer into the replacement record and save the updated list pointer to <a href="C509.html">Entity_List_Write_Pointer</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea5b"></span>EA5B</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea5c"></span>EA5C</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea5d"></span>EA5D</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea5e"></span>EA5E</td>
+<td class="instruction">LD ($C509),HL</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="ea61"></span>
+<div class="comments">
+<div class="paragraph">
+Close the entity list and advance to the draw step.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea61"></span>EA61</td>
+<td class="instruction">LD DE,$D1A4</td>
+<td class="comment-1" rowspan="6">Write the list terminator <a href="D0F0.html#d1a4">Entity_List_Reset</a> and end marker FF.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea64"></span>EA64</td>
+<td class="instruction">LD (HL),E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea65"></span>EA65</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea66"></span>EA66</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea67"></span>EA67</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea68"></span>EA68</td>
+<td class="instruction">LD (HL),$FF</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea6a"></span>EA6A</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="2">Switch to alternate registers and jump to <a href="E881.html#e90f">Process_Wall_Bouncing_Enemy_Advance</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ea6b"></span>EA6B</td>
+<td class="instruction">JP <a href="E881.html#e90f">Process_Wall_Bouncing_Enemy_Advance</a></td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="EA0F.html">EA0F</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#ea17">Map</a></td>
+<td class="next">
+Next: <a href="EA6E.html">EA6E</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/59927.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at E31C</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="E2FD.html">E2FD</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#e31c">Map</a></td>
+<td class="next">
+Next: <a href="E346.html">E346</a>
+</td>
+</tr>
+</table>
+<div class="description">E31C: Build Entity Spawn Record</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="E360.html">Process_Tracked_Enemy_Entity</a>.
+</div>
+<div class="paragraph">
+Reads the direction byte from (<span class="register">IX</span>+02), indexes the direction animation offset table at <a href="E7AF.html">Direction_Animation_Offset_Table</a> by direction × 4, and writes five bytes to the entity spawn buffer at C511: the animation type byte (28 + direction), the direction-adjusted Y coordinate, the direction-adjusted X coordinate, and two further table bytes via two LDI instructions. Called from <a href="E360.html">Process_Tracked_Enemy_Entity</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Build_Entity_Spawn_Record</td>
+<td class="address-2"><span id="e31c"></span>E31C</td>
+<td class="instruction">LD HL,$E7AF</td>
+<td class="comment-1" rowspan="7">Index the direction animation table at <a href="E7AF.html">Direction_Animation_Offset_Table</a> and write the animation type byte (28 + direction) to the spawn buffer at C511.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e31f"></span>E31F</td>
+<td class="instruction">LD D,$00</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e321"></span>E321</td>
+<td class="instruction">LD A,(IX+$02)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e324"></span>E324</td>
+<td class="instruction">AND $07</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e326"></span>E326</td>
+<td class="instruction">LD E,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e327"></span>E327</td>
+<td class="instruction">SLA E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e329"></span>E329</td>
+<td class="instruction">SLA E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e32b"></span>E32B</td>
+<td class="instruction">ADD HL,DE</td>
+<td class="comment-1" rowspan="9">Write the direction-adjusted Y and X coordinates to the spawn buffer.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e32c"></span>E32C</td>
+<td class="instruction">LD DE,$C511</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e32f"></span>E32F</td>
+<td class="instruction">ADD A,$28</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e331"></span>E331</td>
+<td class="instruction">LD (DE),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e332"></span>E332</td>
+<td class="instruction">INC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e333"></span>E333</td>
+<td class="instruction">LD A,(IX+$03)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e336"></span>E336</td>
+<td class="instruction">ADD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e337"></span>E337</td>
+<td class="instruction">LD (DE),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e338"></span>E338</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e339"></span>E339</td>
+<td class="instruction">INC DE</td>
+<td class="comment-1" rowspan="5">Copy two further direction table bytes to the spawn buffer via LDI×2.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e33a"></span>E33A</td>
+<td class="instruction">LD A,(IX+$05)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e33d"></span>E33D</td>
+<td class="instruction">ADD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e33e"></span>E33E</td>
+<td class="instruction">LD (DE),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e33f"></span>E33F</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e340"></span>E340</td>
+<td class="instruction">INC DE</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e341"></span>E341</td>
+<td class="instruction">LDI</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e343"></span>E343</td>
+<td class="instruction">LDI</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e345"></span>E345</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="E2FD.html">E2FD</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#e31c">Map</a></td>
+<td class="next">
+Next: <a href="E346.html">E346</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/58140.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

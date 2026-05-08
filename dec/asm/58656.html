@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 58656</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="58553.html">58553</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#58656">Map</a></td>
+<td class="next">
+Next: <a href="59060.html">59060</a>
+</td>
+</tr>
+</table>
+<div class="description">58656: Process Cluster Entity</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Per-frame entity handler for the cluster entities spawned when a tracked wave enemy promotes. Advances three bytes to a countdown timer, decrements it, and redraws the entity via <a href="52532.html#53156">Clear_Colour_Bar_Column_26</a> while the timer is still running. When the timer reaches zero, calls <a href="54832.html">Erase_Entity_Sprite</a> to erase the entity sprite. If the animation pass counter (two bytes back) is also exhausted, detaches the entity and scores; otherwise increments the pass counter, redraws via <a href="54839.html">Draw_Entity_Sprite</a>, sets the animation delay to 4 and jumps to <a href="58514.html#58530">Tick_Entity_Colour_Timer_Advance</a>. On further passes the handler transitions to <a href="58656.html#58733">Process_Cluster_Entity_Homing</a>, which searches for player contact via <a href="52504.html">Find_Colliding_Entity</a> and triggers a kill via <a href="59127.html">Process_Player_Tracking_Enemy</a> if found, or else applies directional movement toward the player and draws via <a href="51286.html">Draw_Narrow_Entity_Sprite</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Cluster_Entity</td>
+<td class="address-2"><span id="58656"></span>58656</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="7">Advance three bytes to the countdown timer, decrement it, and check for expiry.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58657"></span>58657</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58658"></span>58658</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58659"></span>58659</td>
+<td class="instruction">DEC (HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58660"></span>58660</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58661"></span>58661</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58662"></span>58662</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58663"></span>58663</td>
+<td class="instruction">JP Z,<a href="58656.html#58678">Process_Cluster_Entity_Expired</a></td>
+<td class="comment-1" rowspan="4">Timer still running: redraw the entity via <a href="52532.html#53156">Clear_Colour_Bar_Column_26</a> and advance.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58666"></span>58666</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58667"></span>58667</td>
+<td class="instruction">LD B,69</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58669"></span>58669</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58670"></span>58670</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58671"></span>58671</td>
+<td class="instruction">CALL <a href="52532.html#53156">Clear_Colour_Bar_Column_26</a></td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58674"></span>58674</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58675"></span>58675</td>
+<td class="instruction">JP <a href="58535.html#58548">Retire_Expired_Entity_Advance</a></td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label">Process_Cluster_Entity_Expired</td>
+<td class="address-2"><span id="58678"></span>58678</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="4">Timer expired: erase the entity sprite via <a href="54832.html">Erase_Entity_Sprite</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58679"></span>58679</td>
+<td class="instruction">CALL <a href="54832.html">Erase_Entity_Sprite</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58682"></span>58682</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58683"></span>58683</td>
+<td class="instruction">INC (HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58684"></span>58684</td>
+<td class="instruction">LD A,(HL)</td>
+<td class="comment-1" rowspan="3">Check the pass counter; jump to <a href="58656.html#58707">Process_Cluster_Entity_Transition</a> if the maximum pass count (31) is reached.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58685"></span>58685</td>
+<td class="instruction">CP 31</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58687"></span>58687</td>
+<td class="instruction">JP Z,<a href="58656.html#58707">Process_Cluster_Entity_Transition</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58690"></span>58690</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="7">Increment the pass counter, redraw the entity via <a href="54839.html">Draw_Entity_Sprite</a>, and write animation delay 4.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58691"></span>58691</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58692"></span>58692</td>
+<td class="instruction">LD B,69</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58694"></span>58694</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58695"></span>58695</td>
+<td class="instruction">CALL <a href="54839.html">Draw_Entity_Sprite</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58698"></span>58698</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58699"></span>58699</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58700"></span>58700</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="3">Jump to <a href="58514.html#58530">Tick_Entity_Colour_Timer_Advance</a> to advance the entity pointer.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58701"></span>58701</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58702"></span>58702</td>
+<td class="instruction">LD (HL),4</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58704"></span>58704</td>
+<td class="instruction">JP <a href="58514.html#58530">Tick_Entity_Colour_Timer_Advance</a></td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label">Process_Cluster_Entity_Transition</td>
+<td class="address-2"><span id="58707"></span>58707</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="13">Write handler <a href="58656.html#58733">Process_Cluster_Entity_Homing</a> and redraw the entity via <a href="54839.html">Draw_Entity_Sprite</a>; set the animation byte to 11.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58708"></span>58708</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58709"></span>58709</td>
+<td class="instruction">LD DE,58733</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58712"></span>58712</td>
+<td class="instruction">LD (HL),E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58713"></span>58713</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58714"></span>58714</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58715"></span>58715</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58716"></span>58716</td>
+<td class="instruction">PUSH HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58717"></span>58717</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58718"></span>58718</td>
+<td class="instruction">LD B,69</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58720"></span>58720</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58721"></span>58721</td>
+<td class="instruction">CALL <a href="54839.html">Draw_Entity_Sprite</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58724"></span>58724</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58725"></span>58725</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58726"></span>58726</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58727"></span>58727</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58728"></span>58728</td>
+<td class="instruction">LD (HL),11</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58730"></span>58730</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58731"></span>58731</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58732"></span>58732</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label">Process_Cluster_Entity_Homing</td>
+<td class="address-1"><span id="58733"></span>58733</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="4">Increment the animation counter and check for overflow; jump to <a href="58656.html#58808">Process_Cluster_Entity_Advance</a> if the counter wraps.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58734"></span>58734</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58735"></span>58735</td>
+<td class="instruction">INC A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58736"></span>58736</td>
+<td class="instruction">JP Z,<a href="58656.html#58808">Process_Cluster_Entity_Advance</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58739"></span>58739</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="4">Stash <span class="register">HL</span>, step back one byte, and erase the entity sprite via <a href="54832.html">Erase_Entity_Sprite</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58740"></span>58740</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58741"></span>58741</td>
+<td class="instruction">CALL <a href="54832.html">Erase_Entity_Sprite</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58744"></span>58744</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58745"></span>58745</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="3">Search for a player-contact slot via <a href="52504.html">Find_Colliding_Entity</a>, then jump to <a href="59127.html">Process_Player_Tracking_Enemy</a> if player contact is detected.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58746"></span>58746</td>
+<td class="instruction">CALL <a href="52504.html">Find_Colliding_Entity</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58749"></span>58749</td>
+<td class="instruction">JP C,<a href="59127.html">Process_Player_Tracking_Enemy</a></td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="58752"></span>
+<div class="comments">
+<div class="paragraph">
+Entity not touching the player: erase the sprite again, score 2 BCD, and update the colour bar.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58752"></span>58752</td>
+<td class="instruction">LD DE,6</td>
+<td class="comment-1" rowspan="6">Step back six bytes, erase the sprite via <a href="51279.html">Erase_Narrow_Entity_Sprite</a>, and restore <span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58755"></span>58755</td>
+<td class="instruction">AND A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58756"></span>58756</td>
+<td class="instruction">SBC HL,DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58758"></span>58758</td>
+<td class="instruction">PUSH HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58759"></span>58759</td>
+<td class="instruction">CALL <a href="51279.html">Erase_Narrow_Entity_Sprite</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58762"></span>58762</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58763"></span>58763</td>
+<td class="instruction">CALL <a href="54705.html#54708">Remove_Entity_From_List_Step</a></td>
+<td class="comment-1" rowspan="1">Remove the entity from the list via <a href="54705.html#54708">Remove_Entity_From_List_Step</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58766"></span>58766</td>
+<td class="instruction">LD DE,50181</td>
+<td class="comment-1" rowspan="12">Add 2 BCD to the low score digit at 50181 and propagate carry through two further score digits.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58769"></span>58769</td>
+<td class="instruction">LD A,(DE)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58770"></span>58770</td>
+<td class="instruction">ADD A,2</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58772"></span>58772</td>
+<td class="instruction">DAA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58773"></span>58773</td>
+<td class="instruction">LD (DE),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58774"></span>58774</td>
+<td class="instruction">JP NC,<a href="58656.html#58792">Process_Cluster_Entity_Score_Bar</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58777"></span>58777</td>
+<td class="instruction">DEC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58778"></span>58778</td>
+<td class="instruction">LD A,(DE)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58779"></span>58779</td>
+<td class="instruction">ADD A,1</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58781"></span>58781</td>
+<td class="instruction">DAA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58782"></span>58782</td>
+<td class="instruction">LD (DE),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58783"></span>58783</td>
+<td class="instruction">JP NC,<a href="58656.html#58792">Process_Cluster_Entity_Score_Bar</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58786"></span>58786</td>
+<td class="instruction">DEC DE</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58787"></span>58787</td>
+<td class="instruction">LD A,(DE)</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58788"></span>58788</td>
+<td class="instruction">ADD A,1</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58790"></span>58790</td>
+<td class="instruction">DAA</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58791"></span>58791</td>
+<td class="instruction">LD (DE),A</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label">Process_Cluster_Entity_Score_Bar</td>
+<td class="address-2"><span id="58792"></span>58792</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="8">Update the colour bar via <a href="52532.html">Clear_Colour_Bar_Column</a>, decrement the active count at 50221 and <a href="50204.html">Active_Enemy_Count</a>, restore <span class="register">HL</span>, and mark the entity slot as finished.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58793"></span>58793</td>
+<td class="instruction">PUSH HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58794"></span>58794</td>
+<td class="instruction">CALL <a href="52532.html">Clear_Colour_Bar_Column</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58797"></span>58797</td>
+<td class="instruction">LD HL,50221</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58800"></span>58800</td>
+<td class="instruction">DEC (HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58801"></span>58801</td>
+<td class="instruction">LD HL,50204</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58804"></span>58804</td>
+<td class="instruction">DEC (HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58805"></span>58805</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58806"></span>58806</td>
+<td class="instruction">LD (HL),255</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label">Process_Cluster_Entity_Advance</td>
+<td class="address-2"><span id="58808"></span>58808</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Advance four bytes and check the secondary timer byte.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="58809"></span>
+<div class="comments">
+<div class="paragraph">
+This entry point is used by the routine at <a href="59127.html">Process_Player_Tracking_Enemy</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Cluster_Entity_Next</td>
+<td class="address-2"><span id="58809"></span>58809</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58810"></span>58810</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58811"></span>58811</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58812"></span>58812</td>
+<td class="instruction">LD A,(HL)</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58813"></span>58813</td>
+<td class="instruction">AND A</td>
+<td class="comment-1" rowspan="1">}</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58814"></span>58814</td>
+<td class="instruction">JP Z,<a href="58656.html#58908">Process_Cluster_Entity_Seek</a></td>
+<td class="comment-1" rowspan="6">Decrement the secondary timer; if it reaches zero, erase the entity sprite via <a href="51279.html">Erase_Narrow_Entity_Sprite</a>; then jump to <a href="58656.html#58908">Process_Cluster_Entity_Seek</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58817"></span>58817</td>
+<td class="instruction">DEC (HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58818"></span>58818</td>
+<td class="instruction">JP NZ,<a href="58656.html#58830">Process_Cluster_Entity_Move</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58821"></span>58821</td>
+<td class="instruction">PUSH HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58822"></span>58822</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58823"></span>58823</td>
+<td class="instruction">CALL <a href="51279.html">Erase_Narrow_Entity_Sprite</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58826"></span>58826</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58827"></span>58827</td>
+<td class="instruction">JP <a href="58656.html#58908">Process_Cluster_Entity_Seek</a></td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label">Process_Cluster_Entity_Move</td>
+<td class="address-2"><span id="58830"></span>58830</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="7">Move to the entity position bytes, switch to alternate registers, and set the player Y address in alternate <span class="register">HL</span>; trigger death via <a href="53948.html">Strip_Attributes_And_Fade</a> if touching.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58831"></span>58831</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58832"></span>58832</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58833"></span>58833</td>
+<td class="instruction">LD HL,50388</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58836"></span>58836</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58837"></span>58837</td>
+<td class="instruction">CALL <a href="50906.html">HitTestBounds8AtHL</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58840"></span>58840</td>
+<td class="instruction">JP NC,<a href="53948.html">Strip_Attributes_And_Fade</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58843"></span>58843</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="5">Step back four bytes and stash the entity pointer.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58844"></span>58844</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58845"></span>58845</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58846"></span>58846</td>
+<td class="instruction">PUSH HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58847"></span>58847</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58848"></span>58848</td>
+<td class="instruction">CALL <a href="51279.html">Erase_Narrow_Entity_Sprite</a></td>
+<td class="comment-1" rowspan="6">Step back, erase the sprite via <a href="51279.html">Erase_Narrow_Entity_Sprite</a>, and search for a player slot via <a href="52504.html">Find_Colliding_Entity</a>; jump to <a href="59076.html">Apply_Entity_Velocity</a> if player contact.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58851"></span>58851</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58852"></span>58852</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58853"></span>58853</td>
+<td class="instruction">CALL <a href="52504.html">Find_Colliding_Entity</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58856"></span>58856</td>
+<td class="instruction">JP C,<a href="59076.html">Apply_Entity_Velocity</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58859"></span>58859</td>
+<td class="instruction">LD DE,6</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58862"></span>58862</td>
+<td class="instruction">SBC HL,DE</td>
+<td class="comment-1" rowspan="5">Step back six bytes, erase the entity via <a href="51279.html">Erase_Narrow_Entity_Sprite</a>, score 37 BCD against the six-byte score at 50182 and propagate carry.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58864"></span>58864</td>
+<td class="instruction">PUSH HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58865"></span>58865</td>
+<td class="instruction">CALL <a href="51279.html">Erase_Narrow_Entity_Sprite</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58868"></span>58868</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58869"></span>58869</td>
+<td class="instruction">CALL <a href="54705.html#54708">Remove_Entity_From_List_Step</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58872"></span>58872</td>
+<td class="instruction">LD HL,50182</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58875"></span>58875</td>
+<td class="instruction">LD A,(HL)</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58876"></span>58876</td>
+<td class="instruction">ADD A,37</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58878"></span>58878</td>
+<td class="instruction">DAA</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58879"></span>58879</td>
+<td class="instruction">LD (HL),A</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58880"></span>58880</td>
+<td class="instruction">JP NC,<a href="58656.html#58896">Process_Cluster_Entity_Bar</a></td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58883"></span>58883</td>
+<td class="instruction">LD B,3</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label">Process_Cluster_Entity_Score_Carry</td>
+<td class="address-2"><span id="58885"></span>58885</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="7">Propagate BCD carry through <span class="register">B</span> higher-order score digits.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58886"></span>58886</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58887"></span>58887</td>
+<td class="instruction">ADD A,1</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58889"></span>58889</td>
+<td class="instruction">DAA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58890"></span>58890</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58891"></span>58891</td>
+<td class="instruction">JP NC,<a href="58656.html#58896">Process_Cluster_Entity_Bar</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58894"></span>58894</td>
+<td class="instruction">DJNZ <a href="58656.html#58885">Process_Cluster_Entity_Score_Carry</a></td>
+</tr>
+<tr>
+<td class="asm-label">Process_Cluster_Entity_Bar</td>
+<td class="address-2"><span id="58896"></span>58896</td>
+<td class="instruction">CALL <a href="52532.html">Clear_Colour_Bar_Column</a></td>
+<td class="comment-1" rowspan="6">Refresh the colour bar via <a href="52532.html">Clear_Colour_Bar_Column</a>, switch to alternate registers, and step back <span class="register">DE</span> bytes to the entity record start.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58899"></span>58899</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58900"></span>58900</td>
+<td class="instruction">JP <a href="58656.html#58906">Process_Cluster_Entity_Seek_Y</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58903"></span>58903</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58904"></span>58904</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58905"></span>58905</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Cluster_Entity_Seek_Y</td>
+<td class="address-2"><span id="58906"></span>58906</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="2">Step back two more bytes to the entity handler field.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58907"></span>58907</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Cluster_Entity_Seek</td>
+<td class="address-2"><span id="58908"></span>58908</td>
+<td class="instruction">LD D,H</td>
+<td class="comment-1" rowspan="10">Load the Y and X position bytes and compute the signed Y offset from the player's Y coordinate at 50388.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58909"></span>58909</td>
+<td class="instruction">LD E,L</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58910"></span>58910</td>
+<td class="instruction">DEC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58911"></span>58911</td>
+<td class="instruction">DEC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58912"></span>58912</td>
+<td class="instruction">DEC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58913"></span>58913</td>
+<td class="instruction">DEC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58914"></span>58914</td>
+<td class="instruction">LD A,(DE)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58915"></span>58915</td>
+<td class="instruction">INC A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58916"></span>58916</td>
+<td class="instruction">JP Z,<a href="59060.html">Retire_Cluster_Entity</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58919"></span>58919</td>
+<td class="instruction">LD (HL),55</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58921"></span>58921</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="15">Compute the signed Y and X distances from the player, halve each distance five times to form a velocity nudge, and negate if negative.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58922"></span>58922</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58923"></span>58923</td>
+<td class="instruction">PUSH HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58924"></span>58924</td>
+<td class="instruction">LD A,(DE)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58925"></span>58925</td>
+<td class="instruction">LD C,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58926"></span>58926</td>
+<td class="instruction">LD B,0</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58928"></span>58928</td>
+<td class="instruction">LD A,(50388)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58931"></span>58931</td>
+<td class="instruction">LD L,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58932"></span>58932</td>
+<td class="instruction">LD H,0</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58934"></span>58934</td>
+<td class="instruction">AND A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58935"></span>58935</td>
+<td class="instruction">SBC HL,BC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58937"></span>58937</td>
+<td class="instruction">BIT 0,H</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58939"></span>58939</td>
+<td class="instruction">LD A,L</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58940"></span>58940</td>
+<td class="instruction">JP Z,<a href="58656.html#58945">Process_Cluster_Entity_0</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58943"></span>58943</td>
+<td class="instruction">NEG</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Cluster_Entity_0</td>
+<td class="address-2"><span id="58945"></span>58945</td>
+<td class="instruction">SRL A</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58947"></span>58947</td>
+<td class="instruction">SRL A</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58949"></span>58949</td>
+<td class="instruction">SRL A</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58951"></span>58951</td>
+<td class="instruction">SRL A</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58953"></span>58953</td>
+<td class="instruction">BIT 0,H</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58955"></span>58955</td>
+<td class="instruction">JP Z,<a href="58656.html#58960">Process_Cluster_Entity_Seek_X</a></td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58958"></span>58958</td>
+<td class="instruction">NEG</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label">Process_Cluster_Entity_Seek_X</td>
+<td class="address-2"><span id="58960"></span>58960</td>
+<td class="instruction">EX AF,AF'</td>
+<td class="comment-1" rowspan="25">Compute the X nudge from the player's X coordinate at 50389 in the same way.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58961"></span>58961</td>
+<td class="instruction">INC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58962"></span>58962</td>
+<td class="instruction">LD A,(DE)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58963"></span>58963</td>
+<td class="instruction">LD C,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58964"></span>58964</td>
+<td class="instruction">LD B,0</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58966"></span>58966</td>
+<td class="instruction">LD A,(50389)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58969"></span>58969</td>
+<td class="instruction">LD L,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58970"></span>58970</td>
+<td class="instruction">LD H,0</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58972"></span>58972</td>
+<td class="instruction">AND A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58973"></span>58973</td>
+<td class="instruction">SBC HL,BC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58975"></span>58975</td>
+<td class="instruction">BIT 0,H</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58977"></span>58977</td>
+<td class="instruction">LD A,L</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58978"></span>58978</td>
+<td class="instruction">JP Z,<a href="58656.html#58983">Process_Cluster_Entity_1</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58981"></span>58981</td>
+<td class="instruction">NEG</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Cluster_Entity_1</td>
+<td class="address-2"><span id="58983"></span>58983</td>
+<td class="instruction">SRL A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58985"></span>58985</td>
+<td class="instruction">SRL A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58987"></span>58987</td>
+<td class="instruction">SRL A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58989"></span>58989</td>
+<td class="instruction">SRL A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58991"></span>58991</td>
+<td class="instruction">BIT 0,H</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58993"></span>58993</td>
+<td class="instruction">JP Z,<a href="58656.html#58998">Process_Cluster_Entity_2</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58996"></span>58996</td>
+<td class="instruction">NEG</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Cluster_Entity_2</td>
+<td class="address-2"><span id="58998"></span>58998</td>
+<td class="instruction">LD C,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58999"></span>58999</td>
+<td class="instruction">EX AF,AF'</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59000"></span>59000</td>
+<td class="instruction">LD B,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59001"></span>59001</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Cluster_Entity_Chase</td>
+<td class="address-2"><span id="59002"></span>59002</td>
+<td class="instruction">OR C</td>
+<td class="comment-1" rowspan="3">If both nudge components are zero, replace them with a small random drift.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59003"></span>59003</td>
+<td class="instruction">JP NZ,<a href="58656.html#59025">Process_Cluster_Entity_Apply</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59006"></span>59006</td>
+<td class="instruction">CALL <a href="53695.html">Generate_Random_Byte</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59009"></span>59009</td>
+<td class="instruction">AND 3</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59011"></span>59011</td>
+<td class="instruction">SUB 1</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59013"></span>59013</td>
+<td class="instruction">LD C,A</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59014"></span>59014</td>
+<td class="instruction">CALL <a href="53695.html">Generate_Random_Byte</a></td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59017"></span>59017</td>
+<td class="instruction">AND 3</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59019"></span>59019</td>
+<td class="instruction">SUB 2</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59021"></span>59021</td>
+<td class="instruction">LD B,A</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59022"></span>59022</td>
+<td class="instruction">JP <a href="58656.html#59002">Process_Cluster_Entity_Chase</a></td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label">Process_Cluster_Entity_Apply</td>
+<td class="address-2"><span id="59025"></span>59025</td>
+<td class="instruction">DEC DE</td>
+<td class="comment-1" rowspan="4">Add the Y nudge offset 3 to the Y position; advance <span class="register">DE</span> and <span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59026"></span>59026</td>
+<td class="instruction">LD A,(DE)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59027"></span>59027</td>
+<td class="instruction">ADD A,3</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59029"></span>59029</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59030"></span>59030</td>
+<td class="instruction">INC DE</td>
+<td class="comment-1" rowspan="7">Add the X nudge offset 2 to the X position and advance.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59031"></span>59031</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59032"></span>59032</td>
+<td class="instruction">LD A,(DE)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59033"></span>59033</td>
+<td class="instruction">ADD A,2</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59035"></span>59035</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59036"></span>59036</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59037"></span>59037</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59038"></span>59038</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="6">Write the computed Y and X nudge bytes to the record and stash <span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59039"></span>59039</td>
+<td class="instruction">LD (HL),B</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59040"></span>59040</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59041"></span>59041</td>
+<td class="instruction">LD (HL),C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59042"></span>59042</td>
+<td class="instruction">PUSH HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59043"></span>59043</td>
+<td class="instruction">LD DE,6</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59046"></span>59046</td>
+<td class="instruction">AND A</td>
+<td class="comment-1" rowspan="10">Step back six bytes, set colour INK:
+WHITE,
+PAPER:
+BLACK
+(BRIGHT)
+ in <span class="register">B'</span>, draw via <a href="51286.html">Draw_Narrow_Entity_Sprite</a>, and advance two bytes before returning.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59047"></span>59047</td>
+<td class="instruction">SBC HL,DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59049"></span>59049</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59050"></span>59050</td>
+<td class="instruction">LD B,71</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59052"></span>59052</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59053"></span>59053</td>
+<td class="instruction">CALL <a href="51286.html">Draw_Narrow_Entity_Sprite</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59056"></span>59056</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59057"></span>59057</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59058"></span>59058</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59059"></span>59059</td>
+<td class="instruction">RET</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="58553.html">58553</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#58656">Map</a></td>
+<td class="next">
+Next: <a href="59060.html">59060</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/E520.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

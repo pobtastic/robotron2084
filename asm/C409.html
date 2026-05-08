@@ -29,26 +29,37 @@ Prev: <a href="C408.html">C408</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#c409">Map</a></td>
 <td class="next">
-Next: <a href="C415.html">C415</a>
+Next: <a href="C414.html">C414</a>
 </td>
 </tr>
 </table>
-<div class="description">C409: Game status buffer entry at C409</div>
+<div class="description">C409: Wave Definition Pointer</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
+<div class="paragraph">
+Pointer to the current entry in the wave definition table. Read by <a href="D24C.html">Stage_Next_Wave</a> to load the enemy count and type for the incoming wave; advanced after each wave is staged.
+</div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Wave_Definition_Pointer</td>
 <td class="address-1"><span id="c409"></span>C409</td>
-<td class="instruction">DEFB $00,$00,$43,$50,$4C,$00,$32,$2D</td>
+<td class="instruction">DEFW $0000</td>
 <td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
-<td class="address-1"><span id="c411"></span>C411</td>
-<td class="instruction">DEFB $09,$4F,$52,$05</td>
+<td class="asm-label"></td>
+<td class="address-1"><span id="c40b"></span>C40B</td>
+<td class="instruction">DEFB $43,$50,$4C,$00,$32,$2D,$09,$4F</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="c413"></span>C413</td>
+<td class="instruction">DEFB $52</td>
 <td class="comment-0" rowspan="1"></td>
 </tr>
 </table>
@@ -59,7 +70,7 @@ Prev: <a href="C408.html">C408</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#c409">Map</a></td>
 <td class="next">
-Next: <a href="C415.html">C415</a>
+Next: <a href="C414.html">C414</a>
 </td>
 </tr>
 </table>

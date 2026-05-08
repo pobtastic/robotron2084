@@ -39,7 +39,7 @@ Next: <a href="D481.html">D481</a>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routine at <a href="ECFB.html">ECFB</a>.
+Used by the routine at <a href="ECFB.html">Check_S_Key_During_Display</a>.
 </div>
 </div>
 <table class="input">
@@ -174,8 +174,8 @@ This routine is called after a successful tape load.
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="d417"></span>D417</td>
-<td class="instruction">CALL <a href="D08B.html">SwapPlayerState</a></td>
-<td class="comment-1" rowspan="1">Call <a href="D08B.html">SwapPlayerState</a>.</td>
+<td class="instruction">CALL <a href="D08B.html">Swap_Player_State</a></td>
+<td class="comment-1" rowspan="1">Call <a href="D08B.html">Swap_Player_State</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -225,7 +225,7 @@ PAPER:
 BLACK
 (BRIGHT)
  (44) to; <ul class="">
-<li>*<a href="C42E.html">C42E</a></li>
+<li>*<a href="C42E.html">Border_Colour</a></li>
 <li>*<a href="C46E.html">C46E</a></li>
 </ul></td>
 </tr>
@@ -258,8 +258,8 @@ BLACK
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="d431"></span>D431</td>
-<td class="instruction">CALL <a href="D08B.html">SwapPlayerState</a></td>
-<td class="comment-1" rowspan="1">Call <a href="D08B.html">SwapPlayerState</a>.</td>
+<td class="instruction">CALL <a href="D08B.html">Swap_Player_State</a></td>
+<td class="comment-1" rowspan="1">Call <a href="D08B.html">Swap_Player_State</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -292,7 +292,7 @@ GREEN,
 PAPER:
 BLACK
 (BRIGHT)
- (44) to *<a href="C42E.html">C42E</a>.</td>
+ (44) to *<a href="C42E.html">Border_Colour</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -368,13 +368,13 @@ BLACK
 <td class="asm-label"></td>
 <td class="address-1"><span id="d458"></span>D458</td>
 <td class="instruction">LD ($C41C),A</td>
-<td class="comment-1" rowspan="1">Write <span class="register">A</span> to *<a href="C41C.html">C41C</a>.</td>
+<td class="comment-1" rowspan="1">Write <span class="register">A</span> to *<a href="C41C.html">Active_Enemy_Count</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="d45b"></span>D45B</td>
 <td class="instruction">LD HL,$C418</td>
-<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="C418.html">C418</a>.</td>
+<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="C418.html">ExtraLifeCompare_b0</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -422,7 +422,7 @@ BLACK
 <td class="asm-label"></td>
 <td class="address-1"><span id="d466"></span>D466</td>
 <td class="instruction">LD HL,($C519)</td>
-<td class="comment-1" rowspan="2">Write *<a href="C519.html">WaveStartPointer</a> to *<a href="C409.html">C409</a>.</td>
+<td class="comment-1" rowspan="2">Write *<a href="C519.html">WaveStartPointer</a> to *<a href="C409.html">Wave_Definition_Pointer</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -438,8 +438,8 @@ BLACK
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="d46d"></span>D46D</td>
-<td class="instruction">CALL <a href="D08B.html">SwapPlayerState</a></td>
-<td class="comment-1" rowspan="1">Call <a href="D08B.html">SwapPlayerState</a>.</td>
+<td class="instruction">CALL <a href="D08B.html">Swap_Player_State</a></td>
+<td class="comment-1" rowspan="1">Call <a href="D08B.html">Swap_Player_State</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -472,8 +472,8 @@ BLACK
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="d47b"></span>D47B</td>
-<td class="instruction">CALL <a href="D08B.html">SwapPlayerState</a></td>
-<td class="comment-1" rowspan="1">Call <a href="D08B.html">SwapPlayerState</a>.</td>
+<td class="instruction">CALL <a href="D08B.html">Swap_Player_State</a></td>
+<td class="comment-1" rowspan="1">Call <a href="D08B.html">Swap_Player_State</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>

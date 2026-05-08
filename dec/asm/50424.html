@@ -25,36 +25,40 @@ gtag('config', 'G-75RERFCHBG');
 <table class="asm-navigation">
 <tr>
 <td class="prev">
-Prev: <a href="50315.html">50315</a>
+Prev: <a href="50419.html">50419</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#50424">Map</a></td>
 <td class="next">
-Next: <a href="50429.html">50429</a>
+Next: <a href="50425.html">50425</a>
 </td>
 </tr>
 </table>
-<div class="description">50424: Game status buffer entry at C4F8</div>
+<div class="description">50424: Attract Mode Frame Counter</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
+<div class="paragraph">
+Counts down from 50 in the attract mode loop at <a href="62700.html">Attract_Mode_Loop</a>. Written each frame before the per-frame service calls; when it reaches zero, control jumps to the high score entry screen at <a href="60360.html">Display_High_Score_Entry_Screen</a>.
+</div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Attract_Frame_Counter</td>
 <td class="address-1"><span id="50424"></span>50424</td>
-<td class="instruction">DEFB 0,0,0,0,0</td>
+<td class="instruction">DEFB 0</td>
 <td class="comment-0" rowspan="1"></td>
 </tr>
 </table>
 <table class="asm-navigation">
 <tr>
 <td class="prev">
-Prev: <a href="50315.html">50315</a>
+Prev: <a href="50419.html">50419</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#50424">Map</a></td>
 <td class="next">
-Next: <a href="50429.html">50429</a>
+Next: <a href="50425.html">50425</a>
 </td>
 </tr>
 </table>

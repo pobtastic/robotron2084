@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at E2C8</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="E290.html">E290</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#e2c8">Map</a></td>
+<td class="next">
+Next: <a href="E2FD.html">E2FD</a>
+</td>
+</tr>
+</table>
+<div class="description">E2C8: Pick Random Spawn Position</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routines at <a href="E290.html">Spawn_Horizontal_Wave_Enemies</a>, <a href="E7CF.html">Spawn_Tracked_Enemy_Entities</a> and <a href="E92C.html">Spawn_Wall_Bouncing_Enemies</a>.
+</div>
+<div class="paragraph">
+Generates a random Y coordinate in the range 10-A7 and a random X coordinate in the range 08-E7 writing both to *<span class="register">HL</span> with initial velocities 10/10 then tests whether the chosen position overlaps the player spawn zone via <a href="C6DA.html">HitTestBounds8AtHL</a>; retries the whole selection if it does. Called from <a href="E290.html">Spawn_Horizontal_Wave_Enemies</a> and <a href="E92C.html">Spawn_Wall_Bouncing_Enemies</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Pick_Random_Spawn_Position_Y</td>
+<td class="address-2"><span id="e2c8"></span>E2C8</td>
+<td class="instruction">CALL <a href="D1BF.html">Generate_Random_Byte</a></td>
+<td class="comment-1" rowspan="3">Generate random bytes until a valid Y coordinate (10-A7) is found and write it to *<span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2cb"></span>E2CB</td>
+<td class="instruction">CP $10</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2cd"></span>E2CD</td>
+<td class="instruction">JP C,<a href="E2C8.html#e2c8">Pick_Random_Spawn_Position_Y</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2d0"></span>E2D0</td>
+<td class="instruction">CP $A8</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2d2"></span>E2D2</td>
+<td class="instruction">JP NC,<a href="E2C8.html#e2c8">Pick_Random_Spawn_Position_Y</a></td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2d5"></span>E2D5</td>
+<td class="instruction">LD (HL),A</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2d6"></span>E2D6</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label">Pick_Random_Spawn_Position_X</td>
+<td class="address-2"><span id="e2d7"></span>E2D7</td>
+<td class="instruction">CALL <a href="D1BF.html">Generate_Random_Byte</a></td>
+<td class="comment-1" rowspan="3">Generate random bytes until a valid X coordinate (08-E7) is found and write it to *<span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2da"></span>E2DA</td>
+<td class="instruction">CP $08</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2dc"></span>E2DC</td>
+<td class="instruction">JP C,<a href="E2C8.html#e2d7">Pick_Random_Spawn_Position_X</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2df"></span>E2DF</td>
+<td class="instruction">CP $E8</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2e1"></span>E2E1</td>
+<td class="instruction">JP NC,<a href="E2C8.html#e2d7">Pick_Random_Spawn_Position_X</a></td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2e4"></span>E2E4</td>
+<td class="instruction">LD (HL),A</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2e5"></span>E2E5</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="4">Write initial Y and X velocities (10 each) to the entity record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2e6"></span>E2E6</td>
+<td class="instruction">LD (HL),$10</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2e8"></span>E2E8</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2e9"></span>E2E9</td>
+<td class="instruction">LD (HL),$10</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2eb"></span>E2EB</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="6">Step back three bytes and set the player spawn area address in alternate <span class="register">HL</span> via <a href="D1BF.html#d1c7">Entity_Spawn_Handler</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2ec"></span>E2EC</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2ed"></span>E2ED</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2ee"></span>E2EE</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2ef"></span>E2EF</td>
+<td class="instruction">LD HL,$D1C7</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2f2"></span>E2F2</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2f3"></span>E2F3</td>
+<td class="instruction">CALL <a href="C6DA.html">HitTestBounds8AtHL</a></td>
+<td class="comment-1" rowspan="2">Test whether the position overlaps the player spawn zone via <a href="C6DA.html">HitTestBounds8AtHL</a>; return if clear.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2f6"></span>E2F6</td>
+<td class="instruction">RET C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2f7"></span>E2F7</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="3">Retry the whole position selection from <a href="E2C8.html">Pick_Random_Spawn_Position_Y</a> if it overlaps.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2f8"></span>E2F8</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2f9"></span>E2F9</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e2fa"></span>E2FA</td>
+<td class="instruction">JP <a href="E2C8.html#e2c8">Pick_Random_Spawn_Position_Y</a></td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="E290.html">E290</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#e2c8">Map</a></td>
+<td class="next">
+Next: <a href="E2FD.html">E2FD</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/58056.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

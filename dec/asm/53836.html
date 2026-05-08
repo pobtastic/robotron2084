@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 53836</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="53695.html">53695</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#53836">Map</a></td>
+<td class="next">
+Next: <a href="53948.html">53948</a>
+</td>
+</tr>
+</table>
+<div class="description">53836: Stage Next Wave</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routines at <a href="50625.html">CheckScoreAwardLife</a> and <a href="54119.html">PlayerDeath</a>.
+</div>
+<div class="paragraph">
+Entry point for wave staging. Resets the entity list write pointer to <a href="24832.html">Entity_List_Base</a> and writes a terminator. If <a href="50204.html">Active_Enemy_Count</a> is non-zero the current wave set is re-populated (<a href="53836.html#53913">Stage_Next_Wave_Populate</a>); otherwise a fresh wave is loaded: enemy parameters are cleared, the next entry in the wave definition table (<a href="50185.html">Wave_Definition_Pointer</a>) is read, the display is reinitialised via <a href="54028.html">Clear_Screen_And_Render_HUD</a>, and the main game loop is entered via <a href="52047.html">Main_Game_Loop</a> with the playfield entity handler 52834 in place.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Stage_Next_Wave</td>
+<td class="address-2"><span id="53836"></span>53836</td>
+<td class="instruction">LD HL,24832</td>
+<td class="comment-1" rowspan="1">Reset the entity list write pointer to <a href="24832.html">Entity_List_Base</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53839"></span>53839</td>
+<td class="instruction">LD (50441),HL</td>
+<td class="comment-1" rowspan="7">Write the entity list terminator routine address 53668 and the 255 sentinel; store the updated write pointer at <a href="50441.html">Entity_List_Write_Pointer</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53842"></span>53842</td>
+<td class="instruction">LD DE,53668</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53845"></span>53845</td>
+<td class="instruction">LD (HL),E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53846"></span>53846</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53847"></span>53847</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53848"></span>53848</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53849"></span>53849</td>
+<td class="instruction">LD (HL),255</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53851"></span>53851</td>
+<td class="instruction">LD A,(50204)</td>
+<td class="comment-1" rowspan="3">Check whether the wave counter at <a href="50204.html">Active_Enemy_Count</a> is non-zero; if so, jump to <a href="53836.html#53913">Stage_Next_Wave_Populate</a> to re-populate the current wave set.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53854"></span>53854</td>
+<td class="instruction">AND A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53855"></span>53855</td>
+<td class="instruction">JR NZ,<a href="53836.html#53913">Stage_Next_Wave_Populate</a></td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="53857"></span>
+<div class="comments">
+<div class="paragraph">
+New wave: clear enemy parameters, read the next wave definition entry, and reinitialise the display.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53857"></span>53857</td>
+<td class="instruction">LD HL,50211</td>
+<td class="comment-1" rowspan="5">Clear the enemy parameter block at <a href="50211.html">Wave_Enemy_Count</a> (12 bytes) ready for the incoming wave.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53860"></span>53860</td>
+<td class="instruction">LD DE,50212</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53863"></span>53863</td>
+<td class="instruction">LD (HL),0</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53865"></span>53865</td>
+<td class="instruction">LD BC,12</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53868"></span>53868</td>
+<td class="instruction">LDIR</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53870"></span>53870</td>
+<td class="instruction">LD HL,(50185)</td>
+<td class="comment-1" rowspan="4">Read the new wave number from <a href="50185.html">Wave_Definition_Pointer</a> into <a href="50184.html">WaveNumber</a>, then reinitialise the display via <a href="54028.html">Clear_Screen_And_Render_HUD</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53873"></span>53873</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53874"></span>53874</td>
+<td class="instruction">LD (50184),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53877"></span>53877</td>
+<td class="instruction">CALL <a href="54028.html">Clear_Screen_And_Render_HUD</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53880"></span>53880</td>
+<td class="instruction">LD HL,(50185)</td>
+<td class="comment-1" rowspan="3">Advance the wave definition pointer in <a href="50185.html">Wave_Definition_Pointer</a> past the current entry via <a href="50946.html">DispatchWordFromHL</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53883"></span>53883</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53884"></span>53884</td>
+<td class="instruction">CALL <a href="50946.html">DispatchWordFromHL</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53887"></span>53887</td>
+<td class="instruction">LD (50185),HL</td>
+<td class="comment-1" rowspan="1">Store the updated wave definition pointer back to <a href="50185.html">Wave_Definition_Pointer</a>.</td>
+</tr>
+<tr>
+<td class="asm-label">Stage_Next_Wave_Activate</td>
+<td class="address-2"><span id="53890"></span>53890</td>
+<td class="instruction">LD HL,24576</td>
+<td class="comment-1" rowspan="3">Point the playfield write pointer (<a href="50385.html">Playfield_Entity_List_Pointer</a>) to <a href="24576.html">Entity_List</a> and write the playfield entity handler address 52834 to the entity list.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53893"></span>53893</td>
+<td class="instruction">LD DE,52834</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53896"></span>53896</td>
+<td class="instruction">LD (50385),HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53899"></span>53899</td>
+<td class="instruction">LD (HL),E</td>
+<td class="comment-1" rowspan="5">Write the 255 end-of-list sentinel after the handler address.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53900"></span>53900</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53901"></span>53901</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53902"></span>53902</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53903"></span>53903</td>
+<td class="instruction">LD (HL),255</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53905"></span>53905</td>
+<td class="instruction">LD HL,50398</td>
+<td class="comment-1" rowspan="3">Set the wave active flag at <a href="50398.html">Wave_Active_Flag</a> to 1 and jump to the main game loop at <a href="52047.html">Main_Game_Loop</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53908"></span>53908</td>
+<td class="instruction">LD (HL),1</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53910"></span>53910</td>
+<td class="instruction">JP <a href="52047.html">Main_Game_Loop</a></td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="53913"></span>
+<div class="comments">
+<div class="paragraph">
+Re-populate: clear the wave counter, redraw the HUD, and spawn all enemy types for the current wave before restarting the game loop.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Stage_Next_Wave_Populate</td>
+<td class="address-2"><span id="53913"></span>53913</td>
+<td class="instruction">XOR A</td>
+<td class="comment-1" rowspan="3">Clear the wave counter at <a href="50204.html">Active_Enemy_Count</a> and redraw the HUD via <a href="54039.html">RenderHUD</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53914"></span>53914</td>
+<td class="instruction">LD (50204),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53917"></span>53917</td>
+<td class="instruction">CALL <a href="54039.html">RenderHUD</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53920"></span>53920</td>
+<td class="instruction">LD HL,50211</td>
+<td class="comment-1" rowspan="2">Call <a href="53488.html">Spawn_Primary_Wave_Enemies</a> using <a href="50211.html">Wave_Enemy_Count</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53923"></span>53923</td>
+<td class="instruction">CALL <a href="53488.html">Spawn_Primary_Wave_Enemies</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53926"></span>53926</td>
+<td class="instruction">CALL <a href="53695.html#53707">Spawn_Wave_Enemies_Class2</a></td>
+<td class="comment-1" rowspan="1">Spawn the secondary wave enemies via <a href="53695.html#53707">Spawn_Wave_Enemies_Class2</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53929"></span>53929</td>
+<td class="instruction">CALL <a href="57634.html">Spawn_Wave_Enemies</a></td>
+<td class="comment-1" rowspan="1">Run the entity update pass via <a href="57634.html">Spawn_Wave_Enemies</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53932"></span>53932</td>
+<td class="instruction">CALL <a href="58000.html">Spawn_Horizontal_Wave_Enemies</a></td>
+<td class="comment-1" rowspan="1">Call <a href="58000.html">Spawn_Horizontal_Wave_Enemies</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53935"></span>53935</td>
+<td class="instruction">CALL <a href="59491.html">Evaluate_And_Spawn_Tracked_Enemies</a></td>
+<td class="comment-1" rowspan="1">Call <a href="59491.html">Evaluate_And_Spawn_Tracked_Enemies</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53938"></span>53938</td>
+<td class="instruction">CALL <a href="52532.html#52836">Clear_Colour_Bar_Column_12</a></td>
+<td class="comment-1" rowspan="1">Call <a href="52532.html#52836">Clear_Colour_Bar_Column_12</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53941"></span>53941</td>
+<td class="instruction">CALL <a href="59692.html">Spawn_Wall_Bouncing_Enemies</a></td>
+<td class="comment-1" rowspan="1">Call <a href="59692.html">Spawn_Wall_Bouncing_Enemies</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53944"></span>53944</td>
+<td class="instruction">XOR A</td>
+<td class="comment-1" rowspan="2">Clear <span class="register">A</span> and restart the playfield via <a href="53836.html#53890">Stage_Next_Wave_Activate</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53945"></span>53945</td>
+<td class="instruction">JP <a href="53836.html#53890">Stage_Next_Wave_Activate</a></td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="53695.html">53695</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#53836">Map</a></td>
+<td class="next">
+Next: <a href="53948.html">53948</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/D24C.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

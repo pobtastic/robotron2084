@@ -25,7 +25,7 @@ gtag('config', 'G-75RERFCHBG');
 <table class="asm-navigation">
 <tr>
 <td class="prev">
-Prev: <a href="61517.html">61517</a>
+Prev: <a href="61586.html">61586</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#61597">Map</a></td>
 <td class="next">
@@ -33,57 +33,63 @@ Next: <a href="61614.html">61614</a>
 </td>
 </tr>
 </table>
-<div class="description">61597: Routine at F09D</div>
+<div class="description">61597: Draw Colour Border</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="60360.html">60360</a> and <a href="60688.html">60688</a>.
+Used by the routines at <a href="60360.html">Display_High_Score_Entry_Screen</a> and <a href="60688.html">Save_Or_Load_High_Scores</a>.
+</div>
+<div class="paragraph">
+Draws two sets of four concentric colour rings to build the screen colour border: four rings from the outer edge at (0 0), then four more from the inner edge at (8 8).
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Draw_Colour_Border</td>
 <td class="address-2"><span id="61597"></span>61597</td>
 <td class="instruction">LD BC,0</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Draw 4 concentric rings from the outer screen edge.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="61600"></span>61600</td>
 <td class="instruction">LD D,4</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="61602"></span>61602</td>
-<td class="instruction">CALL <a href="61517.html#61586">61586</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="61586.html">Draw_Concentric_Rings</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="61605"></span>61605</td>
 <td class="instruction">LD BC,2056</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Draw 4 concentric rings starting 8 cells inward.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="61608"></span>61608</td>
 <td class="instruction">LD D,4</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="61610"></span>61610</td>
-<td class="instruction">CALL <a href="61517.html#61586">61586</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="61586.html">Draw_Concentric_Rings</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="61613"></span>61613</td>
 <td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Return.</td>
 </tr>
 </table>
 <table class="asm-navigation">
 <tr>
 <td class="prev">
-Prev: <a href="61517.html">61517</a>
+Prev: <a href="61586.html">61586</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#61597">Map</a></td>
 <td class="next">

@@ -33,23 +33,33 @@ Next: <a href="62749.html">62749</a>
 </td>
 </tr>
 </table>
-<div class="description">62700: Routine at F4EC</div>
+<div class="description">62700: Attract Mode Loop</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="60348.html">GameEntryPoint</a> and <a href="60360.html">60360</a>.
+Used by the routines at <a href="60348.html">GameEntryPoint</a> and <a href="60360.html">Display_High_Score_Entry_Screen</a>.
+</div>
+<div class="paragraph">
+Clears the playfield, sets the background colour to INK:
+YELLOW,
+PAPER:
+BLACK
+(BRIGHT)
+, draws the title screen layout, and loads the strip blit parameters, then counts down 50 frames. Each frame checks for BREAK, S key and tape key presses, advances the title animation and colour cycle, then jumps to the high score entry screen at <a href="60360.html">Display_High_Score_Entry_Screen</a> when the counter reaches zero.
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Attract_Mode_Loop</td>
 <td class="address-2"><span id="62700"></span>62700</td>
 <td class="instruction">CALL <a href="53360.html">ClearScreenBuffer</a></td>
-<td class="comment-1" rowspan="1">Call <a href="53360.html">ClearScreenBuffer</a>.</td>
+<td class="comment-1" rowspan="1">Clear the playfield and reset sprite state via <a href="53360.html">ClearScreenBuffer</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62703"></span>62703</td>
 <td class="instruction">LD A,70</td>
 <td class="comment-1" rowspan="2">Call <a href="53374.html">SetBackgroundColour</a> using INK:
@@ -60,83 +70,99 @@ BLACK
 .</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62705"></span>62705</td>
 <td class="instruction">CALL <a href="53374.html">SetBackgroundColour</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62708"></span>62708</td>
 <td class="instruction">CALL <a href="63548.html">DrawIntroSprites</a></td>
-<td class="comment-1" rowspan="1">Call <a href="63548.html">DrawIntroSprites</a>.</td>
+<td class="comment-1" rowspan="1">Draw the title screen layout via <a href="63548.html">DrawIntroSprites</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62711"></span>62711</td>
-<td class="instruction">CALL <a href="63031.html">63031</a></td>
-<td class="comment-1" rowspan="1">Call <a href="63031.html">63031</a>.</td>
+<td class="instruction">CALL <a href="63031.html">DrawAttractTitle</a></td>
+<td class="comment-1" rowspan="1">Load the title strip blit parameters via <a href="63031.html">DrawAttractTitle</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62714"></span>62714</td>
 <td class="instruction">LD A,50</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=50.</td>
+<td class="comment-1" rowspan="1">Initialise the attract mode frame counter to 50.</td>
 </tr>
 <tr>
+<td class="asm-label">Attract_Mode_Frame_Loop</td>
 <td class="address-2"><span id="62716"></span>62716</td>
 <td class="instruction">LD (50424),A</td>
-<td class="comment-1" rowspan="1">Write <span class="register">A</span> to *<a href="50424.html">50424</a>.</td>
+<td class="comment-1" rowspan="1">Write the frame counter to *<a href="50424.html">Attract_Frame_Counter</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62719"></span>62719</td>
 <td class="instruction">CALL <a href="60646.html">CheckBreakKey</a></td>
-<td class="comment-1" rowspan="1">Call <a href="60646.html">CheckBreakKey</a>.</td>
+<td class="comment-1" rowspan="1">Check for the BREAK key combination via <a href="60646.html">CheckBreakKey</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62722"></span>62722</td>
-<td class="instruction">CALL <a href="60667.html">60667</a></td>
-<td class="comment-1" rowspan="1">Call <a href="60667.html">60667</a>.</td>
+<td class="instruction">CALL <a href="60667.html">Check_S_Key_During_Display</a></td>
+<td class="comment-1" rowspan="1">Check for the S key via <a href="60667.html">Check_S_Key_During_Display</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62725"></span>62725</td>
-<td class="instruction">CALL <a href="60688.html">60688</a></td>
-<td class="comment-1" rowspan="1">Call <a href="60688.html">60688</a>.</td>
+<td class="instruction">CALL <a href="60688.html">Save_Or_Load_High_Scores</a></td>
+<td class="comment-1" rowspan="1">Check for tape save/load keys (J/L) via <a href="60688.html">Save_Or_Load_High_Scores</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62728"></span>62728</td>
-<td class="instruction">CALL <a href="60785.html">60785</a></td>
-<td class="comment-1" rowspan="1">Call <a href="60785.html">60785</a>.</td>
+<td class="instruction">CALL <a href="60785.html">Check_Any_Key_During_Display</a></td>
+<td class="comment-1" rowspan="1">Restart the high score display if any key is held via <a href="60785.html">Check_Any_Key_During_Display</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62731"></span>62731</td>
 <td class="instruction">CALL <a href="63470.html">AnimateIntroSprites</a></td>
-<td class="comment-1" rowspan="1">Call <a href="63470.html">AnimateIntroSprites</a>.</td>
+<td class="comment-1" rowspan="1">Advance the title screen animation frame via <a href="63470.html">AnimateIntroSprites</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62734"></span>62734</td>
-<td class="instruction">CALL <a href="62749.html">62749</a></td>
-<td class="comment-1" rowspan="1">Call <a href="62749.html">62749</a>.</td>
+<td class="instruction">CALL <a href="62749.html">Advance_Colour_Cycle</a></td>
+<td class="comment-1" rowspan="1">Advance the title screen colour cycle via <a href="62749.html">Advance_Colour_Cycle</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62737"></span>62737</td>
-<td class="instruction">CALL <a href="62880.html">62880</a></td>
-<td class="comment-1" rowspan="1">Call <a href="62880.html">62880</a>.</td>
+<td class="instruction">CALL <a href="62880.html">Advance_Intro_Colour_Cycle</a></td>
+<td class="comment-1" rowspan="1">Step the attribute colour ring via <a href="62880.html">Advance_Intro_Colour_Cycle</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62740"></span>62740</td>
 <td class="instruction">LD A,(50424)</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=*<a href="50424.html">50424</a>.</td>
+<td class="comment-1" rowspan="1">Load the attract mode frame counter from *<a href="50424.html">Attract_Frame_Counter</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62743"></span>62743</td>
 <td class="instruction">DEC A</td>
-<td class="comment-1" rowspan="1">Decrease <span class="register">A</span> by one.</td>
+<td class="comment-1" rowspan="1">Decrement the attract mode frame counter.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62744"></span>62744</td>
-<td class="instruction">JR NZ,<a href="62700.html#62716">62716</a></td>
-<td class="comment-1" rowspan="1">Jump to <a href="62700.html#62716">62716</a> until <span class="register">A</span> is zero.</td>
+<td class="instruction">JR NZ,<a href="62700.html#62716">Attract_Mode_Frame_Loop</a></td>
+<td class="comment-1" rowspan="1">Loop back to <a href="62700.html#62716">Attract_Mode_Frame_Loop</a> until the counter reaches zero.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="62746"></span>62746</td>
-<td class="instruction">JP <a href="60360.html">60360</a></td>
-<td class="comment-1" rowspan="1">Jump to <a href="60360.html">60360</a>.</td>
+<td class="instruction">JP <a href="60360.html">Display_High_Score_Entry_Screen</a></td>
+<td class="comment-1" rowspan="1">Jump to the high score entry screen at <a href="60360.html">Display_High_Score_Entry_Screen</a>.</td>
 </tr>
 </table>
 <table class="asm-navigation">

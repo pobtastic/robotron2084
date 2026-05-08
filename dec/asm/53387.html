@@ -42,70 +42,63 @@ Next: <a href="53415.html">53415</a>
 Used by the routines at <a href="54039.html">RenderHUD</a>, <a href="54119.html">PlayerDeath</a> and <a href="54264.html">PlayerDeath_TapeLoadContinue</a>.
 </div>
 <div class="paragraph">
-Swaps the active and inactive player's 68-byte game state blocks between the player 1 slot at <a href="50179.html">Player_1_State</a> and the player 2 slot at <a href="50247.html">Player_2_State</a>, using <a href="50315.html">50315</a> as a temporary buffer. Called each time the game switches between the two players.
+Swaps the active and inactive player's 68-byte state blocks between the player 1 slot at <a href="50179.html">Player_1_State</a> and the player 2 slot at <a href="50247.html">Player_2_State</a>, using <a href="50315.html">Player_State_Swap_Buffer</a> as a scratch buffer. Called each time the game switches between the two players. The swap is a three-step rotate through the scratch buffer: save active, overwrite active with inactive, restore saved.
 </div>
 </div>
 </td>
 </tr>
 <tr>
-<td class="asm-label">SwapPlayerState</td>
+<td class="asm-label">Swap_Player_State</td>
 <td class="address-2"><span id="53387"></span>53387</td>
 <td class="instruction">LD HL,50179</td>
-<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="50179.html">Player_1_State</a> (player 1 state source).</td>
+<td class="comment-1" rowspan="4">Save the active player's 68-byte state block to the scratch buffer at <a href="50315.html">Player_State_Swap_Buffer</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="53390"></span>53390</td>
 <td class="instruction">LD DE,50315</td>
-<td class="comment-1" rowspan="1"><span class="register">DE</span>=<a href="50315.html">50315</a> (temporary buffer destination).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="53393"></span>53393</td>
 <td class="instruction">LD BC,68</td>
-<td class="comment-1" rowspan="1"><span class="register">BC</span>=0068 (68 bytes = one player state block).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="53396"></span>53396</td>
 <td class="instruction">LDIR</td>
-<td class="comment-1" rowspan="1">Copy player 1 state to the temporary buffer; <span class="register">HL</span> advances to <a href="50247.html">Player_2_State</a> (player 2 state).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="53398"></span>53398</td>
 <td class="instruction">LD DE,50179</td>
-<td class="comment-1" rowspan="1"><span class="register">DE</span>=<a href="50179.html">Player_1_State</a> (player 1 slot destination).</td>
+<td class="comment-1" rowspan="3">Copy the other player's state block from <a href="50247.html">Player_2_State</a> into the active player's slot at <a href="50179.html">Player_1_State</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="53401"></span>53401</td>
 <td class="instruction">LD BC,68</td>
-<td class="comment-1" rowspan="1"><span class="register">BC</span>=0068.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="53404"></span>53404</td>
 <td class="instruction">LDIR</td>
-<td class="comment-1" rowspan="1">Copy player 2 state (from <a href="50247.html">Player_2_State</a>) into the player 1 slot.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="53406"></span>53406</td>
 <td class="instruction">LD HL,50315</td>
-<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="50315.html">50315</a> (saved player 1 state source).</td>
+<td class="comment-1" rowspan="3">Copy the saved state block from <a href="50315.html">Player_State_Swap_Buffer</a> into the other player's slot at <a href="50247.html">Player_2_State</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="53409"></span>53409</td>
 <td class="instruction">LD BC,68</td>
-<td class="comment-1" rowspan="1"><span class="register">BC</span>=0068.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="53412"></span>53412</td>
 <td class="instruction">LDIR</td>
-<td class="comment-1" rowspan="1">Copy saved player 1 state into the player 2 slot (at <a href="50247.html">Player_2_State</a>).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>

@@ -29,1652 +29,753 @@ Prev: <a href="D0E6.html">D0E6</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#d0f0">Map</a></td>
 <td class="next">
-Next: <a href="D30C.html">D30C</a>
+Next: <a href="D1A8.html">D1A8</a>
 </td>
 </tr>
 </table>
-<div class="description">D0F0: Routine at D0F0</div>
+<div class="description">D0F0: Spawn Primary Wave Enemies</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
+<div class="paragraph">
+Used by the routine at <a href="D24C.html">Stage_Next_Wave</a>.
 </div>
+<div class="paragraph">
+Reads the enemy count and type for the current wave from the definition pointed to by <span class="register">HL</span>, then spawns that many primary wave entities at random valid screen positions by writing records into the entity list at <a href="C509.html">Entity_List_Write_Pointer</a>. Each entity is placed at a random column (1–30) and row (2–22), scaled to pixel coordinates, and drawn to the screen via CC81. If the count is zero the entity list is left empty and the routine returns immediately.
+</div>
+</div>
+<table class="input">
+<tr class="asm-input-header">
+<th colspan="2">Input</th>
+</tr>
+<tr>
+<td class="register">HL</td>
+<td class="register-desc">Pointer to the wave enemy definition (count byte followed by type byte)</td>
+</tr>
+</table>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Spawn_Primary_Wave_Enemies</td>
 <td class="address-2"><span id="d0f0"></span>D0F0</td>
 <td class="instruction">LD B,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Read the enemy count from the wave definition and store at <a href="C423.html">Wave_Enemy_Count</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d0f1"></span>D0F1</td>
 <td class="instruction">LD A,B</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d0f2"></span>D0F2</td>
 <td class="instruction">LD ($C423),A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d0f5"></span>D0F5</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Advance <span class="register">HL</span> to the enemy type byte.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d0f6"></span>D0F6</td>
 <td class="instruction">LD A,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Read the enemy type parameter from the wave definition.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d0f7"></span>D0F7</td>
 <td class="instruction">LD ($C424),A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Store the enemy type parameter at <a href="C424.html">Wave_Enemy_Type</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d0fa"></span>D0FA</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Advance the wave definition pointer.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d0fb"></span>D0FB</td>
 <td class="instruction">PUSH HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Stash the wave definition pointer on the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d0fc"></span>D0FC</td>
 <td class="instruction">LD HL,($C509)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Load the entity list write pointer from *<a href="C509.html">Entity_List_Write_Pointer</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d0ff"></span>D0FF</td>
 <td class="instruction">LD A,B</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Skip spawning if the wave has no enemies.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d100"></span>D100</td>
 <td class="instruction">AND A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d101"></span>D101</td>
-<td class="instruction">JP Z,<a href="D0F0.html#d196">$D196</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JP Z,<a href="D0F0.html#d196">Spawn_Primary_Wave_Enemies_Done</a></td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="d104"></span>
+<div class="comments">
+<div class="paragraph">
+For each enemy: write the entity handler, pick a random valid screen position, build the entity record, and draw the sprite.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Spawn_Primary_Wave_Enemies_Loop</td>
 <td class="address-2"><span id="d104"></span>D104</td>
 <td class="instruction">PUSH BC</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Stash the enemy count on the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d105"></span>D105</td>
 <td class="instruction">LD DE,$CCCE</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Load the primary entity handler address <a href="CCCE.html">Primary_Enemy_Entity_Handler</a> into <span class="register">DE</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d108"></span>D108</td>
 <td class="instruction">LD (HL),E</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Write the primary entity handler address into the entity list.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d109"></span>D109</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d10a"></span>D10A</td>
 <td class="instruction">LD (HL),D</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d10b"></span>D10B</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Advance <span class="register">HL</span> past the handler bytes.</td>
 </tr>
 <tr>
+<td class="asm-label">Spawn_Primary_Wave_Enemies_Get_X</td>
 <td class="address-2"><span id="d10c"></span>D10C</td>
-<td class="instruction">CALL <a href="D0F0.html#d1bf">$D1BF</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="D1BF.html">Generate_Random_Byte</a></td>
+<td class="comment-1" rowspan="1">Generate a random column via <a href="D1BF.html">Generate_Random_Byte</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d10f"></span>D10F</td>
-<td class="instruction">AND $1F</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">AND %00011111</td>
+<td class="comment-1" rowspan="1">Mask to columns 0–31.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d111"></span>D111</td>
-<td class="instruction">JR Z,<a href="D0F0.html#d10c">$D10C</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR Z,<a href="D0F0.html#d10c">Spawn_Primary_Wave_Enemies_Get_X</a></td>
+<td class="comment-1" rowspan="3">Retry if the column is at the left or right wall.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d113"></span>D113</td>
 <td class="instruction">CP $1F</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d115"></span>D115</td>
-<td class="instruction">JR Z,<a href="D0F0.html#d10c">$D10C</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR Z,<a href="D0F0.html#d10c">Spawn_Primary_Wave_Enemies_Get_X</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d117"></span>D117</td>
 <td class="instruction">LD B,A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Copy the valid column to <span class="register">B</span>.</td>
 </tr>
 <tr>
+<td class="asm-label">Spawn_Primary_Wave_Enemies_Get_Y</td>
 <td class="address-2"><span id="d118"></span>D118</td>
-<td class="instruction">CALL <a href="D0F0.html#d1bf">$D1BF</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="D1BF.html">Generate_Random_Byte</a></td>
+<td class="comment-1" rowspan="1">Generate a random row via <a href="D1BF.html">Generate_Random_Byte</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d11b"></span>D11B</td>
-<td class="instruction">AND $1F</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">AND %00011111</td>
+<td class="comment-1" rowspan="1">Mask to rows 0–31.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d11d"></span>D11D</td>
 <td class="instruction">CP $02</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="4">Retry if the row is too close to the top or bottom edge.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d11f"></span>D11F</td>
-<td class="instruction">JR C,<a href="D0F0.html#d118">$D118</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR C,<a href="D0F0.html#d118">Spawn_Primary_Wave_Enemies_Get_Y</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d121"></span>D121</td>
 <td class="instruction">CP $17</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d123"></span>D123</td>
-<td class="instruction">JR NC,<a href="D0F0.html#d118">$D118</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR NC,<a href="D0F0.html#d118">Spawn_Primary_Wave_Enemies_Get_Y</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d125"></span>D125</td>
 <td class="instruction">SLA A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="6">Scale the row and column to pixel coordinates (multiply by 8).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d127"></span>D127</td>
 <td class="instruction">SLA A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d129"></span>D129</td>
 <td class="instruction">SLA A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d12b"></span>D12B</td>
 <td class="instruction">SLA B</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d12d"></span>D12D</td>
 <td class="instruction">SLA B</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d12f"></span>D12F</td>
 <td class="instruction">SLA B</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d131"></span>D131</td>
 <td class="instruction">LD (HL),A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Write the Y pixel to the entity record.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d132"></span>D132</td>
 <td class="instruction">LD ($C4F3),A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Cache the Y pixel at <a href="C4F3.html">Cached_Spawn_Pixels</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d135"></span>D135</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Advance <span class="register">HL</span> to the X slot in the entity record.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d136"></span>D136</td>
 <td class="instruction">LD (HL),B</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Write the X pixel to the entity record.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d137"></span>D137</td>
 <td class="instruction">LD A,B</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Copy the X pixel from <span class="register">B</span> into <span class="register">A</span> and cache it at <a href="C4F3.html">C4F4</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d138"></span>D138</td>
 <td class="instruction">LD ($C4F4),A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d13b"></span>D13B</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Advance <span class="register">HL</span> to the colour slot.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d13c"></span>D13C</td>
 <td class="instruction">LD (HL),$07</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Write 
+
+
+WHITE to the colour and type bytes.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d13e"></span>D13E</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d13f"></span>D13F</td>
 <td class="instruction">LD (HL),$07</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d141"></span>D141</td>
 <td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Step back three bytes to point at the start of the entity record.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d142"></span>D142</td>
 <td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d143"></span>D143</td>
 <td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d144"></span>D144</td>
 <td class="instruction">EXX</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Load the entity spawn handler address <a href="D1BF.html#d1c7">Entity_Spawn_Handler</a> into alternate <span class="register">HL</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d145"></span>D145</td>
 <td class="instruction">LD HL,$D1C7</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d148"></span>D148</td>
 <td class="instruction">EXX</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d149"></span>D149</td>
-<td class="instruction">CALL <a href="C544.html#c6da">$C6DA</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="C6DA.html">HitTestBounds8AtHL</a></td>
+<td class="comment-1" rowspan="1">Test whether this position overlaps an existing entity via <a href="C6DA.html">HitTestBounds8AtHL</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d14c"></span>D14C</td>
 <td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="4">Retry with new coordinates if the position is occupied.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d14d"></span>D14D</td>
 <td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d14e"></span>D14E</td>
 <td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d14f"></span>D14F</td>
-<td class="instruction">JR NC,<a href="D0F0.html#d10c">$D10C</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR NC,<a href="D0F0.html#d10c">Spawn_Primary_Wave_Enemies_Get_X</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d151"></span>D151</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="4">Advance past the entity record header fields.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d152"></span>D152</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d153"></span>D153</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d154"></span>D154</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d155"></span>D155</td>
 <td class="instruction">LD A,($C424)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Copy the wave enemy type from <a href="C424.html">Wave_Enemy_Type</a> into the entity record.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d158"></span>D158</td>
 <td class="instruction">LD (HL),A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d159"></span>D159</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="d15a"></span>
+<div class="comments">
+<div class="paragraph">
+Build the on-screen pixel address and attribute address from the cached pixel coordinates at <a href="C4F3.html">Cached_Spawn_Pixels</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d15a"></span>D15A</td>
 <td class="instruction">EX DE,HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Copy <span class="register">HL</span> to <span class="register">DE</span> (entity record pointer now in <span class="register">DE</span>).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d15b"></span>D15B</td>
 <td class="instruction">LD HL,$C4F3</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Point <span class="register">HL</span> at the cached pixel coordinates at <a href="C4F3.html">Cached_Spawn_Pixels</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d15e"></span>D15E</td>
 <td class="instruction">LD A,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Read the Y pixel (row) from the cache.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d15f"></span>D15F</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Advance <span class="register">HL</span> to the X pixel byte.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d160"></span>D160</td>
 <td class="instruction">LD C,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Read the X pixel (column) from the cache.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d161"></span>D161</td>
 <td class="instruction">LD L,A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Move the Y pixel into <span class="register">L</span> for the row term.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d162"></span>D162</td>
 <td class="instruction">LD B,$45</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Load the screen address high-byte base 45 into <span class="register">B</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d164"></span>D164</td>
 <td class="instruction">SLA C</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Shift the X pixel left in <span class="register">C</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d166"></span>D166</td>
 <td class="instruction">RL B</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Roll the carry into the screen high byte in <span class="register">B</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d168"></span>D168</td>
 <td class="instruction">LD H,$46</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Load the second high-byte term 46 into <span class="register">H</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d16a"></span>D16A</td>
 <td class="instruction">SLA L</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Shift the Y pixel left in <span class="register">L</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d16c"></span>D16C</td>
 <td class="instruction">RL H</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Finish forming the screen address high byte in <span class="register">H</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d16e"></span>D16E</td>
 <td class="instruction">LD A,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Read the low byte of the pixel data pointer from the table.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d16f"></span>D16F</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Advance <span class="register">HL</span> to the high byte.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d170"></span>D170</td>
 <td class="instruction">LD H,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Read the high byte of the pixel data pointer.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d171"></span>D171</td>
 <td class="instruction">LD L,A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Form the full pixel data pointer in <span class="register">HL</span> (low in <span class="register">L</span>).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d172"></span>D172</td>
 <td class="instruction">LD A,(BC)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Read a byte from the built screen address in <span class="register">BC</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d173"></span>D173</td>
 <td class="instruction">OR L</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Combine the screen low byte with the pixel table low byte.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d174"></span>D174</td>
 <td class="instruction">LD L,A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Store the combined screen low byte in <span class="register">L</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d175"></span>D175</td>
 <td class="instruction">EX DE,HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Exchange <span class="register">HL</span> with <span class="register">DE</span> (entity record pointer back in <span class="register">HL</span>).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d176"></span>D176</td>
 <td class="instruction">LD (HL),E</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Write the screen address into the entity record.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d177"></span>D177</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d178"></span>D178</td>
 <td class="instruction">LD (HL),D</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d179"></span>D179</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Advance <span class="register">HL</span> to the attribute slot.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d17a"></span>D17A</td>
 <td class="instruction">LD A,D</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Load the attribute address high byte from <span class="register">D</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d17b"></span>D17B</td>
 <td class="instruction">RRCA</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Rotate the attribute page bits toward the low end three times.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d17c"></span>D17C</td>
 <td class="instruction">RRCA</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d17d"></span>D17D</td>
 <td class="instruction">RRCA</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d17e"></span>D17E</td>
-<td class="instruction">AND $03</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">AND %00000011</td>
+<td class="comment-1" rowspan="1">Mask to the attribute page bits.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d180"></span>D180</td>
-<td class="instruction">OR $58</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">OR %01011000</td>
+<td class="comment-1" rowspan="1">Set the attribute area high byte.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d182"></span>D182</td>
 <td class="instruction">LD D,A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Store the attribute address high byte in <span class="register">D</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d183"></span>D183</td>
 <td class="instruction">LD (HL),E</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Write the attribute address into the entity record.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d184"></span>D184</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d185"></span>D185</td>
 <td class="instruction">LD (HL),D</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d186"></span>D186</td>
 <td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="4">Step <span class="register">HL</span> back four bytes to the entity origin for drawing.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d187"></span>D187</td>
 <td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d188"></span>D188</td>
 <td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d189"></span>D189</td>
 <td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d18a"></span>D18A</td>
-<td class="instruction">CALL <a href="C84F.html#cc81">$CC81</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="CC81.html">Draw_Spawned_Entity</a></td>
+<td class="comment-1" rowspan="1">Call <a href="CC81.html">Draw_Spawned_Entity</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d18d"></span>D18D</td>
 <td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Step <span class="register">HL</span> to the end-of-record marker position.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d18e"></span>D18E</td>
 <td class="instruction">LD (HL),$FF</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Write the record terminator FF after this entity.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d190"></span>D190</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Advance <span class="register">HL</span> for the next list write.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d191"></span>D191</td>
 <td class="instruction">POP BC</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Restore the enemy count from the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d192"></span>D192</td>
 <td class="instruction">DEC B</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Decrement the remaining enemies to spawn for this wave.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d193"></span>D193</td>
-<td class="instruction">JP NZ,<a href="D0F0.html#d104">$D104</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JP NZ,<a href="D0F0.html#d104">Spawn_Primary_Wave_Enemies_Loop</a></td>
+<td class="comment-1" rowspan="1">Loop back to <a href="D0F0.html#d104">Spawn_Primary_Wave_Enemies_Loop</a> if more enemies remain.</td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="d196"></span>
+<div class="comments">
+<div class="paragraph">
+All enemies spawned: write the entity list terminator and return.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Spawn_Primary_Wave_Enemies_Done</td>
 <td class="address-2"><span id="d196"></span>D196</td>
 <td class="instruction">LD DE,$D1A4</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Load <a href="D0F0.html#d1a4">Entity_List_Reset</a> into <span class="register">DE</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d199"></span>D199</td>
 <td class="instruction">LD ($C509),HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Store the updated write pointer at <a href="C509.html">Entity_List_Write_Pointer</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d19c"></span>D19C</td>
 <td class="instruction">LD (HL),E</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Store the entity list terminator routine address <a href="D0F0.html#d1a4">Entity_List_Reset</a> at *<span class="register">HL</span> (low byte then high byte).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d19d"></span>D19D</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d19e"></span>D19E</td>
 <td class="instruction">LD (HL),D</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d19f"></span>D19F</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Advance <span class="register">HL</span> past the stored pointer bytes.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d1a0"></span>D1A0</td>
 <td class="instruction">LD (HL),$FF</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Write the terminator byte (FF) to the entity list.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d1a2"></span>D1A2</td>
 <td class="instruction">POP HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Restore the wave definition pointer from the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d1a3"></span>D1A3</td>
 <td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Return.</td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="d1a4"></span>
+<div class="comments">
+<div class="paragraph">
+Inline stub: resets the entity list pointer and returns. Used as the terminal routine address written into the entity list by the spawning routines.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Entity_List_Reset</td>
 <td class="address-1"><span id="d1a4"></span>D1A4</td>
 <td class="instruction">LD HL,$6000</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Reset the entity list pointer to <a href="6000.html">Entity_List</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d1a7"></span>D1A7</td>
 <td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="routine-comment" colspan="5">
-<span id="d1a8"></span>
-<div class="comments">
-<div class="paragraph">
-This entry point is used by the routine at <a href="D630.html">D630</a>.
-</div>
-</div>
-</td>
-</tr>
-<tr>
-<td class="address-2"><span id="d1a8"></span>D1A8</td>
-<td class="instruction">LD HL,($C4DC)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1ab"></span>D1AB</td>
-<td class="instruction">PUSH BC</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1ac"></span>D1AC</td>
-<td class="instruction">ADD HL,HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1ad"></span>D1AD</td>
-<td class="instruction">ADD HL,HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1ae"></span>D1AE</td>
-<td class="instruction">ADD HL,HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1af"></span>D1AF</td>
-<td class="instruction">ADD HL,HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1b0"></span>D1B0</td>
-<td class="instruction">ADD HL,HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1b1"></span>D1B1</td>
-<td class="instruction">LD BC,($C4DC)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1b5"></span>D1B5</td>
-<td class="instruction">ADD HL,BC</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1b6"></span>D1B6</td>
-<td class="instruction">LD BC,$0029</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1b9"></span>D1B9</td>
-<td class="instruction">ADD HL,BC</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1ba"></span>D1BA</td>
-<td class="instruction">LD ($C4DC),HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1bd"></span>D1BD</td>
-<td class="instruction">POP BC</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1be"></span>D1BE</td>
-<td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="routine-comment" colspan="5">
-<span id="d1bf"></span>
-<div class="comments">
-<div class="paragraph">
-This entry point is used by the routines at <a href="C84F.html">C84F</a> and <a href="D630.html">D630</a>.
-</div>
-</div>
-</td>
-</tr>
-<tr>
-<td class="address-2"><span id="d1bf"></span>D1BF</td>
-<td class="instruction">PUSH HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1c0"></span>D1C0</td>
-<td class="instruction">CALL <a href="D0F0.html#d1a8">$D1A8</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1c3"></span>D1C3</td>
-<td class="instruction">LD A,L</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1c4"></span>D1C4</td>
-<td class="instruction">XOR H</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1c5"></span>D1C5</td>
-<td class="instruction">POP HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1c6"></span>D1C6</td>
-<td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1c7"></span>D1C7</td>
-<td class="instruction">LD D,B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1c8"></span>D1C8</td>
-<td class="instruction">LD (HL),C</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1c9"></span>D1C9</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1ca"></span>D1CA</td>
-<td class="instruction">RRA</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-2"><span id="d1cb"></span>D1CB</td>
-<td class="instruction">LD A,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1cc"></span>D1CC</td>
-<td class="instruction">LD ($C425),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1cf"></span>D1CF</td>
-<td class="instruction">LD B,A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1d0"></span>D1D0</td>
-<td class="instruction">LD A,($C41C)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1d3"></span>D1D3</td>
-<td class="instruction">ADD A,B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1d4"></span>D1D4</td>
-<td class="instruction">LD ($C41C),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1d7"></span>D1D7</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1d8"></span>D1D8</td>
-<td class="instruction">LD A,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1d9"></span>D1D9</td>
-<td class="instruction">LD ($C426),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1dc"></span>D1DC</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1dd"></span>D1DD</td>
-<td class="instruction">LD D,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1de"></span>D1DE</td>
-<td class="instruction">LD A,D</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1df"></span>D1DF</td>
-<td class="instruction">LD ($C427),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1e2"></span>D1E2</td>
-<td class="instruction">LD E,$FE</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1e4"></span>D1E4</td>
-<td class="instruction">LD ($C51B),DE</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1e8"></span>D1E8</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1e9"></span>D1E9</td>
-<td class="instruction">PUSH HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1ea"></span>D1EA</td>
-<td class="instruction">LD HL,($C509)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1ed"></span>D1ED</td>
-<td class="instruction">LD A,B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1ee"></span>D1EE</td>
-<td class="instruction">AND A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1ef"></span>D1EF</td>
-<td class="instruction">JP Z,<a href="D0F0.html#d23e">$D23E</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-2"><span id="d1f2"></span>D1F2</td>
-<td class="instruction">PUSH BC</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1f3"></span>D1F3</td>
-<td class="instruction">LD DE,$CEDF</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1f6"></span>D1F6</td>
-<td class="instruction">LD (HL),E</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1f7"></span>D1F7</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1f8"></span>D1F8</td>
-<td class="instruction">LD (HL),D</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1f9"></span>D1F9</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-2"><span id="d1fa"></span>D1FA</td>
-<td class="instruction">CALL <a href="D0F0.html#d1bf">$D1BF</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1fd"></span>D1FD</td>
-<td class="instruction">AND $03</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d1ff"></span>D1FF</td>
-<td class="instruction">JR Z,<a href="D0F0.html#d1fa">$D1FA</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d201"></span>D201</td>
-<td class="instruction">LD (HL),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d202"></span>D202</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d203"></span>D203</td>
-<td class="instruction">LD (HL),$04</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d205"></span>D205</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-2"><span id="d206"></span>D206</td>
-<td class="instruction">CALL <a href="D0F0.html#d1bf">$D1BF</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d209"></span>D209</td>
-<td class="instruction">CP $18</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d20b"></span>D20B</td>
-<td class="instruction">JR C,<a href="D0F0.html#d206">$D206</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d20d"></span>D20D</td>
-<td class="instruction">CP $A4</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d20f"></span>D20F</td>
-<td class="instruction">JR NC,<a href="D0F0.html#d206">$D206</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d211"></span>D211</td>
-<td class="instruction">LD (HL),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d212"></span>D212</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-2"><span id="d213"></span>D213</td>
-<td class="instruction">CALL <a href="D0F0.html#d1bf">$D1BF</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d216"></span>D216</td>
-<td class="instruction">CP $08</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d218"></span>D218</td>
-<td class="instruction">JR C,<a href="D0F0.html#d213">$D213</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d21a"></span>D21A</td>
-<td class="instruction">CP $EF</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d21c"></span>D21C</td>
-<td class="instruction">JR NC,<a href="D0F0.html#d213">$D213</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d21e"></span>D21E</td>
-<td class="instruction">LD (HL),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d21f"></span>D21F</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d220"></span>D220</td>
-<td class="instruction">LD (HL),$0C</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d222"></span>D222</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d223"></span>D223</td>
-<td class="instruction">LD (HL),$09</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d225"></span>D225</td>
-<td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d226"></span>D226</td>
-<td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d227"></span>D227</td>
-<td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d228"></span>D228</td>
-<td class="instruction">EXX</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d229"></span>D229</td>
-<td class="instruction">LD HL,$D1C7</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d22c"></span>D22C</td>
-<td class="instruction">EXX</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d22d"></span>D22D</td>
-<td class="instruction">CALL <a href="C544.html#c6da">$C6DA</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d230"></span>D230</td>
-<td class="instruction">JR C,<a href="D0F0.html#d237">$D237</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d232"></span>D232</td>
-<td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d233"></span>D233</td>
-<td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d234"></span>D234</td>
-<td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d235"></span>D235</td>
-<td class="instruction">JR <a href="D0F0.html#d206">$D206</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-2"><span id="d237"></span>D237</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d238"></span>D238</td>
-<td class="instruction">LD (HL),$FF</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d23a"></span>D23A</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d23b"></span>D23B</td>
-<td class="instruction">POP BC</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d23c"></span>D23C</td>
-<td class="instruction">DJNZ <a href="D0F0.html#d1f2">$D1F2</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-2"><span id="d23e"></span>D23E</td>
-<td class="instruction">LD DE,$D1A4</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d241"></span>D241</td>
-<td class="instruction">LD ($C509),HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d244"></span>D244</td>
-<td class="instruction">LD (HL),E</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d245"></span>D245</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d246"></span>D246</td>
-<td class="instruction">LD (HL),D</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d247"></span>D247</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d248"></span>D248</td>
-<td class="instruction">LD (HL),$FF</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d24a"></span>D24A</td>
-<td class="instruction">POP HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d24b"></span>D24B</td>
-<td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="routine-comment" colspan="5">
-<span id="d24c"></span>
-<div class="comments">
-<div class="paragraph">
-This entry point is used by the routines at <a href="C544.html">C544</a> and <a href="D367.html">PlayerDeath</a>.
-</div>
-</div>
-</td>
-</tr>
-<tr>
-<td class="address-2"><span id="d24c"></span>D24C</td>
-<td class="instruction">LD HL,$6100</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d24f"></span>D24F</td>
-<td class="instruction">LD ($C509),HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d252"></span>D252</td>
-<td class="instruction">LD DE,$D1A4</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d255"></span>D255</td>
-<td class="instruction">LD (HL),E</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d256"></span>D256</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d257"></span>D257</td>
-<td class="instruction">LD (HL),D</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d258"></span>D258</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d259"></span>D259</td>
-<td class="instruction">LD (HL),$FF</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d25b"></span>D25B</td>
-<td class="instruction">LD A,($C41C)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d25e"></span>D25E</td>
-<td class="instruction">AND A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d25f"></span>D25F</td>
-<td class="instruction">JR NZ,<a href="D0F0.html#d299">$D299</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d261"></span>D261</td>
-<td class="instruction">LD HL,$C423</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d264"></span>D264</td>
-<td class="instruction">LD DE,$C424</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d267"></span>D267</td>
-<td class="instruction">LD (HL),$00</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d269"></span>D269</td>
-<td class="instruction">LD BC,$000C</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d26c"></span>D26C</td>
-<td class="instruction">LDIR</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d26e"></span>D26E</td>
-<td class="instruction">LD HL,($C409)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d271"></span>D271</td>
-<td class="instruction">LD A,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d272"></span>D272</td>
-<td class="instruction">LD ($C408),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d275"></span>D275</td>
-<td class="instruction">CALL <a href="D30C.html">$D30C</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d278"></span>D278</td>
-<td class="instruction">LD HL,($C409)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d27b"></span>D27B</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d27c"></span>D27C</td>
-<td class="instruction">CALL <a href="C544.html#c702">$C702</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d27f"></span>D27F</td>
-<td class="instruction">LD ($C409),HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-2"><span id="d282"></span>D282</td>
-<td class="instruction">LD HL,$6000</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d285"></span>D285</td>
-<td class="instruction">LD DE,$CE62</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d288"></span>D288</td>
-<td class="instruction">LD ($C4D1),HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d28b"></span>D28B</td>
-<td class="instruction">LD (HL),E</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d28c"></span>D28C</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d28d"></span>D28D</td>
-<td class="instruction">LD (HL),D</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d28e"></span>D28E</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d28f"></span>D28F</td>
-<td class="instruction">LD (HL),$FF</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d291"></span>D291</td>
-<td class="instruction">LD HL,$C4DE</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d294"></span>D294</td>
-<td class="instruction">LD (HL),$01</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d296"></span>D296</td>
-<td class="instruction">JP <a href="C84F.html#cb4f">$CB4F</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-2"><span id="d299"></span>D299</td>
-<td class="instruction">XOR A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d29a"></span>D29A</td>
-<td class="instruction">LD ($C41C),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d29d"></span>D29D</td>
-<td class="instruction">CALL <a href="D317.html">RenderHUD</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2a0"></span>D2A0</td>
-<td class="instruction">LD HL,$C423</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2a3"></span>D2A3</td>
-<td class="instruction">CALL <a href="D0F0.html#d0f0">$D0F0</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2a6"></span>D2A6</td>
-<td class="instruction">CALL <a href="D0F0.html#d1cb">$D1CB</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2a9"></span>D2A9</td>
-<td class="instruction">CALL <a href="D630.html#e122">$E122</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2ac"></span>D2AC</td>
-<td class="instruction">CALL <a href="D630.html#e290">$E290</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2af"></span>D2AF</td>
-<td class="instruction">CALL <a href="D630.html#e863">$E863</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2b2"></span>D2B2</td>
-<td class="instruction">CALL <a href="C84F.html#ce64">$CE64</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2b5"></span>D2B5</td>
-<td class="instruction">CALL <a href="D630.html#e92c">$E92C</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2b8"></span>D2B8</td>
-<td class="instruction">XOR A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2b9"></span>D2B9</td>
-<td class="instruction">JP <a href="D0F0.html#d282">$D282</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="routine-comment" colspan="5">
-<span id="d2bc"></span>
-<div class="comments">
-<div class="paragraph">
-This entry point is used by the routines at <a href="C84F.html">C84F</a> and <a href="D630.html">D630</a>.
-</div>
-</div>
-</td>
-</tr>
-<tr>
-<td class="address-2"><span id="d2bc"></span>D2BC</td>
-<td class="instruction">LD HL,$5800</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2bf"></span>D2BF</td>
-<td class="instruction">LD B,$07</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-2"><span id="d2c1"></span>D2C1</td>
-<td class="instruction">LD A,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2c2"></span>D2C2</td>
-<td class="instruction">AND B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2c3"></span>D2C3</td>
-<td class="instruction">LD (HL),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2c4"></span>D2C4</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2c5"></span>D2C5</td>
-<td class="instruction">LD A,H</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2c6"></span>D2C6</td>
-<td class="instruction">CP $5B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2c8"></span>D2C8</td>
-<td class="instruction">JP NZ,<a href="D0F0.html#d2c1">$D2C1</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2cb"></span>D2CB</td>
-<td class="instruction">CALL <a href="D0F0.html#d2d1">$D2D1</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2ce"></span>D2CE</td>
-<td class="instruction">POP DE</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2cf"></span>D2CF</td>
-<td class="instruction">POP DE</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2d0"></span>D2D0</td>
-<td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-2"><span id="d2d1"></span>D2D1</td>
-<td class="instruction">LD B,$14</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2d3"></span>D2D3</td>
-<td class="instruction">LD HL,$0000</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-2"><span id="d2d6"></span>D2D6</td>
-<td class="instruction">PUSH HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2d7"></span>D2D7</td>
-<td class="instruction">LD DE,$4000</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-2"><span id="d2da"></span>D2DA</td>
-<td class="instruction">LD A,(DE)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2db"></span>D2DB</td>
-<td class="instruction">AND (HL)</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2dc"></span>D2DC</td>
-<td class="instruction">LD (DE),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2dd"></span>D2DD</td>
-<td class="instruction">INC DE</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2de"></span>D2DE</td>
-<td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2df"></span>D2DF</td>
-<td class="instruction">LD A,E</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2e0"></span>D2E0</td>
-<td class="instruction">AND A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2e1"></span>D2E1</td>
-<td class="instruction">JR NZ,<a href="D0F0.html#d2da">$D2DA</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2e3"></span>D2E3</td>
-<td class="instruction">LD A,$00</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2e5"></span>D2E5</td>
-<td class="instruction">OUT ($FE),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2e7"></span>D2E7</td>
-<td class="instruction">LD A,B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2e8"></span>D2E8</td>
-<td class="instruction">SLA A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2ea"></span>D2EA</td>
-<td class="instruction">SLA A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-2"><span id="d2ec"></span>D2EC</td>
-<td class="instruction">DEC A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2ed"></span>D2ED</td>
-<td class="instruction">JR NZ,<a href="D0F0.html#d2ec">$D2EC</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2ef"></span>D2EF</td>
-<td class="instruction">LD A,$18</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2f1"></span>D2F1</td>
-<td class="instruction">AND $18</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2f3"></span>D2F3</td>
-<td class="instruction">OUT ($FE),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2f5"></span>D2F5</td>
-<td class="instruction">LD A,B</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2f6"></span>D2F6</td>
-<td class="instruction">SLA A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2f8"></span>D2F8</td>
-<td class="instruction">SLA A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-2"><span id="d2fa"></span>D2FA</td>
-<td class="instruction">DEC A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2fb"></span>D2FB</td>
-<td class="instruction">JR NZ,<a href="D0F0.html#d2fa">$D2FA</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2fd"></span>D2FD</td>
-<td class="instruction">LD A,D</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d2fe"></span>D2FE</td>
-<td class="instruction">CP $58</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d300"></span>D300</td>
-<td class="instruction">JR NZ,<a href="D0F0.html#d2da">$D2DA</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d302"></span>D302</td>
-<td class="instruction">POP HL</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d303"></span>D303</td>
-<td class="instruction">INC H</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d304"></span>D304</td>
-<td class="instruction">DJNZ <a href="D0F0.html#d2d6">$D2D6</a></td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d306"></span>D306</td>
-<td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d307"></span>D307</td>
-<td class="instruction">LD A,$07</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d309"></span>D309</td>
-<td class="instruction">OUT ($FE),A</td>
-<td class="comment-0" rowspan="1"></td>
-</tr>
-<tr>
-<td class="address-1"><span id="d30b"></span>D30B</td>
-<td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Return.</td>
 </tr>
 </table>
 <table class="asm-navigation">
@@ -1684,7 +785,7 @@ Prev: <a href="D0E6.html">D0E6</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#d0f0">Map</a></td>
 <td class="next">
-Next: <a href="D30C.html">D30C</a>
+Next: <a href="D1A8.html">D1A8</a>
 </td>
 </tr>
 </table>

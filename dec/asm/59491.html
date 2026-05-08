@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 59491</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="59343.html">59343</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#59491">Map</a></td>
+<td class="next">
+Next: <a href="59521.html">59521</a>
+</td>
+</tr>
+</table>
+<div class="description">59491: Evaluate and Spawn Tracked Enemies</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="53836.html">Stage_Next_Wave</a>.
+</div>
+<div class="paragraph">
+Entry point called from <a href="53836.html">Stage_Next_Wave</a>. Reads the tracked enemy active count at 50220; if non-zero, jumps immediately to the spawn step at <a href="59491.html#59513">Evaluate_And_Spawn_Tracked_Enemies_Go</a>. Otherwise checks 50221; if zero, also jumps to <a href="59491.html#59513">Evaluate_And_Spawn_Tracked_Enemies_Go</a>. If 50221 is non-zero, halves it twice: if the result is still non-zero, jumps to <a href="59491.html#59513">Evaluate_And_Spawn_Tracked_Enemies_Go</a>; otherwise increments <span class="register">A</span> to 1 and falls through to store the spawn count and call <a href="59343.html">Spawn_Tracked_Enemy_Entities</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Evaluate_And_Spawn_Tracked_Enemies</td>
+<td class="address-2"><span id="59491"></span>59491</td>
+<td class="instruction">LD A,(50220)</td>
+<td class="comment-1" rowspan="4">If the tracked enemy active count at 50220 is non-zero, skip to <a href="59491.html#59513">Evaluate_And_Spawn_Tracked_Enemies_Go</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59494"></span>59494</td>
+<td class="instruction">AND A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59495"></span>59495</td>
+<td class="instruction">JP NZ,<a href="59491.html#59513">Evaluate_And_Spawn_Tracked_Enemies_Go</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59498"></span>59498</td>
+<td class="instruction">LD A,(50221)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59501"></span>59501</td>
+<td class="instruction">AND A</td>
+<td class="comment-1" rowspan="2">If the set count at 50221 is also zero, skip to <a href="59491.html#59513">Evaluate_And_Spawn_Tracked_Enemies_Go</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59502"></span>59502</td>
+<td class="instruction">JP Z,<a href="59491.html#59513">Evaluate_And_Spawn_Tracked_Enemies_Go</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59505"></span>59505</td>
+<td class="instruction">SRL A</td>
+<td class="comment-1" rowspan="3">Halve 50221 twice; if the result is still non-zero, skip to <a href="59491.html#59513">Evaluate_And_Spawn_Tracked_Enemies_Go</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59507"></span>59507</td>
+<td class="instruction">SRL A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59509"></span>59509</td>
+<td class="instruction">JP NZ,<a href="59491.html#59513">Evaluate_And_Spawn_Tracked_Enemies_Go</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59512"></span>59512</td>
+<td class="instruction">INC A</td>
+<td class="comment-1" rowspan="1">Set spawn count to 1.</td>
+</tr>
+<tr>
+<td class="asm-label">Evaluate_And_Spawn_Tracked_Enemies_Go</td>
+<td class="address-2"><span id="59513"></span>59513</td>
+<td class="instruction">LD (50220),A</td>
+<td class="comment-1" rowspan="1">Store the spawn count at 50220.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59516"></span>59516</td>
+<td class="instruction">CALL <a href="59343.html">Spawn_Tracked_Enemy_Entities</a></td>
+<td class="comment-1" rowspan="2">Call <a href="59343.html">Spawn_Tracked_Enemy_Entities</a> to spawn the tracked enemy wave and advance.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59519"></span>59519</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59520"></span>59520</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="59343.html">59343</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#59491">Map</a></td>
+<td class="next">
+Next: <a href="59521.html">59521</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/E863.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

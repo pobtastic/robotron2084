@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at CD13</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="CCE9.html">CCE9</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#cd13">Map</a></td>
+<td class="next">
+Next: <a href="CD18.html">CD18</a>
+</td>
+</tr>
+</table>
+<div class="description">CD13: Advance Entity Pointer</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="D5B1.html">Remove_Entity_From_List</a>.
+</div>
+<div class="paragraph">
+Written into entity records as the per-frame handler once an entity has been processed. Advances <span class="register">HL</span> by 0A bytes to step past the current record and returns to the entity dispatcher.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Advance_Entity_Pointer</td>
+<td class="address-2"><span id="cd13"></span>CD13</td>
+<td class="instruction">LD DE,$000A</td>
+<td class="comment-1" rowspan="2">Add 0A to <span class="register">HL</span> to step past the current entity record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cd16"></span>CD16</td>
+<td class="instruction">ADD HL,DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cd17"></span>CD17</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return to the entity dispatcher.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="CCE9.html">CCE9</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#cd13">Map</a></td>
+<td class="next">
+Next: <a href="CD18.html">CD18</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/52499.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

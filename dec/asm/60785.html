@@ -33,51 +33,59 @@ Next: <a href="60796.html">60796</a>
 </td>
 </tr>
 </table>
-<div class="description">60785: Routine at ED71</div>
+<div class="description">60785: Check Any Key During Display</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="60360.html">60360</a>, <a href="60688.html">60688</a> and <a href="62700.html">62700</a>.
+Used by the routines at <a href="60360.html">Display_High_Score_Entry_Screen</a>, <a href="60688.html">Save_Or_Load_High_Scores</a> and <a href="62700.html">Attract_Mode_Loop</a>.
+</div>
+<div class="paragraph">
+Reads all keyboard rows simultaneously (port 254 with selector 0) during the high score display loop. Forces the upper three bits high; if any key is pressed, increments <span class="register">A</span> past 255 discards the caller's return address, and restarts the high score display at <a href="60360.html">Display_High_Score_Entry_Screen</a>. Returns normally if no keys are held.
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Check_Any_Key_During_Display</td>
 <td class="address-2"><span id="60785"></span>60785</td>
 <td class="instruction">XOR A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Read all keyboard rows simultaneously.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60786"></span>60786</td>
 <td class="instruction">IN A,(254)</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60788"></span>60788</td>
-<td class="instruction">OR 224</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">OR %11100000</td>
+<td class="comment-1" rowspan="1">Force bits 5-7 high.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60790"></span>60790</td>
 <td class="instruction">INC A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Return if no keys are pressed (<span class="register">A</span> wraps to 0).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60791"></span>60791</td>
 <td class="instruction">RET Z</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60792"></span>60792</td>
 <td class="instruction">POP HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Discard the caller's return address from the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60793"></span>60793</td>
-<td class="instruction">JP <a href="60360.html">60360</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JP <a href="60360.html">Display_High_Score_Entry_Screen</a></td>
+<td class="comment-1" rowspan="1">Restart the high score display at <a href="60360.html">Display_High_Score_Entry_Screen</a>.</td>
 </tr>
 </table>
 <table class="asm-navigation">

@@ -33,41 +33,48 @@ Next: <a href="ECE6.html">ECE6</a>
 </td>
 </tr>
 </table>
-<div class="description">ECDE: Routine at ECDE</div>
+<div class="description">ECDE: Display Loop Delay</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="EBC8.html">EBC8</a> and <a href="ED10.html">ED10</a>.
+Used by the routines at <a href="EBC8.html">Display_High_Score_Entry_Screen</a> and <a href="ED10.html">Save_Or_Load_High_Scores</a>.
+</div>
+<div class="paragraph">
+Busy-wait timing delay used by the attract mode and high score display loops. Each call resets <span class="register">B</span> to 00 and spins the inner busy-wait 0100 times; <span class="register">C</span> controls the outer repetition count. Callers set <span class="register">C</span> to 64 before the call, giving 100 outer passes of 256 inner spins each.
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Display_Loop_Delay</td>
 <td class="address-2"><span id="ecde"></span>ECDE</td>
 <td class="instruction">LD B,$00</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Set the inner loop counter to 00 giving 0100 busy-wait spins.</td>
 </tr>
 <tr>
+<td class="asm-label">Display_Loop_Delay_Inner</td>
 <td class="address-2"><span id="ece0"></span>ECE0</td>
-<td class="instruction">DJNZ <a href="ECDE.html#ece0">$ECE0</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">DJNZ <a href="ECDE.html#ece0">Display_Loop_Delay_Inner</a></td>
+<td class="comment-1" rowspan="1">Spin until the inner loop counter reaches zero.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ece2"></span>ECE2</td>
 <td class="instruction">DEC C</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Decrement the outer pass count in <span class="register">C</span> and loop back to <a href="ECDE.html#ece0">Display_Loop_Delay_Inner</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ece3"></span>ECE3</td>
-<td class="instruction">JR NZ,<a href="ECDE.html#ece0">$ECE0</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR NZ,<a href="ECDE.html#ece0">Display_Loop_Delay_Inner</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ece5"></span>ECE5</td>
 <td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Return.</td>
 </tr>
 </table>
 <table class="asm-navigation">

@@ -33,106 +33,132 @@ Next: <a href="60638.html">60638</a>
 </td>
 </tr>
 </table>
-<div class="description">60580: Routine at ECA4</div>
+<div class="description">60580: Initialise Display and Set Border</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="60360.html">60360</a> and <a href="60688.html">60688</a>.
+Used by the routines at <a href="60360.html">Display_High_Score_Entry_Screen</a> and <a href="60688.html">Save_Or_Load_High_Scores</a>.
+</div>
+<div class="paragraph">
+Clears the display pixel area (16384-22527) to black and fills the 768 attribute cells with the byte in <span class="register">A</span>, then derives the border colour from <span class="register">A'</span>s paper bits and updates both BORDCR (23624) and the ULA border port (254).
 </div>
 </div>
+<table class="input">
+<tr class="asm-input-header">
+<th colspan="2">Input</th>
+</tr>
+<tr>
+<td class="register">A</td>
+<td class="register-desc">Attribute byte for the display fill</td>
+</tr>
+</table>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Initialise_Display_And_Border</td>
 <td class="address-2"><span id="60580"></span>60580</td>
 <td class="instruction">LD HL,16384</td>
-<td class="comment-1" rowspan="1"><span class="register">HL</span>=16384.</td>
+<td class="comment-1" rowspan="3">Set up to clear the pixel area (16384-22527 6144 bytes).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60583"></span>60583</td>
 <td class="instruction">LD DE,16385</td>
-<td class="comment-1" rowspan="1"><span class="register">DE</span>=16385 (screen buffer location).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60586"></span>60586</td>
 <td class="instruction">LD BC,6144</td>
-<td class="comment-1" rowspan="1"><span class="register">BC</span>=6144.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60589"></span>60589</td>
 <td class="instruction">LD (HL),0</td>
-<td class="comment-1" rowspan="1">Write 0 to *<span class="register">HL</span>.</td>
+<td class="comment-1" rowspan="2">Clear the first pixel byte and fill the remaining display pixels to black via LDIR.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60591"></span>60591</td>
 <td class="instruction">LDIR</td>
-<td class="comment-1" rowspan="1">LDIR.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60593"></span>60593</td>
 <td class="instruction">LD BC,768</td>
-<td class="comment-1" rowspan="1"><span class="register">BC</span>=768.</td>
+<td class="comment-1" rowspan="1">Set the attribute fill count to 768 cells.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60596"></span>60596</td>
 <td class="instruction">LD (HL),A</td>
-<td class="comment-1" rowspan="1">Write <span class="register">A</span> to *<span class="register">HL</span>.</td>
+<td class="comment-1" rowspan="2">Seed the first attribute cell with <span class="register">A</span> and fill all 768 attribute cells via LDIR.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60597"></span>60597</td>
 <td class="instruction">LDIR</td>
-<td class="comment-1" rowspan="1">LDIR.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60599"></span>60599</td>
 <td class="instruction">AND %00111000</td>
-<td class="comment-1" rowspan="1">Keep only bits 3-5.</td>
+<td class="comment-1" rowspan="1">Isolate the paper colour bits from the attribute.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60601"></span>60601</td>
 <td class="instruction">BIT 5,A</td>
-<td class="comment-1" rowspan="1">Test bit 5 of <span class="register">A</span>.</td>
+<td class="comment-1" rowspan="2">Skip to <a href="60580.html#60607">Set_Border_Colour</a> if the paper colour is in the upper range (4-7).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60603"></span>60603</td>
-<td class="instruction">JR NZ,<a href="60580.html#60607">60607</a></td>
-<td class="comment-1" rowspan="1">Jump to <a href="60580.html#60607">60607</a> if ?? is not equal to 0.</td>
+<td class="instruction">JR NZ,<a href="60580.html#60607">Set_Border_Colour</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60605"></span>60605</td>
 <td class="instruction">XOR %00000111</td>
-<td class="comment-1" rowspan="1">Flip bits 0-2.</td>
+<td class="comment-1" rowspan="1">Complement the ink colour bits to contrast with dark paper.</td>
 </tr>
 <tr>
+<td class="asm-label">Set_Border_Colour</td>
 <td class="address-2"><span id="60607"></span>60607</td>
 <td class="instruction">LD (23624),A</td>
-<td class="comment-1" rowspan="1">Write <span class="register">A</span> to *<a href="https://skoolkid.github.io/rom/asm/5C48.html">BORDCR</a>.</td>
+<td class="comment-1" rowspan="1">Write the background colour to *<a href="https://skoolkid.github.io/rom/asm/5C48.html">BORDCR</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60610"></span>60610</td>
 <td class="instruction">AND %00111000</td>
-<td class="comment-1" rowspan="1">Keep only bits 3-5.</td>
+<td class="comment-1" rowspan="1">Re-isolate the paper colour bits.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60612"></span>60612</td>
 <td class="instruction">RRCA</td>
-<td class="comment-1" rowspan="3">Rotate right with carry three positions.</td>
+<td class="comment-1" rowspan="3">Shift the paper colour into the low 3 bits.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60613"></span>60613</td>
 <td class="instruction">RRCA</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60614"></span>60614</td>
 <td class="instruction">RRCA</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60615"></span>60615</td>
 <td class="instruction">OUT (254),A</td>
-<td class="comment-1" rowspan="1">Set border to the colour held by <span class="register">A</span>.</td>
+<td class="comment-1" rowspan="1">Write the paper colour to the ULA border port 254.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60617"></span>60617</td>
 <td class="instruction">RET</td>
 <td class="comment-1" rowspan="1">Return.</td>
@@ -142,42 +168,49 @@ Used by the routines at <a href="60360.html">60360</a> and <a href="60688.html">
 <span id="60618"></span>
 <div class="comments">
 <div class="paragraph">
-This entry point is used by the routine at <a href="60360.html">60360</a>.
+This entry point is used by the routine at <a href="60360.html">Display_High_Score_Entry_Screen</a>.
+</div>
+<div class="paragraph">
+Alternate entry: compute a score character position as <span class="register">A</span> × 8 + <span class="register">B</span> and highlight its attribute row via <a href="60939.html">Calculate_Attr_Cell_Address</a> and <a href="60957.html">Highlight_Score_Entry_Row</a>.
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Render_Score_Character</td>
 <td class="address-2"><span id="60618"></span>60618</td>
 <td class="instruction">ADD A,A</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>+=<span class="register">A</span>.</td>
+<td class="comment-1" rowspan="4">Compute the character position index as <span class="register">A</span> × 8 + <span class="register">B</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60619"></span>60619</td>
 <td class="instruction">ADD A,A</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>+=<span class="register">A</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60620"></span>60620</td>
 <td class="instruction">ADD A,A</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>+=<span class="register">A</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60621"></span>60621</td>
 <td class="instruction">ADD A,B</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>+=<span class="register">B</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60622"></span>60622</td>
-<td class="instruction">CALL <a href="60939.html">60939</a></td>
-<td class="comment-1" rowspan="1">Call <a href="60939.html">60939</a>.</td>
+<td class="instruction">CALL <a href="60939.html">Calculate_Attr_Cell_Address</a></td>
+<td class="comment-1" rowspan="1">Calculate the attribute cell address for this position via <a href="60939.html">Calculate_Attr_Cell_Address</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60625"></span>60625</td>
-<td class="instruction">CALL <a href="60957.html">60957</a></td>
-<td class="comment-1" rowspan="1">Call <a href="60957.html">60957</a>.</td>
+<td class="instruction">CALL <a href="60957.html">Highlight_Score_Entry_Row</a></td>
+<td class="comment-1" rowspan="1">Highlight the score entry row with bright white via <a href="60957.html">Highlight_Score_Entry_Row</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60628"></span>60628</td>
 <td class="instruction">RET</td>
 <td class="comment-1" rowspan="1">Return.</td>
@@ -187,37 +220,48 @@ This entry point is used by the routine at <a href="60360.html">60360</a>.
 <span id="60629"></span>
 <div class="comments">
 <div class="paragraph">
-This entry point is used by the routine at <a href="60360.html">60360</a>.
+This entry point is used by the routine at <a href="60360.html">Display_High_Score_Entry_Screen</a>.
+</div>
+<div class="paragraph">
+Alternate entry: highlight a single score entry attribute cell on row 89 directly, using <span class="register">A</span> × 2 + 1 as the cell offset.
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Highlight_Score_Entry_Cell</td>
 <td class="address-2"><span id="60629"></span>60629</td>
 <td class="instruction">ADD A,A</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>+=<span class="register">A</span>.</td>
+<td class="comment-1" rowspan="3">Compute the attribute cell offset as <span class="register">A</span> × 2 + 1.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60630"></span>60630</td>
 <td class="instruction">ADD A,1</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>+=1.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60632"></span>60632</td>
 <td class="instruction">LD L,A</td>
-<td class="comment-1" rowspan="1"><span class="register">L</span>=<span class="register">A</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60633"></span>60633</td>
 <td class="instruction">LD H,89</td>
-<td class="comment-1" rowspan="1"><span class="register">H</span>=89.</td>
+<td class="comment-1" rowspan="2">Write INK:
+WHITE,
+PAPER:
+BLACK
+(BRIGHT)
+ to attribute row 89 at the computed offset.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60635"></span>60635</td>
 <td class="instruction">LD (HL),71</td>
-<td class="comment-1" rowspan="1">Write 71 to *<span class="register">HL</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60637"></span>60637</td>
 <td class="instruction">RET</td>
 <td class="comment-1" rowspan="1">Return.</td>

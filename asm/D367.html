@@ -42,7 +42,7 @@ Next: <a href="D3E4.html">D3E4</a>
 Used by the routine at <a href="D3F8.html">PlayerDeath_TapeLoadContinue</a>.
 </div>
 <div class="paragraph">
-Handles a lost life and game-over flow: optional HUD and "PLAYER" messaging, decrementing <a href="C415.html">Lives</a>, calling <a href="D0F0.html#d24c">D24C</a> to re-stage the wave, swapping players with <a href="D08B.html">SwapPlayerState</a>, printing "GAME OVER" when no lives remain, and either returning to the attract mode at <a href="EBBC.html">GameEntryPoint</a> or looping. A lookup table at <a href="D3E4.html">D3E4</a> (read from <a href="D3F8.html#d400">D400</a>) supplies a start pointer stored at <a href="C519.html">WaveStartPointer</a>; <a href="ECFB.html">ECFB</a> jumps to <a href="D3F8.html">PlayerDeath_TapeLoadContinue</a> after a successful tape load. Clears player state at <a href="C403.html">Player_1_State</a>, wave and score fields, and applies <a href="D481.html">Messaging_ResetMargins</a> (reset margins) when starting a fresh game.
+Handles a lost life and game-over flow: optional HUD and "PLAYER" messaging, decrementing <a href="C415.html">Lives</a>, calling <a href="D24C.html">Stage_Next_Wave</a> to re-stage the wave, swapping players with <a href="D08B.html">Swap_Player_State</a>, printing "GAME OVER" when no lives remain, and either returning to the attract mode at <a href="EBBC.html">GameEntryPoint</a> or looping. A lookup table at <a href="D3E4.html">D3E4</a> (read from <a href="D3F8.html#d400">D400</a>) supplies a start pointer stored at <a href="C519.html">WaveStartPointer</a>; <a href="ECFB.html">Check_S_Key_During_Display</a> jumps to <a href="D3F8.html">PlayerDeath_TapeLoadContinue</a> after a successful tape load. Clears player state at <a href="C403.html">Player_1_State</a>, wave and score fields, and applies <a href="D481.html">Messaging_ResetMargins</a> (reset margins) when starting a fresh game.
 </div>
 </div>
 </td>
@@ -125,14 +125,14 @@ Full death sequence: redraw the HUD (<a href="D317.html">RenderHUD</a>), print <
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="d382"></span>D382</td>
-<td class="instruction">CALL <a href="D630.html#daa3">$DAA3</a></td>
-<td class="comment-1" rowspan="1">Call <a href="D630.html#daa3">DAA3</a> (short delay).</td>
+<td class="instruction">CALL <a href="DAA3.html">Delay_Long</a></td>
+<td class="comment-1" rowspan="1">Call <a href="DAA3.html">Delay_Long</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="d385"></span>D385</td>
-<td class="instruction">CALL <a href="C713.html">$C713</a></td>
-<td class="comment-1" rowspan="1">Call <a href="C713.html">C713</a> (attribute bar).</td>
+<td class="instruction">CALL <a href="C713.html">UpdateAttributeBar</a></td>
+<td class="comment-1" rowspan="1">Call <a href="C713.html">UpdateAttributeBar</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -171,8 +171,8 @@ See <a href="../reference/pokes.html#infinite-lives">Infinite Lives (Final Versi
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="d38f"></span>D38F</td>
-<td class="instruction">CALL <a href="D0F0.html#d24c">$D24C</a></td>
-<td class="comment-1" rowspan="1">Call <a href="D0F0.html#d24c">D24C</a> (re-stage the wave / death handling).</td>
+<td class="instruction">CALL <a href="D24C.html">Stage_Next_Wave</a></td>
+<td class="comment-1" rowspan="1">Call <a href="D24C.html">Stage_Next_Wave</a> (re-stage the wave / death handling).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -203,8 +203,8 @@ Lives remain: swap to the other player and continue if two-player mode.
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="d398"></span>D398</td>
-<td class="instruction">CALL <a href="D08B.html">SwapPlayerState</a></td>
-<td class="comment-1" rowspan="1">Call <a href="D08B.html">SwapPlayerState</a>.</td>
+<td class="instruction">CALL <a href="D08B.html">Swap_Player_State</a></td>
+<td class="comment-1" rowspan="1">Call <a href="D08B.html">Swap_Player_State</a>.</td>
 </tr>
 <tr>
 <td class="routine-comment" colspan="5">
@@ -235,8 +235,8 @@ If not two-player, jump back to <a href="D367.html">PlayerDeath</a> for the same
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="d3a2"></span>D3A2</td>
-<td class="instruction">CALL <a href="D08B.html">SwapPlayerState</a></td>
-<td class="comment-1" rowspan="1">Call <a href="D08B.html">SwapPlayerState</a> (swap back).</td>
+<td class="instruction">CALL <a href="D08B.html">Swap_Player_State</a></td>
+<td class="comment-1" rowspan="1">Call <a href="D08B.html">Swap_Player_State</a> (swap back).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -331,14 +331,14 @@ No lives left: redraw the HUD, then either the "PLAYER" line or straight to "GAM
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="d3c8"></span>D3C8</td>
-<td class="instruction">CALL <a href="D630.html#daa3">$DAA3</a></td>
-<td class="comment-1" rowspan="1">Call <a href="D630.html#daa3">DAA3</a>.</td>
+<td class="instruction">CALL <a href="DAA3.html">Delay_Long</a></td>
+<td class="comment-1" rowspan="1">Call <a href="DAA3.html">Delay_Long</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="d3cb"></span>D3CB</td>
-<td class="instruction">CALL <a href="C713.html">$C713</a></td>
-<td class="comment-1" rowspan="1">Call <a href="C713.html">C713</a>.</td>
+<td class="instruction">CALL <a href="C713.html">UpdateAttributeBar</a></td>
+<td class="comment-1" rowspan="1">Call <a href="C713.html">UpdateAttributeBar</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -357,7 +357,7 @@ No lives left: redraw the HUD, then either the "PLAYER" line or straight to "GAM
 <span id="d3d1"></span>
 <div class="comments">
 <div class="paragraph">
-Set *<a href="C41E.html">TwoPlayerSessionFlag</a> to 01 swap players with <a href="D08B.html">SwapPlayerState</a>, then branch on the flag read back from *<a href="C41E.html">TwoPlayerSessionFlag</a>.
+Set *<a href="C41E.html">TwoPlayerSessionFlag</a> to 01 swap players with <a href="D08B.html">Swap_Player_State</a>, then branch on the flag read back from *<a href="C41E.html">TwoPlayerSessionFlag</a>.
 </div>
 </div>
 </td>
@@ -376,8 +376,8 @@ Set *<a href="C41E.html">TwoPlayerSessionFlag</a> to 01 swap players with <a hre
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="d3d6"></span>D3D6</td>
-<td class="instruction">CALL <a href="D08B.html">SwapPlayerState</a></td>
-<td class="comment-1" rowspan="1">Call <a href="D08B.html">SwapPlayerState</a>.</td>
+<td class="instruction">CALL <a href="D08B.html">Swap_Player_State</a></td>
+<td class="comment-1" rowspan="1">Call <a href="D08B.html">Swap_Player_State</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>

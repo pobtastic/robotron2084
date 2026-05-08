@@ -29,7 +29,7 @@ Prev: <a href="50205.html">50205</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#50206">Map</a></td>
 <td class="next">
-Next: <a href="50222.html">50222</a>
+Next: <a href="50211.html">50211</a>
 </td>
 </tr>
 </table>
@@ -39,7 +39,7 @@ Next: <a href="50222.html">50222</a>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Non-zero when both player slots take part in the current credit session; read by <a href="54119.html">PlayerDeath</a> after a lost life to decide whether to swap with <a href="53387.html">SwapPlayerState</a> again or loop on the same player. Cleared when initialising state for a new game after the maximum wave.
+Non-zero when both player slots take part in the current credit session. After a lost life <a href="54119.html">PlayerDeath</a> uses it for <a href="53387.html">Swap_Player_State</a> swap vs same-player loop. Cleared on init after the max wave.
 </div>
 </div>
 </td>
@@ -53,13 +53,19 @@ Non-zero when both player slots take part in the current credit session; read by
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50207"></span>50207</td>
-<td class="instruction">DEFB 1,0,0,0,0,0,0,0</td>
+<td class="instruction">DEFB 1</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label">Colour_Bar_Column</td>
+<td class="address-1"><span id="50208"></span>50208</td>
+<td class="instruction">DEFB 0</td>
 <td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
 <td class="asm-label"></td>
-<td class="address-1"><span id="50215"></span>50215</td>
-<td class="instruction">DEFB 6,0,0,0,0,0,0</td>
+<td class="address-1"><span id="50209"></span>50209</td>
+<td class="instruction">DEFB 0,0</td>
 <td class="comment-0" rowspan="1"></td>
 </tr>
 </table>
@@ -70,7 +76,7 @@ Prev: <a href="50205.html">50205</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#50206">Map</a></td>
 <td class="next">
-Next: <a href="50222.html">50222</a>
+Next: <a href="50211.html">50211</a>
 </td>
 </tr>
 </table>

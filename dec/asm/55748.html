@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 55748</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="55188.html">55188</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#55748">Map</a></td>
+<td class="next">
+Next: <a href="55776.html">55776</a>
+</td>
+</tr>
+</table>
+<div class="description">55748: Initialise Entity State</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routines at <a href="52047.html">Main_Game_Loop</a>, <a href="52532.html">Clear_Colour_Bar_Column</a>, <a href="57898.html">Begin_Enemy_Death_Animation</a>, <a href="58553.html">Kill_Tracked_Enemy_Entity</a>, <a href="59764.html">Kill_Wall_Bouncing_Enemy</a> and <a href="60167.html">Process_Final_Phase_Enemy_Entity</a>.
+</div>
+<div class="paragraph">
+Activates an entity state effect by copying a 16-byte configuration record from <a href="55786.html">Entity_State_Table</a> into the active state slot at <a href="50465.html">Entity_State_Pointer</a>. The entity type code in <span class="register">E</span> selects the record (multiplied by 16). If <a href="50479.html">Entity_State_Flag</a> is zero, no effect is pending and the routine returns immediately without change.
+</div>
+</div>
+<table class="input">
+<tr class="asm-input-header">
+<th colspan="2">Input</th>
+</tr>
+<tr>
+<td class="register">E</td>
+<td class="register-desc">Entity type code</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Initialise_Entity_State</td>
+<td class="address-2"><span id="55748"></span>55748</td>
+<td class="instruction">LD A,(50479)</td>
+<td class="comment-1" rowspan="3">Return if no entity state effect is pending.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="55751"></span>55751</td>
+<td class="instruction">AND A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="55752"></span>55752</td>
+<td class="instruction">RET Z</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="55753"></span>55753</td>
+<td class="instruction">SLA E</td>
+<td class="comment-1" rowspan="5">Multiply the entity type code by 16 to form the record offset.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="55755"></span>55755</td>
+<td class="instruction">SLA E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="55757"></span>55757</td>
+<td class="instruction">SLA E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="55759"></span>55759</td>
+<td class="instruction">SLA E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="55761"></span>55761</td>
+<td class="instruction">LD D,0</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="55763"></span>55763</td>
+<td class="instruction">LD HL,55786</td>
+<td class="comment-1" rowspan="3">Index into <a href="55786.html">Entity_State_Table</a> by offset and set <span class="register">DE</span> to <a href="50465.html">Entity_State_Pointer</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="55766"></span>55766</td>
+<td class="instruction">ADD HL,DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="55767"></span>55767</td>
+<td class="instruction">LD DE,50465</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="55770"></span>55770</td>
+<td class="instruction">LD BC,16</td>
+<td class="comment-1" rowspan="2">Copy the 16-byte effect record to <a href="50465.html">Entity_State_Pointer</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="55773"></span>55773</td>
+<td class="instruction">LDIR</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="55775"></span>55775</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="55188.html">55188</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#55748">Map</a></td>
+<td class="next">
+Next: <a href="55776.html">55776</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/D9C4.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

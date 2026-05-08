@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at D1BF</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="D1A8.html">D1A8</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#d1bf">Map</a></td>
+<td class="next">
+Next: <a href="D24C.html">D24C</a>
+</td>
+</tr>
+</table>
+<div class="description">D1BF: Generate Random Byte</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routines at <a href="CD34.html">Clear_Colour_Bar_Column</a>, <a href="D0F0.html">Spawn_Primary_Wave_Enemies</a>, <a href="E003.html">Process_Entity_Record_Fast</a>, <a href="E122.html">Spawn_Wave_Enemies</a>, <a href="E1B6.html">Handle_Horizontal_Enemy_Entity</a>, <a href="E290.html">Spawn_Horizontal_Wave_Enemies</a>, <a href="E2C8.html">Pick_Random_Spawn_Position_Y</a>, <a href="E520.html">Process_Cluster_Entity</a>, <a href="E6F7.html">Process_Player_Tracking_Enemy</a>, <a href="E7CF.html">Spawn_Tracked_Enemy_Entities</a>, <a href="EA6E.html">Process_Replacement_Enemy_Entity</a> and <a href="EB07.html">Process_Final_Phase_Enemy_Entity</a>.
+</div>
+<div class="paragraph">
+Produces a single pseudo-random byte by advancing the RNG seed via <a href="D1A8.html">Advance_RNG_Seed</a> and XOR-mixing its two bytes. <span class="register">HL</span> is preserved. Called throughout the enemy spawning routines to pick random positions and directions.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Generate_Random_Byte</td>
+<td class="address-2"><span id="d1bf"></span>D1BF</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="2">Stash <span class="register">HL</span> and advance the RNG seed via <a href="D1A8.html">Advance_RNG_Seed</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1c0"></span>D1C0</td>
+<td class="instruction">CALL <a href="D1A8.html">Advance_RNG_Seed</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1c3"></span>D1C3</td>
+<td class="instruction">LD A,L</td>
+<td class="comment-1" rowspan="2">XOR-mix the seed high and low bytes to produce the random byte.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1c4"></span>D1C4</td>
+<td class="instruction">XOR H</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1c5"></span>D1C5</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="2">Restore <span class="register">HL</span> and return.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1c6"></span>D1C6</td>
+<td class="instruction">RET</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="d1c7"></span>
+<div class="comments">
+<div class="paragraph">
+Entity spawn handler stub, invoked by <a href="C6DA.html">HitTestBounds8AtHL</a> during hit-testing. Stores the entity colour from <span class="register">C</span> and advances the entity pointer.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Entity_Spawn_Handler</td>
+<td class="address-1"><span id="d1c7"></span>D1C7</td>
+<td class="instruction">LD D,B</td>
+<td class="comment-1" rowspan="4">Initialise the entity colour byte and advance the entity data pointer.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1c8"></span>D1C8</td>
+<td class="instruction">LD (HL),C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1c9"></span>D1C9</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1ca"></span>D1CA</td>
+<td class="instruction">RRA</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="d1cb"></span>
+<div class="comments">
+<div class="paragraph">
+This entry point is used by the routine at <a href="D24C.html">Stage_Next_Wave</a>.
+</div>
+<div class="paragraph">
+Secondary wave enemy spawn: reads the entity configuration from the wave definition pointed to by <span class="register">HL</span>, then spawns secondary entities (handler CEDF) at random valid pixel positions on the playfield.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Spawn_Wave_Enemies_Class2</td>
+<td class="address-2"><span id="d1cb"></span>D1CB</td>
+<td class="instruction">LD A,(HL)</td>
+<td class="comment-1" rowspan="2">Read the sprite type byte from the wave definition and store at C425.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1cc"></span>D1CC</td>
+<td class="instruction">LD ($C425),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1cf"></span>D1CF</td>
+<td class="instruction">LD B,A</td>
+<td class="comment-1" rowspan="5">Copy the sprite type to <span class="register">B</span>, accumulate it into <a href="C41C.html">Active_Enemy_Count</a>, and advance the definition pointer.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1d0"></span>D1D0</td>
+<td class="instruction">LD A,($C41C)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1d3"></span>D1D3</td>
+<td class="instruction">ADD A,B</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1d4"></span>D1D4</td>
+<td class="instruction">LD ($C41C),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1d7"></span>D1D7</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1d8"></span>D1D8</td>
+<td class="instruction">LD A,(HL)</td>
+<td class="comment-1" rowspan="3">Read the direction byte from the definition and store at C426.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1d9"></span>D1D9</td>
+<td class="instruction">LD ($C426),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1dc"></span>D1DC</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1dd"></span>D1DD</td>
+<td class="instruction">LD D,(HL)</td>
+<td class="comment-1" rowspan="5">Read the speed byte, store at C427; set the initial animation frame pair at <a href="C51B.html">Animation_Frame_Pair</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1de"></span>D1DE</td>
+<td class="instruction">LD A,D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1df"></span>D1DF</td>
+<td class="instruction">LD ($C427),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1e2"></span>D1E2</td>
+<td class="instruction">LD E,$FE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1e4"></span>D1E4</td>
+<td class="instruction">LD ($C51B),DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1e8"></span>D1E8</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="3">Advance past the definition data and stash the definition pointer; load the entity list write pointer from <a href="C509.html">Entity_List_Write_Pointer</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1e9"></span>D1E9</td>
+<td class="instruction">PUSH HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1ea"></span>D1EA</td>
+<td class="instruction">LD HL,($C509)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1ed"></span>D1ED</td>
+<td class="instruction">LD A,B</td>
+<td class="comment-1" rowspan="3">Skip spawning if the enemy count is zero.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1ee"></span>D1EE</td>
+<td class="instruction">AND A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1ef"></span>D1EF</td>
+<td class="instruction">JP Z,<a href="D1BF.html#d23e">Spawn_Wave_Enemies_Class2_Done</a></td>
+</tr>
+<tr>
+<td class="asm-label">Spawn_Wave_Enemies_Class2_Loop</td>
+<td class="address-2"><span id="d1f2"></span>D1F2</td>
+<td class="instruction">PUSH BC</td>
+<td class="comment-1" rowspan="6">Stash the enemy count and write the secondary entity handler address CEDF to the entity list.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1f3"></span>D1F3</td>
+<td class="instruction">LD DE,$CEDF</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1f6"></span>D1F6</td>
+<td class="instruction">LD (HL),E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1f7"></span>D1F7</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1f8"></span>D1F8</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1f9"></span>D1F9</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label">Generate_Random_Byte_0</td>
+<td class="address-2"><span id="d1fa"></span>D1FA</td>
+<td class="instruction">CALL <a href="D1BF.html#d1bf">Generate_Random_Byte</a></td>
+<td class="comment-1" rowspan="1">Generate a random direction via <a href="D1BF.html">Generate_Random_Byte</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1fd"></span>D1FD</td>
+<td class="instruction">AND %00000011</td>
+<td class="comment-1" rowspan="1">Mask to values 1–3.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d1ff"></span>D1FF</td>
+<td class="instruction">JR Z,<a href="D1BF.html#d1fa">Generate_Random_Byte_0</a></td>
+<td class="comment-1" rowspan="1">Retry if the direction rolled zero.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d201"></span>D201</td>
+<td class="instruction">LD (HL),A</td>
+<td class="comment-1" rowspan="4">Store the direction and set the initial entity state to 04.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d202"></span>D202</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d203"></span>D203</td>
+<td class="instruction">LD (HL),$04</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d205"></span>D205</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label">Generate_Random_Byte_1</td>
+<td class="address-2"><span id="d206"></span>D206</td>
+<td class="instruction">CALL <a href="D1BF.html#d1bf">Generate_Random_Byte</a></td>
+<td class="comment-1" rowspan="1">Generate a random Y pixel position via <a href="D1BF.html">Generate_Random_Byte</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d209"></span>D209</td>
+<td class="instruction">CP $18</td>
+<td class="comment-1" rowspan="4">Retry if outside the playfield vertical range (18–A3).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d20b"></span>D20B</td>
+<td class="instruction">JR C,<a href="D1BF.html#d206">Generate_Random_Byte_1</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d20d"></span>D20D</td>
+<td class="instruction">CP $A4</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d20f"></span>D20F</td>
+<td class="instruction">JR NC,<a href="D1BF.html#d206">Generate_Random_Byte_1</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d211"></span>D211</td>
+<td class="instruction">LD (HL),A</td>
+<td class="comment-1" rowspan="2">Write the Y position and advance the entity pointer.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d212"></span>D212</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label">Generate_Random_Byte_2</td>
+<td class="address-2"><span id="d213"></span>D213</td>
+<td class="instruction">CALL <a href="D1BF.html#d1bf">Generate_Random_Byte</a></td>
+<td class="comment-1" rowspan="1">Generate a random X pixel position via <a href="D1BF.html">Generate_Random_Byte</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d216"></span>D216</td>
+<td class="instruction">CP $08</td>
+<td class="comment-1" rowspan="4">Retry if outside the playfield horizontal range (08–EE).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d218"></span>D218</td>
+<td class="instruction">JR C,<a href="D1BF.html#d213">Generate_Random_Byte_2</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d21a"></span>D21A</td>
+<td class="instruction">CP $EF</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d21c"></span>D21C</td>
+<td class="instruction">JR NC,<a href="D1BF.html#d213">Generate_Random_Byte_2</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d21e"></span>D21E</td>
+<td class="instruction">LD (HL),A</td>
+<td class="comment-1" rowspan="5">Write the X position and the entity dimensions (0C × 09).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d21f"></span>D21F</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d220"></span>D220</td>
+<td class="instruction">LD (HL),$0C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d222"></span>D222</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d223"></span>D223</td>
+<td class="instruction">LD (HL),$09</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d225"></span>D225</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="6">Step back to the entity record origin and load the spawn handler <a href="D1BF.html#d1c7">Entity_Spawn_Handler</a> into alternate <span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d226"></span>D226</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d227"></span>D227</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d228"></span>D228</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d229"></span>D229</td>
+<td class="instruction">LD HL,$D1C7</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d22c"></span>D22C</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d22d"></span>D22D</td>
+<td class="instruction">CALL <a href="C6DA.html">HitTestBounds8AtHL</a></td>
+<td class="comment-1" rowspan="1">Test whether this position overlaps an existing entity via <a href="C6DA.html">HitTestBounds8AtHL</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d230"></span>D230</td>
+<td class="instruction">JR C,<a href="D1BF.html#d237">Spawn_Wave_Enemies_Class2_Accept</a></td>
+<td class="comment-1" rowspan="1">Jump to <a href="D1BF.html#d237">Spawn_Wave_Enemies_Class2_Accept</a> if the position is clear.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d232"></span>D232</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="4">Step back and retry with a new X position.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d233"></span>D233</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d234"></span>D234</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d235"></span>D235</td>
+<td class="instruction">JR <a href="D1BF.html#d206">Generate_Random_Byte_1</a></td>
+</tr>
+<tr>
+<td class="asm-label">Spawn_Wave_Enemies_Class2_Accept</td>
+<td class="address-2"><span id="d237"></span>D237</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="3">Advance past the entity record and write the FF end-of-record marker.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d238"></span>D238</td>
+<td class="instruction">LD (HL),$FF</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d23a"></span>D23A</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d23b"></span>D23B</td>
+<td class="instruction">POP BC</td>
+<td class="comment-1" rowspan="2">Restore the enemy count and loop for the next secondary enemy.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d23c"></span>D23C</td>
+<td class="instruction">DJNZ <a href="D1BF.html#d1f2">Spawn_Wave_Enemies_Class2_Loop</a></td>
+</tr>
+<tr>
+<td class="asm-label">Spawn_Wave_Enemies_Class2_Done</td>
+<td class="address-2"><span id="d23e"></span>D23E</td>
+<td class="instruction">LD DE,$D1A4</td>
+<td class="comment-1" rowspan="7">Write the entity list return-routine address and the FF sentinel; store the updated entity list write pointer at <a href="C509.html">Entity_List_Write_Pointer</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d241"></span>D241</td>
+<td class="instruction">LD ($C509),HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d244"></span>D244</td>
+<td class="instruction">LD (HL),E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d245"></span>D245</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d246"></span>D246</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d247"></span>D247</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d248"></span>D248</td>
+<td class="instruction">LD (HL),$FF</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d24a"></span>D24A</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="2">Restore the wave definition pointer and return.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d24b"></span>D24B</td>
+<td class="instruction">RET</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="D1A8.html">D1A8</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#d1bf">Map</a></td>
+<td class="next">
+Next: <a href="D24C.html">D24C</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/53695.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

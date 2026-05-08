@@ -29,26 +29,37 @@ Prev: <a href="50184.html">50184</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#50185">Map</a></td>
 <td class="next">
-Next: <a href="50197.html">50197</a>
+Next: <a href="50196.html">50196</a>
 </td>
 </tr>
 </table>
-<div class="description">50185: Game status buffer entry at C409</div>
+<div class="description">50185: Wave Definition Pointer</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
+<div class="paragraph">
+Pointer to the current entry in the wave definition table. Read by <a href="53836.html">Stage_Next_Wave</a> to load the enemy count and type for the incoming wave; advanced after each wave is staged.
+</div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Wave_Definition_Pointer</td>
 <td class="address-1"><span id="50185"></span>50185</td>
-<td class="instruction">DEFB 0,0,67,80,76,0,50,45</td>
+<td class="instruction">DEFW 0</td>
 <td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
-<td class="address-1"><span id="50193"></span>50193</td>
-<td class="instruction">DEFB 9,79,82,5</td>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50187"></span>50187</td>
+<td class="instruction">DEFB 67,80,76,0,50,45,9,79</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="50195"></span>50195</td>
+<td class="instruction">DEFB 82</td>
 <td class="comment-0" rowspan="1"></td>
 </tr>
 </table>
@@ -59,7 +70,7 @@ Prev: <a href="50184.html">50184</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#50185">Map</a></td>
 <td class="next">
-Next: <a href="50197.html">50197</a>
+Next: <a href="50196.html">50196</a>
 </td>
 </tr>
 </table>

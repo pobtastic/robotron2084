@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 59521</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="59491.html">59491</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#59521">Map</a></td>
+<td class="next">
+Next: <a href="59692.html">59692</a>
+</td>
+</tr>
+</table>
+<div class="description">59521: Process Wall Bouncing Enemy</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Per-frame handler for the wall-bouncing enemy. If the wave start delay is still counting down, advances to the next entity record without processing. Otherwise checks for player contact via <a href="52504.html">Find_Colliding_Entity</a> and triggers player death via <a href="53948.html">Strip_Attributes_And_Fade</a> if the bouncer is touching. If the bouncer is already dying, skips to the draw step. Searches the wave enemy list for a collision via <a href="57954.html">Find_Colliding_Wave_Enemy</a>; if none is found, defers to <a href="59927.html">Handle_Enemy_Collision_Chain</a>. On a hit, decrements a countdown timer; when it expires the bouncer erases itself, nudges one step toward the player, picks a new heading, and redraws.
+</div>
+</div>
+<table class="input">
+<tr class="asm-input-header">
+<th colspan="2">Input</th>
+</tr>
+<tr>
+<td class="register">HL</td>
+<td class="register-desc">Entity record pointer</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="59521"></span>
+<div class="comments">
+<div class="paragraph">
+If the wave is still warming up, skip ahead without processing.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Wall_Bouncing_Enemy</td>
+<td class="address-2"><span id="59521"></span>59521</td>
+<td class="instruction">LD A,(50483)</td>
+<td class="comment-1" rowspan="3">If the wave start delay at <a href="50483.html">Wave_Start_Delay</a> is non-zero, skip to <a href="59521.html#59663">Process_Wall_Bouncing_Enemy_Advance</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59524"></span>59524</td>
+<td class="instruction">AND A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59525"></span>59525</td>
+<td class="instruction">JP NZ,<a href="59521.html#59663">Process_Wall_Bouncing_Enemy_Advance</a></td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="59528"></span>
+<div class="comments">
+<div class="paragraph">
+Check whether the player is touching the bouncer and kill them if so.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59528"></span>59528</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="2">Advance to the velocity pair.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59529"></span>59529</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59530"></span>59530</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="1">Switch to alternate registers.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59531"></span>59531</td>
+<td class="instruction">CALL <a href="52504.html">Find_Colliding_Entity</a></td>
+<td class="comment-1" rowspan="1">Search for a contact slot via <a href="52504.html">Find_Colliding_Entity</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59534"></span>59534</td>
+<td class="instruction">JP NC,<a href="59764.html">Kill_Wall_Bouncing_Enemy</a></td>
+<td class="comment-1" rowspan="1">Jump to <a href="59764.html">Kill_Wall_Bouncing_Enemy</a> if player contact is confirmed.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59537"></span>59537</td>
+<td class="instruction">LD HL,50388</td>
+<td class="comment-1" rowspan="2">Load the player position from <a href="50388.html">Player_Y_Position</a> and test overlap via <a href="50906.html">HitTestBounds8AtHL</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59540"></span>59540</td>
+<td class="instruction">CALL <a href="50906.html">HitTestBounds8AtHL</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59543"></span>59543</td>
+<td class="instruction">JP NC,<a href="53948.html">Strip_Attributes_And_Fade</a></td>
+<td class="comment-1" rowspan="1">Kill the player via <a href="53948.html">Strip_Attributes_And_Fade</a> if the overlap test confirmed contact.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59546"></span>59546</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="4">Switch back and step three bytes toward the entity record start.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59547"></span>59547</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59548"></span>59548</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59549"></span>59549</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="59550"></span>
+<div class="comments">
+<div class="paragraph">
+If the bouncer is already dying, skip directly to the draw step.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59550"></span>59550</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="5">If the bouncer is already dying (bit 0 of active flag), skip to <a href="59521.html#59663">Process_Wall_Bouncing_Enemy_Advance</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59551"></span>59551</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59552"></span>59552</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59553"></span>59553</td>
+<td class="instruction">SRL A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59555"></span>59555</td>
+<td class="instruction">JR C,<a href="59521.html#59663">Process_Wall_Bouncing_Enemy_Advance</a></td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="59557"></span>
+<div class="comments">
+<div class="paragraph">
+Search the wave enemy list for an enemy the bouncer has hit.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59557"></span>59557</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="3">Step ahead and search the wave enemy list for a collision via <a href="57954.html">Find_Colliding_Wave_Enemy</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59558"></span>59558</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59559"></span>59559</td>
+<td class="instruction">CALL <a href="57954.html">Find_Colliding_Wave_Enemy</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59562"></span>59562</td>
+<td class="instruction">JP NC,<a href="59927.html">Handle_Enemy_Collision_Chain</a></td>
+<td class="comment-1" rowspan="1">Jump to <a href="59927.html">Handle_Enemy_Collision_Chain</a> if no wave enemy collision was detected.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59565"></span>59565</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="2">Switch to alternate registers and step back to the bounce timer.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59566"></span>59566</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="59567"></span>
+<div class="comments">
+<div class="paragraph">
+Tick down the bounce countdown; erase and redirect when it expires.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59567"></span>59567</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="4">Step to the bounce timer and subtract 4.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59568"></span>59568</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59569"></span>59569</td>
+<td class="instruction">SUB 4</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59571"></span>59571</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59572"></span>59572</td>
+<td class="instruction">JR NZ,<a href="59521.html#59663">Process_Wall_Bouncing_Enemy_Advance</a></td>
+<td class="comment-1" rowspan="1">If the countdown has not reached zero, skip to <a href="59521.html#59663">Process_Wall_Bouncing_Enemy_Advance</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59574"></span>59574</td>
+<td class="instruction">LD (HL),12</td>
+<td class="comment-1" rowspan="1">Reset the bounce countdown to 12.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59576"></span>59576</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="5">Erase the bouncer sprite via <a href="51529.html">Erase_Wide_Entity_Sprite</a>, preserving the entity pointer.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59577"></span>59577</td>
+<td class="instruction">PUSH HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59578"></span>59578</td>
+<td class="instruction">CALL <a href="51529.html">Erase_Wide_Entity_Sprite</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59581"></span>59581</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59582"></span>59582</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="59583"></span>
+<div class="comments">
+<div class="paragraph">
+Step the bouncer one pixel toward the player and pick a new heading.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59583"></span>59583</td>
+<td class="instruction">LD A,(50388)</td>
+<td class="comment-1" rowspan="2">Measure the signed Y distance to the player at <a href="50388.html">Player_Y_Position</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59586"></span>59586</td>
+<td class="instruction">SUB (HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59587"></span>59587</td>
+<td class="instruction">JR Z,<a href="59521.html#59595">Process_Wall_Bouncing_Enemy_Step_Y</a></td>
+<td class="comment-1" rowspan="4">Set the Y step: 1 (player below), 255 (player above), or 0.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59589"></span>59589</td>
+<td class="instruction">LD A,1</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59591"></span>59591</td>
+<td class="instruction">JR NC,<a href="59521.html#59595">Process_Wall_Bouncing_Enemy_Step_Y</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59593"></span>59593</td>
+<td class="instruction">LD A,255</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Wall_Bouncing_Enemy_Step_Y</td>
+<td class="address-2"><span id="59595"></span>59595</td>
+<td class="instruction">LD B,A</td>
+<td class="comment-1" rowspan="4">Store the Y step in <span class="register">B</span>, apply it to the Y position, and advance.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59596"></span>59596</td>
+<td class="instruction">ADD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59597"></span>59597</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59598"></span>59598</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59599"></span>59599</td>
+<td class="instruction">LD A,(50389)</td>
+<td class="comment-1" rowspan="2">Measure the signed X distance to the player at <a href="50389.html">Player_X_Position</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59602"></span>59602</td>
+<td class="instruction">SUB (HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59603"></span>59603</td>
+<td class="instruction">JR Z,<a href="59521.html#59611">Process_Wall_Bouncing_Enemy_Step_X</a></td>
+<td class="comment-1" rowspan="4">Set the X step: 1 (player right), 255 (player left), or 0.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59605"></span>59605</td>
+<td class="instruction">LD A,1</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59607"></span>59607</td>
+<td class="instruction">JR NC,<a href="59521.html#59611">Process_Wall_Bouncing_Enemy_Step_X</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59609"></span>59609</td>
+<td class="instruction">LD A,255</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Wall_Bouncing_Enemy_Step_X</td>
+<td class="address-2"><span id="59611"></span>59611</td>
+<td class="instruction">LD C,A</td>
+<td class="comment-1" rowspan="7">Store the X step in <span class="register">C</span>, apply it to the X position, and pack both step signs into a 4-bit direction code.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59612"></span>59612</td>
+<td class="instruction">ADD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59613"></span>59613</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59614"></span>59614</td>
+<td class="instruction">LD A,C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59615"></span>59615</td>
+<td class="instruction">AND 3</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59617"></span>59617</td>
+<td class="instruction">RLA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59618"></span>59618</td>
+<td class="instruction">RLA</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="59619"></span>
+<div class="comments">
+<div class="paragraph">
+Apply the new heading: look up the direction colour and redraw.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59619"></span>59619</td>
+<td class="instruction">LD C,A</td>
+<td class="comment-1" rowspan="6">Pack the Y and X step signs into a 4-bit direction code.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59620"></span>59620</td>
+<td class="instruction">LD A,B</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59621"></span>59621</td>
+<td class="instruction">AND 3</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59623"></span>59623</td>
+<td class="instruction">OR C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59624"></span>59624</td>
+<td class="instruction">LD C,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59625"></span>59625</td>
+<td class="instruction">LD B,0</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59627"></span>59627</td>
+<td class="instruction">EX DE,HL</td>
+<td class="comment-1" rowspan="6">Look up the heading colour from the direction table at <a href="60151.html">Enemy_Direction_Code_Table</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59628"></span>59628</td>
+<td class="instruction">LD HL,60151</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59631"></span>59631</td>
+<td class="instruction">ADD HL,BC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59632"></span>59632</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59633"></span>59633</td>
+<td class="instruction">PUSH DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59634"></span>59634</td>
+<td class="instruction">DEC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59635"></span>59635</td>
+<td class="instruction">DEC DE</td>
+<td class="comment-1" rowspan="2">Write the heading colour to the entity record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59636"></span>59636</td>
+<td class="instruction">LD (DE),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59637"></span>59637</td>
+<td class="instruction">LD A,(50405)</td>
+<td class="comment-1" rowspan="7">Look up the animation frame colour from the cycle table at <a href="59919.html">Enemy_Colour_Cycle_Table</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59640"></span>59640</td>
+<td class="instruction">AND 7</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59642"></span>59642</td>
+<td class="instruction">LD C,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59643"></span>59643</td>
+<td class="instruction">LD B,0</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59645"></span>59645</td>
+<td class="instruction">LD HL,59919</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59648"></span>59648</td>
+<td class="instruction">ADD HL,BC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59649"></span>59649</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59650"></span>59650</td>
+<td class="instruction">EX DE,HL</td>
+<td class="comment-1" rowspan="5">Restore the entity pointer, set the frame colour in <span class="register">B'</span>, and respawn the bouncer via <a href="51536.html">Draw_Wide_Entity_Sprite</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59651"></span>59651</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59652"></span>59652</td>
+<td class="instruction">LD B,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59653"></span>59653</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59654"></span>59654</td>
+<td class="instruction">CALL <a href="51536.html">Draw_Wide_Entity_Sprite</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59657"></span>59657</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="1">Restore the entity pointer from the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59658"></span>59658</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="4">Advance four bytes to the next entity record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59659"></span>59659</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59660"></span>59660</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59661"></span>59661</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59662"></span>59662</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="59663"></span>
+<div class="comments">
+<div class="paragraph">
+This entry point is used by the routine at <a href="59927.html">Handle_Enemy_Collision_Chain</a>.
+</div>
+<div class="paragraph">
+Bouncer skipped: look up the animation colour and redraw without moving.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Wall_Bouncing_Enemy_Advance</td>
+<td class="address-2"><span id="59663"></span>59663</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="6">Advance one byte, stash the pointer, and read the frame index from <a href="50405.html">Colour_Cycle_Table_Pointer</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59664"></span>59664</td>
+<td class="instruction">PUSH HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59665"></span>59665</td>
+<td class="instruction">LD A,(50405)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59668"></span>59668</td>
+<td class="instruction">AND 7</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59670"></span>59670</td>
+<td class="instruction">LD C,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59671"></span>59671</td>
+<td class="instruction">LD B,0</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59673"></span>59673</td>
+<td class="instruction">EX DE,HL</td>
+<td class="comment-1" rowspan="8">Look up the animation colour from <a href="59919.html">Enemy_Colour_Cycle_Table</a> and set it in <span class="register">B'</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59674"></span>59674</td>
+<td class="instruction">LD HL,59919</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59677"></span>59677</td>
+<td class="instruction">ADD HL,BC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59678"></span>59678</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59679"></span>59679</td>
+<td class="instruction">EX DE,HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59680"></span>59680</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59681"></span>59681</td>
+<td class="instruction">LD B,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59682"></span>59682</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59683"></span>59683</td>
+<td class="instruction">CALL <a href="52532.html#53252">Clear_Colour_Bar_Column_27</a></td>
+<td class="comment-1" rowspan="1">Draw the bouncer in its current position via <a href="52532.html#53252">Clear_Colour_Bar_Column_27</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59686"></span>59686</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="1">Restore the entity pointer from the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59687"></span>59687</td>
+<td class="instruction">LD DE,6</td>
+<td class="comment-1" rowspan="2">Step six bytes to the next entity record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59690"></span>59690</td>
+<td class="instruction">ADD HL,DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="59691"></span>59691</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="59491.html">59491</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#59521">Map</a></td>
+<td class="next">
+Next: <a href="59692.html">59692</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/E881.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

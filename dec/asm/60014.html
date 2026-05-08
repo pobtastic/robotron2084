@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 60014</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="59927.html">59927</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#60014">Map</a></td>
+<td class="next">
+Next: <a href="60151.html">60151</a>
+</td>
+</tr>
+</table>
+<div class="description">60014: Process Replacement Enemy Entity</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Per-frame handler for the replacement entity spawned by <a href="59927.html">Handle_Enemy_Collision_Chain</a>. Jumps to <a href="60167.html">Process_Final_Phase_Enemy_Entity</a> if the countdown has already expired. Otherwise locates the associated entity record pointer and jumps to <a href="60014.html#60112">Process_Replacement_Enemy_Entity_Retire</a> to retire if the associated record is in settled state (2). Decrements the countdown and calls <a href="51536.html">Draw_Wide_Entity_Sprite</a> to erase. If the countdown is still non-zero, applies a random X nudge (±7) and spawns via <a href="51536.html">Draw_Wide_Entity_Sprite</a>. If the countdown reaches zero, copies entity data, resets state, and spawns via <a href="60014.html#60067">Process_Replacement_Enemy_Entity_Spawn</a>. When settled, installs the retire handler <a href="57347.html">Process_Entity_Record_Fast</a>.
+</div>
+</div>
+<table class="input">
+<tr class="asm-input-header">
+<th colspan="2">Input</th>
+</tr>
+<tr>
+<td class="register">HL</td>
+<td class="register-desc">Entity record pointer</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="60014"></span>
+<div class="comments">
+<div class="paragraph">
+Test the countdown and locate the associated entity record.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Replacement_Enemy_Entity</td>
+<td class="address-2"><span id="60014"></span>60014</td>
+<td class="instruction">LD A,(HL)</td>
+<td class="comment-1" rowspan="3">Jump to <a href="60167.html">Process_Final_Phase_Enemy_Entity</a> if the entity countdown has already expired.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60015"></span>60015</td>
+<td class="instruction">AND A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60016"></span>60016</td>
+<td class="instruction">JP Z,<a href="60167.html">Process_Final_Phase_Enemy_Entity</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60019"></span>60019</td>
+<td class="instruction">LD B,H</td>
+<td class="comment-1" rowspan="7">Save the entity pointer in <span class="register">BC</span> and load the associated entity record pointer from offset 5.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60020"></span>60020</td>
+<td class="instruction">LD C,L</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60021"></span>60021</td>
+<td class="instruction">LD DE,5</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60024"></span>60024</td>
+<td class="instruction">ADD HL,DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60025"></span>60025</td>
+<td class="instruction">LD E,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60026"></span>60026</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60027"></span>60027</td>
+<td class="instruction">LD D,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60028"></span>60028</td>
+<td class="instruction">LD A,(DE)</td>
+<td class="comment-1" rowspan="5">Read the associated entity state, restore <span class="register">HL</span>, and jump to <a href="60014.html#60112">Process_Replacement_Enemy_Entity_Retire</a> if settled (2).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60029"></span>60029</td>
+<td class="instruction">CP 2</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60031"></span>60031</td>
+<td class="instruction">LD H,B</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60032"></span>60032</td>
+<td class="instruction">LD L,C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60033"></span>60033</td>
+<td class="instruction">JR Z,<a href="60014.html#60112">Process_Replacement_Enemy_Entity_Retire</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60035"></span>60035</td>
+<td class="instruction">DEC (HL)</td>
+<td class="comment-1" rowspan="1">Decrement the entity countdown.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="60036"></span>
+<div class="comments">
+<div class="paragraph">
+Erase the entity with colour INK:
+RED,
+PAPER:
+BLACK
+(BRIGHT)
+.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60036"></span>60036</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="1">Stash the entity pointer on the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60037"></span>60037</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Advance to the entity position.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60038"></span>60038</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="3">Load INK:
+RED,
+PAPER:
+BLACK
+(BRIGHT)
+ into <span class="register">B'</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60039"></span>60039</td>
+<td class="instruction">LD B,66</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60041"></span>60041</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60042"></span>60042</td>
+<td class="instruction">CALL <a href="51536.html">Draw_Wide_Entity_Sprite</a></td>
+<td class="comment-1" rowspan="1">Call <a href="51536.html">Draw_Wide_Entity_Sprite</a> to erase the entity.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60045"></span>60045</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="1">Restore the entity pointer from the stack.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="60046"></span>
+<div class="comments">
+<div class="paragraph">
+Test the countdown and branch.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60046"></span>60046</td>
+<td class="instruction">LD A,(HL)</td>
+<td class="comment-1" rowspan="3">Jump to <a href="60014.html#60082">Process_Replacement_Enemy_Entity_Settle</a> if the countdown has reached zero.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60047"></span>60047</td>
+<td class="instruction">AND A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60048"></span>60048</td>
+<td class="instruction">JR Z,<a href="60014.html#60082">Process_Replacement_Enemy_Entity_Settle</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60050"></span>60050</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="2">Advance two bytes into the entity record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60051"></span>60051</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="60052"></span>
+<div class="comments">
+<div class="paragraph">
+Apply a random X nudge to the entity position.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60052"></span>60052</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="2">Advance two more bytes to the X position field.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60053"></span>60053</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60054"></span>60054</td>
+<td class="instruction">CALL <a href="53695.html">Generate_Random_Byte</a></td>
+<td class="comment-1" rowspan="1">Call <a href="53695.html">Generate_Random_Byte</a> to generate a random byte.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60057"></span>60057</td>
+<td class="instruction">AND %00001111</td>
+<td class="comment-1" rowspan="1">Mask to the lower four bits.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60059"></span>60059</td>
+<td class="instruction">SUB 7</td>
+<td class="comment-1" rowspan="1">Subtract 7 to produce a nudge in the range 249–7.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60061"></span>60061</td>
+<td class="instruction">ADD A,(HL)</td>
+<td class="comment-1" rowspan="4">Apply the nudge to the entity X position and step back two bytes.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60062"></span>60062</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60063"></span>60063</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60064"></span>60064</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60065"></span>60065</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="1">Step back one more byte to the entity record position field.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60066"></span>60066</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="1">Stash the entity record pointer on the stack.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="60067"></span>
+<div class="comments">
+<div class="paragraph">
+Generate a random spawn colour and spawn the entity.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Replacement_Enemy_Entity_Spawn</td>
+<td class="address-2"><span id="60067"></span>60067</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="1">Switch to alternate registers.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60068"></span>60068</td>
+<td class="instruction">CALL <a href="53695.html">Generate_Random_Byte</a></td>
+<td class="comment-1" rowspan="1">Call <a href="53695.html">Generate_Random_Byte</a> to generate a random colour byte.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60071"></span>60071</td>
+<td class="instruction">AND %00111000</td>
+<td class="comment-1" rowspan="1">Mask to bits 3–5 to select the spawn colour.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60073"></span>60073</td>
+<td class="instruction">LD B,A</td>
+<td class="comment-1" rowspan="2">Load the colour into <span class="register">B</span> and switch to main registers.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60074"></span>60074</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60075"></span>60075</td>
+<td class="instruction">CALL <a href="51536.html">Draw_Wide_Entity_Sprite</a></td>
+<td class="comment-1" rowspan="1">Call <a href="51536.html">Draw_Wide_Entity_Sprite</a> to spawn the entity.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60078"></span>60078</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="1">Restore the entity record pointer from the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60079"></span>60079</td>
+<td class="instruction">JP <a href="57347.html#57492">Process_Entity_Record_Next6</a></td>
+<td class="comment-1" rowspan="1">Jump to <a href="57347.html#57492">Process_Entity_Record_Next6</a> to advance the entity pointer.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="60082"></span>
+<div class="comments">
+<div class="paragraph">
+Copy entity data and reset the settle state.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Replacement_Enemy_Entity_Settle</td>
+<td class="address-2"><span id="60082"></span>60082</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="7">Step two bytes ahead, copy <span class="register">HL</span> to <span class="register">DE</span>, step two more, and copy one byte to the destination.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60083"></span>60083</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60084"></span>60084</td>
+<td class="instruction">LD D,H</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60085"></span>60085</td>
+<td class="instruction">LD E,L</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60086"></span>60086</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60087"></span>60087</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60088"></span>60088</td>
+<td class="instruction">LDI</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60090"></span>60090</td>
+<td class="instruction">LD C,(HL)</td>
+<td class="comment-1" rowspan="4">Read the countdown into <span class="register">C</span>, reset it to 10 advance, and read the type byte into <span class="register">B</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60091"></span>60091</td>
+<td class="instruction">LD (HL),10</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60093"></span>60093</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60094"></span>60094</td>
+<td class="instruction">LD B,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60095"></span>60095</td>
+<td class="instruction">LD (HL),255</td>
+<td class="comment-1" rowspan="6">Reset the type field to 255 write state value 15 to *<span class="register">DE</span> and 12 to *<span class="register">BC</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60097"></span>60097</td>
+<td class="instruction">INC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60098"></span>60098</td>
+<td class="instruction">LD A,15</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60100"></span>60100</td>
+<td class="instruction">LD (DE),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60101"></span>60101</td>
+<td class="instruction">LD A,12</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60103"></span>60103</td>
+<td class="instruction">LD (BC),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60104"></span>60104</td>
+<td class="instruction">DEC DE</td>
+<td class="comment-1" rowspan="6">Step <span class="register">DE</span> back three bytes, stash <span class="register">DE</span>, exchange <span class="register">DE</span> and <span class="register">HL</span>, and jump to <a href="60014.html#60067">Process_Replacement_Enemy_Entity_Spawn</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60105"></span>60105</td>
+<td class="instruction">DEC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60106"></span>60106</td>
+<td class="instruction">DEC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60107"></span>60107</td>
+<td class="instruction">PUSH DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60108"></span>60108</td>
+<td class="instruction">EX DE,HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60109"></span>60109</td>
+<td class="instruction">JP <a href="60014.html#60067">Process_Replacement_Enemy_Entity_Spawn</a></td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="60112"></span>
+<div class="comments">
+<div class="paragraph">
+Write the retire handler, erase the sprite, draw, and return.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Replacement_Enemy_Entity_Retire</td>
+<td class="address-2"><span id="60112"></span>60112</td>
+<td class="instruction">LD DE,57347</td>
+<td class="comment-1" rowspan="9">Write the retire handler <a href="57347.html">Process_Entity_Record_Fast</a> and state byte 50 into the entity record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60115"></span>60115</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60116"></span>60116</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60117"></span>60117</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60118"></span>60118</td>
+<td class="instruction">LD (HL),E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60119"></span>60119</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60120"></span>60120</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60121"></span>60121</td>
+<td class="instruction">LD (HL),50</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60123"></span>60123</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60124"></span>60124</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="1">Stash the entity pointer on the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60125"></span>60125</td>
+<td class="instruction">CALL <a href="51529.html">Erase_Wide_Entity_Sprite</a></td>
+<td class="comment-1" rowspan="1">Call <a href="51529.html">Erase_Wide_Entity_Sprite</a> to erase the entity sprite.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60128"></span>60128</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="1">Restore the entity pointer from the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60129"></span>60129</td>
+<td class="instruction">LD (HL),15</td>
+<td class="comment-1" rowspan="1">Write the state timer 15.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60131"></span>60131</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="1">Stash the entity pointer on the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60132"></span>60132</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="3">Load INK:
+WHITE,
+PAPER:
+BLACK
+(BRIGHT)
+ into <span class="register">B'</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60133"></span>60133</td>
+<td class="instruction">LD B,71</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60135"></span>60135</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60136"></span>60136</td>
+<td class="instruction">CALL <a href="54839.html">Draw_Entity_Sprite</a></td>
+<td class="comment-1" rowspan="1">Call <a href="54839.html">Draw_Entity_Sprite</a> to draw the entity.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60139"></span>60139</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="1">Restore the entity pointer from the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60140"></span>60140</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="3">Advance one byte and copy <span class="register">HL</span> to <span class="register">DE</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60141"></span>60141</td>
+<td class="instruction">LD D,H</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60142"></span>60142</td>
+<td class="instruction">LD E,L</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60143"></span>60143</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="4">Step four bytes to the end-marker field.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60144"></span>60144</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60145"></span>60145</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60146"></span>60146</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60147"></span>60147</td>
+<td class="instruction">LD (HL),255</td>
+<td class="comment-1" rowspan="1">Write the end marker 255.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60149"></span>60149</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Advance to the next entity slot.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60150"></span>60150</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="59927.html">59927</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#60014">Map</a></td>
+<td class="next">
+Next: <a href="60151.html">60151</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/EA6E.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

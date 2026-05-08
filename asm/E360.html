@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at E360</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="E346.html">E346</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#e360">Map</a></td>
+<td class="next">
+Next: <a href="E492.html">E492</a>
+</td>
+</tr>
+</table>
+<div class="description">E360: Process Tracked Enemy Entity</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Per-frame entity handler for IX-indexed tracked wave enemies. If the wave start delay is still counting, advances the entity pointer via <a href="E360.html#e41c">Process_Tracked_Enemy_Entity_Advance</a>. Otherwise stores the entity record pointer at <a href="C50F.html">Entity_Pointer_Stash</a>, rebuilds the spawn buffer via <a href="E31C.html">Build_Entity_Spawn_Record</a>, and searches for a collision- free slot via <a href="CD18.html">Find_Colliding_Entity</a>. Tests player contact via <a href="C6DA.html">HitTestBounds8AtHL</a> and triggers death via <a href="D2BC.html">Strip_Attributes_And_Fade</a> if touching. Decrements the animation phase, erases the sprite via <a href="C949.html">Erase_Wide_Entity_Sprite</a>, advances the animation frame within the phase mask, then re-enters movement at <a href="E360.html#e3ab">Process_Tracked_Enemy_Entity_Move</a>. Updates the entity velocity with angular rate via <a href="D1A8.html">Advance_RNG_Seed</a> and <a href="E2FD.html">Clamp_Entity_Velocity</a>, clamps position to the play area, rebuilds the spawn buffer, and draws via <a href="C950.html">Draw_Wide_Entity_Sprite</a>. When the animation phase reaches zero, either removes the entity or promotes it to the next phase and spawns a cluster entity with handler <a href="E520.html">Process_Cluster_Entity</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Tracked_Enemy_Entity</td>
+<td class="address-2"><span id="e360"></span>E360</td>
+<td class="instruction">LD A,($C533)</td>
+<td class="comment-1" rowspan="3">Skip to <a href="E360.html#e41c">Process_Tracked_Enemy_Entity_Advance</a> if the wave start delay at C533 is still active.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e363"></span>E363</td>
+<td class="instruction">AND A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e364"></span>E364</td>
+<td class="instruction">JP NZ,<a href="E360.html#e41c">Process_Tracked_Enemy_Entity_Advance</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e367"></span>E367</td>
+<td class="instruction">LD ($C50F),HL</td>
+<td class="comment-1" rowspan="2">Store the entity record pointer at <a href="C50F.html">Entity_Pointer_Stash</a> and reload into <span class="register">IX</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e36a"></span>E36A</td>
+<td class="instruction">LD IX,($C50F)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e36e"></span>E36E</td>
+<td class="instruction">CALL <a href="E31C.html">Build_Entity_Spawn_Record</a></td>
+<td class="comment-1" rowspan="4">Point <span class="register">HL</span> at the spawn buffer (C512), switch to alternate registers, and search for a free entity slot via <a href="CD18.html">Find_Colliding_Entity</a>; jump to <a href="E4B9.html">Kill_Tracked_Enemy_Entity</a> if no free slot is available.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e371"></span>E371</td>
+<td class="instruction">LD HL,$C512</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e374"></span>E374</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e375"></span>E375</td>
+<td class="instruction">CALL <a href="CD18.html">Find_Colliding_Entity</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e378"></span>E378</td>
+<td class="instruction">JP NC,<a href="E4B9.html">Kill_Tracked_Enemy_Entity</a></td>
+<td class="comment-1" rowspan="5">Test player contact via <a href="C6DA.html">HitTestBounds8AtHL</a>; trigger death via <a href="D2BC.html">Strip_Attributes_And_Fade</a> if touching. Reload the entity pointer, decrement the animation phase, and erase the entity sprite via <a href="C949.html">Erase_Wide_Entity_Sprite</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e37b"></span>E37B</td>
+<td class="instruction">LD HL,$C4D4</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e37e"></span>E37E</td>
+<td class="instruction">CALL <a href="C6DA.html">HitTestBounds8AtHL</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e381"></span>E381</td>
+<td class="instruction">JP NC,<a href="D2BC.html">Strip_Attributes_And_Fade</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e384"></span>E384</td>
+<td class="instruction">LD HL,$C511</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e387"></span>E387</td>
+<td class="instruction">CALL <a href="C949.html">Erase_Wide_Entity_Sprite</a></td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e38a"></span>E38A</td>
+<td class="instruction">LD HL,($C50F)</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e38d"></span>E38D</td>
+<td class="instruction">DEC (HL)</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="e38e"></span>
+<div class="comments">
+<div class="paragraph">
+Read the animation phase and select the animation frame mask: 07 if the phase is 37 or higher, 03 otherwise.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e38e"></span>E38E</td>
+<td class="instruction">LD A,(HL)</td>
+<td class="comment-1" rowspan="6">Read the phase, select the frame mask, and advance <span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e38f"></span>E38F</td>
+<td class="instruction">LD C,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e390"></span>E390</td>
+<td class="instruction">BIT 0,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e392"></span>E392</td>
+<td class="instruction">JP NZ,<a href="E360.html#e3ab">Process_Tracked_Enemy_Entity_Move</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e395"></span>E395</td>
+<td class="instruction">CP $37</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e397"></span>E397</td>
+<td class="instruction">LD B,$03</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e399"></span>E399</td>
+<td class="instruction">JP NC,<a href="E360.html#e39e">Process_Tracked_Enemy_Entity_Frame</a></td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e39c"></span>E39C</td>
+<td class="instruction">LD B,$07</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label">Process_Tracked_Enemy_Entity_Frame</td>
+<td class="address-2"><span id="e39e"></span>E39E</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="6">Increment the animation frame within the mask, add the base offset 28 and write back.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e39f"></span>E39F</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3a0"></span>E3A0</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3a1"></span>E3A1</td>
+<td class="instruction">INC A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3a2"></span>E3A2</td>
+<td class="instruction">AND B</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3a3"></span>E3A3</td>
+<td class="instruction">ADD A,$28</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3a5"></span>E3A5</td>
+<td class="instruction">LD (HL),A</td>
+<td class="comment-1" rowspan="3">Jump to <a href="E360.html#e421">Process_Tracked_Enemy_Entity_Phase_End</a> if the animation phase has reached zero.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3a6"></span>E3A6</td>
+<td class="instruction">LD A,C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3a7"></span>E3A7</td>
+<td class="instruction">AND A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3a8"></span>E3A8</td>
+<td class="instruction">JP Z,<a href="E360.html#e421">Process_Tracked_Enemy_Entity_Phase_End</a></td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="e3ab"></span>
+<div class="comments">
+<div class="paragraph">
+Update the entity velocity: apply the angular rate via <a href="D1A8.html">Advance_RNG_Seed</a> to both Y and X velocity components, clamp each via <a href="E2FD.html">Clamp_Entity_Velocity</a>, then add the velocities to the Y and X position and clamp to the play area.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Tracked_Enemy_Entity_Move</td>
+<td class="address-2"><span id="e3ab"></span>E3AB</td>
+<td class="instruction">LD D,(IX+$07)</td>
+<td class="comment-1" rowspan="2">Load the Y velocity from the entity record and apply the angular rate via <a href="D1A8.html">Advance_RNG_Seed</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3ae"></span>E3AE</td>
+<td class="instruction">LD E,(IX+$08)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3b1"></span>E3B1</td>
+<td class="instruction">CALL <a href="D1A8.html">Advance_RNG_Seed</a></td>
+<td class="comment-1" rowspan="2">Clamp the Y velocity via <a href="E2FD.html">Clamp_Entity_Velocity</a> and store it back.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3b4"></span>E3B4</td>
+<td class="instruction">CALL <a href="E2FD.html">Clamp_Entity_Velocity</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3b7"></span>E3B7</td>
+<td class="instruction">LD (IX+$07),H</td>
+<td class="comment-1" rowspan="4">Add the clamped Y velocity to the entity Y position; load and apply the angular rate to the X velocity.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3ba"></span>E3BA</td>
+<td class="instruction">LD (IX+$08),L</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3bd"></span>E3BD</td>
+<td class="instruction">LD D,(IX+$03)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3c0"></span>E3C0</td>
+<td class="instruction">LD E,(IX+$04)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3c3"></span>E3C3</td>
+<td class="instruction">ADD HL,DE</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3c4"></span>E3C4</td>
+<td class="instruction">LD A,H</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3c5"></span>E3C5</td>
+<td class="instruction">CP $10</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3c7"></span>E3C7</td>
+<td class="instruction">JP NC,<a href="E360.html#e3cf">Process_Tracked_Enemy_Entity_Clamp_Y</a></td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3ca"></span>E3CA</td>
+<td class="instruction">LD H,$10</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3cc"></span>E3CC</td>
+<td class="instruction">JP <a href="E360.html#e3d6">Process_Tracked_Enemy_Entity_X</a></td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label">Process_Tracked_Enemy_Entity_Clamp_Y</td>
+<td class="address-2"><span id="e3cf"></span>E3CF</td>
+<td class="instruction">CP $A9</td>
+<td class="comment-1" rowspan="3">Clamp the Y position to the floor 10 or ceiling A9.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3d1"></span>E3D1</td>
+<td class="instruction">JP C,<a href="E360.html#e3d6">Process_Tracked_Enemy_Entity_X</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3d4"></span>E3D4</td>
+<td class="instruction">LD H,$A9</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Tracked_Enemy_Entity_X</td>
+<td class="address-2"><span id="e3d6"></span>E3D6</td>
+<td class="instruction">LD (IX+$03),H</td>
+<td class="comment-1" rowspan="3">Store the clamped Y position and load the X velocity components.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3d9"></span>E3D9</td>
+<td class="instruction">LD (IX+$04),L</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3dc"></span>E3DC</td>
+<td class="instruction">LD D,(IX+$09)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3df"></span>E3DF</td>
+<td class="instruction">LD E,(IX+$0A)</td>
+<td class="comment-1" rowspan="3">Apply the angular rate to the X velocity and clamp via <a href="E2FD.html">Clamp_Entity_Velocity</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3e2"></span>E3E2</td>
+<td class="instruction">CALL <a href="D1A8.html">Advance_RNG_Seed</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3e5"></span>E3E5</td>
+<td class="instruction">CALL <a href="E2FD.html">Clamp_Entity_Velocity</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3e8"></span>E3E8</td>
+<td class="instruction">LD (IX+$09),H</td>
+<td class="comment-1" rowspan="4">Add the clamped X velocity to the entity X position.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3eb"></span>E3EB</td>
+<td class="instruction">LD (IX+$0A),L</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3ee"></span>E3EE</td>
+<td class="instruction">LD D,(IX+$05)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3f1"></span>E3F1</td>
+<td class="instruction">LD E,(IX+$06)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3f4"></span>E3F4</td>
+<td class="instruction">ADD HL,DE</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3f5"></span>E3F5</td>
+<td class="instruction">LD A,H</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3f6"></span>E3F6</td>
+<td class="instruction">CP $08</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3f8"></span>E3F8</td>
+<td class="instruction">JP NC,<a href="E360.html#e400">Process_Tracked_Enemy_Entity_Clamp_X</a></td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3fb"></span>E3FB</td>
+<td class="instruction">LD H,$08</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e3fd"></span>E3FD</td>
+<td class="instruction">JP <a href="E360.html#e407">Process_Tracked_Enemy_Entity_Draw</a></td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label">Process_Tracked_Enemy_Entity_Clamp_X</td>
+<td class="address-2"><span id="e400"></span>E400</td>
+<td class="instruction">CP $E9</td>
+<td class="comment-1" rowspan="3">Clamp the X position to the floor 08 or ceiling E9.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e402"></span>E402</td>
+<td class="instruction">JP C,<a href="E360.html#e407">Process_Tracked_Enemy_Entity_Draw</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e405"></span>E405</td>
+<td class="instruction">LD H,$E9</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Tracked_Enemy_Entity_Draw</td>
+<td class="address-2"><span id="e407"></span>E407</td>
+<td class="instruction">LD (IX+$05),H</td>
+<td class="comment-1" rowspan="3">Store the clamped X position and rebuild the spawn buffer via <a href="E31C.html">Build_Entity_Spawn_Record</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e40a"></span>E40A</td>
+<td class="instruction">LD (IX+$06),L</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e40d"></span>E40D</td>
+<td class="instruction">CALL <a href="E31C.html">Build_Entity_Spawn_Record</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e410"></span>E410</td>
+<td class="instruction">LD B,$42</td>
+<td class="comment-1" rowspan="4">Set colour 42 in <span class="register">B'</span>, draw the entity via <a href="C950.html">Draw_Wide_Entity_Sprite</a>, and restore <span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e412"></span>E412</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e413"></span>E413</td>
+<td class="instruction">LD HL,$C511</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e416"></span>E416</td>
+<td class="instruction">CALL <a href="C950.html">Draw_Wide_Entity_Sprite</a></td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="e419"></span>
+<div class="comments">
+<div class="paragraph">
+This entry point is used by the routine at <a href="E4B9.html">Kill_Tracked_Enemy_Entity</a>.
+</div>
+<div class="paragraph">
+Reload the entity list pointer from <a href="C50F.html">Entity_Pointer_Stash</a> and advance it by 0C bytes.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Tracked_Enemy_Entity_Reload</td>
+<td class="address-2"><span id="e419"></span>E419</td>
+<td class="instruction">LD HL,($C50F)</td>
+<td class="comment-1" rowspan="1">Reload <span class="register">HL</span> from <a href="C50F.html">Entity_Pointer_Stash</a>.</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Tracked_Enemy_Entity_Advance</td>
+<td class="address-2"><span id="e41c"></span>E41C</td>
+<td class="instruction">LD DE,$000C</td>
+<td class="comment-1" rowspan="3">Advance the entity pointer by 0C bytes and return.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e41f"></span>E41F</td>
+<td class="instruction">ADD HL,DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e420"></span>E420</td>
+<td class="instruction">RET</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="e421"></span>
+<div class="comments">
+<div class="paragraph">
+The animation phase has reached zero. If the entity still has remaining passes, promote it to the next phase and spawn a cluster entity; otherwise remove it from the active set.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Tracked_Enemy_Entity_Phase_End</td>
+<td class="address-2"><span id="e421"></span>E421</td>
+<td class="instruction">LD A,(IX+$01)</td>
+<td class="comment-1" rowspan="3">If the entity has remaining animation passes, jump to <a href="E360.html#e43c">Process_Tracked_Enemy_Entity_Promote</a>; otherwise fall through to remove it.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e424"></span>E424</td>
+<td class="instruction">AND A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e425"></span>E425</td>
+<td class="instruction">JP NZ,<a href="E360.html#e43c">Process_Tracked_Enemy_Entity_Promote</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e428"></span>E428</td>
+<td class="instruction">LD HL,$C42C</td>
+<td class="comment-1" rowspan="5">Decrement the active entity count at C42C and the total wave enemy count at <a href="C41C.html">Active_Enemy_Count</a>; write handler <a href="E360.html#e41c">Process_Tracked_Enemy_Entity_Advance</a> and jump to <a href="E360.html#e419">Process_Tracked_Enemy_Entity_Reload</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e42b"></span>E42B</td>
+<td class="instruction">DEC (HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e42c"></span>E42C</td>
+<td class="instruction">LD HL,$C41C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e42f"></span>E42F</td>
+<td class="instruction">DEC (HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e430"></span>E430</td>
+<td class="instruction">LD DE,$E41C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e433"></span>E433</td>
+<td class="instruction">LD (IX-$01),D</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e436"></span>E436</td>
+<td class="instruction">LD (IX-$02),E</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e439"></span>E439</td>
+<td class="instruction">JP <a href="E360.html#e419">Process_Tracked_Enemy_Entity_Reload</a></td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="e43c"></span>
+<div class="comments">
+<div class="paragraph">
+Entity still has passes remaining: increment the animation counters, spawn a cluster entity with handler <a href="E520.html">Process_Cluster_Entity</a> into the entity list, and re-enter the movement update loop at <a href="E360.html#e3ab">Process_Tracked_Enemy_Entity_Move</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Process_Tracked_Enemy_Entity_Promote</td>
+<td class="address-2"><span id="e43c"></span>E43C</td>
+<td class="instruction">LD (IX+$00),$14</td>
+<td class="comment-1" rowspan="6">Set the animation byte to 14 decrement the remaining pass count, and increment the active count at C42C and <a href="C41C.html">Active_Enemy_Count</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e440"></span>E440</td>
+<td class="instruction">DEC (IX+$01)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e443"></span>E443</td>
+<td class="instruction">LD HL,$C42D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e446"></span>E446</td>
+<td class="instruction">INC (HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e447"></span>E447</td>
+<td class="instruction">LD HL,$C41C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e44a"></span>E44A</td>
+<td class="instruction">INC (HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e44b"></span>E44B</td>
+<td class="instruction">LD HL,($C509)</td>
+<td class="comment-1" rowspan="4">Load the entity list write pointer from *<a href="C509.html">Entity_List_Write_Pointer</a> and write the <a href="E520.html">Process_Cluster_Entity</a> handler.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e44e"></span>E44E</td>
+<td class="instruction">LD DE,$E520</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e451"></span>E451</td>
+<td class="instruction">LD (HL),E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e452"></span>E452</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e453"></span>E453</td>
+<td class="instruction">LD (HL),D</td>
+<td class="comment-1" rowspan="9">Write the entity type (1C), Y and X coordinates from the current entity into the new cluster record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e454"></span>E454</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e455"></span>E455</td>
+<td class="instruction">LD (HL),$1C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e457"></span>E457</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e458"></span>E458</td>
+<td class="instruction">LD B,(IX+$03)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e45b"></span>E45B</td>
+<td class="instruction">LD (HL),B</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e45c"></span>E45C</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e45d"></span>E45D</td>
+<td class="instruction">LD C,(IX+$05)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e460"></span>E460</td>
+<td class="instruction">LD (HL),C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e461"></span>E461</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="7">Stash <span class="register">HL</span>, set colour 45 in <span class="register">B'</span>, draw the entity colour slot via <a href="D637.html">Draw_Entity_Sprite</a>, and restore <span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e462"></span>E462</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e463"></span>E463</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e464"></span>E464</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e465"></span>E465</td>
+<td class="instruction">LD B,$45</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e467"></span>E467</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e468"></span>E468</td>
+<td class="instruction">CALL <a href="D637.html">Draw_Entity_Sprite</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e46b"></span>E46B</td>
+<td class="instruction">POP HL</td>
+<td class="comment-1" rowspan="25">Write the trailing record bytes, advance <span class="register">HL</span>, save the entity list pointer, write the D1A4 terminator, and jump to <a href="E360.html#e3ab">Process_Tracked_Enemy_Entity_Move</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e46c"></span>E46C</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e46d"></span>E46D</td>
+<td class="instruction">LD (HL),$05</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e46f"></span>E46F</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e470"></span>E470</td>
+<td class="instruction">LD (HL),$09</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e472"></span>E472</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e473"></span>E473</td>
+<td class="instruction">LD (HL),$00</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e475"></span>E475</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e476"></span>E476</td>
+<td class="instruction">LD (HL),$19</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e478"></span>E478</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e479"></span>E479</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e47a"></span>E47A</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e47b"></span>E47B</td>
+<td class="instruction">LD (HL),$05</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e47d"></span>E47D</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e47e"></span>E47E</td>
+<td class="instruction">LD (HL),$05</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e480"></span>E480</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e481"></span>E481</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e482"></span>E482</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e483"></span>E483</td>
+<td class="instruction">LD (HL),$FF</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e485"></span>E485</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e486"></span>E486</td>
+<td class="instruction">LD DE,$D1A4</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e489"></span>E489</td>
+<td class="instruction">LD ($C509),HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e48c"></span>E48C</td>
+<td class="instruction">LD (HL),E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e48d"></span>E48D</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e48e"></span>E48E</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="e48f"></span>E48F</td>
+<td class="instruction">JP <a href="E360.html#e3ab">Process_Tracked_Enemy_Entity_Move</a></td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="E346.html">E346</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#e360">Map</a></td>
+<td class="next">
+Next: <a href="E492.html">E492</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/58208.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

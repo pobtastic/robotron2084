@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at C702</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="C6DA.html">C6DA</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#c702">Map</a></td>
+<td class="next">
+Next: <a href="C70C.html">C70C</a>
+</td>
+</tr>
+</table>
+<div class="description">C702: Dispatch Handler Pointer From HL</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routines at <a href="CB4F.html">Main_Game_Loop</a>, <a href="CD34.html">Clear_Colour_Bar_Column</a> and <a href="D24C.html">Stage_Next_Wave</a>.
+</div>
+<div class="paragraph">
+Chained trampoline: pushes resume address <a href="C702.html">DispatchWordFromHL</a>, loads a 16-bit routine pointer from <span class="register">HL</span>, advances <span class="register">HL</span> by 02 then jumps to that pointer via the stack. When the handler RETs, execution continues at <a href="C702.html">DispatchWordFromHL</a> for the next table entry, so handlers should leave <span class="register">HL</span> valid for the following word unless the chain ends. Used from <a href="CB4F.html#cc5f">CC5F</a>, <a href="CD34.html#cebf">CEBF</a>, <a href="CD34.html#cf45">CF45</a>, <a href="D24C.html#d27c">D27C</a> with tables such as <a href="6100.html">Entity_List_Base</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">DispatchWordFromHL</td>
+<td class="address-2"><span id="c702"></span>C702</td>
+<td class="instruction">LD DE,$C702</td>
+<td class="comment-1" rowspan="1"><span class="register">DE</span>=<a href="C702.html">DispatchWordFromHL</a> (resume address after each nested RET).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="c705"></span>C705</td>
+<td class="instruction">PUSH DE</td>
+<td class="comment-1" rowspan="1">Save the resume address on the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="c706"></span>C706</td>
+<td class="instruction">LD E,(HL)</td>
+<td class="comment-1" rowspan="1"><span class="register">E</span>=*<span class="register">HL</span> (handler pointer, low byte).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="c707"></span>C707</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Advance <span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="c708"></span>C708</td>
+<td class="instruction">LD D,(HL)</td>
+<td class="comment-1" rowspan="1"><span class="register">D</span>=*<span class="register">HL</span> (handler pointer, high byte).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="c709"></span>C709</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Advance <span class="register">HL</span> past the pointer.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="c70a"></span>C70A</td>
+<td class="instruction">PUSH DE</td>
+<td class="comment-1" rowspan="1">Stack the handler address.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="c70b"></span>C70B</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">RET to the handler (next RET pops back to <a href="C702.html">DispatchWordFromHL</a>).</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="C6DA.html">C6DA</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#c702">Map</a></td>
+<td class="next">
+Next: <a href="C70C.html">C70C</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/50946.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

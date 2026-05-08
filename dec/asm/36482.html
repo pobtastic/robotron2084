@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 36482</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="36472.html">36472</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#36482">Map</a></td>
+<td class="next">
+Next: <a href="36498.html">36498</a>
+</td>
+</tr>
+</table>
+<div class="description">36482: Print Handler: Print At Y</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+PRINT AT second parameter handler. Called on the byte immediately following the X parameter. Wraps the Y (row) parameter at 188 and stores it to 32768 before restoring the default handler.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">PrintHandler_PrintAt_Y</td>
+<td class="address-2"><span id="36482"></span>36482</td>
+<td class="instruction">LD HL,36323</td>
+<td class="comment-1" rowspan="2">Reset <a href="32778.html">PrintState_Handler</a> to <a href="36323.html">PrintHandler</a> (default handler).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36485"></span>36485</td>
+<td class="instruction">LD (32778),HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36488"></span>36488</td>
+<td class="instruction">CP 188</td>
+<td class="comment-1" rowspan="2">If the Y parameter is less than 188 jump to <a href="36482.html#36494">PrintHandler_PrintAt_Y_Store</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36490"></span>36490</td>
+<td class="instruction">JR C,<a href="36482.html#36494">PrintHandler_PrintAt_Y_Store</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36492"></span>36492</td>
+<td class="instruction">SUB 188</td>
+<td class="comment-1" rowspan="1">Subtract 188 to wrap the Y position.</td>
+</tr>
+<tr>
+<td class="asm-label">PrintHandler_PrintAt_Y_Store</td>
+<td class="address-2"><span id="36494"></span>36494</td>
+<td class="instruction">LD (32768),A</td>
+<td class="comment-1" rowspan="1">Write the Y position to *<a href="32768.html">PrintState_Y</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="36497"></span>36497</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="36472.html">36472</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#36482">Map</a></td>
+<td class="next">
+Next: <a href="36498.html">36498</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/8E82.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

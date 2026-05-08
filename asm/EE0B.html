@@ -25,7 +25,7 @@ gtag('config', 'G-75RERFCHBG');
 <table class="asm-navigation">
 <tr>
 <td class="prev">
-Prev: <a href="ED7C.html">ED7C</a>
+Prev: <a href="EE02.html">EE02</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#ee0b">Map</a></td>
 <td class="next">
@@ -33,97 +33,112 @@ Next: <a href="EE1D.html">EE1D</a>
 </td>
 </tr>
 </table>
-<div class="description">EE0B: Routine at EE0B</div>
+<div class="description">EE0B: Calculate Attribute Cell Address</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="ECA4.html">ECA4</a> and <a href="ED7C.html">ED7C</a>.
+Used by the routines at <a href="ECA4.html">Initialise_Display_And_Border</a> and <a href="EDAA.html">Adjust_Score_Field_Cursor</a>.
+</div>
+<div class="paragraph">
+Looks up a character index in the word table at 4600 to find its pixel row address, then converts that address to the corresponding attribute cell in the range 5800-5BFF by shifting the screen row right by 3 and combining with 58. Called by <a href="EDAA.html">Adjust_Score_Field_Cursor</a> to position score entry highlight attributes.
 </div>
 </div>
+<table class="input">
+<tr class="asm-input-header">
+<th colspan="2">Input</th>
+</tr>
+<tr>
+<td class="register">A</td>
+<td class="register-desc">Character index</td>
+</tr>
+</table>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Calculate_Attr_Cell_Address</td>
 <td class="address-2"><span id="ee0b"></span>EE0B</td>
 <td class="instruction">LD H,$46</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="7">Look up the character index in the word table at 4600 and load the pixel row address into <span class="register">HL</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ee0d"></span>EE0D</td>
 <td class="instruction">LD L,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ee0e"></span>EE0E</td>
 <td class="instruction">ADD HL,HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ee0f"></span>EE0F</td>
 <td class="instruction">LD E,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ee10"></span>EE10</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ee11"></span>EE11</td>
 <td class="instruction">LD D,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ee12"></span>EE12</td>
 <td class="instruction">EX DE,HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ee13"></span>EE13</td>
 <td class="instruction">LD A,H</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="7">Convert the pixel row address to the attribute cell address in the range 5800-5BFF.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ee14"></span>EE14</td>
 <td class="instruction">RRCA</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ee15"></span>EE15</td>
 <td class="instruction">RRCA</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ee16"></span>EE16</td>
 <td class="instruction">RRCA</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ee17"></span>EE17</td>
 <td class="instruction">AND $03</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ee19"></span>EE19</td>
 <td class="instruction">OR $58</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ee1b"></span>EE1B</td>
 <td class="instruction">LD H,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ee1c"></span>EE1C</td>
 <td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Return.</td>
 </tr>
 </table>
 <table class="asm-navigation">
 <tr>
 <td class="prev">
-Prev: <a href="ED7C.html">ED7C</a>
+Prev: <a href="EE02.html">EE02</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#ee0b">Map</a></td>
 <td class="next">

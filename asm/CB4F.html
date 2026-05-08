@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at CB4F</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="C950.html">C950</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#cb4f">Map</a></td>
+<td class="next">
+Next: <a href="CC81.html">CC81</a>
+</td>
+</tr>
+</table>
+<div class="description">CB4F: Main Game Loop</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="D24C.html">Stage_Next_Wave</a>.
+</div>
+<div class="paragraph">
+Wave-active game loop entry, called from <a href="D24C.html">Stage_Next_Wave</a> once the entity list and playfield are ready. Initialises the player's starting screen position and frame counters, copies the sprite template via <a href="D519.html">Animate_Intro_Screen_Sprites</a>, then falls into the per-frame control poll at <a href="CB4F.html#cb67">Main_Loop_Poll</a>. Each frame: reads the controller via <a href="F6C3.html">Read_Control_Input</a>, moves and redraws the player sprite, spawns one new entity every three frames adjacent to the player, dispatches all active entity handlers via <a href="C702.html">DispatchWordFromHL</a>, updates the colour bar and protection checks, then loops back to <a href="CB4F.html#cb67">Main_Loop_Poll</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="cb4f"></span>
+<div class="comments">
+<div class="paragraph">
+Initialise the player's screen position and frame counters for the start of the wave.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Main_Game_Loop</td>
+<td class="address-2"><span id="cb4f"></span>CB4F</td>
+<td class="instruction">LD HL,$C4D4</td>
+<td class="comment-1" rowspan="3">Point <span class="register">HL</span> at <a href="C4D4.html">Player_Y_Position</a> and set the starting screen row to 5C.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb52"></span>CB52</td>
+<td class="instruction">LD (HL),$5C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb54"></span>CB54</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb55"></span>CB55</td>
+<td class="instruction">LD (HL),$7D</td>
+<td class="comment-1" rowspan="3">Set the starting screen column to 7D and reset the wave-start delay counter at <a href="C533.html">Wave_Start_Delay</a> to 1A.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb57"></span>CB57</td>
+<td class="instruction">LD A,$1A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb59"></span>CB59</td>
+<td class="instruction">LD ($C533),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb5c"></span>CB5C</td>
+<td class="instruction">LD A,$0F</td>
+<td class="comment-1" rowspan="4">Set the animation frame counters at <a href="C534.html">Animation_Frame_Counter_One</a> and <a href="C536.html">Animation_Frame_Counter_Two</a> to 0F and copy the sprite template via <a href="D519.html">Animate_Intro_Screen_Sprites</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb5e"></span>CB5E</td>
+<td class="instruction">LD ($C534),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb61"></span>CB61</td>
+<td class="instruction">LD ($C536),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb64"></span>CB64</td>
+<td class="instruction">CALL <a href="D519.html">Animate_Intro_Screen_Sprites</a></td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="cb67"></span>
+<div class="comments">
+<div class="paragraph">
+This entry point is used by the routine at <a href="CD34.html">Clear_Colour_Bar_Column</a>.
+</div>
+<div class="paragraph">
+Per-frame start: check whether the wave is still active before processing input.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Main_Loop_Poll</td>
+<td class="address-2"><span id="cb67"></span>CB67</td>
+<td class="instruction">LD A,($C533)</td>
+<td class="comment-1" rowspan="3">If the wave-start delay counter at <a href="C533.html">Wave_Start_Delay</a> is non-zero, jump to <a href="CD34.html#cf33">Clear_Colour_Bar_Column_21</a> (wave-end / game-over handling).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb6a"></span>CB6A</td>
+<td class="instruction">AND A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb6b"></span>CB6B</td>
+<td class="instruction">JP NZ,<a href="CD34.html#cf33">Clear_Colour_Bar_Column_21</a></td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="cb6e"></span>
+<div class="comments">
+<div class="paragraph">
+This entry point is used by the routine at <a href="CD34.html">Clear_Colour_Bar_Column</a>.
+</div>
+<div class="paragraph">
+Read the controller and map the input to player movement directions.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Main_Loop_Frame</td>
+<td class="address-2"><span id="cb6e"></span>CB6E</td>
+<td class="instruction">CALL <a href="F6C3.html">Read_Control_Input</a></td>
+<td class="comment-1" rowspan="1">Read the controller state via <a href="F6C3.html">Read_Control_Input</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb71"></span>CB71</td>
+<td class="instruction">LD A,C</td>
+<td class="comment-1" rowspan="3">Apply vertical input processing via <a href="CD34.html#ce9d">Clear_Colour_Bar_Column_14</a> and store the result in <span class="register">C</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb72"></span>CB72</td>
+<td class="instruction">CALL <a href="CD34.html#ce9d">Clear_Colour_Bar_Column_14</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb75"></span>CB75</td>
+<td class="instruction">LD C,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb76"></span>CB76</td>
+<td class="instruction">LD A,B</td>
+<td class="comment-1" rowspan="3">Apply horizontal input processing via <a href="CD34.html#ce72">Clear_Colour_Bar_Column_13</a> and store the result in <span class="register">B</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb77"></span>CB77</td>
+<td class="instruction">CALL <a href="CD34.html#ce72">Clear_Colour_Bar_Column_13</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb7a"></span>CB7A</td>
+<td class="instruction">LD B,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb7b"></span>CB7B</td>
+<td class="instruction">CP $0F</td>
+<td class="comment-1" rowspan="2">If the direction is neutral (0F), skip to <a href="CB4F.html#cb82">Main_Loop_Update_Y</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb7d"></span>CB7D</td>
+<td class="instruction">JR Z,<a href="CB4F.html#cb82">Main_Loop_Update_Y</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb7f"></span>CB7F</td>
+<td class="instruction">LD ($C518),A</td>
+<td class="comment-1" rowspan="1">Store the updated X direction at <a href="C518.html">Player_X_Direction</a>.</td>
+</tr>
+<tr>
+<td class="asm-label">Main_Loop_Update_Y</td>
+<td class="address-2"><span id="cb82"></span>CB82</td>
+<td class="instruction">LD A,C</td>
+<td class="comment-1" rowspan="4">If the vertical direction changed, store it at <a href="C517.html">Player_Y_Direction</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb83"></span>CB83</td>
+<td class="instruction">CP $0F</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb85"></span>CB85</td>
+<td class="instruction">JR Z,<a href="CB4F.html#cb8a">Main_Loop_Move_Player</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb87"></span>CB87</td>
+<td class="instruction">LD ($C517),A</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="cb8a"></span>
+<div class="comments">
+<div class="paragraph">
+Move the player sprite if a direction was input. Neutral direction (0F) means no movement — skip directly to entity spawning.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Main_Loop_Move_Player</td>
+<td class="address-2"><span id="cb8a"></span>CB8A</td>
+<td class="instruction">LD A,B</td>
+<td class="comment-1" rowspan="3">If no horizontal direction, skip to <a href="CB4F.html#cbd3">Main_Loop_Entity_Spawn</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb8b"></span>CB8B</td>
+<td class="instruction">CP $0F</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb8d"></span>CB8D</td>
+<td class="instruction">JR Z,<a href="CB4F.html#cbd3">Main_Loop_Entity_Spawn</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb8f"></span>CB8F</td>
+<td class="instruction">LD E,A</td>
+<td class="comment-1" rowspan="5">Build the sprite frame word offset from the X direction and stash it; point <span class="register">HL</span> at <a href="C4D3.html">Intro_Closing_Sprite</a> and erase the current player sprite via <a href="D630.html">Erase_Entity_Sprite</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb90"></span>CB90</td>
+<td class="instruction">SLA E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb92"></span>CB92</td>
+<td class="instruction">LD D,$00</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb94"></span>CB94</td>
+<td class="instruction">PUSH DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb95"></span>CB95</td>
+<td class="instruction">LD HL,$C4D3</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb98"></span>CB98</td>
+<td class="instruction">CALL <a href="D630.html">Erase_Entity_Sprite</a></td>
+<td class="comment-1" rowspan="1">Erase the current player sprite via <a href="D630.html">Erase_Entity_Sprite</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb9b"></span>CB9B</td>
+<td class="instruction">POP DE</td>
+<td class="comment-1" rowspan="9">Look up the movement delta for the current direction in the table at <a href="C6AE.html">Movement_Delta_Table</a>; add the Y delta to <a href="C4D4.html">Player_Y_Position</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb9c"></span>CB9C</td>
+<td class="instruction">LD HL,$C6AE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cb9f"></span>CB9F</td>
+<td class="instruction">ADD HL,DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cba0"></span>CBA0</td>
+<td class="instruction">EX DE,HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cba1"></span>CBA1</td>
+<td class="instruction">LD HL,$C4D4</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cba4"></span>CBA4</td>
+<td class="instruction">LD A,(DE)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cba5"></span>CBA5</td>
+<td class="instruction">ADD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cba6"></span>CBA6</td>
+<td class="instruction">CP $10</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cba8"></span>CBA8</td>
+<td class="instruction">JR C,<a href="CB4F.html#cbaf">Main_Loop_Clamp_X</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbaa"></span>CBAA</td>
+<td class="instruction">CP $AD</td>
+<td class="comment-1" rowspan="2">Reject the Y move if the new position is above the playfield top or below the bottom edge.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbac"></span>CBAC</td>
+<td class="instruction">JR NC,<a href="CB4F.html#cbaf">Main_Loop_Clamp_X</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbae"></span>CBAE</td>
+<td class="instruction">LD (HL),A</td>
+<td class="comment-1" rowspan="1">Write the updated Y position.</td>
+</tr>
+<tr>
+<td class="asm-label">Main_Loop_Clamp_X</td>
+<td class="address-2"><span id="cbaf"></span>CBAF</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="5">Add the X delta to <a href="C4D5.html">Player_X_Position</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbb0"></span>CBB0</td>
+<td class="instruction">INC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbb1"></span>CBB1</td>
+<td class="instruction">LD A,(DE)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbb2"></span>CBB2</td>
+<td class="instruction">ADD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbb3"></span>CBB3</td>
+<td class="instruction">CP $08</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbb5"></span>CBB5</td>
+<td class="instruction">JR C,<a href="CB4F.html#cbbc">Main_Loop_Update_Sprite</a></td>
+<td class="comment-1" rowspan="2">Reject the X move if the new position is past the left edge.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbb7"></span>CBB7</td>
+<td class="instruction">CP $F2</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbb9"></span>CBB9</td>
+<td class="instruction">JR NC,<a href="CB4F.html#cbbc">Main_Loop_Update_Sprite</a></td>
+<td class="comment-1" rowspan="1">Reject the X move if past the right edge.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbbb"></span>CBBB</td>
+<td class="instruction">LD (HL),A</td>
+<td class="comment-1" rowspan="1">Write the updated X position.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="cbbc"></span>
+<div class="comments">
+<div class="paragraph">
+Select the sprite frame for the new direction and redraw the player.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Main_Loop_Update_Sprite</td>
+<td class="address-2"><span id="cbbc"></span>CBBC</td>
+<td class="instruction">LD A,($C518)</td>
+<td class="comment-1" rowspan="9">Look up the sprite frame index for the current X direction in <a href="D620.html">Sprite_Frame_Table</a>; write it to <a href="C4D3.html">Intro_Closing_Sprite</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbbf"></span>CBBF</td>
+<td class="instruction">LD E,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbc0"></span>CBC0</td>
+<td class="instruction">LD D,$00</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbc2"></span>CBC2</td>
+<td class="instruction">LD HL,$D620</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbc5"></span>CBC5</td>
+<td class="instruction">ADD HL,DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbc6"></span>CBC6</td>
+<td class="instruction">EX DE,HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbc7"></span>CBC7</td>
+<td class="instruction">LD A,(DE)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbc8"></span>CBC8</td>
+<td class="instruction">LD HL,$C4D3</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbcb"></span>CBCB</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbcc"></span>CBCC</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="4">Set the player colour to INK:
+WHITE,
+PAPER:
+BLACK
+(BRIGHT)
+ in <span class="register">B'</span> and redraw the player sprite via <a href="D637.html">Draw_Entity_Sprite</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbcd"></span>CBCD</td>
+<td class="instruction">LD B,$47</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbcf"></span>CBCF</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbd0"></span>CBD0</td>
+<td class="instruction">CALL <a href="D637.html">Draw_Entity_Sprite</a></td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="cbd3"></span>
+<div class="comments">
+<div class="paragraph">
+Every three frames spawn one new entity adjacent to the player.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Main_Loop_Entity_Spawn</td>
+<td class="address-2"><span id="cbd3"></span>CBD3</td>
+<td class="instruction">LD HL,$C4CF</td>
+<td class="comment-1" rowspan="2">Decrement the entity spawn timer at <a href="C4CF.html">Entity_Spawn_Timer</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbd6"></span>CBD6</td>
+<td class="instruction">DEC (HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbd7"></span>CBD7</td>
+<td class="instruction">JP NZ,<a href="CB4F.html#cc5c">Main_Loop_Entity_Update</a></td>
+<td class="comment-1" rowspan="1">If the timer has not reached zero, skip to <a href="CB4F.html#cc5c">Main_Loop_Entity_Update</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbda"></span>CBDA</td>
+<td class="instruction">LD (HL),$03</td>
+<td class="comment-1" rowspan="1">Reset the spawn timer to 03.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbdc"></span>CBDC</td>
+<td class="instruction">LD HL,($C4D1)</td>
+<td class="comment-1" rowspan="2">Load the entity list end pointer from <a href="C4D1.html">Playfield_Entity_List_Pointer</a> and write the movement handler address <a href="D5B1.html#d5dd">Move_And_Redraw_Entity</a> to the entity list.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbdf"></span>CBDF</td>
+<td class="instruction">LD DE,$D5DD</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbe2"></span>CBE2</td>
+<td class="instruction">LD (HL),E</td>
+<td class="comment-1" rowspan="4">Advance past the handler address word in the entity list.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbe3"></span>CBE3</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbe4"></span>CBE4</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbe5"></span>CBE5</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbe6"></span>CBE6</td>
+<td class="instruction">LD ($C4DA),HL</td>
+<td class="comment-1" rowspan="1">Save the entity record write pointer to <a href="C4DA.html">Entity_Record_Pointer</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbe9"></span>CBE9</td>
+<td class="instruction">LD A,($C517)</td>
+<td class="comment-1" rowspan="1">Load the Y direction index from <a href="C517.html">Player_Y_Direction</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbec"></span>CBEC</td>
+<td class="instruction">EX DE,HL</td>
+<td class="comment-1" rowspan="8">Index the entity type table at <a href="D4F1.html">Entity_Type_By_Direction_Table</a> by Y direction and write the entity type to the entity record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbed"></span>CBED</td>
+<td class="instruction">LD C,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbee"></span>CBEE</td>
+<td class="instruction">LD B,$00</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbf0"></span>CBF0</td>
+<td class="instruction">LD HL,$D4F1</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbf3"></span>CBF3</td>
+<td class="instruction">ADD HL,BC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbf4"></span>CBF4</td>
+<td class="instruction">EX DE,HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbf5"></span>CBF5</td>
+<td class="instruction">LD A,(DE)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbf6"></span>CBF6</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbf7"></span>CBF7</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Advance to the next entity record field.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbf8"></span>CBF8</td>
+<td class="instruction">LD A,($C517)</td>
+<td class="comment-1" rowspan="5">Load the Y direction again, scale it to a byte offset (×8), and look up the sprite pixel offsets in <a href="C7CF.html">Narrow_Entity_Sprite_Data</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbfb"></span>CBFB</td>
+<td class="instruction">LD C,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbfc"></span>CBFC</td>
+<td class="instruction">SLA C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cbfe"></span>CBFE</td>
+<td class="instruction">SLA C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc00"></span>CC00</td>
+<td class="instruction">SLA C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc02"></span>CC02</td>
+<td class="instruction">LD B,$00</td>
+<td class="comment-1" rowspan="3">Clear the high byte of the offset and index into <a href="C7CF.html">Narrow_Entity_Sprite_Data</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc04"></span>CC04</td>
+<td class="instruction">EX DE,HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc05"></span>CC05</td>
+<td class="instruction">LD HL,$C7CF</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc08"></span>CC08</td>
+<td class="instruction">ADD HL,BC</td>
+<td class="comment-1" rowspan="1">Add the direction offset to the sprite data base address.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc09"></span>CC09</td>
+<td class="instruction">LD A,($C4D4)</td>
+<td class="comment-1" rowspan="6">Compute the entity's initial Y position from <a href="C4D4.html">Player_Y_Position</a> plus the sprite Y offset; write both bytes to the entity record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc0c"></span>CC0C</td>
+<td class="instruction">ADD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc0d"></span>CC0D</td>
+<td class="instruction">LD (DE),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc0e"></span>CC0E</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc0f"></span>CC0F</td>
+<td class="instruction">INC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc10"></span>CC10</td>
+<td class="instruction">LD A,($C4D5)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc13"></span>CC13</td>
+<td class="instruction">ADD A,(HL)</td>
+<td class="comment-1" rowspan="4">Write the X position bytes derived from <a href="C4D5.html">Player_X_Position</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc14"></span>CC14</td>
+<td class="instruction">LD (DE),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc15"></span>CC15</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc16"></span>CC16</td>
+<td class="instruction">INC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc17"></span>CC17</td>
+<td class="instruction">LD A,($C4D4)</td>
+<td class="comment-1" rowspan="3">Add the sprite Y check offset to the player Y position and reject the spawn if the result is above the playfield top edge.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc1a"></span>CC1A</td>
+<td class="instruction">ADD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc1b"></span>CC1B</td>
+<td class="instruction">CP $10</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc1d"></span>CC1D</td>
+<td class="instruction">JR C,<a href="CB4F.html#cc7c">Main_Loop_Abort_Spawn</a></td>
+<td class="comment-1" rowspan="2">Reject the spawn if the Y position is below the playfield bottom edge (B8).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc1f"></span>CC1F</td>
+<td class="instruction">CP $B8</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc21"></span>CC21</td>
+<td class="instruction">JR NC,<a href="CB4F.html#cc7c">Main_Loop_Abort_Spawn</a></td>
+<td class="comment-1" rowspan="1">Reject if below the bottom edge.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc23"></span>CC23</td>
+<td class="instruction">LD (DE),A</td>
+<td class="comment-1" rowspan="3">Write the validated Y position field to the entity record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc24"></span>CC24</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc25"></span>CC25</td>
+<td class="instruction">INC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc26"></span>CC26</td>
+<td class="instruction">LD A,($C4D5)</td>
+<td class="comment-1" rowspan="3">Check the X position is within the playfield horizontal bounds (08–F7).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc29"></span>CC29</td>
+<td class="instruction">ADD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc2a"></span>CC2A</td>
+<td class="instruction">CP $08</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc2c"></span>CC2C</td>
+<td class="instruction">JR C,<a href="CB4F.html#cc7c">Main_Loop_Abort_Spawn</a></td>
+<td class="comment-1" rowspan="2">Reject the spawn if the X position is past the left edge.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc2e"></span>CC2E</td>
+<td class="instruction">CP $F8</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc30"></span>CC30</td>
+<td class="instruction">JR NC,<a href="CB4F.html#cc7c">Main_Loop_Abort_Spawn</a></td>
+<td class="comment-1" rowspan="1">Reject if past the right edge.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc32"></span>CC32</td>
+<td class="instruction">LD (DE),A</td>
+<td class="comment-1" rowspan="3">Write the validated X position field to the entity record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc33"></span>CC33</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc34"></span>CC34</td>
+<td class="instruction">INC DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc35"></span>CC35</td>
+<td class="instruction">LD BC,$0004</td>
+<td class="comment-1" rowspan="2">Copy the remaining four entity record bytes via LDIR.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc38"></span>CC38</td>
+<td class="instruction">LDIR</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc3a"></span>CC3A</td>
+<td class="instruction">EX DE,HL</td>
+<td class="comment-1" rowspan="4">Mark the end of the entity record and update the entity list end pointer at <a href="C4D1.html">Playfield_Entity_List_Pointer</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc3b"></span>CC3B</td>
+<td class="instruction">LD (HL),$FF</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc3d"></span>CC3D</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc3e"></span>CC3E</td>
+<td class="instruction">LD ($C4D1),HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc41"></span>CC41</td>
+<td class="instruction">LD E,$01</td>
+<td class="comment-1" rowspan="2">Initialise the entity via <a href="D9C4.html">Initialise_Entity_State</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc43"></span>CC43</td>
+<td class="instruction">CALL <a href="D9C4.html">Initialise_Entity_State</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc46"></span>CC46</td>
+<td class="instruction">LD HL,($C4DA)</td>
+<td class="comment-1" rowspan="4">Reload the entity record pointer from <a href="C4DA.html">Entity_Record_Pointer</a> and set the entity colour to INK:
+WHITE,
+PAPER:
+BLACK
+(BRIGHT)
+ in <span class="register">B'</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc49"></span>CC49</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc4a"></span>CC4A</td>
+<td class="instruction">LD B,$47</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc4c"></span>CC4C</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc4d"></span>CC4D</td>
+<td class="instruction">CALL <a href="C856.html">Draw_Narrow_Entity_Sprite</a></td>
+<td class="comment-1" rowspan="1">Draw the spawned entity sprite via <a href="C856.html">Draw_Narrow_Entity_Sprite</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc50"></span>CC50</td>
+<td class="instruction">LD HL,($C4D1)</td>
+<td class="comment-1" rowspan="1">Reload the entity list end pointer from <a href="C4D1.html">Playfield_Entity_List_Pointer</a>.</td>
+</tr>
+<tr>
+<td class="asm-label">Main_Loop_Write_Terminator</td>
+<td class="address-2"><span id="cc53"></span>CC53</td>
+<td class="instruction">LD DE,$CE62</td>
+<td class="comment-1" rowspan="6">Write the playfield entity handler CE62 and the FF sentinel as the entity list terminator.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc56"></span>CC56</td>
+<td class="instruction">LD (HL),E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc57"></span>CC57</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc58"></span>CC58</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc59"></span>CC59</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc5a"></span>CC5A</td>
+<td class="instruction">LD (HL),$FF</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="cc5c"></span>
+<div class="comments">
+<div class="paragraph">
+Dispatch all active entity handlers, update animation and colour bar.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Main_Loop_Entity_Update</td>
+<td class="address-2"><span id="cc5c"></span>CC5C</td>
+<td class="instruction">LD HL,$6100</td>
+<td class="comment-1" rowspan="1">Set <span class="register">HL</span> to the start of the entity list at <a href="6100.html">Entity_List_Base</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc5f"></span>CC5F</td>
+<td class="instruction">CALL <a href="C702.html">DispatchWordFromHL</a></td>
+<td class="comment-1" rowspan="1">Dispatch all entity handlers in the list via <a href="C702.html">DispatchWordFromHL</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc62"></span>CC62</td>
+<td class="instruction">LD HL,($C51B)</td>
+<td class="comment-1" rowspan="6">Decrement the animation counter at <a href="C51B.html">Animation_Frame_Pair</a> if it is non-zero.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc65"></span>CC65</td>
+<td class="instruction">LD A,H</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc66"></span>CC66</td>
+<td class="instruction">OR L</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc67"></span>CC67</td>
+<td class="instruction">JR Z,<a href="CB4F.html#cc6d">Main_Loop_Colour_Bar_Update</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc69"></span>CC69</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc6a"></span>CC6A</td>
+<td class="instruction">LD ($C51B),HL</td>
+</tr>
+<tr>
+<td class="asm-label">Main_Loop_Colour_Bar_Update</td>
+<td class="address-2"><span id="cc6d"></span>CC6D</td>
+<td class="instruction">CALL <a href="C713.html">UpdateAttributeBar</a></td>
+<td class="comment-1" rowspan="3">Update the colour bar via <a href="C713.html">UpdateAttributeBar</a>, run the protection check via <a href="C5C1.html">CheckScoreAwardLife</a>, and call the game state update via <a href="D9E0.html">Dispatch_Entity_State_Handler</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc70"></span>CC70</td>
+<td class="instruction">CALL <a href="C5C1.html">CheckScoreAwardLife</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc73"></span>CC73</td>
+<td class="instruction">CALL <a href="D9E0.html">Dispatch_Entity_State_Handler</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc76"></span>CC76</td>
+<td class="instruction">CALL <a href="C5C1.html#c5ef">CheckScoreAwardLife_SessionGate</a></td>
+<td class="comment-1" rowspan="2">Run the copy protection gate via <a href="C5C1.html#c5ef">CheckScoreAwardLife_SessionGate</a> and loop back to <a href="CB4F.html#cb67">Main_Loop_Poll</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc79"></span>CC79</td>
+<td class="instruction">JP <a href="CB4F.html#cb67">Main_Loop_Poll</a></td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="cc7c"></span>
+<div class="comments">
+<div class="paragraph">
+Out-of-bounds abort: the new entity would fall outside the playfield. Skip the spawn but still write the entity list terminator.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Main_Loop_Abort_Spawn</td>
+<td class="address-2"><span id="cc7c"></span>CC7C</td>
+<td class="instruction">LD HL,($C4D1)</td>
+<td class="comment-1" rowspan="2">Reload the entity list end pointer from <a href="C4D1.html">Playfield_Entity_List_Pointer</a> and jump to <a href="CB4F.html#cc53">Main_Loop_Write_Terminator</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cc7f"></span>CC7F</td>
+<td class="instruction">JR <a href="CB4F.html#cc53">Main_Loop_Write_Terminator</a></td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="C950.html">C950</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#cb4f">Map</a></td>
+<td class="next">
+Next: <a href="CC81.html">CC81</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/52047.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

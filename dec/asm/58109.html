@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 58109</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="58056.html">58056</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#58109">Map</a></td>
+<td class="next">
+Next: <a href="58140.html">58140</a>
+</td>
+</tr>
+</table>
+<div class="description">58109: Clamp Entity Velocity</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routines at <a href="58208.html">Process_Tracked_Enemy_Entity</a> and <a href="59343.html">Spawn_Tracked_Enemy_Entities</a>.
+</div>
+<div class="paragraph">
+Adds a 16-bit signed delta (<span class="register">DE</span>) to a velocity byte in <span class="register">H</span>, sign-extending <span class="register">H</span> to a full 16-bit value first, then clamps the result to the range 64512-1023. Returns the clamped result in <span class="register">HL</span>. Called from <a href="58208.html">Process_Tracked_Enemy_Entity</a> and <a href="59127.html">Process_Player_Tracking_Enemy</a> when updating tracked enemy velocities.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Clamp_Entity_Velocity</td>
+<td class="address-2"><span id="58109"></span>58109</td>
+<td class="instruction">LD A,H</td>
+<td class="comment-1" rowspan="4">Sign-extend <span class="register">H</span> into a 16-bit value and add the delta in <span class="register">DE</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58110"></span>58110</td>
+<td class="instruction">AND 128</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58112"></span>58112</td>
+<td class="instruction">LD H,0</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58114"></span>58114</td>
+<td class="instruction">JP Z,<a href="58109.html#58119">Clamp_Entity_Velocity_0</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58117"></span>58117</td>
+<td class="instruction">LD H,255</td>
+<td class="comment-1" rowspan="3">Positive result: check bit 7 and jump if the result is negative.</td>
+</tr>
+<tr>
+<td class="asm-label">Clamp_Entity_Velocity_0</td>
+<td class="address-2"><span id="58119"></span>58119</td>
+<td class="instruction">ADD HL,DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58120"></span>58120</td>
+<td class="instruction">LD A,H</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58121"></span>58121</td>
+<td class="instruction">BIT 7,H</td>
+<td class="comment-1" rowspan="3">Positive ceiling: return if within range; clamp to 1023 otherwise.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58123"></span>58123</td>
+<td class="instruction">JP NZ,<a href="58109.html#58133">Clamp_Entity_Velocity_Negative</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58126"></span>58126</td>
+<td class="instruction">CP 4</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58128"></span>58128</td>
+<td class="instruction">RET C</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58129"></span>58129</td>
+<td class="instruction">LD HL,1023</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58132"></span>58132</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label">Clamp_Entity_Velocity_Negative</td>
+<td class="address-2"><span id="58133"></span>58133</td>
+<td class="instruction">CP 252</td>
+<td class="comment-1" rowspan="4">Negative result: return if within range; clamp to 64512 otherwise.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58135"></span>58135</td>
+<td class="instruction">RET NC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58136"></span>58136</td>
+<td class="instruction">LD HL,64512</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="58139"></span>58139</td>
+<td class="instruction">RET</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="58056.html">58056</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#58109">Map</a></td>
+<td class="next">
+Next: <a href="58140.html">58140</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/E2FD.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

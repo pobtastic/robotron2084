@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 53672</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="53488.html">53488</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#53672">Map</a></td>
+<td class="next">
+Next: <a href="53695.html">53695</a>
+</td>
+</tr>
+</table>
+<div class="description">53672: Advance RNG Seed</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routines at <a href="53695.html">Generate_Random_Byte</a>, <a href="58208.html">Process_Tracked_Enemy_Entity</a> and <a href="59343.html">Spawn_Tracked_Enemy_Entities</a>.
+</div>
+<div class="paragraph">
+Advances the linear congruential generator one step. The seed at <a href="50396.html">RNG_Seed</a> is updated using the recurrence seed = seed × 33 + 41 (multiply by 33, add 41), producing the next pseudo-random value. Called by <a href="53695.html">Generate_Random_Byte</a> to generate each random byte during enemy spawning.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Advance_RNG_Seed</td>
+<td class="address-2"><span id="53672"></span>53672</td>
+<td class="instruction">LD HL,(50396)</td>
+<td class="comment-1" rowspan="1">Load the current RNG seed from <a href="50396.html">RNG_Seed</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53675"></span>53675</td>
+<td class="instruction">PUSH BC</td>
+<td class="comment-1" rowspan="1">Stash <span class="register">BC</span> on the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53676"></span>53676</td>
+<td class="instruction">ADD HL,HL</td>
+<td class="comment-1" rowspan="5">Multiply the seed by 32 by shifting left five times.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53677"></span>53677</td>
+<td class="instruction">ADD HL,HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53678"></span>53678</td>
+<td class="instruction">ADD HL,HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53679"></span>53679</td>
+<td class="instruction">ADD HL,HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53680"></span>53680</td>
+<td class="instruction">ADD HL,HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53681"></span>53681</td>
+<td class="instruction">LD BC,(50396)</td>
+<td class="comment-1" rowspan="2">Reload the original seed into <span class="register">BC</span> and add it (total factor: 33).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53685"></span>53685</td>
+<td class="instruction">ADD HL,BC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53686"></span>53686</td>
+<td class="instruction">LD BC,41</td>
+<td class="comment-1" rowspan="3">Add 0041 and store the new seed back to <a href="50396.html">RNG_Seed</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53689"></span>53689</td>
+<td class="instruction">ADD HL,BC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53690"></span>53690</td>
+<td class="instruction">LD (50396),HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53693"></span>53693</td>
+<td class="instruction">POP BC</td>
+<td class="comment-1" rowspan="2">Restore <span class="register">BC</span> and return.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53694"></span>53694</td>
+<td class="instruction">RET</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="53488.html">53488</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#53672">Map</a></td>
+<td class="next">
+Next: <a href="53695.html">53695</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/D1A8.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

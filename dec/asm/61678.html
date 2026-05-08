@@ -33,86 +33,96 @@ Next: <a href="61703.html">61703</a>
 </td>
 </tr>
 </table>
-<div class="description">61678: Routine at F0EE</div>
+<div class="description">61678: Cycle Border Colour</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="60360.html">60360</a> and <a href="60688.html">60688</a>.
+Used by the routines at <a href="60360.html">Display_High_Score_Entry_Screen</a> and <a href="60688.html">Save_Or_Load_High_Scores</a>.
+</div>
+<div class="paragraph">
+Advances the border colour cycle one step and redraws the attribute border frame. Reads the current step from <a href="50440.html">Border_Colour_Step</a>, decrements it (wrapping at 0 back to 7), looks up the outer/inner attribute pair from <a href="61662.html">Table_Border_Colour_Pairs</a>, and calls <a href="61614.html">Fill_Border_Attributes</a> to repaint the border.
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Cycle_Border_Colour</td>
 <td class="address-2"><span id="61678"></span>61678</td>
 <td class="instruction">LD A,(50440)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Read and decrement the border colour step from <a href="50440.html">Border_Colour_Step</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="61681"></span>61681</td>
 <td class="instruction">DEC A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="61682"></span>61682</td>
-<td class="instruction">AND 7</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">AND %00000111</td>
+<td class="comment-1" rowspan="1">Mask the step to the range 0–7.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="61684"></span>61684</td>
 <td class="instruction">LD (50440),A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Store the updated step back to <a href="50440.html">Border_Colour_Step</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="61687"></span>61687</td>
 <td class="instruction">SLA A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="5">Double the step to a word offset and index into the colour pair table at <a href="61662.html">Table_Border_Colour_Pairs</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="61689"></span>61689</td>
 <td class="instruction">LD C,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="61690"></span>61690</td>
 <td class="instruction">LD B,0</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="61692"></span>61692</td>
 <td class="instruction">LD HL,61662</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="61695"></span>61695</td>
 <td class="instruction">ADD HL,BC</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="61696"></span>61696</td>
 <td class="instruction">LD D,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Load the outer (<span class="register">D</span>) and inner (<span class="register">E</span>) attribute bytes from the table.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="61697"></span>61697</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="61698"></span>61698</td>
 <td class="instruction">LD E,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="61699"></span>61699</td>
-<td class="instruction">CALL <a href="61614.html">61614</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="61614.html">Fill_Border_Attributes</a></td>
+<td class="comment-1" rowspan="1">Redraw the screen border with the new colour pair via <a href="61614.html">Fill_Border_Attributes</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="61702"></span>61702</td>
 <td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Return.</td>
 </tr>
 </table>
 <table class="asm-navigation">

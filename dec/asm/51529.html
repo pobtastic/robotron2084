@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 51529</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="51286.html">51286</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#51529">Map</a></td>
+<td class="next">
+Next: <a href="51536.html">51536</a>
+</td>
+</tr>
+</table>
+<div class="description">51529: Erase Wide Entity Sprite</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routines at <a href="57347.html">Process_Entity_Record_Fast</a>, <a href="57782.html">Handle_Horizontal_Enemy_Entity</a>, <a href="57898.html">Begin_Enemy_Death_Animation</a>, <a href="58208.html">Process_Tracked_Enemy_Entity</a>, <a href="58553.html">Kill_Tracked_Enemy_Entity</a>, <a href="59521.html">Process_Wall_Bouncing_Enemy</a>, <a href="59764.html">Kill_Wall_Bouncing_Enemy</a> and <a href="60014.html">Process_Replacement_Enemy_Entity</a>.
+</div>
+<div class="paragraph">
+Entry point for erasing a wide entity sprite. Sets erase mode then falls through to <a href="51536.html#51540">Draw_Wide_Entity_Sprite_Render</a>. In erase mode the attribute write is skipped.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Erase_Wide_Entity_Sprite</td>
+<td class="address-2"><span id="51529"></span>51529</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="3">Set erase mode (attribute write disabled).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="51530"></span>51530</td>
+<td class="instruction">LD D,0</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="51532"></span>51532</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="51533"></span>51533</td>
+<td class="instruction">JP <a href="51536.html#51540">Draw_Wide_Entity_Sprite_Render</a></td>
+<td class="comment-1" rowspan="1">Jump to <a href="51536.html#51540">Draw_Wide_Entity_Sprite_Render</a>.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="51286.html">51286</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#51529">Map</a></td>
+<td class="next">
+Next: <a href="51536.html">51536</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/C949.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

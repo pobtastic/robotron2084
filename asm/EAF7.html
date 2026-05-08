@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Data at EAF7</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-b">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Data</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="EA6E.html">EA6E</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#eaf7">Map</a></td>
+<td class="next">
+Next: <a href="EB07.html">EB07</a>
+</td>
+</tr>
+</table>
+<div class="description">EAF7: Enemy Direction Code Table</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Sixteen direction-code bytes used by <a href="E881.html">Process_Wall_Bouncing_Enemy</a> to map a packed 4-bit direction index (Y-sign × 4 | X-sign) to a colour attribute byte written into the wall-bouncing enemy record. Indexed as table + BC where BC = (Y_direction &amp; 03) | (X_direction &lt;&lt; 2).
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Enemy_Direction_Code_Table</td>
+<td class="address-1"><span id="eaf7"></span>EAF7</td>
+<td class="instruction">DEFB $25,$26,$24,$24,$25,$25,$24,$25</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="eaff"></span>EAFF</td>
+<td class="instruction">DEFB $27,$27,$27,$27,$27,$27,$24,$27</td>
+<td class="comment-0" rowspan="1"></td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="EA6E.html">EA6E</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#eaf7">Map</a></td>
+<td class="next">
+Next: <a href="EB07.html">EB07</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/60151.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

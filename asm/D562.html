@@ -25,7 +25,7 @@ gtag('config', 'G-75RERFCHBG');
 <table class="asm-navigation">
 <tr>
 <td class="prev">
-Prev: <a href="D486.html">D486</a>
+Prev: <a href="D519.html">D519</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#d562">Map</a></td>
 <td class="next">
@@ -33,67 +33,77 @@ Next: <a href="D570.html">D570</a>
 </td>
 </tr>
 </table>
-<div class="description">D562: Routine at D562</div>
+<div class="description">D562: Draw Playfield Border Row</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routine at <a href="D570.html">D570</a>.
+Used by the routine at <a href="D570.html">DrawPlayfieldBorder</a>.
+</div>
+<div class="paragraph">
+Caller supplies the row in <span class="register">L</span>. Sweeps <span class="register">H</span> from 06 to F9 inclusive, calling <a href="8D80.html">PlotCharacterCell_Draw</a> each time to OR the border glyph across that row of the screen buffer. Used only from <a href="D570.html">DrawPlayfieldBorder</a>.
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">DrawPlayfieldBorderRow</td>
 <td class="address-2"><span id="d562"></span>D562</td>
 <td class="instruction">LD H,$06</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">H</span>=06 (start of the horizontal sweep).</td>
 </tr>
 <tr>
+<td class="asm-label">DrawPlayfieldBorderRow_Loop</td>
 <td class="address-2"><span id="d564"></span>D564</td>
 <td class="instruction">PUSH HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Stash <span class="register">HL</span> on the stack (coordinates for <a href="8D80.html">PlotCharacterCell_Draw</a>).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d565"></span>D565</td>
-<td class="instruction">CALL <a href="8D80.html">$8D80</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="8D80.html">PlotCharacterCell_Draw</a></td>
+<td class="comment-1" rowspan="1">Call <a href="8D80.html">PlotCharacterCell_Draw</a> (OR-blit at this cell).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d568"></span>D568</td>
 <td class="instruction">POP HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Restore <span class="register">HL</span> from the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d569"></span>D569</td>
 <td class="instruction">INC H</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Increment <span class="register">H</span> (next column in the sweep).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d56a"></span>D56A</td>
 <td class="instruction">LD A,H</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Loop back to <a href="D562.html#d564">DrawPlayfieldBorderRow_Loop</a> until the full row has been drawn.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d56b"></span>D56B</td>
 <td class="instruction">CP $FA</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d56d"></span>D56D</td>
-<td class="instruction">JR NZ,<a href="D562.html#d564">$D564</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR NZ,<a href="D562.html#d564">DrawPlayfieldBorderRow_Loop</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="d56f"></span>D56F</td>
 <td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Return.</td>
 </tr>
 </table>
 <table class="asm-navigation">
 <tr>
 <td class="prev">
-Prev: <a href="D486.html">D486</a>
+Prev: <a href="D519.html">D519</a>
 </td>
 <td class="up">Up: <a href="../maps/all.html#d562">Map</a></td>
 <td class="next">

@@ -33,371 +33,412 @@ Next: <a href="54816.html">54816</a>
 </td>
 </tr>
 </table>
-<div class="description">54705: Routine at D5B1</div>
+<div class="description">54705: Remove Entity from List</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="51279.html">51279</a> and <a href="54832.html">54832</a>.
+Used by the routines at <a href="52457.html">Process_Enemy_Entity</a>, <a href="52532.html">Clear_Colour_Bar_Column</a>, <a href="59764.html">Kill_Wall_Bouncing_Enemy</a> and <a href="60167.html">Process_Final_Phase_Enemy_Entity</a>.
+</div>
+<div class="paragraph">
+Removes the entity whose record is pointed to by <a href="50394.html">Entity_Record_Pointer</a> from the entity list. Steps back to the start of the entity's 12-byte record, then block-copies all subsequent records down by 12 bytes via LDIR, closing the gap. The entity list end pointer at <a href="50385.html">Playfield_Entity_List_Pointer</a> is decremented by 12 to reflect the shorter list. Returns with <span class="register">HL</span> pointing to the record that now occupies the removed entity's slot.
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Remove_Entity_From_List</td>
 <td class="address-2"><span id="54705"></span>54705</td>
 <td class="instruction">LD HL,(50394)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Load the entity record pointer from <a href="50394.html">Entity_Record_Pointer</a>.</td>
 </tr>
 <tr>
 <td class="routine-comment" colspan="5">
 <span id="54708"></span>
 <div class="comments">
 <div class="paragraph">
-This entry point is used by the routine at <a href="54832.html">54832</a>.
+This entry point is used by the routines at <a href="58553.html">Kill_Tracked_Enemy_Entity</a> and <a href="58656.html">Process_Cluster_Entity</a>.
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Remove_Entity_From_List_Step</td>
 <td class="address-2"><span id="54708"></span>54708</td>
 <td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Step back to the start of the entity record and save the updated pointer to <a href="50394.html">Entity_Record_Pointer</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54709"></span>54709</td>
 <td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54710"></span>54710</td>
 <td class="instruction">LD (50394),HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54713"></span>54713</td>
 <td class="instruction">LD DE,12</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Compute the start of the next entity record (12 bytes ahead) in <span class="register">DE</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54716"></span>54716</td>
 <td class="instruction">ADD HL,DE</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54717"></span>54717</td>
 <td class="instruction">EX DE,HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54718"></span>54718</td>
 <td class="instruction">LD HL,(50385)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="7">Load the entity list end pointer from <a href="50385.html">Playfield_Entity_List_Pointer</a>, subtract the destination address to get the copy byte count, and load that count into <span class="register">BC</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54721"></span>54721</td>
 <td class="instruction">SBC HL,DE</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54723"></span>54723</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54724"></span>54724</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54725"></span>54725</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54726"></span>54726</td>
 <td class="instruction">LD B,H</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54727"></span>54727</td>
 <td class="instruction">LD C,L</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54728"></span>54728</td>
 <td class="instruction">LD HL,(50394)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Set source to the start of the next entity record and shift all remaining records down by 12 bytes via LDIR.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54731"></span>54731</td>
 <td class="instruction">EX DE,HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54732"></span>54732</td>
 <td class="instruction">LDIR</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54734"></span>54734</td>
 <td class="instruction">LD HL,(50385)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="5">Decrement the entity list end pointer at <a href="50385.html">Playfield_Entity_List_Pointer</a> by 12 bytes and return with <span class="register">HL</span> pointing to the new occupant of the vacated slot.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54737"></span>54737</td>
 <td class="instruction">LD DE,12</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54740"></span>54740</td>
 <td class="instruction">SBC HL,DE</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54742"></span>54742</td>
 <td class="instruction">LD (50385),HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54745"></span>54745</td>
 <td class="instruction">LD HL,(50394)</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54748"></span>54748</td>
 <td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Return.</td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="54749"></span>
+<div class="comments">
+<div class="paragraph">
+Entity movement handler, stored as the entity handler address in entity records that use the narrow sprite renderer. Applies the entity's velocity to its current screen position, validates that the new position lies within the playfield bounds, updates the entity record, and redraws the sprite. If the new position is out of bounds the entity is removed via <a href="54705.html">Remove_Entity_From_List</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Move_And_Redraw_Entity</td>
 <td class="address-1"><span id="54749"></span>54749</td>
 <td class="instruction">LD (50394),HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Save the entity record pointer to <a href="50394.html">Entity_Record_Pointer</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54752"></span>54752</td>
-<td class="instruction">CALL <a href="51279.html">51279</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="51279.html">Erase_Narrow_Entity_Sprite</a></td>
+<td class="comment-1" rowspan="1">Erase the entity's current sprite via <a href="51279.html">Erase_Narrow_Entity_Sprite</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54755"></span>54755</td>
 <td class="instruction">LD HL,(50394)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="6">Reload the entity record from <a href="50394.html">Entity_Record_Pointer</a> and point <span class="register">HL</span> at the Y position field; copy the pointer to <span class="register">DE</span>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54758"></span>54758</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54759"></span>54759</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54760"></span>54760</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54761"></span>54761</td>
 <td class="instruction">LD D,H</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54762"></span>54762</td>
 <td class="instruction">LD E,L</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54763"></span>54763</td>
 <td class="instruction">INC DE</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="7">Advance <span class="register">DE</span> to the Y velocity field and add the velocity to the current Y position.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54764"></span>54764</td>
 <td class="instruction">INC DE</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54765"></span>54765</td>
 <td class="instruction">INC DE</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54766"></span>54766</td>
 <td class="instruction">INC DE</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54767"></span>54767</td>
 <td class="instruction">LD A,(DE)</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54768"></span>54768</td>
 <td class="instruction">ADD A,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54769"></span>54769</td>
 <td class="instruction">CP 16</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54771"></span>54771</td>
-<td class="instruction">JR C,<a href="54705.html#54705">54705</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR C,<a href="54705.html#54705">Remove_Entity_From_List</a></td>
+<td class="comment-1" rowspan="2">Reject the move if the new Y position is above the playfield top edge (16).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54773"></span>54773</td>
 <td class="instruction">CP 184</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54775"></span>54775</td>
-<td class="instruction">JR NC,<a href="54705.html#54705">54705</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR NC,<a href="54705.html#54705">Remove_Entity_From_List</a></td>
+<td class="comment-1" rowspan="1">Reject the move if the new Y position is below the playfield bottom edge (184).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54777"></span>54777</td>
 <td class="instruction">LD (HL),A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="6">Store the new Y position; advance to the X fields and add the X velocity to the current X position.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54778"></span>54778</td>
 <td class="instruction">LD B,A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54779"></span>54779</td>
 <td class="instruction">INC DE</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54780"></span>54780</td>
 <td class="instruction">INC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54781"></span>54781</td>
 <td class="instruction">LD A,(DE)</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54782"></span>54782</td>
 <td class="instruction">ADD A,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54783"></span>54783</td>
 <td class="instruction">CP 8</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Reject the move if the new X position is past the left edge (8).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54785"></span>54785</td>
-<td class="instruction">JR C,<a href="54705.html#54705">54705</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR C,<a href="54705.html#54705">Remove_Entity_From_List</a></td>
+<td class="comment-1" rowspan="1">Remove the entity if the new X position is too close to the left wall.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54787"></span>54787</td>
 <td class="instruction">CP 248</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Reject the move if the new X position is past the right edge (248).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54789"></span>54789</td>
-<td class="instruction">JR NC,<a href="54705.html#54705">54705</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR NC,<a href="54705.html#54705">Remove_Entity_From_List</a></td>
+<td class="comment-1" rowspan="1">Remove the entity if the new X position is too close to the right wall.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54791"></span>54791</td>
 <td class="instruction">LD (HL),A</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="9">Store the new X position; step back and update the two additional entity record fields from their corresponding velocity bytes.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54792"></span>54792</td>
 <td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54793"></span>54793</td>
 <td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54794"></span>54794</td>
 <td class="instruction">LD A,(DE)</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54795"></span>54795</td>
 <td class="instruction">ADD A,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54796"></span>54796</td>
 <td class="instruction">LD (HL),A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54797"></span>54797</td>
 <td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54798"></span>54798</td>
 <td class="instruction">DEC DE</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54799"></span>54799</td>
 <td class="instruction">LD A,(DE)</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54800"></span>54800</td>
 <td class="instruction">ADD A,(HL)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Update the final position field and step back to the entity record origin.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54801"></span>54801</td>
 <td class="instruction">LD (HL),A</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54802"></span>54802</td>
 <td class="instruction">DEC HL</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54803"></span>54803</td>
 <td class="instruction">EXX</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="4">Set the entity colour to INK:
+WHITE,
+PAPER:
+BLACK
+(BRIGHT)
+ in <span class="register">B'</span> and redraw the sprite via <a href="51286.html">Draw_Narrow_Entity_Sprite</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54804"></span>54804</td>
 <td class="instruction">LD B,71</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54806"></span>54806</td>
 <td class="instruction">EXX</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54807"></span>54807</td>
-<td class="instruction">CALL <a href="51279.html#51286">51286</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="51286.html">Draw_Narrow_Entity_Sprite</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54810"></span>54810</td>
 <td class="instruction">LD HL,(50394)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Reload the entity record pointer from <a href="50394.html">Entity_Record_Pointer</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54813"></span>54813</td>
-<td class="instruction">JP <a href="51279.html#52499">52499</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JP <a href="52499.html">Advance_Entity_Pointer</a></td>
+<td class="comment-1" rowspan="1">Jump to the entity update completion handler at <a href="52499.html">Advance_Entity_Pointer</a>.</td>
 </tr>
 </table>
 <table class="asm-navigation">

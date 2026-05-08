@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at D519</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="D50D.html">D50D</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#d519">Map</a></td>
+<td class="next">
+Next: <a href="D562.html">D562</a>
+</td>
+</tr>
+</table>
+<div class="description">D519: Animate Intro Screen Sprites</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="CB4F.html">Main_Game_Loop</a>.
+</div>
+<div class="paragraph">
+Controls a three-sprite scrolling animation on the intro screen. Entering at <a href="D519.html">Animate_Intro_Screen_Sprites</a> copies the sprite template to the working state and sets the frame counter to 0E. Entering at <a href="D519.html#d52a">Animate_Intro_Screen_Sprites_Step</a> runs one frame: each sprite is rendered via <a href="D794.html">Draw_Clipped_Wide_Sprite</a>, its Y-position scrolled down by 06 and X-position advanced by its velocity. After 0E frames, a bright white closing sprite is drawn and the animation restarts.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Animate_Intro_Screen_Sprites</td>
+<td class="address-2"><span id="d519"></span>D519</td>
+<td class="instruction">LD HL,$D501</td>
+<td class="comment-1" rowspan="3">Set up to copy the sprite template to the working state.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d51c"></span>D51C</td>
+<td class="instruction">LD DE,$D50D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d51f"></span>D51F</td>
+<td class="instruction">LD BC,$000C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d522"></span>D522</td>
+<td class="instruction">LDIR</td>
+<td class="comment-1" rowspan="1">Copy the sprite template to the working sprite state.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d524"></span>D524</td>
+<td class="instruction">LD A,$0E</td>
+<td class="comment-1" rowspan="2">Reset the animation frame counter to 0E.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d526"></span>D526</td>
+<td class="instruction">LD ($C531),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d529"></span>D529</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="d52a"></span>
+<div class="comments">
+<div class="paragraph">
+This entry point is used by the routine at <a href="CD34.html">Clear_Colour_Bar_Column</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Animate_Intro_Screen_Sprites_Step</td>
+<td class="address-2"><span id="d52a"></span>D52A</td>
+<td class="instruction">LD HL,$D50D</td>
+<td class="comment-1" rowspan="1">Point to the first sprite state entry.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d52d"></span>D52D</td>
+<td class="instruction">LD B,$03</td>
+<td class="comment-1" rowspan="1">Set the sprite entry loop counter.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d52f"></span>D52F</td>
+<td class="instruction">LD A,($C531)</td>
+<td class="comment-1" rowspan="1">Load the animation frame counter.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d532"></span>D532</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="3">Stash the frame counter in the shadow register.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d533"></span>D533</td>
+<td class="instruction">LD B,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d534"></span>D534</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label">Animate_Intro_Screen_Sprites_Loop</td>
+<td class="address-2"><span id="d535"></span>D535</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="2">Stash the sprite state pointer and loop counter on the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d536"></span>D536</td>
+<td class="instruction">PUSH BC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d537"></span>D537</td>
+<td class="instruction">CALL <a href="D794.html">Draw_Clipped_Wide_Sprite</a></td>
+<td class="comment-1" rowspan="1">Render this sprite via <a href="D794.html">Draw_Clipped_Wide_Sprite</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d53a"></span>D53A</td>
+<td class="instruction">POP BC</td>
+<td class="comment-1" rowspan="2">Restore the loop counter and state pointer from the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d53b"></span>D53B</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d53c"></span>D53C</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Advance past the sprite identifier byte.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d53d"></span>D53D</td>
+<td class="instruction">LD A,(HL)</td>
+<td class="comment-1" rowspan="3">Scroll the Y-position down by 06 pixels.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d53e"></span>D53E</td>
+<td class="instruction">ADD A,$06</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d540"></span>D540</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d541"></span>D541</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="6">Apply the X velocity to the X-position.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d542"></span>D542</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d543"></span>D543</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d544"></span>D544</td>
+<td class="instruction">ADD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d545"></span>D545</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d546"></span>D546</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d547"></span>D547</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="2">Advance to the next sprite state entry.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d548"></span>D548</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d549"></span>D549</td>
+<td class="instruction">DJNZ <a href="D519.html#d535">Animate_Intro_Screen_Sprites_Loop</a></td>
+<td class="comment-1" rowspan="1">Repeat for the next sprite entry.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d54b"></span>D54B</td>
+<td class="instruction">LD A,($C531)</td>
+<td class="comment-1" rowspan="3">Decrement the animation frame counter.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d54e"></span>D54E</td>
+<td class="instruction">DEC A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d54f"></span>D54F</td>
+<td class="instruction">LD ($C531),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d552"></span>D552</td>
+<td class="instruction">CP $01</td>
+<td class="comment-1" rowspan="2">Return if the animation is still running.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d554"></span>D554</td>
+<td class="instruction">RET NZ</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="d555"></span>
+<div class="comments">
+<div class="paragraph">
+Final frame: draw the closing sprite with bright white and restart.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d555"></span>D555</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="3">Set the closing sprite attribute to bright white.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d556"></span>D556</td>
+<td class="instruction">LD B,$47</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d558"></span>D558</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d559"></span>D559</td>
+<td class="instruction">LD HL,$C4D3</td>
+<td class="comment-1" rowspan="2">Call <a href="D637.html">Draw_Entity_Sprite</a> using <a href="C4D3.html">Intro_Closing_Sprite</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d55c"></span>D55C</td>
+<td class="instruction">CALL <a href="D637.html">Draw_Entity_Sprite</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="d55f"></span>D55F</td>
+<td class="instruction">JP <a href="D519.html#d519">Animate_Intro_Screen_Sprites</a></td>
+<td class="comment-1" rowspan="1">Reinitialise the animation and restart.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="D50D.html">D50D</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#d519">Map</a></td>
+<td class="next">
+Next: <a href="D562.html">D562</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/54553.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

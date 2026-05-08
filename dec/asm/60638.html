@@ -33,41 +33,48 @@ Next: <a href="60646.html">60646</a>
 </td>
 </tr>
 </table>
-<div class="description">60638: Routine at ECDE</div>
+<div class="description">60638: Display Loop Delay</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="60360.html">60360</a> and <a href="60688.html">60688</a>.
+Used by the routines at <a href="60360.html">Display_High_Score_Entry_Screen</a> and <a href="60688.html">Save_Or_Load_High_Scores</a>.
+</div>
+<div class="paragraph">
+Busy-wait timing delay used by the attract mode and high score display loops. Each call resets <span class="register">B</span> to 0 and spins the inner busy-wait 256 times; <span class="register">C</span> controls the outer repetition count. Callers set <span class="register">C</span> to 100 before the call, giving 100 outer passes of 256 inner spins each.
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Display_Loop_Delay</td>
 <td class="address-2"><span id="60638"></span>60638</td>
 <td class="instruction">LD B,0</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Set the inner loop counter to 0 giving 256 busy-wait spins.</td>
 </tr>
 <tr>
+<td class="asm-label">Display_Loop_Delay_Inner</td>
 <td class="address-2"><span id="60640"></span>60640</td>
-<td class="instruction">DJNZ <a href="60638.html#60640">60640</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">DJNZ <a href="60638.html#60640">Display_Loop_Delay_Inner</a></td>
+<td class="comment-1" rowspan="1">Spin until the inner loop counter reaches zero.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60642"></span>60642</td>
 <td class="instruction">DEC C</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Decrement the outer pass count in <span class="register">C</span> and loop back to <a href="60638.html#60640">Display_Loop_Delay_Inner</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60643"></span>60643</td>
-<td class="instruction">JR NZ,<a href="60638.html#60640">60640</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR NZ,<a href="60638.html#60640">Display_Loop_Delay_Inner</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="60645"></span>60645</td>
 <td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Return.</td>
 </tr>
 </table>
 <table class="asm-navigation">

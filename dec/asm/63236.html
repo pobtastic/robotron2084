@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 63236</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="63226.html">63226</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#63236">Map</a></td>
+<td class="next">
+Next: <a href="63262.html">63262</a>
+</td>
+</tr>
+</table>
+<div class="description">63236: Read Control Kempston</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Control mode 2: reads Kempston joystick port 31 remaps the active-high bits to the game's active-low five-bit format.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Read_Control_Kempston</td>
+<td class="address-2"><span id="63236"></span>63236</td>
+<td class="instruction">IN A,(31)</td>
+<td class="comment-1" rowspan="1">Read the Kempston joystick port.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="63238"></span>63238</td>
+<td class="instruction">LD B,0</td>
+<td class="comment-1" rowspan="1">Zero the bit accumulator.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="63240"></span>63240</td>
+<td class="instruction">RRA</td>
+<td class="comment-1" rowspan="11">Shuffle the Kempston active-high direction and fire bits into the game's active-low format.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="63241"></span>63241</td>
+<td class="instruction">RR B</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="63243"></span>63243</td>
+<td class="instruction">RRA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="63244"></span>63244</td>
+<td class="instruction">RL B</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="63246"></span>63246</td>
+<td class="instruction">RL B</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="63248"></span>63248</td>
+<td class="instruction">RRA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="63249"></span>63249</td>
+<td class="instruction">RL B</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="63251"></span>63251</td>
+<td class="instruction">RRA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="63252"></span>63252</td>
+<td class="instruction">RL B</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="63254"></span>63254</td>
+<td class="instruction">RRA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="63255"></span>63255</td>
+<td class="instruction">RL B</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="63257"></span>63257</td>
+<td class="instruction">LD A,B</td>
+<td class="comment-1" rowspan="2">Transfer the remapped bits to <span class="register">A</span> and invert to active-low.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="63258"></span>63258</td>
+<td class="instruction">CPL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="63259"></span>63259</td>
+<td class="instruction">OR %11100000</td>
+<td class="comment-1" rowspan="1">Force the upper three bits high to match the inactive-key state.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="63261"></span>63261</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return to <a href="63192.html">Read_Control_Input_Return</a>.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="63226.html">63226</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#63236">Map</a></td>
+<td class="next">
+Next: <a href="63262.html">63262</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/F704.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

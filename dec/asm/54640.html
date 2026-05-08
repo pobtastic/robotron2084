@@ -33,186 +33,240 @@ Next: <a href="54705.html">54705</a>
 </td>
 </tr>
 </table>
-<div class="description">54640: Routine at D570</div>
+<div class="description">54640: Draw Playfield Border</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="51279.html">51279</a> and <a href="54039.html">RenderHUD</a>.
+Used by the routines at <a href="52532.html">Clear_Colour_Bar_Column</a> and <a href="54039.html">RenderHUD</a>.
+</div>
+<div class="paragraph">
+Draws the rectangular border surrounding the play area. If the units digit of *<a href="50184.html">WaveNumber</a> is 9 the routine returns without drawing. Otherwise it draws full-width horizontal strips at rows 14 and 15 (top edge) via <a href="54626.html">DrawPlayfieldBorderRow</a>, then for each row from 16 to 183 it OR-blits columns 6 7 248 and 249 (left and right edges), and finally draws full-width strips at rows 184 and 185 (bottom edge) via <a href="54626.html">DrawPlayfieldBorderRow</a>. Called from <a href="51279.html">Erase_Narrow_Entity_Sprite</a> and <a href="54039.html">RenderHUD</a>.
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="54640"></span>
+<div class="comments">
+<div class="paragraph">
+<table class="">
+<tr>
+<td class="" colspan="1" rowspan="1"><img alt="playfield-border" src="../../images/scr/playfield-border.png" /></td>
+</tr>
+</table>
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">DrawPlayfieldBorder</td>
 <td class="address-2"><span id="54640"></span>54640</td>
 <td class="instruction">LD A,(50184)</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">A</span>=*<a href="50184.html">WaveNumber</a> (BCD wave number).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54643"></span>54643</td>
-<td class="instruction">AND 15</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">AND %00001111</td>
+<td class="comment-1" rowspan="1">Keep the low decimal digit (AND 15).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54645"></span>54645</td>
 <td class="instruction">CP 9</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Return if the units digit is 9 (no border drawn).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54647"></span>54647</td>
 <td class="instruction">RET Z</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54648"></span>54648</td>
 <td class="instruction">LD L,14</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Call <a href="54626.html">DrawPlayfieldBorderRow</a> to draw the top-edge strip at row 14.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54650"></span>54650</td>
-<td class="instruction">CALL <a href="54626.html">54626</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="54626.html">DrawPlayfieldBorderRow</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54653"></span>54653</td>
 <td class="instruction">LD L,15</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Call <a href="54626.html">DrawPlayfieldBorderRow</a> to draw the top-edge strip at row 15.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54655"></span>54655</td>
-<td class="instruction">CALL <a href="54626.html">54626</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="54626.html">DrawPlayfieldBorderRow</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54658"></span>54658</td>
 <td class="instruction">LD L,16</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">L</span>=16 (top row of the framed block).</td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="54660"></span>
+<div class="comments">
+<div class="paragraph">
+Left and right edges: for each row 16 to 183 OR-blit columns 6 7 248 and 249 via <a href="36224.html">PlotCharacterCell_Draw</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">DrawPlayfieldBorder_SideColumns</td>
 <td class="address-2"><span id="54660"></span>54660</td>
 <td class="instruction">LD H,6</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">H</span>=6 (left inner column).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54662"></span>54662</td>
 <td class="instruction">PUSH HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Stash <span class="register">HL</span> on the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54663"></span>54663</td>
-<td class="instruction">CALL <a href="36224.html">36224</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="36224.html">PlotCharacterCell_Draw</a></td>
+<td class="comment-1" rowspan="1">Call <a href="36224.html">PlotCharacterCell_Draw</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54666"></span>54666</td>
 <td class="instruction">POP HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Restore <span class="register">HL</span> from the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54667"></span>54667</td>
 <td class="instruction">LD H,7</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">H</span>=7 (left inner column + 1).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54669"></span>54669</td>
 <td class="instruction">PUSH HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Stash <span class="register">HL</span> on the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54670"></span>54670</td>
-<td class="instruction">CALL <a href="36224.html">36224</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="36224.html">PlotCharacterCell_Draw</a></td>
+<td class="comment-1" rowspan="1">Call <a href="36224.html">PlotCharacterCell_Draw</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54673"></span>54673</td>
 <td class="instruction">POP HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Restore <span class="register">HL</span> from the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54674"></span>54674</td>
 <td class="instruction">LD H,248</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">H</span>=248 (right inner column).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54676"></span>54676</td>
 <td class="instruction">PUSH HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Stash <span class="register">HL</span> on the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54677"></span>54677</td>
-<td class="instruction">CALL <a href="36224.html">36224</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="36224.html">PlotCharacterCell_Draw</a></td>
+<td class="comment-1" rowspan="1">Call <a href="36224.html">PlotCharacterCell_Draw</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54680"></span>54680</td>
 <td class="instruction">POP HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Restore <span class="register">HL</span> from the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54681"></span>54681</td>
 <td class="instruction">LD H,249</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1"><span class="register">H</span>=249 (right inner column + 1).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54683"></span>54683</td>
 <td class="instruction">PUSH HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Stash <span class="register">HL</span> on the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54684"></span>54684</td>
-<td class="instruction">CALL <a href="36224.html">36224</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="36224.html">PlotCharacterCell_Draw</a></td>
+<td class="comment-1" rowspan="1">Call <a href="36224.html">PlotCharacterCell_Draw</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54687"></span>54687</td>
 <td class="instruction">POP HL</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Restore <span class="register">HL</span> from the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54688"></span>54688</td>
 <td class="instruction">INC L</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Increment <span class="register">L</span> (next row).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54689"></span>54689</td>
 <td class="instruction">LD A,L</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="3">Loop back to <a href="54640.html#54660">DrawPlayfieldBorder_SideColumns</a> until all rows are drawn.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54690"></span>54690</td>
 <td class="instruction">CP 184</td>
-<td class="comment-0" rowspan="1"></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54692"></span>54692</td>
-<td class="instruction">JR NZ,<a href="54640.html#54660">54660</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">JR NZ,<a href="54640.html#54660">DrawPlayfieldBorder_SideColumns</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54694"></span>54694</td>
 <td class="instruction">LD L,184</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Call <a href="54626.html">DrawPlayfieldBorderRow</a> to draw the bottom-edge strip at row 184.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54696"></span>54696</td>
-<td class="instruction">CALL <a href="54626.html">54626</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="54626.html">DrawPlayfieldBorderRow</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54699"></span>54699</td>
 <td class="instruction">LD L,185</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="2">Call <a href="54626.html">DrawPlayfieldBorderRow</a> to draw the bottom-edge strip at row 185.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54701"></span>54701</td>
-<td class="instruction">CALL <a href="54626.html">54626</a></td>
-<td class="comment-0" rowspan="1"></td>
+<td class="instruction">CALL <a href="54626.html">DrawPlayfieldBorderRow</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="54704"></span>54704</td>
 <td class="instruction">RET</td>
-<td class="comment-0" rowspan="1"></td>
+<td class="comment-1" rowspan="1">Return.</td>
 </tr>
 </table>
 <table class="asm-navigation">

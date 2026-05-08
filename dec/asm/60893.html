@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 60893</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="60842.html">60842</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#60893">Map</a></td>
+<td class="next">
+Next: <a href="60930.html">60930</a>
+</td>
+</tr>
+</table>
+<div class="description">60893: Adjust Name Entry Cursor</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="60360.html">Display_High_Score_Entry_Screen</a>.
+</div>
+<div class="paragraph">
+Adjusts the cursor within the name entry character field. Searches for the current character position in the table at <span class="register">IX</span> via <a href="60930.html">Search_Score_Entry_Table</a>; if found and within range, updates <span class="register">E</span>, writes INK:
+WHITE,
+PAPER:
+BLACK
+(BRIGHT)
+ to the new character's attribute cell on the 89 row directly, then updates the previous character's attribute. Simpler than <a href="60842.html">Adjust_Score_Field_Cursor</a> as it addresses the attribute row without calling <a href="60939.html">Calculate_Attr_Cell_Address</a>.
+</div>
+</div>
+<table class="input">
+<tr class="asm-input-header">
+<th colspan="2">Input</th>
+</tr>
+<tr>
+<td class="register">B</td>
+<td class="register-desc">Entry count for table search</td>
+</tr>
+<tr>
+<td class="register">C</td>
+<td class="register-desc">Cursor colour byte</td>
+</tr>
+<tr>
+<td class="register">D</td>
+<td class="register-desc">Cursor upper bound</td>
+</tr>
+<tr>
+<td class="register">E</td>
+<td class="register-desc">Current character position</td>
+</tr>
+<tr>
+<td class="register">IX</td>
+<td class="register-desc">Name entry character table</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Adjust_Name_Entry_Cursor</td>
+<td class="address-2"><span id="60893"></span>60893</td>
+<td class="instruction">PUSH IX</td>
+<td class="comment-1" rowspan="2">Copy the character table pointer from <span class="register">IX</span> to <span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60895"></span>60895</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60896"></span>60896</td>
+<td class="instruction">LD A,E</td>
+<td class="comment-1" rowspan="1">Load the current character position from <span class="register">E</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60897"></span>60897</td>
+<td class="instruction">PUSH BC</td>
+<td class="comment-1" rowspan="2">Stash the field count on the stack and search for the current position in the table via <a href="60930.html">Search_Score_Entry_Table</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60898"></span>60898</td>
+<td class="instruction">CALL <a href="60930.html">Search_Score_Entry_Table</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60901"></span>60901</td>
+<td class="instruction">POP BC</td>
+<td class="comment-1" rowspan="1">Restore the field count from the stack.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60902"></span>60902</td>
+<td class="instruction">RET NZ</td>
+<td class="comment-1" rowspan="1">Return if the current position is not found.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60903"></span>60903</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="3">Load the next character position from the table and check it against the upper bound in <span class="register">D</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60904"></span>60904</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60905"></span>60905</td>
+<td class="instruction">CP D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60906"></span>60906</td>
+<td class="instruction">RET Z</td>
+<td class="comment-1" rowspan="1">Return if the cursor is at its maximum.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60907"></span>60907</td>
+<td class="instruction">LD E,A</td>
+<td class="comment-1" rowspan="1">Update the character position in <span class="register">E</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60908"></span>60908</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="2">Advance and read the attribute column offset.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60909"></span>60909</td>
+<td class="instruction">LD L,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60910"></span>60910</td>
+<td class="instruction">LD H,89</td>
+<td class="comment-1" rowspan="2">Set the attribute row to 89 and write INK:
+WHITE,
+PAPER:
+BLACK
+(BRIGHT)
+ to highlight the new character position.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60912"></span>60912</td>
+<td class="instruction">LD (HL),71</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60914"></span>60914</td>
+<td class="instruction">PUSH IX</td>
+<td class="comment-1" rowspan="2">Reload the character table pointer from <span class="register">IX</span> to <span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60916"></span>60916</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60917"></span>60917</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Advance to the second table entry.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60918"></span>60918</td>
+<td class="instruction">LD A,D</td>
+<td class="comment-1" rowspan="2">Load the upper bound from <span class="register">D</span> and search for it in the table via <a href="60930.html">Search_Score_Entry_Table</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60919"></span>60919</td>
+<td class="instruction">CALL <a href="60930.html">Search_Score_Entry_Table</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60922"></span>60922</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="2">Advance and read the previous attribute column offset.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60923"></span>60923</td>
+<td class="instruction">LD L,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60924"></span>60924</td>
+<td class="instruction">LD H,89</td>
+<td class="comment-1" rowspan="2">Set the attribute row to 89 and write the cursor colour to the previous character position.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60926"></span>60926</td>
+<td class="instruction">LD (HL),C</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60927"></span>60927</td>
+<td class="instruction">LD D,E</td>
+<td class="comment-1" rowspan="1">Copy the updated character position from <span class="register">E</span> to <span class="register">D</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60928"></span>60928</td>
+<td class="instruction">XOR A</td>
+<td class="comment-1" rowspan="2">Clear <span class="register">A</span> and return to signal the character was updated.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="60929"></span>60929</td>
+<td class="instruction">RET</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="60842.html">60842</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#60893">Map</a></td>
+<td class="next">
+Next: <a href="60930.html">60930</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/EDDD.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

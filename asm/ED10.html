@@ -33,18 +33,22 @@ Next: <a href="ED71.html">ED71</a>
 </td>
 </tr>
 </table>
-<div class="description">ED10: Routine at ED10</div>
+<div class="description">ED10: Save Or Load High Scores</div>
 <table class="disassembly">
 <tr>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="EBC8.html">EBC8</a> and <a href="F4EC.html">F4EC</a>.
+Used by the routines at <a href="EBC8.html">Display_High_Score_Entry_Screen</a> and <a href="F4EC.html">Attract_Mode_Loop</a>.
+</div>
+<div class="paragraph">
+Checks whether J (save) or L (load) is held on keyboard row BF. On J, saves the 012D-byte score table from <a href="F1AB.html">Messaging_HighScoreName</a> to tape. On L, loads from tape into the buffer at <a href="6100.html">Entity_List_Base</a>; a successful load copies the buffer to the live score data and restarts the display. A failed load shows a tape error message — or a wrong-game warning if a Moon Patrol score table was detected — then waits for a keypress before returning.
 </div>
 </div>
 </td>
 </tr>
 <tr>
+<td class="asm-label">Save_Or_Load_High_Scores</td>
 <td class="address-2"><span id="ed10"></span>ED10</td>
 <td class="instruction">LD A,$BF</td>
 <td class="comment-1" rowspan="3">Read from the keyboard; <table class="default">
@@ -70,211 +74,289 @@ Used by the routines at <a href="EBC8.html">EBC8</a> and <a href="F4EC.html">F4E
 </table></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed12"></span>ED12</td>
 <td class="instruction">IN A,($FE)</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed14"></span>ED14</td>
 <td class="instruction">CPL</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed15"></span>ED15</td>
 <td class="instruction">AND %00001010</td>
-<td class="comment-1" rowspan="1">Keep only bits 1, 3.</td>
+<td class="comment-1" rowspan="1">Isolate the L (bit 1) and J (bit 3) keys.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed17"></span>ED17</td>
 <td class="instruction">RET Z</td>
-<td class="comment-1" rowspan="1">Return if ?? is equal to 00.</td>
+<td class="comment-1" rowspan="1">Return if neither tape key is pressed.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed18"></span>ED18</td>
 <td class="instruction">LD DE,$012D</td>
-<td class="comment-1" rowspan="1"><span class="register">DE</span>=012D.</td>
+<td class="comment-1" rowspan="1">Set the score table byte count to 012D.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed1b"></span>ED1B</td>
 <td class="instruction">BIT 1,A</td>
-<td class="comment-1" rowspan="1">Test bit 1 of <span class="register">A</span>.</td>
+<td class="comment-1" rowspan="1">Test whether the L key is held for a tape load.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed1d"></span>ED1D</td>
 <td class="instruction">LD A,$6B</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=6B.</td>
+<td class="comment-1" rowspan="2">Set the tape data type identifier to 6B and jump to <a href="ED10.html#ed2a">Load_High_Score_Table</a> if the L key is held.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed1f"></span>ED1F</td>
-<td class="instruction">JR NZ,<a href="ED10.html#ed2a">$ED2A</a></td>
-<td class="comment-1" rowspan="1">Jump to <a href="ED10.html#ed2a">ED2A</a> if ?? is not equal to 6B.</td>
+<td class="instruction">JR NZ,<a href="ED10.html#ed2a">Load_High_Score_Table</a></td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="ed21"></span>
+<div class="comments">
+<div class="paragraph">
+J key path: save the score table to tape.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed21"></span>ED21</td>
 <td class="instruction">LD IX,$F1AB</td>
-<td class="comment-1" rowspan="1"><span class="register">IX</span>=F1AB.</td>
+<td class="comment-1" rowspan="1">Point <span class="register">IX</span> to the score table at <a href="F1AB.html">Messaging_HighScoreName</a> for the tape save.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed25"></span>ED25</td>
 <td class="instruction">CALL $04C2</td>
-<td class="comment-1" rowspan="1">Call <a rel="noopener nofollow" href="https://skoolkid.github.io/rom/asm/04C2.html">SA_BYTES</a>.</td>
+<td class="comment-1" rowspan="1">Save 012D bytes to tape via SA_BYTES (04C2).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed28"></span>ED28</td>
 <td class="instruction">DI</td>
-<td class="comment-1" rowspan="1">Disable interrupts.</td>
+<td class="comment-1" rowspan="2">Disable interrupts and return.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed29"></span>ED29</td>
 <td class="instruction">RET</td>
-<td class="comment-1" rowspan="1">Return.</td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="ed2a"></span>
+<div class="comments">
+<div class="paragraph">
+L key path: load a score table from tape into the buffer at <a href="6100.html">Entity_List_Base</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Load_High_Score_Table</td>
 <td class="address-2"><span id="ed2a"></span>ED2A</td>
 <td class="instruction">SCF</td>
-<td class="comment-1" rowspan="1">Set the carry flag.</td>
+<td class="comment-1" rowspan="1">Set the carry flag to signal a data block load to LD_BYTES.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed2b"></span>ED2B</td>
 <td class="instruction">LD IX,$6100</td>
-<td class="comment-1" rowspan="1"><span class="register">IX</span>=<a href="6100.html">6100</a>.</td>
+<td class="comment-1" rowspan="1">Point <span class="register">IX</span> to the score reception buffer at <a href="6100.html">Entity_List_Base</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed2f"></span>ED2F</td>
 <td class="instruction">CALL $0556</td>
-<td class="comment-1" rowspan="1">Call <a href="https://skoolkit.ca/disassemblies/rom/hex/asm/0556.html">LD_BYTES</a>.</td>
+<td class="comment-1" rowspan="1">Load 012D bytes from tape via LD_BYTES (0556).</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed32"></span>ED32</td>
 <td class="instruction">POP DE</td>
 <td class="comment-1" rowspan="1">Restore <span class="register">DE</span> from the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed33"></span>ED33</td>
 <td class="instruction">DI</td>
 <td class="comment-1" rowspan="1">Disable interrupts.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed34"></span>ED34</td>
-<td class="instruction">JR C,<a href="ED10.html#ed63">$ED63</a></td>
-<td class="comment-1" rowspan="1">Jump to <a href="ED10.html#ed63">ED63</a> if ?? is less than 6B.</td>
+<td class="instruction">JR C,<a href="ED10.html#ed63">Install_Loaded_Score_Table</a></td>
+<td class="comment-1" rowspan="1">Jump to <a href="ED10.html#ed63">Install_Loaded_Score_Table</a> if the tape load succeeded.</td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="ed36"></span>
+<div class="comments">
+<div class="paragraph">
+Load failed: select the appropriate error message.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed36"></span>ED36</td>
 <td class="instruction">LD A,L</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=<span class="register">L</span>.</td>
+<td class="comment-1" rowspan="1">Read the tape data type marker returned by the load.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed37"></span>ED37</td>
 <td class="instruction">LD HL,$EFBC</td>
-<td class="comment-1" rowspan="1"><span class="register">HL</span>=EFBC.</td>
+<td class="comment-1" rowspan="1">Point <span class="register">HL</span> to the tape error message at <a href="EFBC.html">Messaging_TapeError</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed3a"></span>ED3A</td>
 <td class="instruction">CP $6C</td>
-<td class="comment-1" rowspan="2">Jump to <a href="ED10.html#ed41">ED41</a> if <span class="register">A</span> is not equal to 6C.</td>
+<td class="comment-1" rowspan="2">Jump to <a href="ED10.html#ed41">Show_Tape_Message</a> if the marker is not the Moon Patrol identifier 6C.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed3c"></span>ED3C</td>
-<td class="instruction">JR NZ,<a href="ED10.html#ed41">$ED41</a></td>
+<td class="instruction">JR NZ,<a href="ED10.html#ed41">Show_Tape_Message</a></td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed3e"></span>ED3E</td>
 <td class="instruction">LD HL,$EFDD</td>
-<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="EFDD.html">Messaging_HighScoreError</a>.</td>
+<td class="comment-1" rowspan="1">Select the wrong-game warning at <a href="EFDD.html">Messaging_HighScoreError</a>.</td>
 </tr>
 <tr>
+<td class="asm-label">Show_Tape_Message</td>
 <td class="address-2"><span id="ed41"></span>ED41</td>
 <td class="instruction">PUSH HL</td>
-<td class="comment-1" rowspan="1">Stash <span class="register">HL</span> on the stack.</td>
+<td class="comment-1" rowspan="1">Stash the message pointer on the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed42"></span>ED42</td>
 <td class="instruction">XOR A</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=00.</td>
+<td class="comment-1" rowspan="1">Clear <span class="register">A</span> to prepare for display reinitialisation.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed43"></span>ED43</td>
-<td class="instruction">CALL <a href="ECA4.html">$ECA4</a></td>
-<td class="comment-1" rowspan="1">Call <a href="ECA4.html">ECA4</a>.</td>
+<td class="instruction">CALL <a href="ECA4.html">Initialise_Display_And_Border</a></td>
+<td class="comment-1" rowspan="1">Reinitialise the display via <a href="ECA4.html">Initialise_Display_And_Border</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed46"></span>ED46</td>
-<td class="instruction">CALL <a href="F09D.html">$F09D</a></td>
-<td class="comment-1" rowspan="1">Call <a href="F09D.html">F09D</a>.</td>
+<td class="instruction">CALL <a href="F09D.html">Draw_Colour_Border</a></td>
+<td class="comment-1" rowspan="1">Call <a href="F09D.html">Draw_Colour_Border</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed49"></span>ED49</td>
-<td class="instruction">CALL <a href="F0EE.html">$F0EE</a></td>
-<td class="comment-1" rowspan="1">Call <a href="F0EE.html">F0EE</a>.</td>
+<td class="instruction">CALL <a href="F0EE.html">Cycle_Border_Colour</a></td>
+<td class="comment-1" rowspan="1">Call <a href="F0EE.html">Cycle_Border_Colour</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed4c"></span>ED4C</td>
 <td class="instruction">POP HL</td>
-<td class="comment-1" rowspan="1">Restore <span class="register">HL</span> from the stack.</td>
+<td class="comment-1" rowspan="1">Restore the message pointer from the stack.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed4d"></span>ED4D</td>
 <td class="instruction">CALL <a href="9006.html">PrintMessaging</a></td>
-<td class="comment-1" rowspan="1">Call <a href="9006.html">PrintMessaging</a>.</td>
+<td class="comment-1" rowspan="1">Print the tape status message via <a href="9006.html">PrintMessaging</a>.</td>
 </tr>
 <tr>
+<td class="asm-label">Tape_Message_Loop</td>
 <td class="address-2"><span id="ed50"></span>ED50</td>
 <td class="instruction">LD C,$64</td>
-<td class="comment-1" rowspan="1"><span class="register">C</span>=64.</td>
+<td class="comment-1" rowspan="1">Set the frame delay count to 64.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed52"></span>ED52</td>
-<td class="instruction">CALL <a href="ECDE.html">$ECDE</a></td>
-<td class="comment-1" rowspan="1">Call <a href="ECDE.html">ECDE</a>.</td>
+<td class="instruction">CALL <a href="ECDE.html">Display_Loop_Delay</a></td>
+<td class="comment-1" rowspan="1">Call <a href="ECDE.html">Display_Loop_Delay</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed55"></span>ED55</td>
-<td class="instruction">CALL <a href="ED7C.html">$ED7C</a></td>
-<td class="comment-1" rowspan="1">Call <a href="ED7C.html">ED7C</a>.</td>
+<td class="instruction">CALL <a href="ED7C.html">Scan_And_Cycle_Screen_Attributes</a></td>
+<td class="comment-1" rowspan="1">Call <a href="ED7C.html">Scan_And_Cycle_Screen_Attributes</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed58"></span>ED58</td>
-<td class="instruction">CALL <a href="F0EE.html">$F0EE</a></td>
-<td class="comment-1" rowspan="1">Call <a href="F0EE.html">F0EE</a>.</td>
+<td class="instruction">CALL <a href="F0EE.html">Cycle_Border_Colour</a></td>
+<td class="comment-1" rowspan="1">Call <a href="F0EE.html">Cycle_Border_Colour</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed5b"></span>ED5B</td>
 <td class="instruction">CALL <a href="ECE6.html">CheckBreakKey</a></td>
-<td class="comment-1" rowspan="1">Call <a href="ECE6.html">CheckBreakKey</a>.</td>
+<td class="comment-1" rowspan="1">Check the BREAK key via <a href="ECE6.html">CheckBreakKey</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed5e"></span>ED5E</td>
-<td class="instruction">CALL <a href="ED71.html">$ED71</a></td>
-<td class="comment-1" rowspan="1">Call <a href="ED71.html">ED71</a>.</td>
+<td class="instruction">CALL <a href="ED71.html">Check_Any_Key_During_Display</a></td>
+<td class="comment-1" rowspan="1">Abort if any key is pressed via <a href="ED71.html">Check_Any_Key_During_Display</a>.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed61"></span>ED61</td>
-<td class="instruction">JR <a href="ED10.html#ed50">$ED50</a></td>
-<td class="comment-1" rowspan="1">Jump to <a href="ED10.html#ed50">ED50</a>.</td>
+<td class="instruction">JR <a href="ED10.html#ed50">Tape_Message_Loop</a></td>
+<td class="comment-1" rowspan="1">Loop back to <a href="ED10.html#ed50">Tape_Message_Loop</a>.</td>
 </tr>
 <tr>
+<td class="routine-comment" colspan="5">
+<span id="ed63"></span>
+<div class="comments">
+<div class="paragraph">
+Load succeeded: copy the freshly loaded data from the tape reception buffer into the live score table.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Install_Loaded_Score_Table</td>
 <td class="address-2"><span id="ed63"></span>ED63</td>
 <td class="instruction">LD HL,$6100</td>
-<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="6100.html">6100</a>.</td>
+<td class="comment-1" rowspan="3">Set up the score table copy: source <a href="6100.html">Entity_List_Base</a>, destination <a href="F1AB.html">Messaging_HighScoreName</a>, length 012D bytes.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed66"></span>ED66</td>
 <td class="instruction">LD DE,$F1AB</td>
-<td class="comment-1" rowspan="1"><span class="register">DE</span>=F1AB.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed69"></span>ED69</td>
 <td class="instruction">LD BC,$012D</td>
-<td class="comment-1" rowspan="1"><span class="register">BC</span>=012D.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed6c"></span>ED6C</td>
 <td class="instruction">LDIR</td>
-<td class="comment-1" rowspan="1">LDIR.</td>
+<td class="comment-1" rowspan="1">Copy the loaded score table into the live high score data.</td>
 </tr>
 <tr>
+<td class="asm-label"></td>
 <td class="address-1"><span id="ed6e"></span>ED6E</td>
-<td class="instruction">JP <a href="EBC8.html#ec75">$EC75</a></td>
-<td class="comment-1" rowspan="1">Jump to <a href="EBC8.html#ec75">EC75</a>.</td>
+<td class="instruction">JP <a href="EBC8.html#ec75">High_Score_Display</a></td>
+<td class="comment-1" rowspan="1">Jump to <a href="EBC8.html#ec75">High_Score_Display</a> to restart the high score display.</td>
 </tr>
 </table>
 <table class="asm-navigation">
