@@ -1244,145 +1244,112 @@ B $C536,$01
 
 c $C544 Print Player Score
 @ $C544 label=PrintPlayerScore
-D $C544 Renders the active player score from packed BCD bytes at #R$C403,
-. terminated by #N$FF. Uses #R$8DCC with #N$16 (PRINT AT): row cursor in #REGc
-. starts from *#R$C414 and advances by #N$06 per digit row; column is #N$02.
-. High and low nibbles may each yield a digit; calls #R$C71F after each
-. completed score line. Used from #R$C84F and #R$D317.
+D $C544 Draws the player's score on screen from the packed BCD bytes at
+. #R$C403 (two decimal digits per byte), terminated by #N$FF. Each digit
+. occupies six screen rows; the display row starts at *#R$C414 and advances
+. by #N$06 per digit. All digits are printed at column #N$02 via #R$8DCC.
+. After the last digit the score display attributes are refreshed by #R$C71F.
+. Called from #R$C84F and #R$D317.
 @ $C54B label=PrintPlayerScore_NextByte
-  $C544,$04 #REGc=*#R$C414 (initial PRINT AT row for this score line).
-  $C548,$03 #REGhl=#R$C403 (first BCD byte of the score).
-  $C54B,$01 #REGa=*#REGhl (current BCD pair).
-  $C54C,$05 Jump to #R$C5A8 if the terminator was read.
-  $C551,$02,b$01 Mask the high BCD nibble (AND #N$F0).
-  $C553,$03 Jump to #R$C568 if the high nibble is non-zero (print both digits).
-  $C556,$04 Add #N$06 to the row cursor (skip an empty high digit row).
-  $C55A,$01 #REGa=*#REGhl (reload the BCD pair).
-  $C55B,$02,b$01 Mask the low BCD nibble (AND #N$0F).
-  $C55D,$03 Jump to #R$C597 if the low nibble is non-zero.
-  $C560,$04 Add #N$06 to the row cursor before the next byte.
+  $C544,$04 Load the initial display row for this score line into #REGc.
+  $C548,$03 Point #REGhl at the active player's BCD score at #R$C403.
+  $C54B,$01 Read the next byte from the BCD score string.
+  $C54C,$05 Jump to #R$C5A8 if all score digits have been printed (terminator
+. #N$FF).
+  $C551,$02,b$01 Isolate the tens digit (high BCD nibble).
+  $C553,$03 Jump to #R$C568 if the tens digit is non-zero.
+  $C556,$04 Advance the display row by #N$06 (skip the blank tens-digit row).
+  $C55A,$01 Reload the BCD byte to test the units digit.
+  $C55B,$02,b$01 Isolate the units digit (low BCD nibble).
+  $C55D,$03 Jump to #R$C597 if the units digit is non-zero.
+  $C560,$04 Advance the display row by #N$06 (skip the blank units-digit row).
   $C564,$01 Advance #REGhl to the next BCD byte.
-  $C565,$03 Jump back to #R$C54B.
+  $C565,$03 Jump back to #R$C54B to process the next BCD byte.
 @ $C568 label=PrintPlayerScore_HighNibble
-N $C568 High BCD nibble is non-zero; PRINT AT row #REGc, column #N$02, then emit
-. the high digit and continue through #R$C584 for the low nibble.
-  $C568,$02 #REGa=#N$16 (PRINT AT control code).
-  $C56A,$03 Call #R$8DCC.
-  $C56D,$01 #REGa=#REGc (PRINT AT row).
-  $C56E,$03 Call #R$8DCC.
-  $C571,$02 #REGa=#N$02 (PRINT AT column).
-  $C573,$03 Call #R$8DCC.
-  $C576,$01 #REGa=*#REGhl (BCD pair for digit extraction).
+N $C568 The tens digit is non-zero; position the score cursor and print both
+. digits of this BCD byte.
+  $C568,$0E Position the score cursor at row #REGc, column #N$02.
+  $C576,$01 Reload the BCD byte for digit extraction.
 @ $C577 label=PrintPlayerScore_NextDigitHigh
-  $C577,$02 Shift #REGa right (SRL).
-  $C579,$02 Shift #REGa right (SRL).
-  $C57B,$02 Shift #REGa right (SRL).
-  $C57D,$02 Shift #REGa right (SRL).
-  $C57F,$02,b$01 OR #N$30 to form ASCII (#N$30–#N$39).
-  $C581,$03 Call #R$8DCC to print the high digit.
+  $C577,$08 Shift #REGa right four places to extract the tens digit.
+  $C57F,$02,b$01 Convert the tens digit to its ASCII character code.
+  $C581,$03 Print the tens digit of this score byte.
 @ $C584 label=PrintPlayerScore_PrintLowNibble
-  $C584,$01 #REGa=*#REGhl.
-  $C585,$02,b$01 Mask the low nibble (AND #N$0F).
-  $C587,$02,b$01 OR #N$30 to form ASCII.
-  $C589,$03 Call #R$8DCC to print the low digit.
-  $C58C,$01 Advance #REGhl to the next BCD byte.
-  $C58D,$01 #REGa=*#REGhl.
-  $C58E,$05 Jump to #R$C577 if more BCD bytes follow (high digit path).
-  $C593,$03 Call #R$C71F (attribute band refresh for this score line).
+  $C584,$01 Reload the BCD byte for the units digit.
+  $C585,$02,b$01 Isolate the units digit (low BCD nibble).
+  $C587,$02,b$01 Convert the units digit to its ASCII character code.
+  $C589,$03 Print the units digit of this score byte.
+  $C58C,$02 Advance #REGhl and read the next BCD byte.
+  $C58E,$05 Jump back to #R$C577 if more score digits remain.
+  $C593,$03 Call #R$C71F to refresh the score display attributes.
   $C596,$01 Return.
 @ $C597 label=PrintPlayerScore_LowNibbleOnly
-N $C597 High nibble was #N$00 and the low nibble is non-zero; PRINT AT row
-. #REGc, column #N$02, then jump to #R$C584 to print the low digit only.
-  $C597,$02 #REGa=#N$16 (PRINT AT control code).
-  $C599,$03 Call #R$8DCC.
-  $C59C,$01 #REGa=#REGc (PRINT AT row).
-  $C59D,$03 Call #R$8DCC.
-  $C5A0,$02 #REGa=#N$02 (PRINT AT column).
-  $C5A2,$03 Call #R$8DCC.
-  $C5A5,$03 Jump to #R$C584 (low nibble only).
+N $C597 The tens digit is #N$00 but the units digit is non-zero; position
+. the score cursor, then jump to #R$C584 to print only the units digit.
+  $C597,$0E Position the score cursor at row #REGc, column #N$02.
+  $C5A5,$03 Jump to #R$C584 to print the units digit only.
 @ $C5A8 label=PrintPlayerScore_Terminator
-N $C5A8 Terminator #N$FF: PRINT AT row #REGc - #N$06, column #N$02, print
-. "#CHR$30" (#N$30), then refresh attributes with #R$C71F.
-  $C5A8,$02 #REGa=#N$16 (PRINT AT control code).
-  $C5AA,$03 Call #R$8DCC.
-  $C5AD,$01 #REGa=#REGc.
-  $C5AE,$02 Subtract #N$06 from #REGa (row one band higher than #REGc).
-  $C5B0,$03 Call #R$8DCC (PRINT AT row).
-  $C5B3,$02 #REGa=#N$02 (PRINT AT column).
-  $C5B5,$03 Call #R$8DCC.
-  $C5B8,$02 #REGa=#N$30 (ASCII zero for the unused high-digit position).
-  $C5BA,$03 Call #R$8DCC.
-  $C5BD,$03 Call #R$C71F.
+N $C5A8 All BCD bytes printed; place a trailing zero at the last digit row
+. (row #REGc - #N$06) and refresh the score display attributes.
+  $C5A8,$10 Position the score cursor at row #REGc - #N$06, column #N$02.
+  $C5B8,$05 Print a trailing zero (#N$30) at the final score digit position.
+  $C5BD,$03 Call #R$C71F to refresh the score display attributes.
   $C5C0,$01 Return.
 
 c $C5C1 Check Score Award Life
 @ $C5C1 label=CheckScoreAwardLife
-D $C5C1 Compares four bytes at #R$C403 with the template at #R$C418. Returns if
-. any player byte is below the matching template byte. Otherwise increments
-. *#R$C415, calls #R$C794, adds BCD #N$02 to *#R$C419 with carry into *#R$C415.
-. If *#R$C41C is non-zero, tests *#N$FFFF and keyboard port #N$FE, then RST
-. #N$08 (error code #N$FF); if *#R$C41C is #N$00, jumps to #R$C605. At #R$C605: pop
-. #REGde, #R$F5DA, #R$D24C. Used from #R$C84F.
-N $C5C1 Four successive byte compares: #REGde walks #R$C403, #REGhl walks
-. #R$C418.
-  $C5C1,$03 #REGde=#R$C403 (active player state).
-  $C5C4,$03 #REGhl=#R$C418 (four-byte comparison template).
-  $C5C7,$01 #REGa=*#REGde.
-  $C5C8,$01 Compare with the template byte *#REGhl.
-  $C5C9,$01 Return if the player byte is lower (carry set).
-  $C5CA,$01 Advance #REGhl.
-  $C5CB,$01 Advance #REGde.
-  $C5CC,$01 #REGa=*#REGde.
-  $C5CD,$01 Compare with *#REGhl.
-  $C5CE,$01 Return if the player byte is lower (carry set).
-  $C5CF,$01 Advance #REGhl.
-  $C5D0,$01 Advance #REGde.
-  $C5D1,$01 #REGa=*#REGde.
-  $C5D2,$01 Compare with *#REGhl.
-  $C5D3,$01 Return if the player byte is lower (carry set).
-  $C5D4,$01 Advance #REGhl.
-  $C5D5,$01 Advance #REGde.
-  $C5D6,$01 #REGa=*#REGde.
-  $C5D7,$01 Compare with *#REGhl.
-  $C5D8,$01 Return if the player byte is lower (carry set).
-  $C5D9,$03 #REGhl=#R$C415 (lives counter).
-  $C5DC,$01 Increment *#REGhl (award one life).
-  $C5DD,$03 Call #R$C794 (refresh life icons).
-  $C5E0,$03 #REGhl=#R$C419 (BCD field adjusted next).
-  $C5E3,$02 #REGa=#N$02 (BCD increment).
-  $C5E5,$01 Add into the low BCD byte *#REGhl.
-  $C5E6,$01 Decimal adjust #REGa (DAA).
-  $C5E7,$01 Write the low BCD byte back.
-  $C5E8,$01 Return if there was no BCD carry out of *#R$C419.
-  $C5E9,$01 Point #REGhl at *#R$C415 again.
-  $C5EA,$01 #REGa=*#REGhl.
-  $C5EB,$01 Increment the high BCD digit (lives tens).
-  $C5EC,$01 Decimal adjust #REGa (DAA).
-  $C5ED,$01 Write back *#R$C415.
+D $C5C1 Checks whether the player's score has reached the extra-life
+. threshold. Compares the four BCD score bytes at #R$C403 against the
+. threshold at #R$C418. Returns immediately if the score falls below the
+. threshold on any byte. When the threshold is reached, awards one extra
+. life, refreshes the life icons, and raises the threshold by BCD #N$02
+. ready for the next award. Called from #R$C84F.
+N $C5C1 Compare the four BCD score bytes against the extra-life threshold;
+. return if the score is below the threshold on any byte.
+  $C5C1,$03 Point #REGde at the player's BCD score at #R$C403.
+  $C5C4,$03 Point #REGhl at the extra-life threshold at #R$C418.
+  $C5C7,$03 Return if score byte 0 is below the extra-life threshold.
+  $C5CA,$02 Advance to the next score and threshold byte.
+  $C5CC,$03 Return if score byte 1 is below the extra-life threshold.
+  $C5CF,$02 Advance to the next score and threshold byte.
+  $C5D1,$03 Return if score byte 2 is below the extra-life threshold.
+  $C5D4,$02 Advance to the next score and threshold byte.
+  $C5D6,$03 Return if score byte 3 is below the extra-life threshold.
+  $C5D9,$03 Point #REGhl at the player's life counter at #R$C415.
+  $C5DC,$01 Award the player one extra life.
+  $C5DD,$03 Redraw the life icons display.
+N $C5E0 Raise the extra-life threshold by BCD #N$02, propagating carry
+. from #R$C419 into #R$C418 if needed.
+  $C5E0,$03 Point #REGhl at the extra-life threshold low byte at #R$C419.
+  $C5E3,$05 Add BCD #N$02 to the extra-life threshold low byte.
+  $C5E8,$01 Return if the threshold advanced without BCD carry.
+  $C5E9,$01 Step back to the extra-life threshold high byte at #R$C418.
+  $C5EA,$04 Apply BCD carry to the extra-life threshold high byte.
   $C5EE,$01 Return.
 @ $C5EF label=CheckScoreAwardLife_SessionGate
-N $C5EF When *#R$C41C is #N$00, skip to #R$C605 (no RAM / keyboard gate).
-. Otherwise tests *#N$FFFF and the keyboard before RST #N$08 (error code #N$FF).
-  $C5EF,$03 #REGa=*#R$C41C.
-  $C5F2,$04 Jump to #R$C605 if the session flag is #N$00.
-  $C5F6,$03 #REGa=*#N$FFFF (top of RAM; expected value #N$63 when check runs).
-  $C5F9,$03 Return if the value does not match.
+N $C5EF Copy-protection gate: if no enemies are active (#R$C41C is #N$00)
+. jump to #R$C605. Otherwise verify the RAM signature at *#N$FFFF and
+. test for an active SPACE keypress; if both match, trigger a fatal error.
+  $C5EF,$03 Read the active enemy count from #R$C41C.
+  $C5F2,$04 Jump to #R$C605 if no enemies are currently on screen.
+  $C5F6,$03 Read the RAM signature from *#N$FFFF.
+  $C5F9,$03 Return if the RAM signature is not #N$63.
   $C5FC,$04 Read from the keyboard;
 . #TABLE(default,centre,centre,centre,centre,centre,centre)
 . { =h,r2 Port Number | =h,c5 Bit }
 . { =h 0 | =h 1 | =h 2 | =h 3 | =h 4 }
 . { #N$7F | SPACE | FULL-STOP | M | N | B }
 . TABLE#
-  $C600,$01 Rotate #REGa right (test key bit).
-  $C601,$01 Return if the expected key is not pressed.
+  $C600,$02 Return if the SPACE key is not pressed.
   $C602,$01 Enable interrupts.
-  $C603,$01 RST #N$08 (Spectrum firmware / error vector at #N$0008).
+  $C603,$01 RST #N$08 (copy-protection error vector).
 B $C604,$01 Error code: #N$FF.
 @ $C605 label=CheckScoreAwardLife_Continue
-N $C605 Pops one stacked word, then runs the extra-life effect and wave logic.
-  $C605,$01 Pop #REGde from the stack (balance the path from #R$C84F).
-  $C606,$03 Call #R$F5DA (extra-life sound / setup).
-  $C609,$03 Jump to #R$D24C (wave / game-flow handling).
+N $C605 Restore the stacked register, trigger the extra-life reward, and
+. continue with wave handling.
+  $C605,$01 Restore #REGde (stacked by the caller).
+  $C606,$03 Trigger the extra-life award sound and effects.
+  $C609,$03 Continue with wave and game-flow handling.
 
 w $C60C Sprite Pixel Data Table
 @ $C60C label=Sprite_Pixel_Data_Table
