@@ -42,7 +42,7 @@ Next: <a href="C5C1.html">C5C1</a>
 Used by the routines at <a href="CD34.html">Clear_Colour_Bar_Column</a> and <a href="D317.html">RenderHUD</a>.
 </div>
 <div class="paragraph">
-Renders the active player score from packed BCD bytes at <a href="C403.html">Player_1_State</a>, terminated by FF. Uses <a href="8DCC.html">PrintDispatch</a> with 16 (PRINT AT): row cursor in <span class="register">C</span> starts from *<a href="C414.html">C414</a> and advances by 06 per digit row; column is 02. High and low nibbles may each yield a digit; calls <a href="C713.html#c71f">UpdateAttributeBar_FillBorder</a> after each completed score line. Used from <a href="C84F.html">Erase_Narrow_Entity_Sprite</a> and <a href="D317.html">RenderHUD</a>.
+Draws the player's score on screen from the packed BCD bytes at <a href="C403.html">Player_1_State</a> (two decimal digits per byte), terminated by FF. Each digit occupies six screen rows; the display row starts at *<a href="C414.html">C414</a> and advances by 06 per digit. All digits are printed at column 02 via <a href="8DCC.html">PrintDispatch</a>. After the last digit the score display attributes are refreshed by <a href="C713.html#c71f">UpdateAttributeBar_FillBorder</a>. Called from <a href="C84F.html">Erase_Narrow_Entity_Sprite</a> and <a href="D317.html">RenderHUD</a>.
 </div>
 </div>
 </td>
@@ -51,7 +51,7 @@ Renders the active player score from packed BCD bytes at <a href="C403.html">Pla
 <td class="asm-label">PrintPlayerScore</td>
 <td class="address-2"><span id="c544"></span>C544</td>
 <td class="instruction">LD A,($C414)</td>
-<td class="comment-1" rowspan="2"><span class="register">C</span>=*<a href="C414.html">C414</a> (initial PRINT AT row for this score line).</td>
+<td class="comment-1" rowspan="2">Load the initial display row for this score line into <span class="register">C</span>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -62,19 +62,19 @@ Renders the active player score from packed BCD bytes at <a href="C403.html">Pla
 <td class="asm-label"></td>
 <td class="address-1"><span id="c548"></span>C548</td>
 <td class="instruction">LD HL,$C403</td>
-<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="C403.html">Player_1_State</a> (first BCD byte of the score).</td>
+<td class="comment-1" rowspan="1">Point <span class="register">HL</span> at the active player's BCD score at <a href="C403.html">Player_1_State</a>.</td>
 </tr>
 <tr>
 <td class="asm-label">PrintPlayerScore_NextByte</td>
 <td class="address-2"><span id="c54b"></span>C54B</td>
 <td class="instruction">LD A,(HL)</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=*<span class="register">HL</span> (current BCD pair).</td>
+<td class="comment-1" rowspan="1">Read the next byte from the BCD score string.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c54c"></span>C54C</td>
 <td class="instruction">CP $FF</td>
-<td class="comment-1" rowspan="2">Jump to <a href="C544.html#c5a8">PrintPlayerScore_Terminator</a> if the terminator was read.</td>
+<td class="comment-1" rowspan="2">Jump to <a href="C544.html#c5a8">PrintPlayerScore_Terminator</a> if all score digits have been printed (terminator FF).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -85,19 +85,19 @@ Renders the active player score from packed BCD bytes at <a href="C403.html">Pla
 <td class="asm-label"></td>
 <td class="address-1"><span id="c551"></span>C551</td>
 <td class="instruction">AND %11110000</td>
-<td class="comment-1" rowspan="1">Mask the high BCD nibble (AND F0).</td>
+<td class="comment-1" rowspan="1">Isolate the tens digit (high BCD nibble).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c553"></span>C553</td>
 <td class="instruction">JP NZ,<a href="C544.html#c568">PrintPlayerScore_HighNibble</a></td>
-<td class="comment-1" rowspan="1">Jump to <a href="C544.html#c568">PrintPlayerScore_HighNibble</a> if the high nibble is non-zero (print both digits).</td>
+<td class="comment-1" rowspan="1">Jump to <a href="C544.html#c568">PrintPlayerScore_HighNibble</a> if the tens digit is non-zero.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c556"></span>C556</td>
 <td class="instruction">LD A,C</td>
-<td class="comment-1" rowspan="3">Add 06 to the row cursor (skip an empty high digit row).</td>
+<td class="comment-1" rowspan="3">Advance the display row by 06 (skip the blank tens-digit row).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -113,25 +113,25 @@ Renders the active player score from packed BCD bytes at <a href="C403.html">Pla
 <td class="asm-label"></td>
 <td class="address-1"><span id="c55a"></span>C55A</td>
 <td class="instruction">LD A,(HL)</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=*<span class="register">HL</span> (reload the BCD pair).</td>
+<td class="comment-1" rowspan="1">Reload the BCD byte to test the units digit.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c55b"></span>C55B</td>
 <td class="instruction">AND %00001111</td>
-<td class="comment-1" rowspan="1">Mask the low BCD nibble (AND 0F).</td>
+<td class="comment-1" rowspan="1">Isolate the units digit (low BCD nibble).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c55d"></span>C55D</td>
 <td class="instruction">JP NZ,<a href="C544.html#c597">PrintPlayerScore_LowNibbleOnly</a></td>
-<td class="comment-1" rowspan="1">Jump to <a href="C544.html#c597">PrintPlayerScore_LowNibbleOnly</a> if the low nibble is non-zero.</td>
+<td class="comment-1" rowspan="1">Jump to <a href="C544.html#c597">PrintPlayerScore_LowNibbleOnly</a> if the units digit is non-zero.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c560"></span>C560</td>
 <td class="instruction">LD A,C</td>
-<td class="comment-1" rowspan="3">Add 06 to the row cursor before the next byte.</td>
+<td class="comment-1" rowspan="3">Advance the display row by 06 (skip the blank units-digit row).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -153,14 +153,14 @@ Renders the active player score from packed BCD bytes at <a href="C403.html">Pla
 <td class="asm-label"></td>
 <td class="address-1"><span id="c565"></span>C565</td>
 <td class="instruction">JP <a href="C544.html#c54b">PrintPlayerScore_NextByte</a></td>
-<td class="comment-1" rowspan="1">Jump back to <a href="C544.html#c54b">PrintPlayerScore_NextByte</a>.</td>
+<td class="comment-1" rowspan="1">Jump back to <a href="C544.html#c54b">PrintPlayerScore_NextByte</a> to process the next BCD byte.</td>
 </tr>
 <tr>
 <td class="routine-comment" colspan="5">
 <span id="c568"></span>
 <div class="comments">
 <div class="paragraph">
-High BCD nibble is non-zero; PRINT AT row <span class="register">C</span>, column 02 then emit the high digit and continue through <a href="C544.html#c584">PrintPlayerScore_PrintLowNibble</a> for the low nibble.
+The tens digit is non-zero; position the score cursor and print both digits of this BCD byte.
 </div>
 </div>
 </td>
@@ -169,121 +169,112 @@ High BCD nibble is non-zero; PRINT AT row <span class="register">C</span>, colum
 <td class="asm-label">PrintPlayerScore_HighNibble</td>
 <td class="address-2"><span id="c568"></span>C568</td>
 <td class="instruction">LD A,$16</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=16 (PRINT AT control code).</td>
+<td class="comment-1" rowspan="6">Position the score cursor at row <span class="register">C</span>, column 02.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c56a"></span>C56A</td>
 <td class="instruction">CALL <a href="8DCC.html">PrintDispatch</a></td>
-<td class="comment-1" rowspan="1">Call <a href="8DCC.html">PrintDispatch</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c56d"></span>C56D</td>
 <td class="instruction">LD A,C</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=<span class="register">C</span> (PRINT AT row).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c56e"></span>C56E</td>
 <td class="instruction">CALL <a href="8DCC.html">PrintDispatch</a></td>
-<td class="comment-1" rowspan="1">Call <a href="8DCC.html">PrintDispatch</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c571"></span>C571</td>
 <td class="instruction">LD A,$02</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=02 (PRINT AT column).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c573"></span>C573</td>
 <td class="instruction">CALL <a href="8DCC.html">PrintDispatch</a></td>
-<td class="comment-1" rowspan="1">Call <a href="8DCC.html">PrintDispatch</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c576"></span>C576</td>
 <td class="instruction">LD A,(HL)</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=*<span class="register">HL</span> (BCD pair for digit extraction).</td>
+<td class="comment-1" rowspan="1">Reload the BCD byte for digit extraction.</td>
 </tr>
 <tr>
 <td class="asm-label">PrintPlayerScore_NextDigitHigh</td>
 <td class="address-2"><span id="c577"></span>C577</td>
 <td class="instruction">SRL A</td>
-<td class="comment-1" rowspan="1">Shift <span class="register">A</span> right (SRL).</td>
+<td class="comment-1" rowspan="4">Shift <span class="register">A</span> right four places to extract the tens digit.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c579"></span>C579</td>
 <td class="instruction">SRL A</td>
-<td class="comment-1" rowspan="1">Shift <span class="register">A</span> right (SRL).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c57b"></span>C57B</td>
 <td class="instruction">SRL A</td>
-<td class="comment-1" rowspan="1">Shift <span class="register">A</span> right (SRL).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c57d"></span>C57D</td>
 <td class="instruction">SRL A</td>
-<td class="comment-1" rowspan="1">Shift <span class="register">A</span> right (SRL).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c57f"></span>C57F</td>
 <td class="instruction">OR %00110000</td>
-<td class="comment-1" rowspan="1">OR 30 to form ASCII (30–39).</td>
+<td class="comment-1" rowspan="1">Convert the tens digit to its ASCII character code.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c581"></span>C581</td>
 <td class="instruction">CALL <a href="8DCC.html">PrintDispatch</a></td>
-<td class="comment-1" rowspan="1">Call <a href="8DCC.html">PrintDispatch</a> to print the high digit.</td>
+<td class="comment-1" rowspan="1">Print the tens digit of this score byte.</td>
 </tr>
 <tr>
 <td class="asm-label">PrintPlayerScore_PrintLowNibble</td>
 <td class="address-2"><span id="c584"></span>C584</td>
 <td class="instruction">LD A,(HL)</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=*<span class="register">HL</span>.</td>
+<td class="comment-1" rowspan="1">Reload the BCD byte for the units digit.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c585"></span>C585</td>
 <td class="instruction">AND %00001111</td>
-<td class="comment-1" rowspan="1">Mask the low nibble (AND 0F).</td>
+<td class="comment-1" rowspan="1">Isolate the units digit (low BCD nibble).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c587"></span>C587</td>
 <td class="instruction">OR %00110000</td>
-<td class="comment-1" rowspan="1">OR 30 to form ASCII.</td>
+<td class="comment-1" rowspan="1">Convert the units digit to its ASCII character code.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c589"></span>C589</td>
 <td class="instruction">CALL <a href="8DCC.html">PrintDispatch</a></td>
-<td class="comment-1" rowspan="1">Call <a href="8DCC.html">PrintDispatch</a> to print the low digit.</td>
+<td class="comment-1" rowspan="1">Print the units digit of this score byte.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c58c"></span>C58C</td>
 <td class="instruction">INC HL</td>
-<td class="comment-1" rowspan="1">Advance <span class="register">HL</span> to the next BCD byte.</td>
+<td class="comment-1" rowspan="2">Advance <span class="register">HL</span> and read the next BCD byte.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c58d"></span>C58D</td>
 <td class="instruction">LD A,(HL)</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=*<span class="register">HL</span>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c58e"></span>C58E</td>
 <td class="instruction">CP $FF</td>
-<td class="comment-1" rowspan="2">Jump to <a href="C544.html#c577">PrintPlayerScore_NextDigitHigh</a> if more BCD bytes follow (high digit path).</td>
+<td class="comment-1" rowspan="2">Jump back to <a href="C544.html#c577">PrintPlayerScore_NextDigitHigh</a> if more score digits remain.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -294,7 +285,7 @@ High BCD nibble is non-zero; PRINT AT row <span class="register">C</span>, colum
 <td class="asm-label"></td>
 <td class="address-1"><span id="c593"></span>C593</td>
 <td class="instruction">CALL <a href="C713.html#c71f">UpdateAttributeBar_FillBorder</a></td>
-<td class="comment-1" rowspan="1">Call <a href="C713.html#c71f">UpdateAttributeBar_FillBorder</a> (attribute band refresh for this score line).</td>
+<td class="comment-1" rowspan="1">Call <a href="C713.html#c71f">UpdateAttributeBar_FillBorder</a> to refresh the score display attributes.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -307,7 +298,7 @@ High BCD nibble is non-zero; PRINT AT row <span class="register">C</span>, colum
 <span id="c597"></span>
 <div class="comments">
 <div class="paragraph">
-High nibble was 00 and the low nibble is non-zero; PRINT AT row <span class="register">C</span>, column 02 then jump to <a href="C544.html#c584">PrintPlayerScore_PrintLowNibble</a> to print the low digit only.
+The tens digit is 00 but the units digit is non-zero; position the score cursor, then jump to <a href="C544.html#c584">PrintPlayerScore_PrintLowNibble</a> to print only the units digit.
 </div>
 </div>
 </td>
@@ -316,50 +307,45 @@ High nibble was 00 and the low nibble is non-zero; PRINT AT row <span class="reg
 <td class="asm-label">PrintPlayerScore_LowNibbleOnly</td>
 <td class="address-2"><span id="c597"></span>C597</td>
 <td class="instruction">LD A,$16</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=16 (PRINT AT control code).</td>
+<td class="comment-1" rowspan="6">Position the score cursor at row <span class="register">C</span>, column 02.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c599"></span>C599</td>
 <td class="instruction">CALL <a href="8DCC.html">PrintDispatch</a></td>
-<td class="comment-1" rowspan="1">Call <a href="8DCC.html">PrintDispatch</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c59c"></span>C59C</td>
 <td class="instruction">LD A,C</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=<span class="register">C</span> (PRINT AT row).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c59d"></span>C59D</td>
 <td class="instruction">CALL <a href="8DCC.html">PrintDispatch</a></td>
-<td class="comment-1" rowspan="1">Call <a href="8DCC.html">PrintDispatch</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c5a0"></span>C5A0</td>
 <td class="instruction">LD A,$02</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=02 (PRINT AT column).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c5a2"></span>C5A2</td>
 <td class="instruction">CALL <a href="8DCC.html">PrintDispatch</a></td>
-<td class="comment-1" rowspan="1">Call <a href="8DCC.html">PrintDispatch</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c5a5"></span>C5A5</td>
 <td class="instruction">JP <a href="C544.html#c584">PrintPlayerScore_PrintLowNibble</a></td>
-<td class="comment-1" rowspan="1">Jump to <a href="C544.html#c584">PrintPlayerScore_PrintLowNibble</a> (low nibble only).</td>
+<td class="comment-1" rowspan="1">Jump to <a href="C544.html#c584">PrintPlayerScore_PrintLowNibble</a> to print the units digit only.</td>
 </tr>
 <tr>
 <td class="routine-comment" colspan="5">
 <span id="c5a8"></span>
 <div class="comments">
 <div class="paragraph">
-Terminator FF: PRINT AT row <span class="register">C</span> - 06 column 02 print "&#48;" (30), then refresh attributes with <a href="C713.html#c71f">UpdateAttributeBar_FillBorder</a>.
+All BCD bytes printed; place a trailing zero at the last digit row (row <span class="register">C</span> - 06) and refresh the score display attributes.
 </div>
 </div>
 </td>
@@ -368,61 +354,54 @@ Terminator FF: PRINT AT row <span class="register">C</span> - 06 column 02 print
 <td class="asm-label">PrintPlayerScore_Terminator</td>
 <td class="address-2"><span id="c5a8"></span>C5A8</td>
 <td class="instruction">LD A,$16</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=16 (PRINT AT control code).</td>
+<td class="comment-1" rowspan="7">Position the score cursor at row <span class="register">C</span> - 06 column 02.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c5aa"></span>C5AA</td>
 <td class="instruction">CALL <a href="8DCC.html">PrintDispatch</a></td>
-<td class="comment-1" rowspan="1">Call <a href="8DCC.html">PrintDispatch</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c5ad"></span>C5AD</td>
 <td class="instruction">LD A,C</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=<span class="register">C</span>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c5ae"></span>C5AE</td>
 <td class="instruction">SUB $06</td>
-<td class="comment-1" rowspan="1">Subtract 06 from <span class="register">A</span> (row one band higher than <span class="register">C</span>).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c5b0"></span>C5B0</td>
 <td class="instruction">CALL <a href="8DCC.html">PrintDispatch</a></td>
-<td class="comment-1" rowspan="1">Call <a href="8DCC.html">PrintDispatch</a> (PRINT AT row).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c5b3"></span>C5B3</td>
 <td class="instruction">LD A,$02</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=02 (PRINT AT column).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c5b5"></span>C5B5</td>
 <td class="instruction">CALL <a href="8DCC.html">PrintDispatch</a></td>
-<td class="comment-1" rowspan="1">Call <a href="8DCC.html">PrintDispatch</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c5b8"></span>C5B8</td>
 <td class="instruction">LD A,$30</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=30 (ASCII zero for the unused high-digit position).</td>
+<td class="comment-1" rowspan="2">Print a trailing zero (30) at the final score digit position.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c5ba"></span>C5BA</td>
 <td class="instruction">CALL <a href="8DCC.html">PrintDispatch</a></td>
-<td class="comment-1" rowspan="1">Call <a href="8DCC.html">PrintDispatch</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c5bd"></span>C5BD</td>
 <td class="instruction">CALL <a href="C713.html#c71f">UpdateAttributeBar_FillBorder</a></td>
-<td class="comment-1" rowspan="1">Call <a href="C713.html#c71f">UpdateAttributeBar_FillBorder</a>.</td>
+<td class="comment-1" rowspan="1">Call <a href="C713.html#c71f">UpdateAttributeBar_FillBorder</a> to refresh the score display attributes.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>

@@ -42,7 +42,7 @@ Next: <a href="50700.html">50700</a>
 Used by the routine at <a href="52047.html">Main_Game_Loop</a>.
 </div>
 <div class="paragraph">
-Compares four bytes at <a href="50179.html">Player_1_State</a> with the template at <a href="50200.html">ExtraLifeCompare_b0</a>. Returns if any player byte is below the matching template byte. Otherwise increments *<a href="50197.html">Lives</a>, calls <a href="51092.html">DrawLivesDisplay</a>, adds BCD 2 to *<a href="50201.html">ExtraLifeCompare_b1</a> with carry into *<a href="50197.html">Lives</a>. If *<a href="50204.html">Active_Enemy_Count</a> is non-zero, tests *65535 and keyboard port 254 then RST 8 (error code 255); if *<a href="50204.html">Active_Enemy_Count</a> is 0 jumps to <a href="50625.html#50693">CheckScoreAwardLife_Continue</a>. At <a href="50625.html#50693">CheckScoreAwardLife_Continue</a>: pop <span class="register">DE</span>, <a href="62938.html">Extra_Life_Flash</a>, <a href="53836.html">Stage_Next_Wave</a>. Used from <a href="51279.html">Erase_Narrow_Entity_Sprite</a>.
+Checks whether the player's score has reached the extra-life threshold. Compares the four BCD score bytes at <a href="50179.html">Player_1_State</a> against the threshold at <a href="50200.html">ExtraLifeCompare_b0</a>. Returns immediately if the score falls below the threshold on any byte. When the threshold is reached, awards one extra life, refreshes the life icons, and raises the threshold by BCD 2 ready for the next award. Called from <a href="51279.html">Erase_Narrow_Entity_Sprite</a>.
 </div>
 </div>
 </td>
@@ -52,7 +52,7 @@ Compares four bytes at <a href="50179.html">Player_1_State</a> with the template
 <span id="50625"></span>
 <div class="comments">
 <div class="paragraph">
-Four successive byte compares: <span class="register">DE</span> walks <a href="50179.html">Player_1_State</a>, <span class="register">HL</span> walks <a href="50200.html">ExtraLifeCompare_b0</a>.
+Compare the four BCD score bytes against the extra-life threshold; return if the score is below the threshold on any byte.
 </div>
 </div>
 </td>
@@ -61,205 +61,198 @@ Four successive byte compares: <span class="register">DE</span> walks <a href="5
 <td class="asm-label">CheckScoreAwardLife</td>
 <td class="address-2"><span id="50625"></span>50625</td>
 <td class="instruction">LD DE,50179</td>
-<td class="comment-1" rowspan="1"><span class="register">DE</span>=<a href="50179.html">Player_1_State</a> (active player state).</td>
+<td class="comment-1" rowspan="1">Point <span class="register">DE</span> at the player's BCD score at <a href="50179.html">Player_1_State</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50628"></span>50628</td>
 <td class="instruction">LD HL,50200</td>
-<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="50200.html">ExtraLifeCompare_b0</a> (four-byte comparison template).</td>
+<td class="comment-1" rowspan="1">Point <span class="register">HL</span> at the extra-life threshold at <a href="50200.html">ExtraLifeCompare_b0</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50631"></span>50631</td>
 <td class="instruction">LD A,(DE)</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=*<span class="register">DE</span>.</td>
+<td class="comment-1" rowspan="3">Return if score byte 0 is below the extra-life threshold.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50632"></span>50632</td>
 <td class="instruction">CP (HL)</td>
-<td class="comment-1" rowspan="1">Compare with the template byte *<span class="register">HL</span>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50633"></span>50633</td>
 <td class="instruction">RET C</td>
-<td class="comment-1" rowspan="1">Return if the player byte is lower (carry set).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50634"></span>50634</td>
 <td class="instruction">INC HL</td>
-<td class="comment-1" rowspan="1">Advance <span class="register">HL</span>.</td>
+<td class="comment-1" rowspan="2">Advance to the next score and threshold byte.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50635"></span>50635</td>
 <td class="instruction">INC DE</td>
-<td class="comment-1" rowspan="1">Advance <span class="register">DE</span>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50636"></span>50636</td>
 <td class="instruction">LD A,(DE)</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=*<span class="register">DE</span>.</td>
+<td class="comment-1" rowspan="3">Return if score byte 1 is below the extra-life threshold.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50637"></span>50637</td>
 <td class="instruction">CP (HL)</td>
-<td class="comment-1" rowspan="1">Compare with *<span class="register">HL</span>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50638"></span>50638</td>
 <td class="instruction">RET C</td>
-<td class="comment-1" rowspan="1">Return if the player byte is lower (carry set).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50639"></span>50639</td>
 <td class="instruction">INC HL</td>
-<td class="comment-1" rowspan="1">Advance <span class="register">HL</span>.</td>
+<td class="comment-1" rowspan="2">Advance to the next score and threshold byte.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50640"></span>50640</td>
 <td class="instruction">INC DE</td>
-<td class="comment-1" rowspan="1">Advance <span class="register">DE</span>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50641"></span>50641</td>
 <td class="instruction">LD A,(DE)</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=*<span class="register">DE</span>.</td>
+<td class="comment-1" rowspan="3">Return if score byte 2 is below the extra-life threshold.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50642"></span>50642</td>
 <td class="instruction">CP (HL)</td>
-<td class="comment-1" rowspan="1">Compare with *<span class="register">HL</span>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50643"></span>50643</td>
 <td class="instruction">RET C</td>
-<td class="comment-1" rowspan="1">Return if the player byte is lower (carry set).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50644"></span>50644</td>
 <td class="instruction">INC HL</td>
-<td class="comment-1" rowspan="1">Advance <span class="register">HL</span>.</td>
+<td class="comment-1" rowspan="2">Advance to the next score and threshold byte.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50645"></span>50645</td>
 <td class="instruction">INC DE</td>
-<td class="comment-1" rowspan="1">Advance <span class="register">DE</span>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50646"></span>50646</td>
 <td class="instruction">LD A,(DE)</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=*<span class="register">DE</span>.</td>
+<td class="comment-1" rowspan="3">Return if score byte 3 is below the extra-life threshold.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50647"></span>50647</td>
 <td class="instruction">CP (HL)</td>
-<td class="comment-1" rowspan="1">Compare with *<span class="register">HL</span>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50648"></span>50648</td>
 <td class="instruction">RET C</td>
-<td class="comment-1" rowspan="1">Return if the player byte is lower (carry set).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50649"></span>50649</td>
 <td class="instruction">LD HL,50197</td>
-<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="50197.html">Lives</a> (lives counter).</td>
+<td class="comment-1" rowspan="1">Point <span class="register">HL</span> at the player's life counter at <a href="50197.html">Lives</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50652"></span>50652</td>
 <td class="instruction">INC (HL)</td>
-<td class="comment-1" rowspan="1">Increment *<span class="register">HL</span> (award one life).</td>
+<td class="comment-1" rowspan="1">Award the player one extra life.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50653"></span>50653</td>
 <td class="instruction">CALL <a href="51092.html">DrawLivesDisplay</a></td>
-<td class="comment-1" rowspan="1">Call <a href="51092.html">DrawLivesDisplay</a> (refresh life icons).</td>
+<td class="comment-1" rowspan="1">Redraw the life icons display.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="50656"></span>
+<div class="comments">
+<div class="paragraph">
+Raise the extra-life threshold by BCD 2 propagating carry from <a href="50201.html">ExtraLifeCompare_b1</a> into <a href="50200.html">ExtraLifeCompare_b0</a> if needed.
+</div>
+</div>
+</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50656"></span>50656</td>
 <td class="instruction">LD HL,50201</td>
-<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="50201.html">ExtraLifeCompare_b1</a> (BCD field adjusted next).</td>
+<td class="comment-1" rowspan="1">Point <span class="register">HL</span> at the extra-life threshold low byte at <a href="50201.html">ExtraLifeCompare_b1</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50659"></span>50659</td>
 <td class="instruction">LD A,2</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=2 (BCD increment).</td>
+<td class="comment-1" rowspan="4">Add BCD 2 to the extra-life threshold low byte.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50661"></span>50661</td>
 <td class="instruction">ADD A,(HL)</td>
-<td class="comment-1" rowspan="1">Add into the low BCD byte *<span class="register">HL</span>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50662"></span>50662</td>
 <td class="instruction">DAA</td>
-<td class="comment-1" rowspan="1">Decimal adjust <span class="register">A</span> (DAA).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50663"></span>50663</td>
 <td class="instruction">LD (HL),A</td>
-<td class="comment-1" rowspan="1">Write the low BCD byte back.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50664"></span>50664</td>
 <td class="instruction">RET NC</td>
-<td class="comment-1" rowspan="1">Return if there was no BCD carry out of *<a href="50201.html">ExtraLifeCompare_b1</a>.</td>
+<td class="comment-1" rowspan="1">Return if the threshold advanced without BCD carry.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50665"></span>50665</td>
 <td class="instruction">DEC HL</td>
-<td class="comment-1" rowspan="1">Point <span class="register">HL</span> at *<a href="50197.html">Lives</a> again.</td>
+<td class="comment-1" rowspan="1">Step back to the extra-life threshold high byte at <a href="50200.html">ExtraLifeCompare_b0</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50666"></span>50666</td>
 <td class="instruction">LD A,(HL)</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=*<span class="register">HL</span>.</td>
+<td class="comment-1" rowspan="4">Apply BCD carry to the extra-life threshold high byte.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50667"></span>50667</td>
 <td class="instruction">INC A</td>
-<td class="comment-1" rowspan="1">Increment the high BCD digit (lives tens).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50668"></span>50668</td>
 <td class="instruction">DAA</td>
-<td class="comment-1" rowspan="1">Decimal adjust <span class="register">A</span> (DAA).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50669"></span>50669</td>
 <td class="instruction">LD (HL),A</td>
-<td class="comment-1" rowspan="1">Write back *<a href="50197.html">Lives</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -275,7 +268,7 @@ Four successive byte compares: <span class="register">DE</span> walks <a href="5
 This entry point is used by the routine at <a href="52047.html">Main_Game_Loop</a>.
 </div>
 <div class="paragraph">
-When *<a href="50204.html">Active_Enemy_Count</a> is 0 skip to <a href="50625.html#50693">CheckScoreAwardLife_Continue</a> (no RAM / keyboard gate). Otherwise tests *65535 and the keyboard before RST 8 (error code 255).
+Copy-protection gate: if no enemies are active (<a href="50204.html">Active_Enemy_Count</a> is 0) jump to <a href="50625.html#50693">CheckScoreAwardLife_Continue</a>. Otherwise verify the RAM signature at *65535 and test for an active SPACE keypress; if both match, trigger a fatal error.
 </div>
 </div>
 </td>
@@ -284,13 +277,13 @@ When *<a href="50204.html">Active_Enemy_Count</a> is 0 skip to <a href="50625.ht
 <td class="asm-label">CheckScoreAwardLife_SessionGate</td>
 <td class="address-2"><span id="50671"></span>50671</td>
 <td class="instruction">LD A,(50204)</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=*<a href="50204.html">Active_Enemy_Count</a>.</td>
+<td class="comment-1" rowspan="1">Read the active enemy count from <a href="50204.html">Active_Enemy_Count</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50674"></span>50674</td>
 <td class="instruction">AND A</td>
-<td class="comment-1" rowspan="2">Jump to <a href="50625.html#50693">CheckScoreAwardLife_Continue</a> if the session flag is 0.</td>
+<td class="comment-1" rowspan="2">Jump to <a href="50625.html#50693">CheckScoreAwardLife_Continue</a> if no enemies are currently on screen.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -301,13 +294,13 @@ When *<a href="50204.html">Active_Enemy_Count</a> is 0 skip to <a href="50625.ht
 <td class="asm-label"></td>
 <td class="address-1"><span id="50678"></span>50678</td>
 <td class="instruction">LD A,(65535)</td>
-<td class="comment-1" rowspan="1"><span class="register">A</span>=*65535 (top of RAM; expected value 99 when check runs).</td>
+<td class="comment-1" rowspan="1">Read the RAM signature from *65535.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50681"></span>50681</td>
 <td class="instruction">CP 99</td>
-<td class="comment-1" rowspan="2">Return if the value does not match.</td>
+<td class="comment-1" rowspan="2">Return if the RAM signature is not 99.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -349,13 +342,12 @@ When *<a href="50204.html">Active_Enemy_Count</a> is 0 skip to <a href="50625.ht
 <td class="asm-label"></td>
 <td class="address-1"><span id="50688"></span>50688</td>
 <td class="instruction">RRCA</td>
-<td class="comment-1" rowspan="1">Rotate <span class="register">A</span> right (test key bit).</td>
+<td class="comment-1" rowspan="2">Return if the SPACE key is not pressed.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50689"></span>50689</td>
 <td class="instruction">RET C</td>
-<td class="comment-1" rowspan="1">Return if the expected key is not pressed.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -367,7 +359,7 @@ When *<a href="50204.html">Active_Enemy_Count</a> is 0 skip to <a href="50625.ht
 <td class="asm-label"></td>
 <td class="address-1"><span id="50691"></span>50691</td>
 <td class="instruction">RST 8</td>
-<td class="comment-1" rowspan="1">RST 8 (Spectrum firmware / error vector at 8).</td>
+<td class="comment-1" rowspan="1">RST 8 (copy-protection error vector).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -380,7 +372,7 @@ When *<a href="50204.html">Active_Enemy_Count</a> is 0 skip to <a href="50625.ht
 <span id="50693"></span>
 <div class="comments">
 <div class="paragraph">
-Pops one stacked word, then runs the extra-life effect and wave logic.
+Restore the stacked register, trigger the extra-life reward, and continue with wave handling.
 </div>
 </div>
 </td>
@@ -389,19 +381,19 @@ Pops one stacked word, then runs the extra-life effect and wave logic.
 <td class="asm-label">CheckScoreAwardLife_Continue</td>
 <td class="address-2"><span id="50693"></span>50693</td>
 <td class="instruction">POP DE</td>
-<td class="comment-1" rowspan="1">Pop <span class="register">DE</span> from the stack (balance the path from <a href="51279.html">Erase_Narrow_Entity_Sprite</a>).</td>
+<td class="comment-1" rowspan="1">Restore <span class="register">DE</span> (stacked by the caller).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50694"></span>50694</td>
 <td class="instruction">CALL <a href="62938.html">Extra_Life_Flash</a></td>
-<td class="comment-1" rowspan="1">Call <a href="62938.html">Extra_Life_Flash</a> (extra-life sound / setup).</td>
+<td class="comment-1" rowspan="1">Trigger the extra-life award sound and effects.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="50697"></span>50697</td>
 <td class="instruction">JP <a href="53836.html">Stage_Next_Wave</a></td>
-<td class="comment-1" rowspan="1">Jump to <a href="53836.html">Stage_Next_Wave</a> (wave / game-flow handling).</td>
+<td class="comment-1" rowspan="1">Continue with wave and game-flow handling.</td>
 </tr>
 </table>
 <table class="asm-navigation">
