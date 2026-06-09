@@ -24,6 +24,27 @@ D $6100 Base address of the entity list. #R$C509, #R$C50B, and #R$C50D are
 
 g $6D7D
 
+b $7145
+  $7145,$08 #UDGTABLE { #UDG(#PC) } TABLE#
+
+b $7178
+  $7178,$08 #UDGTABLE { #UDG(#PC) } TABLE#
+L $7178,$08,$09
+
+b $71C0
+  $71C0,$18,$02 #UDGTABLE
+.   { =h Frame: #N($01+(#PC-$71C0)/$18) }
+.   { #UDGARRAY$02,attr=$47,scale=$04,step=$02((#PC)-(#PC+$17)-$01-$10){$00,$00,$40,$2C}(skull-#EVAL($01+(#PC-$71C0)/$18)) }
+. TABLE#
+L $71C0,$18,$08,$02
+
+b $7280
+  $7280,$18,$02 #UDGTABLE
+.   { =h Frame: #N($01+(#PC-$7280)/$18) }
+.   { #UDGARRAY$02,attr=$47,scale=$04,step=$02((#PC)-(#PC+$17)-$01-$10){$00,$00,$40,$2C}(tteetstts-#EVAL($01+(#PC-$7280)/$18)) }
+. TABLE#
+L $7280,$18,$08,$02
+
 b $7500 Entity Sprite: Enforcer
 @ $7500 label=Graphics_Enforcer_Up
 D $7500 Wide entity sprite pixel data for the Enforcer. Eight frames of
@@ -52,6 +73,22 @@ L $7680,$18,$08,$02
 .   { #UDGARRAY$02,attr=$47,scale=$04,step=$02((#PC)-(#PC+$17)-$01-$10){$00,$00,$40,$2C}(enforcer-left-#EVAL($01+(#PC-$7740)/$18)) }
 . TABLE#
 L $7740,$18,$08,$02
+
+b $7800
+  $7800,$18,$02 #UDGTABLE
+.   { =h Frame: #N($01+(#PC-$7800)/$18) }
+.   { #UDGARRAY$02,attr=$47,scale=$04,step=$02((#PC)-(#PC+$17)-$01-$10)(efdffs-#EVAL($01+(#PC-$7800)/$18)) }
+. TABLE#
+L $7800,$18,$08,$02
+
+b $78C0
+
+b $7940
+  $7940,$18,$02 #UDGTABLE
+.   { =h Frame: #N($01+(#PC-$7940)/$18) }
+.   { #UDGARRAY$02,attr=$47,scale=$04,step=$02((#PC)-(#PC+$17)-$01-$10)(effff-#EVAL($01+(#PC-$7940)/$18)) }
+. TABLE#
+L $7940,$18,$08,$02
 
 b $7A00 Entity Sprite: Blank 1
 @ $7A00 label=Graphics_Blank1_Down
@@ -1216,6 +1253,13 @@ D $C52F Tracks the progress of the active entity state effect. #N$00 = no effect
 . #R$D9C4 and polled each frame by #R$D9E0 and #R$DA2A.
 B $C52F,$01
 
+g $C531 Wave Sprite Frame Counter
+@ $C531 label=Wave_Sprite_Frame_Counter
+D $C531 Frame counter for the wave start sprite animation. Initialised
+. to #N$0E by #R$D519 and decremented each frame by #R$D52A; when it
+. reaches zero the closing sprite is drawn and the animation restarts.
+B $C531,$01
+
 g $C532 Death Sequence Mode
 @ $C532 label=DeathSequenceMode
 D $C532 When #N$01, #R$D367 skips the intro HUD, "PLAYER" messaging and intro delay
@@ -1369,18 +1413,16 @@ B $C6AE,$20,$02
 
 c $C6CE Lookup Vector Table Entry
 @ $C6CE label=LookupVectorTableEntry
-D $C6CE Returns the word at index #REGa in #R$C60C: #REGhl = #R$C60C + (#REGa *
-. #N$02), little-endian word into #REGde. Valid range is #R$C60C through #N$C6CD
-. (last word starts at #R$C6CC). No direct CALL to #R$C6CE in this ROM.
-  $C6CE,$01 Double #REGa (word stride).
-  $C6CF,$03 #REGhl=#R$C60C (table base).
-  $C6D2,$02 #REGd=#N$00.
-  $C6D4,$01 #REGe=#REGa (word offset in #REGde).
-  $C6D5,$01 Add #REGde to #REGhl (pointer to the entry).
-  $C6D6,$01 #REGe=*#REGhl (low byte of the word).
-  $C6D7,$01 Advance #REGhl.
-  $C6D8,$01 #REGd=*#REGhl (high byte of the word).
-  $C6D9,$01 Return with the word in #REGde.
+D $C6CE Returns the sprite pixel data pointer for entity type #REGa from
+. the table at #R$C60C.
+R $C6CE A Entity type index
+R $C6CE O:DE Sprite pixel data pointer
+  $C6CE,$01 Double #REGa to form the word-stride index into #R$C60C.
+  $C6CF,$03 Point #REGhl at the sprite pixel data table at #R$C60C.
+  $C6D2,$03 Form the word offset in #REGde (#REGd=#N$00, #REGe=#REGa).
+  $C6D5,$01 Advance #REGhl to the sprite data entry.
+  $C6D6,$03 Load the sprite pixel data pointer into #REGde.
+  $C6D9,$01 Return.
 
 c $C6DA Hit Test: 8-Byte Bounds Pair
 @ $C6DA label=HitTestBounds8AtHL
@@ -1945,7 +1987,7 @@ c $CD13 Advance Entity Pointer
 D $CD13 Written into entity records as the per-frame handler once an entity
 . has been processed. Advances #REGhl by #N$0A bytes to step past the
 . current record and returns to the entity dispatcher.
-  $CD13,$04 Add #N$0A to #REGhl to step past the current entity record.
+  $CD13,$04 Add #N($000A,$04,$04) to #REGhl to step past the current entity record.
   $CD17,$01 Return to the entity dispatcher.
 
 c $CD18 Find Colliding Entity
@@ -1976,7 +2018,327 @@ N $CD38 For each row, point to the target column and zero seven pixel cells.
   $CD38,$04 Point to the colour bar column in the current pixel row.
   $CD3C,$0E Zero seven pixel cells at the column position.
   $CD4A,$03 Advance to the next pixel row and repeat until all six are cleared.
-  $CD4D,$03 Jump to #R$C544 to redraw the display column.
+  $CD4D,$03 Jump to #R$C544 to redraw the score display column.
+
+c $CD50 Handle Homing Enemy
+@ $CD50 label=Handle_Homing_Enemy
+D $CD50 Per-frame entity handler for a homing enemy. Each frame the
+. entity moves one step toward the player. If it catches another
+. entity it removes that entity from play, awards the player points,
+. and shows a floating score popup. If it reaches the player it
+. triggers the player death sequence.
+  $CD50,$03 Read the wave start delay from #R$C533.
+  $CD53,$04 Jump to #R$E0A8 if the wave has not started yet.
+  $CD57,$03 Generate a random movement delay value.
+  $CD5A,$02,b$01 Keep the low four bits (delay range #N$00–#N$0F).
+  $CD5C,$01 Increment to give a delay range of #N$01–#N$10.
+  $CD5D,$04 Stash the entity record pointer and load the delay into
+. #REGb.
+  $CD61,$03 Read the animation frame counter from #R$C51B(#N$C51C).
+  $CD64,$04 Skip movement this frame if the frame counter has not yet
+. reached the delay value.
+  $CD68,$04 Step past the handler address and erase the entity sprite.
+  $CD6C,$05 Restore the entity record pointer and advance to the
+. entity position bytes.
+N $CD71 Move the entity one step toward the player along both axes.
+  $CD71,$04 Compute the vertical distance from this entity to the
+. player.
+  $CD75,$07 Load the vertical movement speed and negate it if the
+. entity is above the player.
+@ $CD7C label=Handle_Homing_Enemy_Apply_Y
+  $CD7C,$03 Apply the vertical delta and step to the X position byte.
+  $CD7F,$04 Compute the horizontal distance from this entity to the
+. player.
+  $CD83,$07 Load the horizontal movement speed and negate it if the
+. entity is to the right of the player.
+@ $CD8A label=Handle_Homing_Enemy_Apply_X
+  $CD8A,$02 Apply the horizontal delta to the entity X position.
+  $CD8C,$02 Step back to the entity Y position.
+  $CD8E,$04 Set the draw colour to #N$46 in the shadow registers.
+  $CD92,$03 Redraw the entity sprite at its new position.
+  $CD95,$03 Restore the entity record pointer.
+@ $CD98 label=Handle_Homing_Enemy_Advance
+  $CD98,$02 Advance the entity record pointer by two bytes.
+  $CD9A,$06 Jump to #R$CDAD if this entity has caught another entity
+. in the list.
+  $CDA0,$04 Point to the player position data and switch to the
+. shadow registers.
+  $CDA4,$06 Trigger the player death sequence if this entity has
+. reached the player.
+  $CDAA,$03 Advance the entity pointer and return.
+@ $CDAD label=Handle_Homing_Enemy_Caught_Entity
+N $CDAD This entity has reached another entity; remove the caught
+. entity from play, award the player points, and display a floating
+. score popup.
+  $CDAD,$05 Step back six bytes to the start of the caught entity's
+. record.
+  $CDB2,$03 Save the caught entity's record pointer to #R$C4DA.
+  $CDB5,$03 Erase the caught entity's sprite.
+  $CDB8,$03 Remove the caught entity from the entity list.
+  $CDBB,$04 Decrement the active enemy count at #R$C41C.
+  $CDBF,$04 Decrement the wave entity kill counter.
+  $CDC3,$0C Install the score popup handler and update the entity
+. state in the shadow record.
+  $CDCF,$03 Step forward to the entity position byte.
+  $CDD2,$05 Erase the score popup sprite.
+  $CDD7,$01 Step to the entity Y position byte.
+  $CDD8,$04 Set the draw colour to #N$02 in the shadow registers.
+  $CDDC,$0F Clamp the score popup Y position within the play area.
+  $CDEB,$05 Draw the score popup sprite at the entity's position.
+  $CDF0,$04 Step forward to the player's BCD score bytes.
+N $CDF4 Award the player points for catching the entity; add the
+. point value to the BCD score with carry propagation through all
+. four score bytes.
+  $CDF4,$09 Add the enemy's point value to the least significant BCD
+. score byte.
+  $CDFD,$0B Propagate BCD carry from the lowest score byte into the
+. next score byte.
+  $CE08,$08 Propagate BCD carry through the second score byte.
+  $CE10,$05 Propagate BCD carry into the most significant score byte.
+  $CE15,$03 Refresh the score display column.
+  $CE18,$05 Initialise the score popup entity state via #R$D9C4.
+  $CE1D,$02 Restore the main register set and return.
+@ $CE1F label=Handle_Homing_Enemy_Float_Score
+N $CE1F Per-frame handler for the floating score popup; scrolls the
+. popup upward each frame until #N$0F frames have elapsed.
+  $CE1F,$04 Load the entity state byte into shadow #REGb'.
+  $CE23,$06 Draw the score popup sprite at the current entity
+. position.
+  $CE29,$06 Advance the animation frame and jump to #R$CE56 when the
+. score popup has completed.
+  $CE2F,$05 Update shadow #REGb' with the frame count and advance to
+. the entity Y position.
+  $CE34,$0D Select the vertical scroll speed based on the Y position.
+  $CE41,$08 Adjust the scroll speed for the upper boundary.
+@ $CE49 label=Handle_Homing_Enemy_Float_Score_Move
+  $CE49,$0B Apply the Y delta, redraw the score popup, and continue
+. at #R$E094.
+@ $CE54 label=Handle_Homing_Enemy_Float_Score_Done
+  $CE54,$02 Step back to the handler address field.
+@ $CE56 label=Handle_Homing_Enemy_Float_Score_Exit
+  $CE56,$09 Install #R$E02C as the score popup completion handler.
+  $CE5F,$03 Jump to #R$E02C to finalise the score popup.
+  $CE62,$02 Return.
+
+c $CE64 Apply Wave Border Colour
+@ $CE64 label=Apply_Wave_Border_Colour
+D $CE64 Reads the border colour byte from the wave definition at #REGhl,
+. stores it in #R$C42E, then redraws the playfield border and
+. refreshes the attribute colour bar. Called from #R$D24C.
+R $CE64 HL Pointer to the border colour byte in the wave definition
+  $CE64,$04 Read the new border colour and write it to #R$C42E.
+  $CE68,$01 Advance #REGhl to the next wave definition byte.
+  $CE69,$08 Redraw the playfield border and refresh the colour bar.
+  $CE71,$01 Return.
+
+c $CE72 Compute Entity Approach Position
+@ $CE72 label=Compute_Entity_Approach_Position
+D $CE72 Computes the approach position and frame index for an intro
+. entity. Entry at #R$CE9D skips the phase-5 scaling step. Both
+. entry points are called from #R$CB4F.
+  $CE72,$0A Skip the extended scaling step if the approach is not in
+. phase #N$05.
+  $CE7C,$1A Scale the approach velocity into the displacement byte.
+  $CE96,$06 Halve the displacement three times to normalise the scale.
+  $CE9C,$01 Transfer the normalised displacement to #REGa.
+@ $CE9D label=Compute_Entity_Approach_Position_Short
+  $CE9D,$0D Deinterleave the packed approach position bytes.
+  $CEAA,$0D Reassemble the screen position components via left rotation.
+  $CEB7,$01 Return.
+  $CEB8,$01 Return.
+
+c $CEB9 Animate Wave Start Sequence
+@ $CEB9 label=Animate_Wave_Start_Sequence
+D $CEB9 Wave start animation countdown. Each frame advances the intro
+. sprite animation, dispatches the entity list, and refreshes the
+. colour bar. When #R$C533 reaches zero, draws the closing sprite
+. and transfers to #R$CB6E.
+  $CEB9,$03 Advance the wave start sprite animation by one step.
+  $CEBC,$03 Point to the entity list at #R$6100.
+  $CEBF,$03 Run each entity's per-frame update handler.
+  $CEC2,$0A Decrement the wave start delay at #R$C533 and jump to
+. #R$CED2 when the countdown reaches zero.
+  $CECC,$03 Refresh the colour bar.
+  $CECF,$03 Loop back to #R$CEB9 for the next animation frame.
+@ $CED2 label=Animate_Wave_Start_Sequence_Complete
+N $CED2 Countdown expired; draw the closing intro sprite and transfer
+. to the main game loop.
+  $CED2,$03 Load the closing intro sprite.
+  $CED5,$04 Set the closing sprite draw colour.
+  $CED9,$03 Draw the closing intro sprite.
+  $CEDC,$03 Jump to the main game loop frame at #R$CB6E.
+
+c $CEDF Step Narrow Entity Approach
+@ $CEDF label=Step_Narrow_Entity_Approach
+D $CEDF Per-entity frame handler for an approaching narrow entity.
+. Advances the animation phase counter, moves the entity down by
+. six pixels per frame, and on the final frame installs #R$CD50
+. as the entity's new handler. Called from #R$CB4F.
+  $CEDF,$01 Step past the entity type byte.
+  $CEE0,$01 Copy the entity pointer to #REGde.
+  $CEE1,$0A Advance the animation phase counter by #N$0040.
+  $CEEB,$01 Copy the entity pointer back to #REGhl.
+  $CEEC,$05 Jump to #R$CF1F to wrap the approach at the screen
+. boundary.
+  $CEF1,$02 Jump to #R$CF2E if the entity's approach descent is
+. complete.
+  $CEF3,$04 Load the entity draw colour.
+  $CEF7,$05 Draw the entity sprite.
+  $CEFC,$05 Move the entity six pixels down the screen.
+  $CF01,$01 Step back within the entity record.
+  $CF02,$07 Skip spawning if this is not the final approach frame.
+  $CF09,$04 Switch to the entity arrival colour #COLOUR$46.
+  $CF0D,$05 Draw the entity's arrival frame.
+  $CF12,$08 Install #R$CD50 as the entity's new handler to begin
+. homing on the player.
+  $CF1A,$05 Advance nine bytes to the next entity record.
+@ $CF1F label=Step_Narrow_Entity_Approach_Wrap
+  $CF1F,$05 Reset the descent position to wrap the approach path.
+  $CF24,$02 Step back and prepare the draw colour.
+@ $CF26 label=Step_Narrow_Entity_Approach_Draw
+  $CF26,$03 Load the draw colour.
+  $CF29,$05 Draw the entity sprite.
+@ $CF2E label=Step_Narrow_Entity_Approach_Advance_Six
+  $CF2E,$03 Prepare to advance past this entity record.
+@ $CF31 label=Step_Narrow_Entity_Approach_Advance
+  $CF31,$02 Advance to the next entity record and return.
+
+c $CF33 Dispatch Narrow Entity Approach
+@ $CF33 label=Dispatch_Narrow_Entity_Approach
+D $CF33 Per-frame handler for approaching narrow entities. Decrements
+. #R$C536 and jumps to #R$CEB9 when zero; otherwise resets the
+. animation scroll position, dispatches the entity list, decrements
+. #R$C534, and returns to the main poll loop. Called from #R$CB4F.
+  $CF33,$06 Count down the approach animation; start the wave
+. sequence when complete.
+  $CF39,$09 Reset the approach scroll position for the current frame.
+  $CF42,$06 Run each entity's per-frame update handler.
+  $CF48,$03 Refresh the colour bar.
+  $CF4B,$07 Decrement the approach frame counter and return to the
+. main poll.
+
+c $CF52 Step Wide Entity Approach
+@ $CF52 label=Step_Wide_Entity_Approach
+D $CF52 Per-entity frame handler for an approaching wide entity.
+. Advances the scroll counter, moves the entity down by eight
+. pixels per frame, and on the final frame installs #R$E1B6 as
+. the entity's new handler. Called from #R$CB4F.
+  $CF52,$01 Copy the entity pointer to #REGde.
+  $CF53,$0A Advance the animation phase counter by #N$0040.
+  $CF5D,$01 Copy the entity pointer back to #REGhl.
+  $CF5E,$05 Jump to #R$CF90 to wrap the approach at the screen
+. boundary.
+  $CF63,$02 Jump to #R$CF9F if the entity's approach descent is
+. complete.
+  $CF65,$04 Load the entity draw colour.
+  $CF69,$05 Draw the entity sprite.
+  $CF6E,$05 Move the entity eight pixels down the screen.
+  $CF73,$01 Step back within the entity record.
+  $CF74,$07 Skip spawning if this is not the final approach frame.
+  $CF7B,$04 Switch to the entity arrival colour #COLOUR$44.
+  $CF7F,$05 Draw the entity's arrival frame.
+  $CF84,$07 Install #R$E1B6 as the entity handler to begin horizontal
+. movement.
+  $CF8B,$05 Advance eight bytes to the next entity record.
+@ $CF90 label=Step_Wide_Entity_Approach_Wrap
+  $CF90,$05 Reset the descent position to wrap the approach path.
+  $CF95,$02 Step back and prepare the draw colour.
+@ $CF97 label=Step_Wide_Entity_Approach_Draw
+  $CF97,$03 Load the draw colour.
+  $CF9A,$05 Draw the entity sprite.
+@ $CF9F label=Step_Wide_Entity_Approach_Advance_Six
+  $CF9F,$03 Prepare to advance past this entity record.
+@ $CFA2 label=Step_Wide_Entity_Approach_Advance
+  $CFA2,$02 Advance to the next entity record and return.
+
+c $CFA4 Paint Narrow Entity Attributes
+@ $CFA4 label=Paint_Narrow_Entity_Attributes
+D $CFA4 Paints the entity colour attribute across a two-cell-wide,
+. three-row region of the attribute area at the entity's screen
+. position. Uses #R$8C00 to resolve each pixel row to its attribute
+. address; the colour is read from shadow #REGb'. Called by #R$E003,
+. #R$E492 and #R$E520.
+R $CFA4 HL Entity state byte pointer (Y and X positions follow)
+  $CFA4,$05 Step to the entity Y position and load the attribute
+. colour base into #REGd.
+  $CFA9,$04 Shift the Y position left to form the row address table
+. index in #REGde.
+  $CFAD,$04 Rotate the X position right three places to derive the
+. attribute column.
+  $CFB1,$02,b$01 Keep the attribute column index.
+  $CFB3,$01 Store the column index in #REGc.
+  $CFB4,$04 Copy the entity colour attribute from shadow #REGb' into
+. #REGb.
+N $CFB8 Write the entity colour to two adjacent attribute cells in
+. each of three consecutive entity rows.
+  $CFB8,$07 Look up the first attribute row address and add the
+. column offset.
+  $CFBF,$04 Isolate the attribute page bits.
+  $CFC3,$02,b$01 Keep only the two attribute page bits.
+  $CFC5,$02,b$01 Combine with the attribute area base address.
+  $CFC7,$01 Store the computed attribute high byte.
+  $CFC8,$03 Write the entity colour to two adjacent attribute cells.
+  $CFCB,$0A Advance the row address pointer to the second entity row.
+  $CFD5,$07 Look up the second attribute row address and add the
+. column offset.
+  $CFDC,$04 Isolate the attribute page bits.
+  $CFE0,$02,b$01 Keep only the two attribute page bits.
+  $CFE2,$02,b$01 Combine with the attribute area base address.
+  $CFE4,$01 Store the computed attribute high byte.
+  $CFE5,$03 Write the entity colour to two adjacent attribute cells.
+  $CFE8,$0A Advance the row address pointer to the third entity row.
+  $CFF2,$06 Look up the third attribute row address and add the
+. column offset.
+  $CFF8,$03 Isolate the attribute page bits.
+  $CFFB,$02,b$01 Keep only the two attribute page bits.
+  $CFFD,$02,b$01 Combine with the attribute area base address.
+  $CFFF,$01 Store the computed attribute high byte.
+  $D000,$03 Write the entity colour to two adjacent attribute cells.
+  $D003,$01 Return.
+
+c $D004 Paint Wide Entity Attributes
+@ $D004 label=Paint_Wide_Entity_Attributes
+D $D004 Paints the entity colour attribute across a three-cell-wide,
+. three-row region of the attribute area at the entity's screen
+. position. Uses #R$8C00 to resolve each pixel row to its attribute
+. address; the colour is read from shadow #REGb'. Called by #R$E881.
+R $D004 HL Entity state byte pointer (Y and X positions follow)
+  $D004,$05 Step to the entity Y position and load the attribute
+. colour base into #REGd.
+  $D009,$04 Shift the Y position left to form the row address table
+. index in #REGde.
+  $D00D,$04 Rotate the X position right three places to derive the
+. attribute column.
+  $D011,$02,b$01 Keep the attribute column index.
+  $D013,$01 Store the column index in #REGc.
+  $D014,$04 Copy the entity colour attribute from shadow #REGb' into
+. #REGb.
+N $D018 Write the entity colour to three adjacent attribute cells in
+. each of three consecutive entity rows.
+  $D018,$07 Look up the first attribute row address and add the
+. column offset.
+  $D01F,$04 Isolate the attribute page bits.
+  $D023,$02,b$01 Keep only the two attribute page bits.
+  $D025,$02,b$01 Combine with the attribute area base address.
+  $D027,$01 Store the computed attribute high byte.
+  $D028,$05 Write the entity colour to three adjacent attribute cells.
+  $D02D,$0C Advance the row address pointer to the second entity row.
+  $D039,$07 Look up the second attribute row address and add the
+. column offset.
+  $D040,$04 Isolate the attribute page bits.
+  $D044,$02,b$01 Keep only the two attribute page bits.
+  $D046,$02,b$01 Combine with the attribute area base address.
+  $D048,$01 Store the computed attribute high byte.
+  $D049,$05 Write the entity colour to three adjacent attribute cells.
+  $D04E,$0E Advance the row address pointer to the third entity row.
+  $D05C,$06 Look up the third attribute row address and add the
+. column offset.
+  $D062,$03 Isolate the attribute page bits.
+  $D065,$02,b$01 Keep only the two attribute page bits.
+  $D067,$02,b$01 Combine with the attribute area base address.
+  $D069,$01 Store the computed attribute high byte.
+  $D06A,$05 Write the entity colour to three adjacent attribute cells.
+  $D06F,$01 Return.
 
 c $D070 Clear Screen Buffer
 @ $D070 label=ClearScreenBuffer
@@ -2563,25 +2925,28 @@ D $D50D Working copy of #R$D501 updated each frame by #R$D52A.
 . their velocity values.
 B $D50D,$0C,$04
 
-c $D519 Animate Intro Screen Sprites
-@ $D519 label=Animate_Intro_Screen_Sprites
-D $D519 Controls a three-sprite scrolling animation on the intro screen.
-. Entering at #R$D519 copies the sprite template to the working state
-. and sets the frame counter to #N$0E. Entering at #R$D52A runs one
-. frame: each sprite is rendered via #R$D794, its Y-position scrolled
-. down by #N$06 and X-position advanced by its velocity. After #N$0E
-. frames, a bright white closing sprite is drawn and the animation
-. restarts.
+c $D519 Initialise Wave Start Sprites
+@ $D519 label=Initialise_Wave_Start_Sprites
+D $D519 Copies the wave sprite template at #R$D501 to the working state
+. at #R$D50D and resets the animation frame counter to #N$0E. Called
+. once per wave from #R$CB4F before #R$D52A begins advancing frames.
   $D519,$09 Set up to copy the sprite template to the working state.
   $D522,$02 Copy the sprite template to the working sprite state.
   $D524,$05 Reset the animation frame counter to #N$0E.
   $D529,$01 Return.
-@ $D52A label=Animate_Intro_Screen_Sprites_Step
-  $D52A,$03 Point to the first sprite state entry.
-  $D52D,$02 Set the sprite entry loop counter.
-  $D52F,$03 Load the animation frame counter.
+
+c $D52A Animate Wave Start Sprites
+@ $D52A label=Animate_Wave_Start_Sprites
+D $D52A Advances the wave start sprite animation by one frame. Renders
+. each of the three sprite state entries via #R$D794, scrolls its
+. Y-position down by #N$06 pixels and advances its X-position by its
+. stored velocity. After #N$0E frames the closing sprite is drawn and
+. the animation restarts via #R$D519.
+  $D52A,$03 Point to the first sprite state entry in #R$D50D.
+  $D52D,$02 Set the sprite entry loop counter to #N$03.
+  $D52F,$03 Load #R$C531 into the animation frame counter.
   $D532,$03 Stash the frame counter in the shadow register.
-@ $D535 label=Animate_Intro_Screen_Sprites_Loop
+@ $D535 label=Animate_Wave_Start_Sprites_Loop
   $D535,$02 Stash the sprite state pointer and loop counter on the stack.
   $D537,$03 Render this sprite via #R$D794.
   $D53A,$02 Restore the loop counter and state pointer from the stack.
@@ -3510,7 +3875,7 @@ N $E1F0 Apply the directional delta from the table to the entity Y and X
   $E20B,$06 Step the delta pointer forward; apply the second delta to X;
 . validate X bounds.
   $E211,$0C Write the validated Y and X coordinates back to the entity record.
-  $E21D,$09 Stash the record pointer, set colour #N$44, spawn the entity via
+  $E21D,$09 Stash the record pointer, set colour #COLOUR$44, spawn the entity via
 . #R$C950, and restore the pointer.
   $E226,$01 Restore the entity record pointer.
   $E227,$03 Advance to the next entity record via #R$E094.
@@ -3718,7 +4083,7 @@ N $E3AB Update the entity velocity: apply the angular rate via #R$D1A8 to
 @ $E407 label=Process_Tracked_Enemy_Entity_Draw
   $E407,$09 Store the clamped X position and rebuild the spawn buffer via
 . #R$E31C.
-  $E410,$09 Set colour #N$42 in #REGb', draw the entity via #R$C950,
+  $E410,$09 Set colour #COLOUR$42 in #REGb', draw the entity via #R$C950,
 . and restore #REGhl.
 N $E419 Reload the entity list pointer from #R$C50F and advance it by
 . #N$0C bytes.
@@ -3744,7 +4109,7 @@ N $E43C Entity still has passes remaining: increment the animation counters,
 . #R$E520 handler.
   $E453,$0E Write the entity type (#N$1C), Y and X coordinates from the
 . current entity into the new cluster record.
-  $E461,$0A Stash #REGhl, set colour #N$45 in #REGb', draw the
+  $E461,$0A Stash #REGhl, set colour #COLOUR$45 in #REGb', draw the
 . entity colour slot via #R$D637, and restore #REGhl.
   $E46B,$24 Write the trailing record bytes, advance #REGhl, save the entity
 . list pointer, write the #N$D1A4 terminator, and jump to #R$E3AB.
@@ -3958,7 +4323,7 @@ D $E6F7 Per-frame entity handler for the slow player-tracking enemy. Tests
   $E793,$0E Apply the X nudge to the entity X position; clamp to #N$08-#N$EF
 . and write back.
 @ $E7A1 label=Process_Player_Tracking_Enemy_Draw
-  $E7A1,$0B Stash #REGhl, step back two bytes, set colour #N$45 in alternate
+  $E7A1,$0B Stash #REGhl, step back two bytes, set colour #COLOUR$45 in alternate
 . #REGb, draw the entity via #R$D637, restore #REGhl, and advance via
 . #R$E5B9.
 
@@ -3995,7 +4360,7 @@ D $E7CF Initialises the tracked-enemy active count at #N$C42D to zero, copies
 . call #R$E2C8 to generate a valid random screen position.
   $E80E,$0F Copy three bytes from the wave data at #N$C53B using LDD×4 and
 . apply the direction delta via #R$E346.
-  $E81D,$07 Set colour #N$42 in #REGb' and spawn the entity via
+  $E81D,$07 Set colour #COLOUR$42 in #REGb' and spawn the entity via
 . #R$C950.
   $E824,$16 Write three velocity seed bytes, initial deltas, and the #N$FF
 . record terminator; loop back to #R$E7EB for the next entity.
