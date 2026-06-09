@@ -39,7 +39,7 @@ Next: <a href="D620.html">D620</a>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="CCE9.html">Process_Enemy_Entity</a>, <a href="CD34.html">Clear_Colour_Bar_Column</a>, <a href="E974.html">Kill_Wall_Bouncing_Enemy</a> and <a href="EB07.html">Process_Final_Phase_Enemy_Entity</a>.
+Used by the routines at <a href="CCE9.html">Process_Enemy_Entity</a>, <a href="CD50.html">Handle_Homing_Enemy</a>, <a href="E974.html">Kill_Wall_Bouncing_Enemy</a> and <a href="EB07.html">Process_Final_Phase_Enemy_Entity</a>.
 </div>
 <div class="paragraph">
 Removes the entity whose record is pointed to by <a href="C4DA.html">Entity_Record_Pointer</a> from the entity list. Steps back to the start of the entity's 12-byte record, then block-copies all subsequent records down by 12 bytes via LDIR, closing the gap. The entity list end pointer at <a href="C4D1.html">Playfield_Entity_List_Pointer</a> is decremented by 12 to reflect the shorter list. Returns with <span class="register">HL</span> pointing to the record that now occupies the removed entity's slot.

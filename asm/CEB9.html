@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at CEB9</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="CE72.html">CE72</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#ceb9">Map</a></td>
+<td class="next">
+Next: <a href="CEDF.html">CEDF</a>
+</td>
+</tr>
+</table>
+<div class="description">CEB9: Animate Wave Start Sequence</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="CF33.html">Dispatch_Narrow_Entity_Approach</a>.
+</div>
+<div class="paragraph">
+Wave start animation countdown. Each frame advances the intro sprite animation, dispatches the entity list, and refreshes the colour bar. When <a href="C533.html">Wave_Start_Delay</a> reaches zero, draws the closing sprite and transfers to <a href="CB4F.html#cb6e">Main_Loop_Frame</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Animate_Wave_Start_Sequence</td>
+<td class="address-2"><span id="ceb9"></span>CEB9</td>
+<td class="instruction">CALL <a href="D52A.html">Animate_Wave_Start_Sprites</a></td>
+<td class="comment-1" rowspan="1">Advance the wave start sprite animation by one step.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cebc"></span>CEBC</td>
+<td class="instruction">LD HL,$6100</td>
+<td class="comment-1" rowspan="1">Point to the entity list at <a href="6100.html">Entity_List_Base</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cebf"></span>CEBF</td>
+<td class="instruction">CALL <a href="C702.html">DispatchWordFromHL</a></td>
+<td class="comment-1" rowspan="1">Run each entity's per-frame update handler.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cec2"></span>CEC2</td>
+<td class="instruction">LD A,($C533)</td>
+<td class="comment-1" rowspan="4">Decrement the wave start delay at <a href="C533.html">Wave_Start_Delay</a> and jump to <a href="CEB9.html#ced2">Animate_Wave_Start_Sequence_Complete</a> when the countdown reaches zero.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cec5"></span>CEC5</td>
+<td class="instruction">DEC A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cec6"></span>CEC6</td>
+<td class="instruction">LD ($C533),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cec9"></span>CEC9</td>
+<td class="instruction">JP Z,<a href="CEB9.html#ced2">Animate_Wave_Start_Sequence_Complete</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cecc"></span>CECC</td>
+<td class="instruction">CALL <a href="C713.html">UpdateAttributeBar</a></td>
+<td class="comment-1" rowspan="1">Refresh the colour bar.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cecf"></span>CECF</td>
+<td class="instruction">JP <a href="CEB9.html#ceb9">Animate_Wave_Start_Sequence</a></td>
+<td class="comment-1" rowspan="1">Loop back to <a href="CEB9.html">Animate_Wave_Start_Sequence</a> for the next animation frame.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="ced2"></span>
+<div class="comments">
+<div class="paragraph">
+Countdown expired; draw the closing intro sprite and transfer to the main game loop.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Animate_Wave_Start_Sequence_Complete</td>
+<td class="address-2"><span id="ced2"></span>CED2</td>
+<td class="instruction">LD HL,$C4D3</td>
+<td class="comment-1" rowspan="1">Load the closing intro sprite.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ced5"></span>CED5</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="3">Set the closing sprite draw colour.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ced6"></span>CED6</td>
+<td class="instruction">LD B,$47</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ced8"></span>CED8</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ced9"></span>CED9</td>
+<td class="instruction">CALL <a href="D637.html">Draw_Entity_Sprite</a></td>
+<td class="comment-1" rowspan="1">Draw the closing intro sprite.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cedc"></span>CEDC</td>
+<td class="instruction">JP <a href="CB4F.html#cb6e">Main_Loop_Frame</a></td>
+<td class="comment-1" rowspan="1">Jump to the main game loop frame at <a href="CB4F.html#cb6e">Main_Loop_Frame</a>.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="CE72.html">CE72</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#ceb9">Map</a></td>
+<td class="next">
+Next: <a href="CEDF.html">CEDF</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/52921.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 52921</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="52850.html">52850</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#52921">Map</a></td>
+<td class="next">
+Next: <a href="52959.html">52959</a>
+</td>
+</tr>
+</table>
+<div class="description">52921: Animate Wave Start Sequence</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="53043.html">Dispatch_Narrow_Entity_Approach</a>.
+</div>
+<div class="paragraph">
+Wave start animation countdown. Each frame advances the intro sprite animation, dispatches the entity list, and refreshes the colour bar. When <a href="50483.html">Wave_Start_Delay</a> reaches zero, draws the closing sprite and transfers to <a href="52047.html#52078">Main_Loop_Frame</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Animate_Wave_Start_Sequence</td>
+<td class="address-2"><span id="52921"></span>52921</td>
+<td class="instruction">CALL <a href="54570.html">Animate_Wave_Start_Sprites</a></td>
+<td class="comment-1" rowspan="1">Advance the wave start sprite animation by one step.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52924"></span>52924</td>
+<td class="instruction">LD HL,24832</td>
+<td class="comment-1" rowspan="1">Point to the entity list at <a href="24832.html">Entity_List_Base</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52927"></span>52927</td>
+<td class="instruction">CALL <a href="50946.html">DispatchWordFromHL</a></td>
+<td class="comment-1" rowspan="1">Run each entity's per-frame update handler.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52930"></span>52930</td>
+<td class="instruction">LD A,(50483)</td>
+<td class="comment-1" rowspan="4">Decrement the wave start delay at <a href="50483.html">Wave_Start_Delay</a> and jump to <a href="52921.html#52946">Animate_Wave_Start_Sequence_Complete</a> when the countdown reaches zero.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52933"></span>52933</td>
+<td class="instruction">DEC A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52934"></span>52934</td>
+<td class="instruction">LD (50483),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52937"></span>52937</td>
+<td class="instruction">JP Z,<a href="52921.html#52946">Animate_Wave_Start_Sequence_Complete</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52940"></span>52940</td>
+<td class="instruction">CALL <a href="50963.html">UpdateAttributeBar</a></td>
+<td class="comment-1" rowspan="1">Refresh the colour bar.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52943"></span>52943</td>
+<td class="instruction">JP <a href="52921.html#52921">Animate_Wave_Start_Sequence</a></td>
+<td class="comment-1" rowspan="1">Loop back to <a href="52921.html">Animate_Wave_Start_Sequence</a> for the next animation frame.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="52946"></span>
+<div class="comments">
+<div class="paragraph">
+Countdown expired; draw the closing intro sprite and transfer to the main game loop.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Animate_Wave_Start_Sequence_Complete</td>
+<td class="address-2"><span id="52946"></span>52946</td>
+<td class="instruction">LD HL,50387</td>
+<td class="comment-1" rowspan="1">Load the closing intro sprite.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52949"></span>52949</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="3">Set the closing sprite draw colour.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52950"></span>52950</td>
+<td class="instruction">LD B,71</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52952"></span>52952</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52953"></span>52953</td>
+<td class="instruction">CALL <a href="54839.html">Draw_Entity_Sprite</a></td>
+<td class="comment-1" rowspan="1">Draw the closing intro sprite.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52956"></span>52956</td>
+<td class="instruction">JP <a href="52047.html#52078">Main_Loop_Frame</a></td>
+<td class="comment-1" rowspan="1">Jump to the main game loop frame at <a href="52047.html#52078">Main_Loop_Frame</a>.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="52850.html">52850</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#52921">Map</a></td>
+<td class="next">
+Next: <a href="52959.html">52959</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/CEB9.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

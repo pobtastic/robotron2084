@@ -39,7 +39,7 @@ Next: <a href="E122.html">E122</a>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Processes one entity slot in the wave entity list. If the slot is active, the enemy's animation colours are updated on screen via <a href="CD34.html#cfa4">Clear_Colour_Bar_Column_26</a> and its animation counter decremented. If the counter expires the enemy is erased and the slot retired. If the slot holds spawn data (<a href="E003.html#e031">Process_Entity_Record_Inactive</a>), a new enemy position is found and the enemy is placed in the play area.
+Processes one entity slot in the wave entity list. If the slot is active, the enemy's animation colours are updated on screen via <a href="CFA4.html">Paint_Narrow_Entity_Attributes</a> and its animation counter decremented. If the counter expires the enemy is erased and the slot retired. If the slot holds spawn data (<a href="E003.html#e031">Process_Entity_Record_Inactive</a>), a new enemy position is found and the enemy is placed in the play area.
 </div>
 </div>
 <table class="input">
@@ -129,8 +129,8 @@ Update the enemy's on-screen colour then advance its animation counter. If the c
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="e013"></span>E013</td>
-<td class="instruction">CALL <a href="CD34.html#cfa4">Clear_Colour_Bar_Column_26</a></td>
-<td class="comment-1" rowspan="1">Call <a href="CD34.html#cfa4">Clear_Colour_Bar_Column_26</a> to colour the entity on screen.</td>
+<td class="instruction">CALL <a href="CFA4.html">Paint_Narrow_Entity_Attributes</a></td>
+<td class="comment-1" rowspan="1">Call <a href="CFA4.html">Paint_Narrow_Entity_Attributes</a> to colour the entity on screen.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -237,7 +237,7 @@ The animation counter has run down to zero: remove the enemy from the screen.
 <span id="e02c"></span>
 <div class="comments">
 <div class="paragraph">
-This entry point is used by the routines at <a href="CD34.html">Clear_Colour_Bar_Column</a> and <a href="E9CC.html">Animate_Wall_Bouncing_Enemy_Death</a>.
+This entry point is used by the routines at <a href="CD50.html">Handle_Homing_Enemy</a> and <a href="E9CC.html">Animate_Wall_Bouncing_Enemy_Death</a>.
 </div>
 </div>
 </td>
@@ -653,7 +653,7 @@ BLACK
 <span id="e094"></span>
 <div class="comments">
 <div class="paragraph">
-This entry point is used by the routines at <a href="CD34.html">Clear_Colour_Bar_Column</a>, <a href="E1B6.html">Handle_Horizontal_Enemy_Entity</a>, <a href="E9CC.html">Animate_Wall_Bouncing_Enemy_Death</a>, <a href="EA6E.html">Process_Replacement_Enemy_Entity</a> and <a href="EB07.html">Process_Final_Phase_Enemy_Entity</a>.
+This entry point is used by the routines at <a href="CD50.html">Handle_Homing_Enemy</a>, <a href="E1B6.html">Handle_Horizontal_Enemy_Entity</a>, <a href="E9CC.html">Animate_Wall_Bouncing_Enemy_Death</a>, <a href="EA6E.html">Process_Replacement_Enemy_Entity</a> and <a href="EB07.html">Process_Final_Phase_Enemy_Entity</a>.
 </div>
 </div>
 </td>
@@ -731,7 +731,7 @@ The enemy was placed successfully. Increment the scroll position counter before 
 <span id="e0a8"></span>
 <div class="comments">
 <div class="paragraph">
-This entry point is used by the routine at <a href="CD34.html">Clear_Colour_Bar_Column</a>.
+This entry point is used by the routine at <a href="CD50.html">Handle_Homing_Enemy</a>.
 </div>
 <div class="paragraph">
 Same as <a href="E003.html#e099">Process_Entity_Record_Counter_Up_Next6</a> but steps over a seven-byte record.

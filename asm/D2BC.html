@@ -39,7 +39,7 @@ Next: <a href="D30C.html">D30C</a>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="CCCE.html">Primary_Enemy_Entity_Handler</a>, <a href="CD34.html">Clear_Colour_Bar_Column</a>, <a href="E1B6.html">Handle_Horizontal_Enemy_Entity</a>, <a href="E360.html">Process_Tracked_Enemy_Entity</a>, <a href="E520.html">Process_Cluster_Entity</a>, <a href="E6F7.html">Process_Player_Tracking_Enemy</a>, <a href="E881.html">Process_Wall_Bouncing_Enemy</a> and <a href="EB07.html">Process_Final_Phase_Enemy_Entity</a>.
+Used by the routines at <a href="CCCE.html">Primary_Enemy_Entity_Handler</a>, <a href="CD50.html">Handle_Homing_Enemy</a>, <a href="E1B6.html">Handle_Horizontal_Enemy_Entity</a>, <a href="E360.html">Process_Tracked_Enemy_Entity</a>, <a href="E520.html">Process_Cluster_Entity</a>, <a href="E6F7.html">Process_Player_Tracking_Enemy</a>, <a href="E881.html">Process_Wall_Bouncing_Enemy</a> and <a href="EB07.html">Process_Final_Phase_Enemy_Entity</a>.
 </div>
 <div class="paragraph">
 Player-death transition. Strips the paper and bright bits from every attribute cell in the attribute area (5800–5AFF), keeping only the ink colour, then calls <a href="D2BC.html#d2d1">Fade_Screen</a> to fade the screen pixel data to black with a flashing border effect. On return, two levels of call stack are discarded via back-to-back POP <span class="register">DE</span>, aborting the current game-loop callers and returning to the outer death-handling code.

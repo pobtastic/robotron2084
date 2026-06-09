@@ -39,7 +39,7 @@ Next: <a href="E4A7.html">E4A7</a>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Entity handler that drives a per-entity colour timer. Each frame it decrements the timer byte; if still non-zero, extracts the animation frame index from the low 3 bits and calls <a href="CD34.html#cfa4">Clear_Colour_Bar_Column_26</a> to refresh the entity's attribute colours, then advances the entity pointer by 0B bytes via <a href="E492.html#e4a2">Tick_Entity_Colour_Timer_Advance</a>. When the timer reaches zero, falls through to <a href="E4A7.html">Retire_Expired_Entity</a> to erase and retire the entity. Written into entity records by <a href="E4B9.html">Kill_Tracked_Enemy_Entity</a>.
+Entity handler that drives a per-entity colour timer. Each frame it decrements the timer byte; if still non-zero, extracts the animation frame index from the low 3 bits and calls <a href="CFA4.html">Paint_Narrow_Entity_Attributes</a> to refresh the entity's attribute colours, then advances the entity pointer by 0B bytes via <a href="E492.html#e4a2">Tick_Entity_Colour_Timer_Advance</a>. When the timer reaches zero, falls through to <a href="E4A7.html">Retire_Expired_Entity</a> to erase and retire the entity. Written into entity records by <a href="E4B9.html">Kill_Tracked_Enemy_Entity</a>.
 </div>
 </div>
 </td>
@@ -48,7 +48,7 @@ Entity handler that drives a per-entity colour timer. Each frame it decrements t
 <td class="asm-label">Tick_Entity_Colour_Timer</td>
 <td class="address-2"><span id="e492"></span>E492</td>
 <td class="instruction">DEC (HL)</td>
-<td class="comment-1" rowspan="11">Decrement the entity timer; if still live, extract the low 3 bits as the animation frame index and refresh the entity's attribute colours via <a href="CD34.html#cfa4">Clear_Colour_Bar_Column_26</a>.</td>
+<td class="comment-1" rowspan="11">Decrement the entity timer; if still live, extract the low 3 bits as the animation frame index and refresh the entity's attribute colours via <a href="CFA4.html">Paint_Narrow_Entity_Attributes</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -93,7 +93,7 @@ Entity handler that drives a per-entity colour timer. Each frame it decrements t
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="e49e"></span>E49E</td>
-<td class="instruction">CALL <a href="CD34.html#cfa4">Clear_Colour_Bar_Column_26</a></td>
+<td class="instruction">CALL <a href="CFA4.html">Paint_Narrow_Entity_Attributes</a></td>
 </tr>
 <tr>
 <td class="asm-label"></td>

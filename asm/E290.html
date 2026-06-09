@@ -42,7 +42,7 @@ Next: <a href="E2C8.html">E2C8</a>
 Used by the routine at <a href="D24C.html">Stage_Next_Wave</a>.
 </div>
 <div class="paragraph">
-Entry point called from <a href="D24C.html">Stage_Next_Wave</a>. Reads the horizontal enemy spawn count from *<span class="register">HL</span> and stores it at C42B; if zero, returns immediately. Otherwise loops <span class="register">B</span> times, writing a full entity record into the entity list: the <a href="CD34.html#cf52">CF52</a> handler address, a random entity type in the range 34-37 a valid random screen position via <a href="E2C8.html">Pick_Random_Spawn_Position_Y</a>, and trailing bytes 0E 0D FF. Saves the updated entity list pointer to *<a href="C509.html">Entity_List_Write_Pointer</a> and writes the D1A4 list terminator.
+Entry point called from <a href="D24C.html">Stage_Next_Wave</a>. Reads the horizontal enemy spawn count from *<span class="register">HL</span> and stores it at C42B; if zero, returns immediately. Otherwise loops <span class="register">B</span> times, writing a full entity record into the entity list: the <a href="CF52.html">Step_Wide_Entity_Approach</a> handler address, a random entity type in the range 34-37 a valid random screen position via <a href="E2C8.html">Pick_Random_Spawn_Position_Y</a>, and trailing bytes 0E 0D FF. Saves the updated entity list pointer to *<a href="C509.html">Entity_List_Write_Pointer</a> and writes the D1A4 list terminator.
 </div>
 </div>
 </td>
@@ -95,7 +95,7 @@ Entry point called from <a href="D24C.html">Stage_Next_Wave</a>. Reads the horiz
 <td class="asm-label">Spawn_Horizontal_Wave_Enemies_Record</td>
 <td class="address-2"><span id="e29c"></span>E29C</td>
 <td class="instruction">LD DE,$CF52</td>
-<td class="comment-1" rowspan="4">Write the <a href="CD34.html#cf52">CF52</a> entity handler as a little-endian word.</td>
+<td class="comment-1" rowspan="4">Write the <a href="CF52.html">Step_Wide_Entity_Approach</a> entity handler as a little-endian word.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>

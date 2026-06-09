@@ -39,7 +39,7 @@ Next: <a href="55748.html">55748</a>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="52532.html">Clear_Colour_Bar_Column</a> and <a href="54553.html">Animate_Intro_Screen_Sprites</a>.
+Used by the routines at <a href="52560.html">Handle_Homing_Enemy</a>, <a href="52959.html">Step_Narrow_Entity_Approach</a> and <a href="54570.html">Animate_Wave_Start_Sprites</a>.
 </div>
 <div class="paragraph">
 Draws a 2-byte-wide, 12-row entity sprite to the screen by toggling each row's pixel data against the existing screen content. Reads the sprite type and screen position from the entity record, looks up the pixel data address in <a href="50700.html">Sprite_Pixel_Data_Table</a>, then renders twelve rows of two bytes each. Each row is bounds-checked against the play area (16 top / 185 bottom); rows outside the play area are skipped. Alternate registers carry the Y position and column offset across all twelve rows.

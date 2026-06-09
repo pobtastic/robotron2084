@@ -39,64 +39,79 @@ Next: <a href="C6DA.html">C6DA</a>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Returns the word at index <span class="register">A</span> in <a href="C60C.html">Sprite_Pixel_Data_Table</a>: <span class="register">HL</span> = <a href="C60C.html">Sprite_Pixel_Data_Table</a> + (<span class="register">A</span> * 02), little-endian word into <span class="register">DE</span>. Valid range is <a href="C60C.html">Sprite_Pixel_Data_Table</a> through C6CD (last word starts at <a href="C6AE.html#c6cc">C6CC</a>). No direct CALL to <a href="C6CE.html">LookupVectorTableEntry</a> in this ROM.
+Returns the sprite pixel data pointer for entity type <span class="register">A</span> from the table at <a href="C60C.html">Sprite_Pixel_Data_Table</a>.
 </div>
 </div>
+<table class="input">
+<tr class="asm-input-header">
+<th colspan="2">Input</th>
+</tr>
+<tr>
+<td class="register">A</td>
+<td class="register-desc">Entity type index</td>
+</tr>
+</table>
+<table class="output">
+<tr class="asm-output-header">
+<th colspan="2">Output</th>
+</tr>
+<tr>
+<td class="register">DE</td>
+<td class="register-desc">Sprite pixel data pointer</td>
+</tr>
+</table>
 </td>
 </tr>
 <tr>
 <td class="asm-label">LookupVectorTableEntry</td>
 <td class="address-2"><span id="c6ce"></span>C6CE</td>
 <td class="instruction">ADD A,A</td>
-<td class="comment-1" rowspan="1">Double <span class="register">A</span> (word stride).</td>
+<td class="comment-1" rowspan="1">Double <span class="register">A</span> to form the word-stride index into <a href="C60C.html">Sprite_Pixel_Data_Table</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c6cf"></span>C6CF</td>
 <td class="instruction">LD HL,$C60C</td>
-<td class="comment-1" rowspan="1"><span class="register">HL</span>=<a href="C60C.html">Sprite_Pixel_Data_Table</a> (table base).</td>
+<td class="comment-1" rowspan="1">Point <span class="register">HL</span> at the sprite pixel data table at <a href="C60C.html">Sprite_Pixel_Data_Table</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c6d2"></span>C6D2</td>
 <td class="instruction">LD D,$00</td>
-<td class="comment-1" rowspan="1"><span class="register">D</span>=00.</td>
+<td class="comment-1" rowspan="2">Form the word offset in <span class="register">DE</span> (<span class="register">D</span>=00 <span class="register">E</span>=<span class="register">A</span>).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c6d4"></span>C6D4</td>
 <td class="instruction">LD E,A</td>
-<td class="comment-1" rowspan="1"><span class="register">E</span>=<span class="register">A</span> (word offset in <span class="register">DE</span>).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c6d5"></span>C6D5</td>
 <td class="instruction">ADD HL,DE</td>
-<td class="comment-1" rowspan="1">Add <span class="register">DE</span> to <span class="register">HL</span> (pointer to the entry).</td>
+<td class="comment-1" rowspan="1">Advance <span class="register">HL</span> to the sprite data entry.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c6d6"></span>C6D6</td>
 <td class="instruction">LD E,(HL)</td>
-<td class="comment-1" rowspan="1"><span class="register">E</span>=*<span class="register">HL</span> (low byte of the word).</td>
+<td class="comment-1" rowspan="3">Load the sprite pixel data pointer into <span class="register">DE</span>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c6d7"></span>C6D7</td>
 <td class="instruction">INC HL</td>
-<td class="comment-1" rowspan="1">Advance <span class="register">HL</span>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c6d8"></span>C6D8</td>
 <td class="instruction">LD D,(HL)</td>
-<td class="comment-1" rowspan="1"><span class="register">D</span>=*<span class="register">HL</span> (high byte of the word).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="c6d9"></span>C6D9</td>
 <td class="instruction">RET</td>
-<td class="comment-1" rowspan="1">Return with the word in <span class="register">DE</span>.</td>
+<td class="comment-1" rowspan="1">Return.</td>
 </tr>
 </table>
 <table class="asm-navigation">

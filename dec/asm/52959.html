@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 52959</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="52921.html">52921</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#52959">Map</a></td>
+<td class="next">
+Next: <a href="53043.html">53043</a>
+</td>
+</tr>
+</table>
+<div class="description">52959: Step Narrow Entity Approach</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Per-entity frame handler for an approaching narrow entity. Advances the animation phase counter, moves the entity down by six pixels per frame, and on the final frame installs <a href="52560.html">Handle_Homing_Enemy</a> as the entity's new handler. Called from <a href="52047.html">Main_Game_Loop</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Step_Narrow_Entity_Approach</td>
+<td class="address-2"><span id="52959"></span>52959</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Step past the entity type byte.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52960"></span>52960</td>
+<td class="instruction">EX DE,HL</td>
+<td class="comment-1" rowspan="1">Copy the entity pointer to <span class="register">DE</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52961"></span>52961</td>
+<td class="instruction">LD HL,(50485)</td>
+<td class="comment-1" rowspan="4">Advance the animation phase counter by 64.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52964"></span>52964</td>
+<td class="instruction">LD BC,64</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52967"></span>52967</td>
+<td class="instruction">ADD HL,BC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52968"></span>52968</td>
+<td class="instruction">LD (50485),HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52971"></span>52971</td>
+<td class="instruction">EX DE,HL</td>
+<td class="comment-1" rowspan="1">Copy the entity pointer back to <span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52972"></span>52972</td>
+<td class="instruction">LD A,D</td>
+<td class="comment-1" rowspan="3">Jump to <a href="52959.html#53023">Step_Narrow_Entity_Approach_Wrap</a> to wrap the approach at the screen boundary.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52973"></span>52973</td>
+<td class="instruction">CP 15</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52975"></span>52975</td>
+<td class="instruction">JR Z,<a href="52959.html#53023">Step_Narrow_Entity_Approach_Wrap</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52977"></span>52977</td>
+<td class="instruction">JR NC,<a href="52959.html#53038">Step_Narrow_Entity_Approach_Advance_Six</a></td>
+<td class="comment-1" rowspan="1">Jump to <a href="52959.html#53038">Step_Narrow_Entity_Approach_Advance_Six</a> if the entity's approach descent is complete.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52979"></span>52979</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="4">Load the entity draw colour.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52980"></span>52980</td>
+<td class="instruction">LD B,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52981"></span>52981</td>
+<td class="instruction">INC B</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52982"></span>52982</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52983"></span>52983</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="3">Draw the entity sprite.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52984"></span>52984</td>
+<td class="instruction">CALL <a href="55188.html">Draw_Clipped_Wide_Sprite</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52987"></span>52987</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52988"></span>52988</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="4">Move the entity six pixels down the screen.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52989"></span>52989</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52990"></span>52990</td>
+<td class="instruction">ADD A,6</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52992"></span>52992</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52993"></span>52993</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="1">Step back within the entity record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52994"></span>52994</td>
+<td class="instruction">LD A,(50486)</td>
+<td class="comment-1" rowspan="3">Skip spawning if this is not the final approach frame.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52997"></span>52997</td>
+<td class="instruction">CP 1</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52999"></span>52999</td>
+<td class="instruction">JR NZ,<a href="52959.html#53030">Step_Narrow_Entity_Approach_Draw</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53001"></span>53001</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="3">Switch to the entity arrival colour INK:
+YELLOW,
+PAPER:
+BLACK
+(BRIGHT)
+.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53002"></span>53002</td>
+<td class="instruction">LD B,70</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53004"></span>53004</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53005"></span>53005</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="3">Draw the entity's arrival frame.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53006"></span>53006</td>
+<td class="instruction">CALL <a href="54839.html">Draw_Entity_Sprite</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53009"></span>53009</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53010"></span>53010</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="6">Install <a href="52560.html">Handle_Homing_Enemy</a> as the entity's new handler to begin homing on the player.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53011"></span>53011</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53012"></span>53012</td>
+<td class="instruction">LD DE,52560</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53015"></span>53015</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53016"></span>53016</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53017"></span>53017</td>
+<td class="instruction">LD (HL),E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53018"></span>53018</td>
+<td class="instruction">LD DE,9</td>
+<td class="comment-1" rowspan="2">Advance nine bytes to the next entity record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53021"></span>53021</td>
+<td class="instruction">JR <a href="52959.html#53041">Step_Narrow_Entity_Approach_Advance</a></td>
+</tr>
+<tr>
+<td class="asm-label">Step_Narrow_Entity_Approach_Wrap</td>
+<td class="address-2"><span id="53023"></span>53023</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="4">Reset the descent position to wrap the approach path.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53024"></span>53024</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53025"></span>53025</td>
+<td class="instruction">SUB 84</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53027"></span>53027</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53028"></span>53028</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="2">Step back and prepare the draw colour.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53029"></span>53029</td>
+<td class="instruction">LD A,D</td>
+</tr>
+<tr>
+<td class="asm-label">Step_Narrow_Entity_Approach_Draw</td>
+<td class="address-2"><span id="53030"></span>53030</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="3">Load the draw colour.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53031"></span>53031</td>
+<td class="instruction">LD B,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53032"></span>53032</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53033"></span>53033</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="3">Draw the entity sprite.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53034"></span>53034</td>
+<td class="instruction">CALL <a href="55188.html">Draw_Clipped_Wide_Sprite</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53037"></span>53037</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label">Step_Narrow_Entity_Approach_Advance_Six</td>
+<td class="address-2"><span id="53038"></span>53038</td>
+<td class="instruction">LD DE,6</td>
+<td class="comment-1" rowspan="1">Prepare to advance past this entity record.</td>
+</tr>
+<tr>
+<td class="asm-label">Step_Narrow_Entity_Approach_Advance</td>
+<td class="address-2"><span id="53041"></span>53041</td>
+<td class="instruction">ADD HL,DE</td>
+<td class="comment-1" rowspan="2">Advance to the next entity record and return.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="53042"></span>53042</td>
+<td class="instruction">RET</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="52921.html">52921</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#52959">Map</a></td>
+<td class="next">
+Next: <a href="53043.html">53043</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/CEDF.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

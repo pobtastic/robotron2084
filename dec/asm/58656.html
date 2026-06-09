@@ -39,7 +39,7 @@ Next: <a href="59060.html">59060</a>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Per-frame entity handler for the cluster entities spawned when a tracked wave enemy promotes. Advances three bytes to a countdown timer, decrements it, and redraws the entity via <a href="52532.html#53156">Clear_Colour_Bar_Column_26</a> while the timer is still running. When the timer reaches zero, calls <a href="54832.html">Erase_Entity_Sprite</a> to erase the entity sprite. If the animation pass counter (two bytes back) is also exhausted, detaches the entity and scores; otherwise increments the pass counter, redraws via <a href="54839.html">Draw_Entity_Sprite</a>, sets the animation delay to 4 and jumps to <a href="58514.html#58530">Tick_Entity_Colour_Timer_Advance</a>. On further passes the handler transitions to <a href="58656.html#58733">Process_Cluster_Entity_Homing</a>, which searches for player contact via <a href="52504.html">Find_Colliding_Entity</a> and triggers a kill via <a href="59127.html">Process_Player_Tracking_Enemy</a> if found, or else applies directional movement toward the player and draws via <a href="51286.html">Draw_Narrow_Entity_Sprite</a>.
+Per-frame entity handler for the cluster entities spawned when a tracked wave enemy promotes. Advances three bytes to a countdown timer, decrements it, and redraws the entity via <a href="53156.html">Paint_Narrow_Entity_Attributes</a> while the timer is still running. When the timer reaches zero, calls <a href="54832.html">Erase_Entity_Sprite</a> to erase the entity sprite. If the animation pass counter (two bytes back) is also exhausted, detaches the entity and scores; otherwise increments the pass counter, redraws via <a href="54839.html">Draw_Entity_Sprite</a>, sets the animation delay to 4 and jumps to <a href="58514.html#58530">Tick_Entity_Colour_Timer_Advance</a>. On further passes the handler transitions to <a href="58656.html#58733">Process_Cluster_Entity_Homing</a>, which searches for player contact via <a href="52504.html">Find_Colliding_Entity</a> and triggers a kill via <a href="59127.html">Process_Player_Tracking_Enemy</a> if found, or else applies directional movement toward the player and draws via <a href="51286.html">Draw_Narrow_Entity_Sprite</a>.
 </div>
 </div>
 </td>
@@ -84,7 +84,7 @@ Per-frame entity handler for the cluster entities spawned when a tracked wave en
 <td class="asm-label"></td>
 <td class="address-1"><span id="58663"></span>58663</td>
 <td class="instruction">JP Z,<a href="58656.html#58678">Process_Cluster_Entity_Expired</a></td>
-<td class="comment-1" rowspan="4">Timer still running: redraw the entity via <a href="52532.html#53156">Clear_Colour_Bar_Column_26</a> and advance.</td>
+<td class="comment-1" rowspan="4">Timer still running: redraw the entity via <a href="53156.html">Paint_Narrow_Entity_Attributes</a> and advance.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -110,7 +110,7 @@ Per-frame entity handler for the cluster entities spawned when a tracked wave en
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="58671"></span>58671</td>
-<td class="instruction">CALL <a href="52532.html#53156">Clear_Colour_Bar_Column_26</a></td>
+<td class="instruction">CALL <a href="53156.html">Paint_Narrow_Entity_Attributes</a></td>
 <td class="comment-1" rowspan="1"></td>
 </tr>
 <tr>

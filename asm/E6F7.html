@@ -522,7 +522,12 @@ Per-frame entity handler for the slow player-tracking enemy. Tests player contac
 <td class="asm-label">Process_Player_Tracking_Enemy_Draw</td>
 <td class="address-2"><span id="e7a1"></span>E7A1</td>
 <td class="instruction">PUSH HL</td>
-<td class="comment-1" rowspan="8">Stash <span class="register">HL</span>, step back two bytes, set colour 45 in alternate <span class="register">B</span>, draw the entity via <a href="D637.html">Draw_Entity_Sprite</a>, restore <span class="register">HL</span>, and advance via <a href="E520.html#e5b9">Process_Cluster_Entity_Next</a>.</td>
+<td class="comment-1" rowspan="8">Stash <span class="register">HL</span>, step back two bytes, set colour INK:
+CYAN,
+PAPER:
+BLACK
+(BRIGHT)
+ in alternate <span class="register">B</span>, draw the entity via <a href="D637.html">Draw_Entity_Sprite</a>, restore <span class="register">HL</span>, and advance via <a href="E520.html#e5b9">Process_Cluster_Entity_Next</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>

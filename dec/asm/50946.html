@@ -39,10 +39,10 @@ Next: <a href="50956.html">50956</a>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="52047.html">Main_Game_Loop</a>, <a href="52532.html">Clear_Colour_Bar_Column</a> and <a href="53836.html">Stage_Next_Wave</a>.
+Used by the routines at <a href="52047.html">Main_Game_Loop</a>, <a href="52921.html">Animate_Wave_Start_Sequence</a>, <a href="53043.html">Dispatch_Narrow_Entity_Approach</a> and <a href="53836.html">Stage_Next_Wave</a>.
 </div>
 <div class="paragraph">
-Chained trampoline: pushes resume address <a href="50946.html">DispatchWordFromHL</a>, loads a 22-bit routine pointer from <span class="register">HL</span>, advances <span class="register">HL</span> by 2 then jumps to that pointer via the stack. When the handler RETs, execution continues at <a href="50946.html">DispatchWordFromHL</a> for the next table entry, so handlers should leave <span class="register">HL</span> valid for the following word unless the chain ends. Used from <a href="52047.html#52319">52319</a>, <a href="52532.html#52927">52927</a>, <a href="52532.html#53061">53061</a>, <a href="53836.html#53884">53884</a> with tables such as <a href="24832.html">Entity_List_Base</a>.
+Chained trampoline: pushes resume address <a href="50946.html">DispatchWordFromHL</a>, loads a 22-bit routine pointer from <span class="register">HL</span>, advances <span class="register">HL</span> by 2 then jumps to that pointer via the stack. When the handler RETs, execution continues at <a href="50946.html">DispatchWordFromHL</a> for the next table entry, so handlers should leave <span class="register">HL</span> valid for the following word unless the chain ends. Used from <a href="52047.html#52319">52319</a>, <a href="52921.html#52927">52927</a>, <a href="53043.html#53061">53061</a>, <a href="53836.html#53884">53884</a> with tables such as <a href="24832.html">Entity_List_Base</a>.
 </div>
 </div>
 </td>

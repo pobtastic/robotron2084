@@ -472,7 +472,12 @@ Update the entity velocity: apply the angular rate via <a href="D1A8.html">Advan
 <td class="asm-label"></td>
 <td class="address-1"><span id="e410"></span>E410</td>
 <td class="instruction">LD B,$42</td>
-<td class="comment-1" rowspan="4">Set colour 42 in <span class="register">B'</span>, draw the entity via <a href="C950.html">Draw_Wide_Entity_Sprite</a>, and restore <span class="register">HL</span>.</td>
+<td class="comment-1" rowspan="4">Set colour INK:
+RED,
+PAPER:
+BLACK
+(BRIGHT)
+ in <span class="register">B'</span>, draw the entity via <a href="C950.html">Draw_Wide_Entity_Sprite</a>, and restore <span class="register">HL</span>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -706,7 +711,12 @@ Entity still has passes remaining: increment the animation counters, spawn a clu
 <td class="asm-label"></td>
 <td class="address-1"><span id="e461"></span>E461</td>
 <td class="instruction">PUSH HL</td>
-<td class="comment-1" rowspan="7">Stash <span class="register">HL</span>, set colour 45 in <span class="register">B'</span>, draw the entity colour slot via <a href="D637.html">Draw_Entity_Sprite</a>, and restore <span class="register">HL</span>.</td>
+<td class="comment-1" rowspan="7">Stash <span class="register">HL</span>, set colour INK:
+CYAN,
+PAPER:
+BLACK
+(BRIGHT)
+ in <span class="register">B'</span>, draw the entity colour slot via <a href="D637.html">Draw_Entity_Sprite</a>, and restore <span class="register">HL</span>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at CF52</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="CF33.html">CF33</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#cf52">Map</a></td>
+<td class="next">
+Next: <a href="CFA4.html">CFA4</a>
+</td>
+</tr>
+</table>
+<div class="description">CF52: Step Wide Entity Approach</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Per-entity frame handler for an approaching wide entity. Advances the scroll counter, moves the entity down by eight pixels per frame, and on the final frame installs <a href="E1B6.html">Handle_Horizontal_Enemy_Entity</a> as the entity's new handler. Called from <a href="CB4F.html">Main_Game_Loop</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Step_Wide_Entity_Approach</td>
+<td class="address-2"><span id="cf52"></span>CF52</td>
+<td class="instruction">EX DE,HL</td>
+<td class="comment-1" rowspan="1">Copy the entity pointer to <span class="register">DE</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf53"></span>CF53</td>
+<td class="instruction">LD HL,($C535)</td>
+<td class="comment-1" rowspan="4">Advance the animation phase counter by 40.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf56"></span>CF56</td>
+<td class="instruction">LD BC,$0040</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf59"></span>CF59</td>
+<td class="instruction">ADD HL,BC</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf5a"></span>CF5A</td>
+<td class="instruction">LD ($C535),HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf5d"></span>CF5D</td>
+<td class="instruction">EX DE,HL</td>
+<td class="comment-1" rowspan="1">Copy the entity pointer back to <span class="register">HL</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf5e"></span>CF5E</td>
+<td class="instruction">LD A,D</td>
+<td class="comment-1" rowspan="3">Jump to <a href="CF52.html#cf90">Step_Wide_Entity_Approach_Wrap</a> to wrap the approach at the screen boundary.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf5f"></span>CF5F</td>
+<td class="instruction">CP $0F</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf61"></span>CF61</td>
+<td class="instruction">JR Z,<a href="CF52.html#cf90">Step_Wide_Entity_Approach_Wrap</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf63"></span>CF63</td>
+<td class="instruction">JR NC,<a href="CF52.html#cf9f">Step_Wide_Entity_Approach_Advance_Six</a></td>
+<td class="comment-1" rowspan="1">Jump to <a href="CF52.html#cf9f">Step_Wide_Entity_Approach_Advance_Six</a> if the entity's approach descent is complete.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf65"></span>CF65</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="4">Load the entity draw colour.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf66"></span>CF66</td>
+<td class="instruction">LD B,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf67"></span>CF67</td>
+<td class="instruction">INC B</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf68"></span>CF68</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf69"></span>CF69</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="3">Draw the entity sprite.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf6a"></span>CF6A</td>
+<td class="instruction">CALL <a href="DAAF.html">Draw_Wide_Entity_Sprite_Pixels_Only</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf6d"></span>CF6D</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf6e"></span>CF6E</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="4">Move the entity eight pixels down the screen.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf6f"></span>CF6F</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf70"></span>CF70</td>
+<td class="instruction">ADD A,$08</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf72"></span>CF72</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf73"></span>CF73</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="1">Step back within the entity record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf74"></span>CF74</td>
+<td class="instruction">LD A,($C536)</td>
+<td class="comment-1" rowspan="3">Skip spawning if this is not the final approach frame.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf77"></span>CF77</td>
+<td class="instruction">CP $01</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf79"></span>CF79</td>
+<td class="instruction">JR NZ,<a href="CF52.html#cf97">Step_Wide_Entity_Approach_Draw</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf7b"></span>CF7B</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="3">Switch to the entity arrival colour INK:
+GREEN,
+PAPER:
+BLACK
+(BRIGHT)
+.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf7c"></span>CF7C</td>
+<td class="instruction">LD B,$44</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf7e"></span>CF7E</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf7f"></span>CF7F</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="3">Draw the entity's arrival frame.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf80"></span>CF80</td>
+<td class="instruction">CALL <a href="C950.html">Draw_Wide_Entity_Sprite</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf83"></span>CF83</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf84"></span>CF84</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="5">Install <a href="E1B6.html">Handle_Horizontal_Enemy_Entity</a> as the entity handler to begin horizontal movement.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf85"></span>CF85</td>
+<td class="instruction">LD DE,$E1B6</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf88"></span>CF88</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf89"></span>CF89</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf8a"></span>CF8A</td>
+<td class="instruction">LD (HL),E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf8b"></span>CF8B</td>
+<td class="instruction">LD DE,$0008</td>
+<td class="comment-1" rowspan="2">Advance eight bytes to the next entity record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf8e"></span>CF8E</td>
+<td class="instruction">JR <a href="CF52.html#cfa2">Step_Wide_Entity_Approach_Advance</a></td>
+</tr>
+<tr>
+<td class="asm-label">Step_Wide_Entity_Approach_Wrap</td>
+<td class="address-2"><span id="cf90"></span>CF90</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="4">Reset the descent position to wrap the approach path.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf91"></span>CF91</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf92"></span>CF92</td>
+<td class="instruction">SUB $70</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf94"></span>CF94</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf95"></span>CF95</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="2">Step back and prepare the draw colour.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf96"></span>CF96</td>
+<td class="instruction">LD A,D</td>
+</tr>
+<tr>
+<td class="asm-label">Step_Wide_Entity_Approach_Draw</td>
+<td class="address-2"><span id="cf97"></span>CF97</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="3">Load the draw colour.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf98"></span>CF98</td>
+<td class="instruction">LD B,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf99"></span>CF99</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf9a"></span>CF9A</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="3">Draw the entity sprite.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf9b"></span>CF9B</td>
+<td class="instruction">CALL <a href="DAAF.html">Draw_Wide_Entity_Sprite_Pixels_Only</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf9e"></span>CF9E</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label">Step_Wide_Entity_Approach_Advance_Six</td>
+<td class="address-2"><span id="cf9f"></span>CF9F</td>
+<td class="instruction">LD DE,$0006</td>
+<td class="comment-1" rowspan="1">Prepare to advance past this entity record.</td>
+</tr>
+<tr>
+<td class="asm-label">Step_Wide_Entity_Approach_Advance</td>
+<td class="address-2"><span id="cfa2"></span>CFA2</td>
+<td class="instruction">ADD HL,DE</td>
+<td class="comment-1" rowspan="2">Advance to the next entity record and return.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cfa3"></span>CFA3</td>
+<td class="instruction">RET</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="CF33.html">CF33</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#cf52">Map</a></td>
+<td class="next">
+Next: <a href="CFA4.html">CFA4</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/53074.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

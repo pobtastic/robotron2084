@@ -42,7 +42,7 @@ Next: <a href="CC81.html">CC81</a>
 Used by the routine at <a href="D24C.html">Stage_Next_Wave</a>.
 </div>
 <div class="paragraph">
-Wave-active game loop entry, called from <a href="D24C.html">Stage_Next_Wave</a> once the entity list and playfield are ready. Initialises the player's starting screen position and frame counters, copies the sprite template via <a href="D519.html">Animate_Intro_Screen_Sprites</a>, then falls into the per-frame control poll at <a href="CB4F.html#cb67">Main_Loop_Poll</a>. Each frame: reads the controller via <a href="F6C3.html">Read_Control_Input</a>, moves and redraws the player sprite, spawns one new entity every three frames adjacent to the player, dispatches all active entity handlers via <a href="C702.html">DispatchWordFromHL</a>, updates the colour bar and protection checks, then loops back to <a href="CB4F.html#cb67">Main_Loop_Poll</a>.
+Wave-active game loop entry, called from <a href="D24C.html">Stage_Next_Wave</a> once the entity list and playfield are ready. Initialises the player's starting screen position and frame counters, copies the sprite template via <a href="D519.html">Initialise_Wave_Start_Sprites</a>, then falls into the per-frame control poll at <a href="CB4F.html#cb67">Main_Loop_Poll</a>. Each frame: reads the controller via <a href="F6C3.html">Read_Control_Input</a>, moves and redraws the player sprite, spawns one new entity every three frames adjacent to the player, dispatches all active entity handlers via <a href="C702.html">DispatchWordFromHL</a>, updates the colour bar and protection checks, then loops back to <a href="CB4F.html#cb67">Main_Loop_Poll</a>.
 </div>
 </div>
 </td>
@@ -93,7 +93,7 @@ Initialise the player's screen position and frame counters for the start of the 
 <td class="asm-label"></td>
 <td class="address-1"><span id="cb5c"></span>CB5C</td>
 <td class="instruction">LD A,$0F</td>
-<td class="comment-1" rowspan="4">Set the animation frame counters at <a href="C534.html">Animation_Frame_Counter_One</a> and <a href="C536.html">Animation_Frame_Counter_Two</a> to 0F and copy the sprite template via <a href="D519.html">Animate_Intro_Screen_Sprites</a>.</td>
+<td class="comment-1" rowspan="4">Set the animation frame counters at <a href="C534.html">Animation_Frame_Counter_One</a> and <a href="C536.html">Animation_Frame_Counter_Two</a> to 0F and copy the sprite template via <a href="D519.html">Initialise_Wave_Start_Sprites</a>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -108,14 +108,14 @@ Initialise the player's screen position and frame counters for the start of the 
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="cb64"></span>CB64</td>
-<td class="instruction">CALL <a href="D519.html">Animate_Intro_Screen_Sprites</a></td>
+<td class="instruction">CALL <a href="D519.html">Initialise_Wave_Start_Sprites</a></td>
 </tr>
 <tr>
 <td class="routine-comment" colspan="5">
 <span id="cb67"></span>
 <div class="comments">
 <div class="paragraph">
-This entry point is used by the routine at <a href="CD34.html">Clear_Colour_Bar_Column</a>.
+This entry point is used by the routine at <a href="CF33.html">Dispatch_Narrow_Entity_Approach</a>.
 </div>
 <div class="paragraph">
 Per-frame start: check whether the wave is still active before processing input.
@@ -127,7 +127,7 @@ Per-frame start: check whether the wave is still active before processing input.
 <td class="asm-label">Main_Loop_Poll</td>
 <td class="address-2"><span id="cb67"></span>CB67</td>
 <td class="instruction">LD A,($C533)</td>
-<td class="comment-1" rowspan="3">If the wave-start delay counter at <a href="C533.html">Wave_Start_Delay</a> is non-zero, jump to <a href="CD34.html#cf33">Clear_Colour_Bar_Column_21</a> (wave-end / game-over handling).</td>
+<td class="comment-1" rowspan="3">If the wave-start delay counter at <a href="C533.html">Wave_Start_Delay</a> is non-zero, jump to <a href="CF33.html">Dispatch_Narrow_Entity_Approach</a> (wave-end / game-over handling).</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -137,14 +137,14 @@ Per-frame start: check whether the wave is still active before processing input.
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="cb6b"></span>CB6B</td>
-<td class="instruction">JP NZ,<a href="CD34.html#cf33">Clear_Colour_Bar_Column_21</a></td>
+<td class="instruction">JP NZ,<a href="CF33.html">Dispatch_Narrow_Entity_Approach</a></td>
 </tr>
 <tr>
 <td class="routine-comment" colspan="5">
 <span id="cb6e"></span>
 <div class="comments">
 <div class="paragraph">
-This entry point is used by the routine at <a href="CD34.html">Clear_Colour_Bar_Column</a>.
+This entry point is used by the routine at <a href="CEB9.html">Animate_Wave_Start_Sequence</a>.
 </div>
 <div class="paragraph">
 Read the controller and map the input to player movement directions.
@@ -162,12 +162,12 @@ Read the controller and map the input to player movement directions.
 <td class="asm-label"></td>
 <td class="address-1"><span id="cb71"></span>CB71</td>
 <td class="instruction">LD A,C</td>
-<td class="comment-1" rowspan="3">Apply vertical input processing via <a href="CD34.html#ce9d">Clear_Colour_Bar_Column_14</a> and store the result in <span class="register">C</span>.</td>
+<td class="comment-1" rowspan="3">Apply vertical input processing via <a href="CE72.html#ce9d">Compute_Entity_Approach_Position_Short</a> and store the result in <span class="register">C</span>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="cb72"></span>CB72</td>
-<td class="instruction">CALL <a href="CD34.html#ce9d">Clear_Colour_Bar_Column_14</a></td>
+<td class="instruction">CALL <a href="CE72.html#ce9d">Compute_Entity_Approach_Position_Short</a></td>
 </tr>
 <tr>
 <td class="asm-label"></td>
@@ -178,12 +178,12 @@ Read the controller and map the input to player movement directions.
 <td class="asm-label"></td>
 <td class="address-1"><span id="cb76"></span>CB76</td>
 <td class="instruction">LD A,B</td>
-<td class="comment-1" rowspan="3">Apply horizontal input processing via <a href="CD34.html#ce72">Clear_Colour_Bar_Column_13</a> and store the result in <span class="register">B</span>.</td>
+<td class="comment-1" rowspan="3">Apply horizontal input processing via <a href="CE72.html">Compute_Entity_Approach_Position</a> and store the result in <span class="register">B</span>.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>
 <td class="address-1"><span id="cb77"></span>CB77</td>
-<td class="instruction">CALL <a href="CD34.html#ce72">Clear_Colour_Bar_Column_13</a></td>
+<td class="instruction">CALL <a href="CE72.html">Compute_Entity_Approach_Position</a></td>
 </tr>
 <tr>
 <td class="asm-label"></td>

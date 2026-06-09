@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at CF33</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="CEDF.html">CEDF</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#cf33">Map</a></td>
+<td class="next">
+Next: <a href="CF52.html">CF52</a>
+</td>
+</tr>
+</table>
+<div class="description">CF33: Dispatch Narrow Entity Approach</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="CB4F.html">Main_Game_Loop</a>.
+</div>
+<div class="paragraph">
+Per-frame handler for approaching narrow entities. Decrements <a href="C536.html">Animation_Frame_Counter_Two</a> and jumps to <a href="CEB9.html">Animate_Wave_Start_Sequence</a> when zero; otherwise resets the animation scroll position, dispatches the entity list, decrements <a href="C534.html">Animation_Frame_Counter_One</a>, and returns to the main poll loop. Called from <a href="CB4F.html">Main_Game_Loop</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Dispatch_Narrow_Entity_Approach</td>
+<td class="address-2"><span id="cf33"></span>CF33</td>
+<td class="instruction">LD A,($C536)</td>
+<td class="comment-1" rowspan="3">Count down the approach animation; start the wave sequence when complete.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf36"></span>CF36</td>
+<td class="instruction">DEC A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf37"></span>CF37</td>
+<td class="instruction">JR Z,<a href="CEB9.html">Animate_Wave_Start_Sequence</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf39"></span>CF39</td>
+<td class="instruction">LD A,($C534)</td>
+<td class="comment-1" rowspan="4">Reset the approach scroll position for the current frame.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf3c"></span>CF3C</td>
+<td class="instruction">LD H,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf3d"></span>CF3D</td>
+<td class="instruction">LD L,$00</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf3f"></span>CF3F</td>
+<td class="instruction">LD ($C535),HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf42"></span>CF42</td>
+<td class="instruction">LD HL,$6100</td>
+<td class="comment-1" rowspan="2">Run each entity's per-frame update handler.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf45"></span>CF45</td>
+<td class="instruction">CALL <a href="C702.html">DispatchWordFromHL</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf48"></span>CF48</td>
+<td class="instruction">CALL <a href="C713.html">UpdateAttributeBar</a></td>
+<td class="comment-1" rowspan="1">Refresh the colour bar.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf4b"></span>CF4B</td>
+<td class="instruction">LD HL,$C534</td>
+<td class="comment-1" rowspan="3">Decrement the approach frame counter and return to the main poll.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf4e"></span>CF4E</td>
+<td class="instruction">DEC (HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cf4f"></span>CF4F</td>
+<td class="instruction">JP <a href="CB4F.html#cb67">Main_Loop_Poll</a></td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="CEDF.html">CEDF</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#cf33">Map</a></td>
+<td class="next">
+Next: <a href="CF52.html">CF52</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/53043.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

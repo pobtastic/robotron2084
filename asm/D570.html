@@ -39,7 +39,7 @@ Next: <a href="D5B1.html">D5B1</a>
 <td class="routine-comment" colspan="5">
 <div class="details">
 <div class="paragraph">
-Used by the routines at <a href="CD34.html">Clear_Colour_Bar_Column</a> and <a href="D317.html">RenderHUD</a>.
+Used by the routines at <a href="CE64.html">Apply_Wave_Border_Colour</a> and <a href="D317.html">RenderHUD</a>.
 </div>
 <div class="paragraph">
 Draws the rectangular border surrounding the play area. If the units digit of *<a href="C408.html">WaveNumber</a> is 09 the routine returns without drawing. Otherwise it draws full-width horizontal strips at rows 0E and 0F (top edge) via <a href="D562.html">DrawPlayfieldBorderRow</a>, then for each row from 10 to B7 it OR-blits columns 06 07 F8 and F9 (left and right edges), and finally draws full-width strips at rows B8 and B9 (bottom edge) via <a href="D562.html">DrawPlayfieldBorderRow</a>. Called from <a href="C84F.html">Erase_Narrow_Entity_Sprite</a> and <a href="D317.html">RenderHUD</a>.

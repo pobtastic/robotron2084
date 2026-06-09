@@ -42,7 +42,7 @@ Next: <a href="58056.html">58056</a>
 Used by the routine at <a href="53836.html">Stage_Next_Wave</a>.
 </div>
 <div class="paragraph">
-Entry point called from <a href="53836.html">Stage_Next_Wave</a>. Reads the horizontal enemy spawn count from *<span class="register">HL</span> and stores it at 50219; if zero, returns immediately. Otherwise loops <span class="register">B</span> times, writing a full entity record into the entity list: the <a href="52532.html#53074">53074</a> handler address, a random entity type in the range 52-55 a valid random screen position via <a href="58056.html">Pick_Random_Spawn_Position_Y</a>, and trailing bytes 14 13 255. Saves the updated entity list pointer to *<a href="50441.html">Entity_List_Write_Pointer</a> and writes the 53668 list terminator.
+Entry point called from <a href="53836.html">Stage_Next_Wave</a>. Reads the horizontal enemy spawn count from *<span class="register">HL</span> and stores it at 50219; if zero, returns immediately. Otherwise loops <span class="register">B</span> times, writing a full entity record into the entity list: the <a href="53074.html">Step_Wide_Entity_Approach</a> handler address, a random entity type in the range 52-55 a valid random screen position via <a href="58056.html">Pick_Random_Spawn_Position_Y</a>, and trailing bytes 14 13 255. Saves the updated entity list pointer to *<a href="50441.html">Entity_List_Write_Pointer</a> and writes the 53668 list terminator.
 </div>
 </div>
 </td>
@@ -95,7 +95,7 @@ Entry point called from <a href="53836.html">Stage_Next_Wave</a>. Reads the hori
 <td class="asm-label">Spawn_Horizontal_Wave_Enemies_Record</td>
 <td class="address-2"><span id="58012"></span>58012</td>
 <td class="instruction">LD DE,53074</td>
-<td class="comment-1" rowspan="4">Write the <a href="52532.html#53074">53074</a> entity handler as a little-endian word.</td>
+<td class="comment-1" rowspan="4">Write the <a href="53074.html">Step_Wide_Entity_Approach</a> entity handler as a little-endian word.</td>
 </tr>
 <tr>
 <td class="asm-label"></td>

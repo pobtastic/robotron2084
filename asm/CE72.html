@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at CE72</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="CE64.html">CE64</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#ce72">Map</a></td>
+<td class="next">
+Next: <a href="CEB9.html">CEB9</a>
+</td>
+</tr>
+</table>
+<div class="description">CE72: Compute Entity Approach Position</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Used by the routine at <a href="CB4F.html">Main_Game_Loop</a>.
+</div>
+<div class="paragraph">
+Computes the approach position and frame index for an intro entity. Entry at <a href="CE72.html#ce9d">Compute_Entity_Approach_Position_Short</a> skips the phase-5 scaling step. Both entry points are called from <a href="CB4F.html">Main_Game_Loop</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Compute_Entity_Approach_Position</td>
+<td class="address-2"><span id="ce72"></span>CE72</td>
+<td class="instruction">LD E,A</td>
+<td class="comment-1" rowspan="5">Skip the extended scaling step if the approach is not in phase 05.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ce73"></span>CE73</td>
+<td class="instruction">LD A,($C4FF)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ce76"></span>CE76</td>
+<td class="instruction">CP $05</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ce78"></span>CE78</td>
+<td class="instruction">LD A,E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ce79"></span>CE79</td>
+<td class="instruction">JP NZ,<a href="CE72.html#ce9d">Compute_Entity_Approach_Position_Short</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ce7c"></span>CE7C</td>
+<td class="instruction">SLA A</td>
+<td class="comment-1" rowspan="13">Scale the approach velocity into the displacement byte.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ce7e"></span>CE7E</td>
+<td class="instruction">SLA A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ce80"></span>CE80</td>
+<td class="instruction">SLA A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ce82"></span>CE82</td>
+<td class="instruction">SLA A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ce84"></span>CE84</td>
+<td class="instruction">RR D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ce86"></span>CE86</td>
+<td class="instruction">SLA A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ce88"></span>CE88</td>
+<td class="instruction">RR D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ce8a"></span>CE8A</td>
+<td class="instruction">SLA A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ce8c"></span>CE8C</td>
+<td class="instruction">RR D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ce8e"></span>CE8E</td>
+<td class="instruction">SLA A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ce90"></span>CE90</td>
+<td class="instruction">RR D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ce92"></span>CE92</td>
+<td class="instruction">SLA A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ce94"></span>CE94</td>
+<td class="instruction">RR D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ce96"></span>CE96</td>
+<td class="instruction">SRL D</td>
+<td class="comment-1" rowspan="3">Halve the displacement three times to normalise the scale.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ce98"></span>CE98</td>
+<td class="instruction">SRL D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ce9a"></span>CE9A</td>
+<td class="instruction">SRL D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ce9c"></span>CE9C</td>
+<td class="instruction">LD A,D</td>
+<td class="comment-1" rowspan="1">Transfer the normalised displacement to <span class="register">A</span>.</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="ce9d"></span>
+<div class="comments">
+<div class="paragraph">
+This entry point is used by the routine at <a href="CB4F.html">Main_Game_Loop</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Compute_Entity_Approach_Position_Short</td>
+<td class="address-2"><span id="ce9d"></span>CE9D</td>
+<td class="instruction">RRA</td>
+<td class="comment-1" rowspan="9">Deinterleave the packed approach position bytes.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ce9e"></span>CE9E</td>
+<td class="instruction">RRA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ce9f"></span>CE9F</td>
+<td class="instruction">RR D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cea1"></span>CEA1</td>
+<td class="instruction">RRA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cea2"></span>CEA2</td>
+<td class="instruction">RR E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cea4"></span>CEA4</td>
+<td class="instruction">RRA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cea5"></span>CEA5</td>
+<td class="instruction">RR D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cea7"></span>CEA7</td>
+<td class="instruction">RRA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cea8"></span>CEA8</td>
+<td class="instruction">RR E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ceaa"></span>CEAA</td>
+<td class="instruction">XOR A</td>
+<td class="comment-1" rowspan="9">Reassemble the screen position components via left rotation.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ceab"></span>CEAB</td>
+<td class="instruction">RL D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="cead"></span>CEAD</td>
+<td class="instruction">RLA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ceae"></span>CEAE</td>
+<td class="instruction">RL E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ceb0"></span>CEB0</td>
+<td class="instruction">RLA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ceb1"></span>CEB1</td>
+<td class="instruction">RL D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ceb3"></span>CEB3</td>
+<td class="instruction">RLA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ceb4"></span>CEB4</td>
+<td class="instruction">RL E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ceb6"></span>CEB6</td>
+<td class="instruction">RLA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ceb7"></span>CEB7</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="ceb8"></span>CEB8</td>
+<td class="instruction">RET</td>
+<td class="comment-1" rowspan="1">Return.</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="CE64.html">CE64</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#ce72">Map</a></td>
+<td class="next">
+Next: <a href="CEB9.html">CEB9</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../dec/asm/52850.html">Switch to decimal</a>.</div>
+</footer>
+</body>
+</html>

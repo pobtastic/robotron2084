@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Robotron: 2084: Routine at 52560</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../skoolkit.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-dark.css" />
+<link rel="stylesheet" type="text/css" href="../skoolkit-wide.css" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75RERFCHBG"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-75RERFCHBG');
+</script>
+</head>
+<body class="Asm-c">
+<table class="header">
+<tr>
+<td class="logo"><a href="../index.html"><img alt="logo" src="../images/logo.png" /></a></td>
+<td class="page-header">Routines</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="52532.html">52532</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#52560">Map</a></td>
+<td class="next">
+Next: <a href="52836.html">52836</a>
+</td>
+</tr>
+</table>
+<div class="description">52560: Handle Homing Enemy</div>
+<table class="disassembly">
+<tr>
+<td class="routine-comment" colspan="5">
+<div class="details">
+<div class="paragraph">
+Per-frame entity handler for a homing enemy. Each frame the entity moves one step toward the player. If it catches another entity it removes that entity from play, awards the player points, and shows a floating score popup. If it reaches the player it triggers the player death sequence.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Handle_Homing_Enemy</td>
+<td class="address-2"><span id="52560"></span>52560</td>
+<td class="instruction">LD A,(50483)</td>
+<td class="comment-1" rowspan="1">Read the wave start delay from <a href="50483.html">Wave_Start_Delay</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52563"></span>52563</td>
+<td class="instruction">AND A</td>
+<td class="comment-1" rowspan="2">Jump to <a href="57347.html#57512">Process_Entity_Record_Counter_Up_Next7</a> if the wave has not started yet.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52564"></span>52564</td>
+<td class="instruction">JP NZ,<a href="57347.html#57512">Process_Entity_Record_Counter_Up_Next7</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52567"></span>52567</td>
+<td class="instruction">CALL <a href="53695.html">Generate_Random_Byte</a></td>
+<td class="comment-1" rowspan="1">Generate a random movement delay value.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52570"></span>52570</td>
+<td class="instruction">AND %00001111</td>
+<td class="comment-1" rowspan="1">Keep the low four bits (delay range 0–15).</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52572"></span>52572</td>
+<td class="instruction">INC A</td>
+<td class="comment-1" rowspan="1">Increment to give a delay range of 1–16.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52573"></span>52573</td>
+<td class="instruction">LD (50422),HL</td>
+<td class="comment-1" rowspan="2">Stash the entity record pointer and load the delay into <span class="register">B</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52576"></span>52576</td>
+<td class="instruction">LD B,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52577"></span>52577</td>
+<td class="instruction">LD A,(50460)</td>
+<td class="comment-1" rowspan="1">Read the animation frame counter from <a href="50459.html">50460</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52580"></span>52580</td>
+<td class="instruction">SUB B</td>
+<td class="comment-1" rowspan="2">Skip movement this frame if the frame counter has not yet reached the delay value.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52581"></span>52581</td>
+<td class="instruction">JP NC,<a href="52560.html#52632">Handle_Homing_Enemy_Advance</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52584"></span>52584</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="2">Step past the handler address and erase the entity sprite.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52585"></span>52585</td>
+<td class="instruction">CALL <a href="54832.html">Erase_Entity_Sprite</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52588"></span>52588</td>
+<td class="instruction">LD HL,(50422)</td>
+<td class="comment-1" rowspan="3">Restore the entity record pointer and advance to the entity position bytes.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52591"></span>52591</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52592"></span>52592</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="52593"></span>
+<div class="comments">
+<div class="paragraph">
+Move the entity one step toward the player along both axes.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52593"></span>52593</td>
+<td class="instruction">LD A,(50388)</td>
+<td class="comment-1" rowspan="2">Compute the vertical distance from this entity to the player.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52596"></span>52596</td>
+<td class="instruction">SUB (HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52597"></span>52597</td>
+<td class="instruction">LD A,(50214)</td>
+<td class="comment-1" rowspan="3">Load the vertical movement speed and negate it if the entity is above the player.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52600"></span>52600</td>
+<td class="instruction">JR NC,<a href="52560.html#52604">Handle_Homing_Enemy_Apply_Y</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52602"></span>52602</td>
+<td class="instruction">NEG</td>
+</tr>
+<tr>
+<td class="asm-label">Handle_Homing_Enemy_Apply_Y</td>
+<td class="address-2"><span id="52604"></span>52604</td>
+<td class="instruction">ADD A,(HL)</td>
+<td class="comment-1" rowspan="3">Apply the vertical delta and step to the X position byte.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52605"></span>52605</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52606"></span>52606</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52607"></span>52607</td>
+<td class="instruction">LD A,(50389)</td>
+<td class="comment-1" rowspan="2">Compute the horizontal distance from this entity to the player.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52610"></span>52610</td>
+<td class="instruction">SUB (HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52611"></span>52611</td>
+<td class="instruction">LD A,(50214)</td>
+<td class="comment-1" rowspan="3">Load the horizontal movement speed and negate it if the entity is to the right of the player.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52614"></span>52614</td>
+<td class="instruction">JR NC,<a href="52560.html#52618">Handle_Homing_Enemy_Apply_X</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52616"></span>52616</td>
+<td class="instruction">NEG</td>
+</tr>
+<tr>
+<td class="asm-label">Handle_Homing_Enemy_Apply_X</td>
+<td class="address-2"><span id="52618"></span>52618</td>
+<td class="instruction">ADD A,(HL)</td>
+<td class="comment-1" rowspan="2">Apply the horizontal delta to the entity X position.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52619"></span>52619</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52620"></span>52620</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="2">Step back to the entity Y position.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52621"></span>52621</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52622"></span>52622</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="3">Set the draw colour to 70 in the shadow registers.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52623"></span>52623</td>
+<td class="instruction">LD B,70</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52625"></span>52625</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52626"></span>52626</td>
+<td class="instruction">CALL <a href="54839.html">Draw_Entity_Sprite</a></td>
+<td class="comment-1" rowspan="1">Redraw the entity sprite at its new position.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52629"></span>52629</td>
+<td class="instruction">LD HL,(50422)</td>
+<td class="comment-1" rowspan="1">Restore the entity record pointer.</td>
+</tr>
+<tr>
+<td class="asm-label">Handle_Homing_Enemy_Advance</td>
+<td class="address-2"><span id="52632"></span>52632</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="2">Advance the entity record pointer by two bytes.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52633"></span>52633</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52634"></span>52634</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="3">Jump to <a href="52560.html#52653">Handle_Homing_Enemy_Caught_Entity</a> if this entity has caught another entity in the list.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52635"></span>52635</td>
+<td class="instruction">CALL <a href="52504.html">Find_Colliding_Entity</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52638"></span>52638</td>
+<td class="instruction">JR NC,<a href="52560.html#52653">Handle_Homing_Enemy_Caught_Entity</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52640"></span>52640</td>
+<td class="instruction">LD HL,50388</td>
+<td class="comment-1" rowspan="2">Point to the player position data and switch to the shadow registers.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52643"></span>52643</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52644"></span>52644</td>
+<td class="instruction">CALL <a href="50906.html">HitTestBounds8AtHL</a></td>
+<td class="comment-1" rowspan="2">Trigger the player death sequence if this entity has reached the player.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52647"></span>52647</td>
+<td class="instruction">JP NC,<a href="53948.html">Strip_Attributes_And_Fade</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52650"></span>52650</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="3">Advance the entity pointer and return.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52651"></span>52651</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52652"></span>52652</td>
+<td class="instruction">RET</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="52653"></span>
+<div class="comments">
+<div class="paragraph">
+This entity has reached another entity; remove the caught entity from play, award the player points, and display a floating score popup.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Handle_Homing_Enemy_Caught_Entity</td>
+<td class="address-2"><span id="52653"></span>52653</td>
+<td class="instruction">LD DE,6</td>
+<td class="comment-1" rowspan="2">Step back six bytes to the start of the caught entity's record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52656"></span>52656</td>
+<td class="instruction">SBC HL,DE</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52658"></span>52658</td>
+<td class="instruction">LD (50394),HL</td>
+<td class="comment-1" rowspan="1">Save the caught entity's record pointer to <a href="50394.html">Entity_Record_Pointer</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52661"></span>52661</td>
+<td class="instruction">CALL <a href="51279.html">Erase_Narrow_Entity_Sprite</a></td>
+<td class="comment-1" rowspan="1">Erase the caught entity's sprite.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52664"></span>52664</td>
+<td class="instruction">CALL <a href="54705.html">Remove_Entity_From_List</a></td>
+<td class="comment-1" rowspan="1">Remove the caught entity from the entity list.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52667"></span>52667</td>
+<td class="instruction">LD HL,50204</td>
+<td class="comment-1" rowspan="2">Decrement the active enemy count at <a href="50204.html">Active_Enemy_Count</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52670"></span>52670</td>
+<td class="instruction">DEC (HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52671"></span>52671</td>
+<td class="instruction">LD HL,50213</td>
+<td class="comment-1" rowspan="2">Decrement the wave entity kill counter.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52674"></span>52674</td>
+<td class="instruction">DEC (HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52675"></span>52675</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="9">Install the score popup handler and update the entity state in the shadow record.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52676"></span>52676</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52677"></span>52677</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52678"></span>52678</td>
+<td class="instruction">LD (HL),2</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52680"></span>52680</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52681"></span>52681</td>
+<td class="instruction">LD DE,52767</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52684"></span>52684</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52685"></span>52685</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52686"></span>52686</td>
+<td class="instruction">LD (HL),E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52687"></span>52687</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="3">Step forward to the entity position byte.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52688"></span>52688</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52689"></span>52689</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52690"></span>52690</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="3">Erase the score popup sprite.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52691"></span>52691</td>
+<td class="instruction">CALL <a href="54832.html">Erase_Entity_Sprite</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52694"></span>52694</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52695"></span>52695</td>
+<td class="instruction">INC HL</td>
+<td class="comment-1" rowspan="1">Step to the entity Y position byte.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52696"></span>52696</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="3">Set the draw colour to 2 in the shadow registers.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52697"></span>52697</td>
+<td class="instruction">LD B,2</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52699"></span>52699</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52700"></span>52700</td>
+<td class="instruction">LD A,(HL)</td>
+<td class="comment-1" rowspan="9">Clamp the score popup Y position within the play area.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52701"></span>52701</td>
+<td class="instruction">SUB 6</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52703"></span>52703</td>
+<td class="instruction">CP 16</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52705"></span>52705</td>
+<td class="instruction">JR C,<a href="52560.html#52714">Handle_Homing_Enemy_1</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52707"></span>52707</td>
+<td class="instruction">CP 185</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52709"></span>52709</td>
+<td class="instruction">JR C,<a href="52560.html#52713">Handle_Homing_Enemy_0</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52711"></span>52711</td>
+<td class="instruction">SUB 6</td>
+</tr>
+<tr>
+<td class="asm-label">Handle_Homing_Enemy_0</td>
+<td class="address-2"><span id="52713"></span>52713</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label">Handle_Homing_Enemy_1</td>
+<td class="address-2"><span id="52714"></span>52714</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52715"></span>52715</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="3">Draw the score popup sprite at the entity's position.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52716"></span>52716</td>
+<td class="instruction">CALL <a href="55188.html">Draw_Clipped_Wide_Sprite</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52719"></span>52719</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52720"></span>52720</td>
+<td class="instruction">LD DE,6</td>
+<td class="comment-1" rowspan="2">Step forward to the player's BCD score bytes.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52723"></span>52723</td>
+<td class="instruction">ADD HL,DE</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="52724"></span>
+<div class="comments">
+<div class="paragraph">
+Award the player points for catching the entity; add the point value to the BCD score with carry propagation through all four score bytes.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52724"></span>52724</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="6">Add the enemy's point value to the least significant BCD score byte.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52725"></span>52725</td>
+<td class="instruction">LD HL,50182</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52728"></span>52728</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52729"></span>52729</td>
+<td class="instruction">ADD A,0</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52731"></span>52731</td>
+<td class="instruction">DAA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52732"></span>52732</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52733"></span>52733</td>
+<td class="instruction">LD A,1</td>
+<td class="comment-1" rowspan="8">Propagate BCD carry from the lowest score byte into the next score byte.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52735"></span>52735</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52736"></span>52736</td>
+<td class="instruction">JR NC,<a href="52560.html#52739">Handle_Homing_Enemy_2</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52738"></span>52738</td>
+<td class="instruction">INC A</td>
+</tr>
+<tr>
+<td class="asm-label">Handle_Homing_Enemy_2</td>
+<td class="address-2"><span id="52739"></span>52739</td>
+<td class="instruction">ADD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52740"></span>52740</td>
+<td class="instruction">DAA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52741"></span>52741</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52742"></span>52742</td>
+<td class="instruction">JR NC,<a href="52560.html#52757">Handle_Homing_Enemy_3</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52744"></span>52744</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="6">Propagate BCD carry through the second score byte.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52745"></span>52745</td>
+<td class="instruction">LD A,1</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52747"></span>52747</td>
+<td class="instruction">ADD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52748"></span>52748</td>
+<td class="instruction">DAA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52749"></span>52749</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52750"></span>52750</td>
+<td class="instruction">JR NC,<a href="52560.html#52757">Handle_Homing_Enemy_3</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52752"></span>52752</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="4">Propagate BCD carry into the most significant score byte.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52753"></span>52753</td>
+<td class="instruction">LD A,1</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52755"></span>52755</td>
+<td class="instruction">DAA</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52756"></span>52756</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label">Handle_Homing_Enemy_3</td>
+<td class="address-2"><span id="52757"></span>52757</td>
+<td class="instruction">CALL <a href="52532.html">Clear_Colour_Bar_Column</a></td>
+<td class="comment-1" rowspan="1">Refresh the score display column.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52760"></span>52760</td>
+<td class="instruction">LD E,0</td>
+<td class="comment-1" rowspan="2">Initialise the score popup entity state via <a href="55748.html">Initialise_Entity_State</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52762"></span>52762</td>
+<td class="instruction">CALL <a href="55748.html">Initialise_Entity_State</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52765"></span>52765</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="2">Restore the main register set and return.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52766"></span>52766</td>
+<td class="instruction">RET</td>
+</tr>
+<tr>
+<td class="routine-comment" colspan="5">
+<span id="52767"></span>
+<div class="comments">
+<div class="paragraph">
+Per-frame handler for the floating score popup; scrolls the popup upward each frame until 15 frames have elapsed.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="asm-label">Handle_Homing_Enemy_Float_Score</td>
+<td class="address-1"><span id="52767"></span>52767</td>
+<td class="instruction">LD A,(HL)</td>
+<td class="comment-1" rowspan="4">Load the entity state byte into shadow <span class="register">B'</span>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52768"></span>52768</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52769"></span>52769</td>
+<td class="instruction">LD B,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52770"></span>52770</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52771"></span>52771</td>
+<td class="instruction">PUSH HL</td>
+<td class="comment-1" rowspan="4">Draw the score popup sprite at the current entity position.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52772"></span>52772</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52773"></span>52773</td>
+<td class="instruction">CALL <a href="55188.html">Draw_Clipped_Wide_Sprite</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52776"></span>52776</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52777"></span>52777</td>
+<td class="instruction">INC (HL)</td>
+<td class="comment-1" rowspan="4">Advance the animation frame and jump to <a href="52560.html#52822">Handle_Homing_Enemy_Float_Score_Exit</a> when the score popup has completed.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52778"></span>52778</td>
+<td class="instruction">LD A,(HL)</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52779"></span>52779</td>
+<td class="instruction">CP 15</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52781"></span>52781</td>
+<td class="instruction">JR Z,<a href="52560.html#52822">Handle_Homing_Enemy_Float_Score_Exit</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52783"></span>52783</td>
+<td class="instruction">EXX</td>
+<td class="comment-1" rowspan="5">Update shadow <span class="register">B'</span> with the frame count and advance to the entity Y position.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52784"></span>52784</td>
+<td class="instruction">LD B,A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52785"></span>52785</td>
+<td class="instruction">EXX</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52786"></span>52786</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52787"></span>52787</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52788"></span>52788</td>
+<td class="instruction">LD A,(HL)</td>
+<td class="comment-1" rowspan="7">Select the vertical scroll speed based on the Y position.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52789"></span>52789</td>
+<td class="instruction">CP 22</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52791"></span>52791</td>
+<td class="instruction">JR NC,<a href="52560.html#52801">Handle_Homing_Enemy_4</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52793"></span>52793</td>
+<td class="instruction">CP 173</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52795"></span>52795</td>
+<td class="instruction">LD A,0</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52797"></span>52797</td>
+<td class="instruction">JR NC,<a href="52560.html#52820">Handle_Homing_Enemy_Float_Score_Done</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52799"></span>52799</td>
+<td class="instruction">JR <a href="52560.html#52809">Handle_Homing_Enemy_Float_Score_Move</a></td>
+</tr>
+<tr>
+<td class="asm-label">Handle_Homing_Enemy_4</td>
+<td class="address-2"><span id="52801"></span>52801</td>
+<td class="instruction">CP 176</td>
+<td class="comment-1" rowspan="4">Adjust the scroll speed for the upper boundary.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52803"></span>52803</td>
+<td class="instruction">LD A,250</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52805"></span>52805</td>
+<td class="instruction">JR C,<a href="52560.html#52809">Handle_Homing_Enemy_Float_Score_Move</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52807"></span>52807</td>
+<td class="instruction">LD A,244</td>
+</tr>
+<tr>
+<td class="asm-label">Handle_Homing_Enemy_Float_Score_Move</td>
+<td class="address-2"><span id="52809"></span>52809</td>
+<td class="instruction">ADD A,(HL)</td>
+<td class="comment-1" rowspan="7">Apply the Y delta, redraw the score popup, and continue at <a href="57347.html#57492">Process_Entity_Record_Next6</a>.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52810"></span>52810</td>
+<td class="instruction">LD (HL),A</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52811"></span>52811</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52812"></span>52812</td>
+<td class="instruction">PUSH HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52813"></span>52813</td>
+<td class="instruction">CALL <a href="55188.html">Draw_Clipped_Wide_Sprite</a></td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52816"></span>52816</td>
+<td class="instruction">POP HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52817"></span>52817</td>
+<td class="instruction">JP <a href="57347.html#57492">Process_Entity_Record_Next6</a></td>
+</tr>
+<tr>
+<td class="asm-label">Handle_Homing_Enemy_Float_Score_Done</td>
+<td class="address-2"><span id="52820"></span>52820</td>
+<td class="instruction">DEC HL</td>
+<td class="comment-1" rowspan="2">Step back to the handler address field.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52821"></span>52821</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label">Handle_Homing_Enemy_Float_Score_Exit</td>
+<td class="address-2"><span id="52822"></span>52822</td>
+<td class="instruction">LD DE,57388</td>
+<td class="comment-1" rowspan="7">Install <a href="57347.html#57388">Process_Entity_Record_Next7</a> as the score popup completion handler.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52825"></span>52825</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52826"></span>52826</td>
+<td class="instruction">LD (HL),D</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52827"></span>52827</td>
+<td class="instruction">DEC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52828"></span>52828</td>
+<td class="instruction">LD (HL),E</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52829"></span>52829</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52830"></span>52830</td>
+<td class="instruction">INC HL</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52831"></span>52831</td>
+<td class="instruction">JP <a href="57347.html#57388">Process_Entity_Record_Next7</a></td>
+<td class="comment-1" rowspan="1">Jump to <a href="57347.html#57388">Process_Entity_Record_Next7</a> to finalise the score popup.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52834"></span>52834</td>
+<td class="instruction">POP DE</td>
+<td class="comment-1" rowspan="2">Return.</td>
+</tr>
+<tr>
+<td class="asm-label"></td>
+<td class="address-1"><span id="52835"></span>52835</td>
+<td class="instruction">RET</td>
+</tr>
+</table>
+<table class="asm-navigation">
+<tr>
+<td class="prev">
+Prev: <a href="52532.html">52532</a>
+</td>
+<td class="up">Up: <a href="../maps/all.html#52560">Map</a></td>
+<td class="next">
+Next: <a href="52836.html">52836</a>
+</td>
+</tr>
+</table>
+<footer>
+<div class="release"></div>
+<div class="copyright">&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.</div>
+<div class="created">Created using <a href="https://skoolkit.ca">SkoolKit</a> 10.0.</div>
+<div class="repository">Link to <a rel="noopener nofollow" href="https://github.com/pobtastic/robotron2084/">Source code</a>.</div>
+<div><a href="../../asm/CD50.html">Switch to hexadecimal</a>.</div>
+</footer>
+</body>
+</html>

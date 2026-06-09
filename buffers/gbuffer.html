@@ -55,7 +55,7 @@ Base address of the entity list. <a href="../asm/C509.html">Entity_List_Write_Po
 </tr>
 <tr>
 <td class="map-g"><span id="6d7d"></span><a href="../asm/6D7D.html">6D7D</a></td>
-<td class="map-length">1923</td>
+<td class="map-length">968</td>
 <td class="map-g-desc">
 <div class="map-entry-title-11"><a class="map-entry-title" href="../asm/6D7D.html">Game status buffer entry at 6D7D</a></div>
 <div class="map-entry-desc">
@@ -796,12 +796,24 @@ Two-byte pointer written by <a href="../asm/D9C4.html">Initialise_Entity_State</
 </tr>
 <tr>
 <td class="map-g"><span id="c52f"></span><a href="../asm/C52F.html">C52F</a></td>
-<td class="map-length">3</td>
+<td class="map-length">2</td>
 <td class="map-g-desc">
 <div class="map-entry-title-11"><a class="map-entry-title" href="../asm/C52F.html">Entity State Flag</a></div>
 <div class="map-entry-desc">
 <div class="paragraph">
 Tracks the progress of the active entity state effect. 00 = no effect running; 01 = one step complete; 02 = all steps complete. Written by <a href="../asm/D9C4.html">Initialise_Entity_State</a> and polled each frame by <a href="../asm/D9E0.html">Dispatch_Entity_State_Handler</a> and <a href="../asm/DA2A.html">Cycle_Border_From_Screen</a>.
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="map-g"><span id="c531"></span><a href="../asm/C531.html">C531</a></td>
+<td class="map-length">1</td>
+<td class="map-g-desc">
+<div class="map-entry-title-11"><a class="map-entry-title" href="../asm/C531.html">Wave Sprite Frame Counter</a></div>
+<div class="map-entry-desc">
+<div class="paragraph">
+Frame counter for the wave start sprite animation. Initialised to 0E by <a href="../asm/D519.html">Initialise_Wave_Start_Sprites</a> and decremented each frame by <a href="../asm/D52A.html">Animate_Wave_Start_Sprites</a>; when it reaches zero the closing sprite is drawn and the animation restarts.
 </div>
 </div>
 </td>
@@ -825,7 +837,7 @@ When 01 <a href="../asm/D367.html">PlayerDeath</a> skips the intro HUD, "PLAYER"
 <div class="map-entry-title-11"><a class="map-entry-title" href="../asm/C533.html">Wave Start Delay</a></div>
 <div class="map-entry-desc">
 <div class="paragraph">
-Countdown loaded to 1A at the start of each wave by <a href="../asm/CB4F.html">Main_Game_Loop</a>. Checked each frame at <a href="../asm/CB4F.html#cb67">Main_Loop_Poll</a>; while non-zero the frame is skipped and control branches to the wave-end handler at <a href="../asm/CD34.html#cf33">Clear_Colour_Bar_Column_21</a>.
+Countdown loaded to 1A at the start of each wave by <a href="../asm/CB4F.html">Main_Game_Loop</a>. Checked each frame at <a href="../asm/CB4F.html#cb67">Main_Loop_Poll</a>; while non-zero the frame is skipped and control branches to the wave-end handler at <a href="../asm/CF33.html">Dispatch_Narrow_Entity_Approach</a>.
 </div>
 </div>
 </td>
