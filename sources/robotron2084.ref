@@ -1,3 +1,5 @@
+; Copyright 2026 Paul Maddern (paul@arcadegeek.co.uk)
+
 ;
 ; SkoolKit ref file for Robotron: 2084
 ;
@@ -14,7 +16,7 @@ GameDir=robotron2084
 [Game]
 Game=Robotron: 2084
 Logo=#SCR$02,$04,$04,$18,$09,$4000,$5800(/images/logo)
-Copyright=&copy; 1984 Atarisoft (UK) &copy; 2025 ArcadeGeek LTD.
+Copyright=&copy; 1984 Atarisoft (UK), Williams Electronics<br />&copy; 2026 ArcadeGeek LTD.
 Repository=https://github.com/pobtastic/robotron2084/
 LinkInternalOperands=1
 AddressAnchor={address#IF({base}==16)(:04x)}

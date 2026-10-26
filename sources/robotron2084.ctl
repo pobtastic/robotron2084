@@ -1,4 +1,4 @@
-; Copyright Atarisoft (UK) 1984, 2025 ArcadeGeek LTD.
+; Copyright Atarisoft (UK) 1984, Williams Electronics, 2026 ArcadeGeek LTD.
 ; NOTE: Disassembly is Work-In-Progress.
 ; Label naming is loosely based on Action_ActionName_SubAction e.g. Print_HighScore_Loop.
 
